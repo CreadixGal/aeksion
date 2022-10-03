@@ -1,0 +1,56 @@
+###########################################################
+#################### Rubocop Rspec ########################
+###########################################################
+
+# You can find all configuration options for rubocop-rspec here: https://docs.rubocop.org/rubocop-rspec/cops.html
+
+RSpec/AnyInstance:
+  Enabled: false
+
+RSpec/BeforeAfterAll:
+  Enabled: false
+
+RSpec/ContextWording:
+  Enabled: false
+
+RSpec/DescribeClass:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Enabled: false
+
+RSpec/ExpectInHook:
+  Enabled: false
+
+RSpec/FilePath:
+  Enabled: false
+
+RSpec/InstanceVariable:
+  Enabled: false
+
+RSpec/LetSetup:
+  Enabled: false
+
+RSpec/MessageChain:
+  Enabled: false
+
+RSpec/MessageSpies:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
+RSpec/NamedSubject:
+  Enabled: false
+
+RSpec/NestedGroups:
+  Max: 7
+
+RSpec/SubjectStub:
+  Enabled: false
+
+RSpec/VerifiedDoubles:
+  Enabled: false
+
+RSpec/VoidExpect:
+  Enabled: false

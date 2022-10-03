@@ -1,0 +1,50 @@
+# The behavior of RuboCop can be controlled via the .rubocop.yml
+# configuration file. It makes it possible to enable/disable
+# certain cops (checks) and to alter their behavior if they accept
+# any parameters. The file can be placed either in your home
+# directory or in some project directory.
+#
+# RuboCop will start looking for the configuration file in the directory
+# where the inspected file is and continue its way up to the root directory.
+#
+# See https://docs.rubocop.org/rubocop/configuration
+inherit_from:
+  - .rubocop_todo.yml
+  - .rubocop-rails.yml
+  - .rubocop-rspec.yml
+
+require:
+  - rubocop-rails
+  - rubocop-performance
+  - rubocop-rspec
+
+AllCops:
+  TargetRubyVersion: 3.1
+  NewCops: enable
+  Exclude:
+    - "bin/**/*"
+    - "config/**/*"
+    - "db/**/*"
+    - "public/**/*"
+    - "tmp/**/*"
+
+Style/Documentation:
+  Enabled: false
+Style/FrozenStringLiteralComment:
+  Enabled: false
+Style/EmptyMethod:
+  Enabled: false
+Metrics/ClassLength:
+  Max: 200
+Metrics/MethodLength:
+  Max: 40
+Metrics/AbcSize:
+  Max: 50
+Style/ClassAndModuleChildren:
+  Enabled: false
+Style/RedundantSelfAssignment:
+  Enabled: true
+Style/OpenStructUse: # new in 1.23
+  Enabled: false
+Performance/OpenStruct:
+  Enabled: false
