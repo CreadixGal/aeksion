@@ -54,6 +54,21 @@ gem "bootsnap", require: false
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
+  # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
+  gem "ruby-debug-ide", require: false
+  # gem "debase", require: false
+  gem 'solargraph', require: false
+  gem 'rubocop'
+  gem 'rubocop-rails'
+  gem 'rubocop-performance'
+  gem 'rubocop-rspec'
+    # testing gems & fake data
+  gem 'rails-controller-testing'
+  gem "rspec-rails"
+  gem "coderay"
+  gem "factory_bot_rails"
+  gem "faker"
+  gem 'simplecov', require: false
 end
 
 group :development do
@@ -73,3 +88,7 @@ group :test do
   gem "selenium-webdriver"
   gem "webdrivers"
 end
+
+# testing coverage
+# gem 'simplecov-badge', :require => false
+gem 'simplecov-formatter-badge', require: false

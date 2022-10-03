@@ -16,5 +16,12 @@ module Aeksion
     config.i18n.available_locales = %i[es en]
     config.i18n.default_locale = :es
     config.i18n.fallbacks = true
+
+    config.generators do |gen|
+      gen.assets            false
+      gen.helper            false
+      gen.test_framework    :rspec
+      gen.jbuilder          false
+    end
   end
 end
