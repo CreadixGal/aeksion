@@ -23,5 +23,8 @@ module Aeksion
       gen.test_framework    :rspec
       gen.jbuilder          false
     end
+
+    # to use component previews in tests
+    config.view_component.preview_paths << Rails.root.join('/spec/components/previews')
   end
 end

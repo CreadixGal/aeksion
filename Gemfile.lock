@@ -74,6 +74,8 @@ GEM
     bindex (0.8.1)
     bootsnap (1.13.0)
       msgpack (~> 1.2)
+    breadcrumbs_on_rails (4.1.0)
+      railties (>= 5.0)
     builder (3.2.4)
     capybara (3.37.1)
       addressable
@@ -109,6 +111,9 @@ GEM
     importmap-rails (1.1.5)
       actionpack (>= 6.0.0)
       railties (>= 6.0.0)
+    inline_svg (1.8.0)
+      activesupport (>= 3.0)
+      nokogiri (>= 1.6)
     io-console (0.5.11)
     irb (1.4.1)
       reline (>= 0.3.0)
@@ -283,6 +288,10 @@ GEM
     tzinfo (2.0.5)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.3.0)
+    view_component (2.74.0)
+      activesupport (>= 5.0.0, < 8.0)
+      concurrent-ruby (~> 1.0)
+      method_source (~> 1.0)
     web-console (4.2.0)
       actionview (>= 6.0.0)
       activemodel (>= 6.0.0)
@@ -308,12 +317,14 @@ PLATFORMS
 
 DEPENDENCIES
   bootsnap
+  breadcrumbs_on_rails
   capybara
   coderay
   debug
   factory_bot_rails
   faker
   importmap-rails
+  inline_svg
   jbuilder
   pg (~> 1.1)
   puma (~> 5.0)
@@ -335,6 +346,7 @@ DEPENDENCIES
   tailwindcss-rails
   turbo-rails
   tzinfo-data
+  view_component
   web-console
   webdrivers
 

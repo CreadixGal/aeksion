@@ -89,6 +89,10 @@ group :test do
   gem "webdrivers"
 end
 
+# custom gems
+gem 'breadcrumbs_on_rails'
+gem 'inline_svg'
+gem 'view_component'
+
 # testing coverage
-# gem 'simplecov-badge', :require => false
 gem 'simplecov-formatter-badge', require: false
