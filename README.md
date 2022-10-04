@@ -1,24 +1,69 @@
-# README
+<div align='center' style='font-size:36px;font-weight:600;font-style:italic;'>
+  AEKSION
+</div>
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+<!--TODO: One Paragraph of the project description -->
 
-Things you may want to cover:
+## Getting Started
 
-* Ruby version
+These instructions will give you a copy of the project up and running on
+your local machine for development and testing purposes. See deployment
+for notes on deploying the project on a live system.
 
-* System dependencies
+<!--TODO: ADD INSTRUCTIONS -->
 
-* Configuration
+### Prerequisites
 
-* Database creation
+Requirements for the software and other tools to build, test and push 
+<!--TODO: -->
 
-* Database initialization
+### Installing
 
-* How to run the test suite
+<!--TODO: --->
 
-* Services (job queues, cache servers, search engines, etc.)
+## Running the tests
 
-* Deployment instructions
+<!--TODO:-->
+### Sample Tests
 
-* ...
+<!--TODO:-->
+### Style test
+
+<!--TODO:-->
+
+## Deployment
+
+<!--TODO:-->
+
+## Built With
+
+  - [Contributor Covenant](https://www.contributor-covenant.org/) - Used
+    for the Code of Conduct
+  - [Creative Commons](https://creativecommons.org/) - Used to choose
+    the license
+
+## Contributing
+
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code
+of conduct, and the process for submitting pull requests to us.
+
+## Versioning
+
+We use [Semantic Versioning](http://semver.org/) for versioning. For the versions
+available, see the [tags on this
+repository](https://github.com/PurpleBooth/a-good-readme-template/tags).
+
+## Authors
+
+  - **Lucas Garcia** [github](https://github.com/lucas94gv)
+  
+  - **Cisco González** [github](https://github.com/ciscoLegrand)
+
+## License
+
+  <!--TODO: research which license is needed-->
+
+## Acknowledgments
+
+  <!--TODO: complete acknowledgements->
+
