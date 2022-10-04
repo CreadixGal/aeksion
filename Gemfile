@@ -88,6 +88,8 @@ group :test do
   gem "selenium-webdriver"
   gem "webdrivers"
 end
+# secrets
+gem "figaro"
 
 # custom gems
 gem 'breadcrumbs_on_rails'

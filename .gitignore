@@ -34,3 +34,6 @@
 !/app/assets/builds/.keep
 
 public/coverage
+
+# Ignore application configuration
+/config/application.yml
