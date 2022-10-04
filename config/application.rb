@@ -22,6 +22,7 @@ module Aeksion
       gen.helper            false
       gen.test_framework    :rspec
       gen.jbuilder          false
+      gen.orm               :active_record, primary_key_type: :uuid
     end
 
     # to use component previews in tests
