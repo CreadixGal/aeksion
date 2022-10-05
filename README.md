@@ -2,68 +2,66 @@
   AEKSION
 </div>
 
-<!--TODO: One Paragraph of the project description -->
+  [![Test Coverage](./public/coverage/coverage.svg)](./public/coverage/coverage.svg) [![Ruby Style Guide](https://img.shields.io/badge/code_style-rubocop-brightgreen.svg)](https://github.com/rubocop/rubocop) [![Version](https://badge.fury.io/gh/tterb%2FHyde.svg)](https://badge.fury.io/gh/tterb%2FHyde) 
+  
+  <!---TODO: uncomment on first release [![GitHub Release](https://img.shields.io/github/release/tterb/PlayMusic.svg?style=flat)]()  -->
 
+  ![GitHub issues](https://img.shields.io/github/issues-raw/CreadixGal/aeksion)
+  ![GitHub pull requests](https://img.shields.io/github/issues-pr/CreadixGal/aeksion)
+<!--TODO: One Paragraph of the project description -->
 ## Getting Started
 
 These instructions will give you a copy of the project up and running on
 your local machine for development and testing purposes. See deployment
 for notes on deploying the project on a live system.
 
+```bash
+git clone git@github.com:CreadixGal/aeksion.git
+```
+
+For local development, you will run this instructions
+```ruby
+bundle install
+rails server
+# or for improve your development experience skip rails server and run:
+foreman start -f Procfile.dev
+```
 <!--TODO: ADD INSTRUCTIONS -->
 
 ### Prerequisites
 
 Requirements for the software and other tools to build, test and push 
-<!--TODO: -->
++ ``Ruby`` version: **3.1.0**
++ ``Ruby on Rails`` version: **7.0.2**
++ ``PostgreSQL`` version: **13.4**
++ ``RSpec`` version: **3.11.0**
 
 ### Installing
 
-<!--TODO: --->
 
-## Running the tests
 
-<!--TODO:-->
-### Sample Tests
+### Running the tests
 
-<!--TODO:-->
-### Style test
-
-<!--TODO:-->
-
-## Deployment
+```ruby
+   rspec
+   # or
+   rspec spec/<folder>/<file>_spec.rb
+```
+### Deployment
 
 <!--TODO:-->
 
-## Built With
+### Authors
 
-  - [Contributor Covenant](https://www.contributor-covenant.org/) - Used
-    for the Code of Conduct
-  - [Creative Commons](https://creativecommons.org/) - Used to choose
-    the license
-
-## Contributing
-
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code
-of conduct, and the process for submitting pull requests to us.
-
-## Versioning
-
-We use [Semantic Versioning](http://semver.org/) for versioning. For the versions
-available, see the [tags on this
-repository](https://github.com/PurpleBooth/a-good-readme-template/tags).
-
-## Authors
-
-  - **Lucas Garcia** [github](https://github.com/lucas94gv)
+  - **Lucas Garcia** [(https://github.com/lucas94gv)](https://github.com/lucas94gv)
   
-  - **Cisco González** [github](https://github.com/ciscoLegrand)
+  - **Cisco González** [(https://github.com/ciscoLegrand)](https://github.com/ciscoLegrand)
 
-## License
+### License
 
   <!--TODO: research which license is needed-->
 
-## Acknowledgments
+### Acknowledgments
 
   <!--TODO: complete acknowledgements->
 
