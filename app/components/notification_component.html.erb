@@ -1,0 +1,44 @@
+<div class="max-w-sm w-full shadow-lg rounded-lg pointer-events-auto mt-10 py-4 px-4 bg-white border-b-8 <%= border_color %> z-10 hidden" data-notification-action-url="<%= data.dig(:action, :url) %>" data-notification-action-method="<%= data.dig(:action, :method) %>" data-notification-timeout="<%= data[:timeout] %>" data-controller="notification">
+  <div class="rounded-lg shadow-xs overflow-hidden">
+    <div class="p-4">
+      <div class="flex items-start">
+        <div class="ml-3 w-0 flex-1 pt-0.5">
+          <p class="text-lg leading-5 font-medium text-slate-700">
+            <%= data[:title] %>
+          </p>
+          <% if data[:body].present? %>
+            <p class="mt-1 text-sm leading-5 text-slate-700">
+              <%= data[:body] %>
+            </p>
+          <% end %>
+          <% if data[:action].present? %>
+            <div class="mt-2" data-notification-target="buttons">
+              <%= link_to data.dig(:action, :name), 
+                  data.dig(:action, :method) == 'get' ? data.dig(:action, :url) : "",
+                  class:'text-sm leading-5 font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:underline transition ease-in-out duration-150',
+                  data: {
+                    action: 'notification#run'
+                  } 
+              %>
+
+              <%= button_to 'x',
+                  class: 'ml-6 text-sm leading-5 font-medium text-white hover:text-white focus:outline-none focus:underline transition ease-in-out duration-150',
+                  data: {
+                    action: 'notification#close'
+                  } 
+              %>
+            </div>
+          <% end %>
+        </div>
+        <div class="ml-4 flex-shrink-0 flex">
+          <button class="inline-flex text-slate-700 focus:outline-none focus:text-slate-700 transition ease-in-out duration-150" data-action="notification#close">
+            <%= inline_svg_tag('icons/x-circle.svg', size: '32')%>
+          </button>
+        </div>
+      </div>
+    </div>
+    <% if data[:countdown] %>
+      <div class="bg-indigo-600 rounded-lg h-1 w-0" data-notification-target="countdown"></div>
+    <% end %>
+  </div>
+</div>
