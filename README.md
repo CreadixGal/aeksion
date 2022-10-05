@@ -31,8 +31,8 @@ foreman start -f Procfile.dev
 ### Prerequisites
 
 Requirements for the software and other tools to build, test and push 
-+ ``Ruby`` version: **3.1.0**
-+ ``Ruby on Rails`` version: **7.0.2**
++ ``Ruby`` version: **3.1.2**
++ ``Ruby on Rails`` version: **7.0.4**
 + ``PostgreSQL`` version: **13.4**
 + ``RSpec`` version: **3.11.0**
 
