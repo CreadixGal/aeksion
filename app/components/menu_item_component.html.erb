@@ -1,0 +1,16 @@
+<%= link_to inline_svg_tag(
+              "icons/#{icon}", 
+              data: {
+                'menu-item': "#{item}"
+              },
+              class: "#{icon_style}", 
+            ), 
+            path, 
+            data: {
+              'menu-target': 'item',
+              'menu-item': "#{item}",
+              action: 'click->menu#storage'
+            },
+            class: "#{link_style}",
+            id: "#{item}"
+  %>
