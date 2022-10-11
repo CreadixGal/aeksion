@@ -1,16 +1,15 @@
-<%= link_to inline_svg_tag(
-              "icons/#{icon}", 
-              data: {
-                'menu-item': "#{item}"
-              },
-              class: "#{icon_style}", 
-            ), 
-            path, 
+<%= link_to path, 
             data: {
               'menu-target': 'item',
               'menu-item': "#{item}",
-              action: 'click->menu#storage'
+              action: 'click->menu#storage',
+              turbo_frame:  turbo
             },
             class: "#{link_style}",
-            id: "#{item}"
-  %>
+            id: "#{item}" do %>
+  <% if text.present? %>
+    <span class="font-semibold"> <%= text %> </span>
+  <% end %>
+  <%= inline_svg_tag("icons/#{icon}", class: 'w-8 h-8 mx-5') if icon.present? %>
+
+<% end %>

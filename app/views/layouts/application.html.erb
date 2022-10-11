@@ -17,9 +17,10 @@
         <%= render "layouts/shared/notification" %>
       </div>
     </div>
-    <main class="flex justify-between transition-all duration-300">
+    <main class="w-full flex justify-between transition-all duration-300" data-controller="toogle">
       <%= render 'layouts/shared/aside_menu' %>
-      <div class="w-[95%] flex flex-col">
+      <div class="w-full flex flex-col">
+        <%= render 'layouts/shared/navbar' %>
         <%= yield %>
       </div>
     </main>
