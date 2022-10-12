@@ -1,20 +1,7 @@
-name: Linters
+name: Aeksion linter CI
 run-name: ${{ github.actor }} 🚀
 on: [push, pull_request]
-
 jobs:
-  Linters:
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
-      - name: Install gems 💎
-        run: bundle install
-      - name: run linters 👮
-        run: rubocop
-      - run: echo "🍏 This job's status is ${{ job.status }}."
   Database:
     runs-on: ubuntu-22.04
     services:
