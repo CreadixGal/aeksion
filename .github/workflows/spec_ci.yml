@@ -15,16 +15,14 @@ jobs:
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
-      - name: Install gems 💎
-        run: bundle install
+      - uses: actions/checkout@v3
+      - run: echo "Setup Ruby"
+      - uses: ruby/setup-ruby@v1
+      - run: echo "Install gems 💎"
+      - run: bundle install
       - name: Setup database
         run: |
           bin/rails db:create
           bin/rails db:migrate
-      - name: Run tests
-        run: bundle exec rspec
+          bundle exec rspec
       - run: echo "🍏 This job's status is ${{ job.status }}."
