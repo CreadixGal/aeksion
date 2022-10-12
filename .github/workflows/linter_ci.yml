@@ -1,5 +1,5 @@
 name: Aeksion linter CI
-run-name: ${{ github.actor }} 🚀
+run-name: ${{ github.actor }} is testing ${{ github.event_name }} 🚀
 on: [push, pull_request]
 
 jobs:
