@@ -1,0 +1,29 @@
+name: Linters
+
+on: [push, pull_request]
+
+jobs:
+  linters:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Ruby and install gems
+        uses: ruby/setup-ruby@v1
+        run: bundle install
+      - name: run linters
+        run: rubocop
+
+  tests:
+    runs-on: ubuntu-22.04
+    services:
+      postgres:
+        image: postgres:14
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Ruby and install gems
+        uses: ruby/setup-ruby@v1
+        run: bundle install
+      - name: Run rspec tests
+        run: bin/rspec
