@@ -4,12 +4,10 @@ on: [push]
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
-      - uses: ruby/setup-ruby@477b21f02be01bcb8030d50f37cfec92bfa615b6
-        with:
-          ruby-version: 3.1.2
+      - uses: ruby/setup-ruby@v1
       - run: bundle install
       - name: Rubocop
         run: rubocop
