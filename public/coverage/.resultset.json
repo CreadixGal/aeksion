@@ -1,87 +1,13 @@
 {
   "RSpec": {
     "coverage": {
-      "/mnt/c/Users/cisco/Desktop/development/creaDix/sharedProjects/aeksion/app/helpers/application_helper.rb": {
+      "/home/cisco/creadixprojects/creaDix/sharedProjects/aeksion/app/helpers/application_helper.rb": {
         "lines": [
           1,
           null
         ]
       },
-      "/mnt/c/Users/cisco/Desktop/development/creaDix/sharedProjects/aeksion/app/components/notification_component.rb": {
-        "lines": [
-          null,
-          null,
-          1,
-          1,
-          null,
-          1,
-          7,
-          7,
-          7,
-          7,
-          7,
-          null,
-          null,
-          1,
-          null,
-          1,
-          7,
-          null,
-          2,
-          null,
-          5,
-          null,
-          null,
-          null,
-          1,
-          7,
-          null,
-          1,
-          null,
-          3,
-          null,
-          1,
-          null,
-          1,
-          null,
-          1,
-          null,
-          null,
-          null
-        ]
-      },
-      "/mnt/c/Users/cisco/Desktop/development/creaDix/sharedProjects/aeksion/app/models/customer.rb": {
-        "lines": [
-          1,
-          null
-        ]
-      },
-      "/mnt/c/Users/cisco/Desktop/development/creaDix/sharedProjects/aeksion/app/models/application_record.rb": {
-        "lines": [
-          1,
-          1,
-          null
-        ]
-      },
-      "/mnt/c/Users/cisco/Desktop/development/creaDix/sharedProjects/aeksion/app/controllers/application_controller.rb": {
-        "lines": [
-          1,
-          1,
-          1,
-          null,
-          null
-        ]
-      },
-      "/mnt/c/Users/cisco/Desktop/development/creaDix/sharedProjects/aeksion/app/controllers/pages_controller.rb": {
-        "lines": [
-          1,
-          1,
-          null,
-          1,
-          null
-        ]
-      },
-      "/mnt/c/Users/cisco/Desktop/development/creaDix/sharedProjects/aeksion/app/channels/application_cable/channel.rb": {
+      "/home/cisco/creadixprojects/creaDix/sharedProjects/aeksion/app/channels/application_cable/channel.rb": {
         "lines": [
           0,
           0,
@@ -91,7 +17,7 @@
         "branches": {
         }
       },
-      "/mnt/c/Users/cisco/Desktop/development/creaDix/sharedProjects/aeksion/app/channels/application_cable/connection.rb": {
+      "/home/cisco/creadixprojects/creaDix/sharedProjects/aeksion/app/channels/application_cable/connection.rb": {
         "lines": [
           0,
           0,
@@ -101,7 +27,73 @@
         "branches": {
         }
       },
-      "/mnt/c/Users/cisco/Desktop/development/creaDix/sharedProjects/aeksion/app/jobs/application_job.rb": {
+      "/home/cisco/creadixprojects/creaDix/sharedProjects/aeksion/app/components/notification_component.rb": {
+        "lines": [
+          null,
+          null,
+          0,
+          0,
+          null,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          null,
+          0,
+          null,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          null,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "branches": {
+        }
+      },
+      "/home/cisco/creadixprojects/creaDix/sharedProjects/aeksion/app/controllers/application_controller.rb": {
+        "lines": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "branches": {
+        }
+      },
+      "/home/cisco/creadixprojects/creaDix/sharedProjects/aeksion/app/controllers/pages_controller.rb": {
+        "lines": [
+          0,
+          0,
+          null,
+          0,
+          0
+        ],
+        "branches": {
+        }
+      },
+      "/home/cisco/creadixprojects/creaDix/sharedProjects/aeksion/app/jobs/application_job.rb": {
         "lines": [
           0,
           null,
@@ -114,10 +106,27 @@
         "branches": {
         }
       },
-      "/mnt/c/Users/cisco/Desktop/development/creaDix/sharedProjects/aeksion/app/mailers/application_mailer.rb": {
+      "/home/cisco/creadixprojects/creaDix/sharedProjects/aeksion/app/mailers/application_mailer.rb": {
         "lines": [
           0,
           0,
+          0,
+          0
+        ],
+        "branches": {
+        }
+      },
+      "/home/cisco/creadixprojects/creaDix/sharedProjects/aeksion/app/models/application_record.rb": {
+        "lines": [
+          0,
+          0,
+          0
+        ],
+        "branches": {
+        }
+      },
+      "/home/cisco/creadixprojects/creaDix/sharedProjects/aeksion/app/models/customer.rb": {
+        "lines": [
           0,
           0
         ],
@@ -125,6 +134,6 @@
         }
       }
     },
-    "timestamp": 1665002411
+    "timestamp": 1665610438
   }
 }

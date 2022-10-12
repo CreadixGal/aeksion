@@ -48,3 +48,5 @@ Style/OpenStructUse: # new in 1.23
   Enabled: false
 Performance/OpenStruct:
   Enabled: false
+Lint/EmptyBlock:
+  Enabled: false
