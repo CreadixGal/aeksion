@@ -1,0 +1,16 @@
+{
+  "atlascode.bitbucket.enabled": true,
+  "solargraph.commandPath": "bin/solargraph",
+  "solargraph.formatting": true,
+  "editor.formatOnSave": false,
+  "solargraph.diagnostics": true,
+  "ruby.useLanguageServer": true,
+  "ruby.lint": {
+    "ruby": true,
+    "rubocop": true
+  },
+  "[ruby]": {
+    "editor.defaultFormatter": "rebornix.ruby"
+  },
+  "todo-tree.tree.scanMode": "workspace only"
+}
