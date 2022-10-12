@@ -1,0 +1,41 @@
+name: Linters
+run-name: ${{ github.actor }} 🚀
+on: [push, pull_request]
+
+jobs:
+  Linters:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Ruby and install gems 💎
+        uses: ruby/setup-ruby@v1
+        run: bundle install
+      - name: run linters 👮
+        run: rubocop
+      - run: echo "🍏 This job's status is ${{ job.status }}."
+  Database:
+    runs-on: ubuntu-22.04
+    services:
+      postgres:
+        image: postgres:12
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Ruby and install gems 💎
+        uses: ruby/setup-ruby@v1
+        run: bundle install
+      - name: Setup database
+        run: |
+          bin/rails db:create
+          bin/rails db:migrate
+      - name: Run tests
+        run: bundle exec rspec
+      - run: echo "🍏 This job's status is ${{ job.status }}."
