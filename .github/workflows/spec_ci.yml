@@ -1,5 +1,5 @@
 name: Aeksion database & rspec CI
-run-name: ${{ github.actor }} is testing ${{ github.event_name }} 🚀
+run-name: ${{ github.actor }} is ${{ github.event.action }} 🚀
 on: [push, pull_request]
 jobs:
   Database:
@@ -33,8 +33,10 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: postgres
-        run: bin/rails db:create db:schema:load
-      - name: Build and test with rspec
+        run: |
+          cp config/database.yml.ci.github-actions config/database.yml
+          bundle exec rails db:setup
+      - name: Build Precompile and Test with RSpec
         env:
           RAILS_ENV: test
           POSTGRES_HOST: localhost
@@ -42,4 +44,6 @@ jobs:
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: postgres
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
-        run: bundle exec rspec
+        run: |
+          bundle exec rake assets:precompile
+          bundle exec rspec

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'customers/edit', type: :view do
   before do
-    @customer = assign(:customer, Customer.create!)
+    @customer = assign(:customer, Customer.create!({ name: Faker::Company.name }))
   end
 
   it 'renders the edit customer form' do
