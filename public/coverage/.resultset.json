@@ -7,6 +7,226 @@
           null
         ]
       },
+      "/home/cisco/creadixprojects/creaDix/sharedProjects/aeksion/app/components/menu_item_component.rb": {
+        "lines": [
+          null,
+          null,
+          1,
+          1,
+          null,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          null,
+          null,
+          1,
+          0,
+          null,
+          null
+        ]
+      },
+      "/home/cisco/creadixprojects/creaDix/sharedProjects/aeksion/app/components/notification_component.rb": {
+        "lines": [
+          null,
+          null,
+          1,
+          1,
+          null,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          null,
+          null,
+          1,
+          null,
+          1,
+          0,
+          null,
+          0,
+          null,
+          0,
+          null,
+          null,
+          null,
+          1,
+          0,
+          null,
+          0,
+          null,
+          0,
+          null,
+          0,
+          null,
+          0,
+          null,
+          0,
+          null,
+          null,
+          null
+        ]
+      },
+      "/home/cisco/creadixprojects/creaDix/sharedProjects/aeksion/app/components/searcher_component.rb": {
+        "lines": [
+          null,
+          null,
+          1,
+          1,
+          null,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          null,
+          null
+        ]
+      },
+      "/home/cisco/creadixprojects/creaDix/sharedProjects/aeksion/app/components/tab_component.rb": {
+        "lines": [
+          null,
+          null,
+          1,
+          1,
+          null,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          null,
+          null,
+          1,
+          0,
+          null,
+          null
+        ]
+      },
+      "/home/cisco/creadixprojects/creaDix/sharedProjects/aeksion/app/models/customer.rb": {
+        "lines": [
+          1,
+          null
+        ]
+      },
+      "/home/cisco/creadixprojects/creaDix/sharedProjects/aeksion/app/models/application_record.rb": {
+        "lines": [
+          1,
+          1,
+          null
+        ]
+      },
+      "/home/cisco/creadixprojects/creaDix/sharedProjects/aeksion/app/controllers/customers_controller.rb": {
+        "lines": [
+          1,
+          1,
+          null,
+          null,
+          1,
+          0,
+          null,
+          null,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          1,
+          null,
+          null,
+          null,
+          1,
+          0,
+          null,
+          null,
+          null,
+          1,
+          null,
+          null,
+          null,
+          1,
+          0,
+          null,
+          0,
+          0,
+          0,
+          0,
+          null,
+          0,
+          0,
+          null,
+          null,
+          null,
+          null,
+          null,
+          1,
+          0,
+          0,
+          0,
+          0,
+          null,
+          0,
+          0,
+          null,
+          null,
+          null,
+          null,
+          null,
+          1,
+          0,
+          null,
+          0,
+          0,
+          0,
+          null,
+          null,
+          null,
+          1,
+          null,
+          null,
+          1,
+          0,
+          null,
+          null,
+          null,
+          1,
+          0,
+          null,
+          null
+        ]
+      },
+      "/home/cisco/creadixprojects/creaDix/sharedProjects/aeksion/app/controllers/application_controller.rb": {
+        "lines": [
+          1,
+          1,
+          1,
+          null
+        ]
+      },
       "/home/cisco/creadixprojects/creaDix/sharedProjects/aeksion/app/channels/application_cable/channel.rb": {
         "lines": [
           0,
@@ -27,66 +247,13 @@
         "branches": {
         }
       },
-      "/home/cisco/creadixprojects/creaDix/sharedProjects/aeksion/app/components/notification_component.rb": {
-        "lines": [
-          null,
-          null,
-          0,
-          0,
-          null,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          null,
-          0,
-          null,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          null,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        "branches": {
-        }
-      },
-      "/home/cisco/creadixprojects/creaDix/sharedProjects/aeksion/app/controllers/application_controller.rb": {
-        "lines": [
-          0,
-          0,
-          0,
-          0
-        ],
-        "branches": {
-        }
-      },
       "/home/cisco/creadixprojects/creaDix/sharedProjects/aeksion/app/controllers/pages_controller.rb": {
         "lines": [
           0,
           0,
           null,
+          0,
+          0,
           0,
           0
         ],
@@ -115,25 +282,8 @@
         ],
         "branches": {
         }
-      },
-      "/home/cisco/creadixprojects/creaDix/sharedProjects/aeksion/app/models/application_record.rb": {
-        "lines": [
-          0,
-          0,
-          0
-        ],
-        "branches": {
-        }
-      },
-      "/home/cisco/creadixprojects/creaDix/sharedProjects/aeksion/app/models/customer.rb": {
-        "lines": [
-          0,
-          0
-        ],
-        "branches": {
-        }
       }
     },
-    "timestamp": 1665610438
+    "timestamp": 1665642413
   }
 }

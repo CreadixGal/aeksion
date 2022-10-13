@@ -4,5 +4,4 @@ class PagesController < ApplicationController
   def dashboard
     @customers = Customer.all
   end
-
 end

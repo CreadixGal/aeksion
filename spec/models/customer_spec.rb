@@ -24,5 +24,5 @@ RSpec.describe Customer, type: :model do
 
   it 'persisted' do
     expect(@customer).to be_persisted
-  end  
+  end
 end
