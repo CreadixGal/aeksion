@@ -1,0 +1,28 @@
+name: Aeksion database & rspec CI
+run-name: ${{ github.actor }} is testing ${{ github.event_name }} 🚀
+on: [push, pull_request]
+jobs:
+  Database:
+    runs-on: ubuntu-22.04
+    services:
+      postgres:
+        image: postgres:12
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+    steps:
+      - uses: actions/checkout@v3
+      - run: echo "Setup Ruby"
+      - uses: ruby/setup-ruby@v1
+      - run: echo "Install gems 💎"
+      - run: bundle install
+      - name: Setup database
+        run: |
+          bin/rails db:create
+          bin/rails db:migrate
+          bundle exec rspec
+      - run: echo "🍏 This job's status is ${{ job.status }}."
