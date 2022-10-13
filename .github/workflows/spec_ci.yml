@@ -6,23 +6,40 @@ jobs:
     runs-on: ubuntu-22.04
     services:
       postgres:
-        image: postgres:12
+        image: postgres
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: postgres
         ports:
           - 5432:5432
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
-      - uses: actions/checkout@v3
-      - run: echo "Setup Ruby"
+      - uses: actions/checkout@v2
       - uses: ruby/setup-ruby@v1
-      - run: echo "Install gems 💎"
-      - run: bundle install
-      - name: Setup database
+      - name: Install PostgreSQLs
+        run: sudo apt-get -yqq install libpq-dev
+      - name: Run bundle install
         run: |
-          bin/rails db:create
-          bin/rails db:migrate
-          bundle exec rspec
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+          bundle install
+      - name: Setup Database
+        env:
+          RAILS_ENV: test
+          POSTGRES_HOST: localhost
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        run: bin/rails db:create db:schema:load
+      - name: Build and test with rspec
+        env:
+          RAILS_ENV: test
+          POSTGRES_HOST: localhost
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+        run: bundle exec rspec
