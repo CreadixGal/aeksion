@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "rails_helper"
+require 'rails_helper'
 
 RSpec.describe CheckboxComponent, type: :component do
   let(:full_options) do
@@ -8,7 +8,7 @@ RSpec.describe CheckboxComponent, type: :component do
       value: 'Hola mundo',
       action: 'checkAll',
       target: 'parent',
-      style: 'form-check-input appearance-none h-6 w-6 border border-red-300 rounded-sm bg-white checked:bg-red-600 checked:border-red-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer',
+      style: 'form-check-input appearance-none h-6 w-6 bg-white checked:bg-red-600 mt-1 align-top float-left mr-2',
       display_label: true
     }
   end
@@ -32,7 +32,7 @@ RSpec.describe CheckboxComponent, type: :component do
     expect(page).to     have_selector 'input[type="checkbox"]'
     expect(page).to     have_selector 'input[value="Hola mundo"]'
     expect(page).to     have_css      'input#component', class: full_options[:style]
-    expect(page).to_not have_selector 'input[class="checkbox-default"]'
-    expect(page).to_not have_css      'input#default', class: 'checkbox-default'
+    expect(page).not_to have_selector 'input[class="checkbox-default"]'
+    expect(page).not_to have_css      'input#default', class: 'checkbox-default'
   end
 end
