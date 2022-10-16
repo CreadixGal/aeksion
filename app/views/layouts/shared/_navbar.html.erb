@@ -1,0 +1,15 @@
+<nav class="w-full h-16 flex justify-between bg-slate-50">
+  <div class="w-2/6 flex justify-start items-center content-center">
+    <button class="w-10 ml-5 group focus:outline-none" data-action="click->toogle#hide">
+      <div class="rounded-xl bg-black h-1 w-8 my-1 group-hover:relative group-hover:top-2 group-hover:rotate-45 duration-500"></div>
+      <div class="rounded-xl bg-black h-1 w-8 my-1 group-hover:bg-transparent group-hover:duration-150"></div>
+      <div class="rounded-xl bg-black h-1 w-8 my-1 group-hover:relative group-hover:bottom-2 group-hover:-rotate-45 duration-500"></div>
+    </button>
+  </div>
+
+  <div class="w-2/6"></div>
+  <div class="w-2/6 flex justify-end items-center">
+    <%= inline_svg_tag('icons/logout.svg', class: 'w-8 h-8 text-red-300 mx-5')%>
+  </div>
+</nav>
+

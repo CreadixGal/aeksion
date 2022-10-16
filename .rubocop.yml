@@ -50,3 +50,9 @@ Performance/OpenStruct:
   Enabled: false
 Lint/EmptyBlock:
   Enabled: false
+Rails/I18nLocaleTexts:
+  Enabled: false
+RSpec/NoExpectationExample:
+  Enabled: false
+RSpec/Capybara/SpecificMatcher:
+  Enabled: false
