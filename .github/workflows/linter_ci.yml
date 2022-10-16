@@ -1,0 +1,16 @@
+name: Aeksion linter CI
+run-name: ${{ github.actor }} is ${{ github.event.action }} 🚀
+on: [push, pull_request]
+
+jobs:
+  Linters:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - run: echo "Setup Ruby"
+      - uses: ruby/setup-ruby@v1
+      - run: echo "Install gems 💎"
+      - run: bundle install
+      - run: echo "Run rubocop 👮"
+      - run: rubocop
+      - run: echo "🍏 This job's status is ${{ job.status }}."

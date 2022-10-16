@@ -1,0 +1,19 @@
+<%= form_with url: path, 
+              method: :post, 
+              autocomplete: 'disabled' , 
+              class: form_style, 
+              data: { 
+                controller: 'debounce', 
+                "debounce-target": 'form', 
+                'searcher-target': 'input' 
+              }  do |form| %>
+  <%= form.search_field :name, 
+        value: params[:name], 
+        placeholder: placeholder, 
+        data: { 
+          action: "input->debounce#search" 
+        }, 
+        class:input_style, 
+        autocomplete: 'off' %>
+<% end %>
+

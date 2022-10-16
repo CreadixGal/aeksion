@@ -1,0 +1,8 @@
+<div id="<%= dom_id customer %>">
+  <h1 class="text-lg text-indigo-500 text-center text-semibold"> <%= customer.inspect %> </h1>
+  <% if action_name != "show" %>
+    <%= link_to "Show this customer", customer, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <%= link_to 'Edit this customer', edit_customer_path(customer), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium" %>
+    <hr class="mt-6">
+  <% end %>
+</div>
