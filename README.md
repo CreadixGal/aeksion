@@ -2,12 +2,13 @@
   AEKSION
 </div>
 
-  [![Test Coverage](./public/coverage/coverage.svg)](./public/coverage/coverage.svg) [![Ruby Style Guide](https://img.shields.io/badge/code_style-rubocop-brightgreen.svg)](https://github.com/rubocop/rubocop) [![Version](https://badge.fury.io/gh/tterb%2FHyde.svg)](https://badge.fury.io/gh/tterb%2FHyde) 
+  [![Aeksion CI](https://github.com/CreadixGal/aeksion/actions/workflows/spec_ci.yml/badge.svg?branch=develop)](https://github.com/CreadixGal/aeksion/actions/workflows/spec_ci.yml) [![Test Coverage](./public/coverage/coverage.svg)](./public/coverage/coverage.svg) 
+  [![Ruby Style Guide](https://img.shields.io/badge/code_style-rubocop-brightgreen.svg)](https://github.com/rubocop/rubocop) [![Version](https://badge.fury.io/gh/tterb%2FHyde.svg)](https://badge.fury.io/gh/tterb%2FHyde) 
   
-  <!---TODO: uncomment on first release [![GitHub Release](https://img.shields.io/github/release/tterb/PlayMusic.svg?style=flat)]()  -->
-
+  <!---TODO: uncomment on first release [![GitHub Release](https://img.shields.io/github/release/tterb/PlayMusic.svg?style=flat)]()
   ![GitHub issues](https://img.shields.io/github/issues-raw/CreadixGal/aeksion)
-  ![GitHub pull requests](https://img.shields.io/github/issues-pr/CreadixGal/aeksion)
+  ![GitHub pull requests](https://img.shields.io/github/issues-pr/CreadixGal/aeksion) 
+-->
 <!--TODO: One Paragraph of the project description -->
 ## Getting Started
 
