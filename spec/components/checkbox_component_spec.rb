@@ -14,7 +14,7 @@ RSpec.describe CheckboxComponent, type: :component do
   end
 
   it 'with default paramaeters' do
-    render_inline(described_class.new(id: 'default'))
+    render_inline(described_class.new(id: 'default', name: 'components[]'))
 
     expect(page).to have_selector 'input[data-checkbox-select-all-target="child"]'
     expect(page).to have_selector 'input[data-action="click->checkbox-select-all#checkParent"]'
@@ -24,7 +24,7 @@ RSpec.describe CheckboxComponent, type: :component do
   end
 
   it 'with full parameters' do
-    render_inline(described_class.new(id: 'component', options: full_options))
+    render_inline(described_class.new(id: 'component', name: 'components[]', options: full_options))
 
     expect(page).to     have_text     'Seleccionar todos'
     expect(page).to     have_selector 'input[data-checkbox-select-all-target="parent"]'
