@@ -2,7 +2,7 @@
   AEKSION
 </div>
 
-  [![Test Coverage](./public/coverage/coverage.svg)](./public/coverage/coverage.svg) ![DB & RSpec CI](https://github.com/github/docs/actions/workflows/spec_ci.yml/badge.svg?branch=development) ![Code style](https://github.com/github/docs/actions/workflows/linter_ci.yml/badge.svg?branch=development)
+  [![Test Coverage](./public/coverage/coverage.svg)](./public/coverage/coverage.svg) ![Actions Status](https://github.com/CreadixGal/aeksion/actions/workflows/.spec_ci.yml/badge.svg?branch=develop) ![Actions Status](https://github.com/CreadixGal/aeksion/actions/workflows/.linter_ci.yml/badge.svg?branch=develop)
   [![Ruby Style Guide](https://img.shields.io/badge/code_style-rubocop-brightgreen.svg)](https://github.com/rubocop/rubocop) [![Version](https://badge.fury.io/gh/tterb%2FHyde.svg)](https://badge.fury.io/gh/tterb%2FHyde) 
   
   <!---TODO: uncomment on first release [![GitHub Release](https://img.shields.io/github/release/tterb/PlayMusic.svg?style=flat)]()
