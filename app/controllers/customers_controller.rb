@@ -78,9 +78,9 @@ class CustomersController < ApplicationController
     ids = params[:customer_ids].compact
 
     Customer.where(id: ids).destroy_all
-    
+
     respond_to do |format|
-      format.html { redirect_to root_path, success: "All selected Customers were successfully destroyed." }
+      format.html { redirect_to root_path, success: 'All selected Customers were successfully destroyed.' }
       format.json { head :no_content }
     end
   end
