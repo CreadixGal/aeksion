@@ -57,8 +57,8 @@ group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'ruby-debug-ide', require: false
   # gem "debase", require: false
+  gem 'better_html'
   gem 'erb_lint', require: false
-  gem "better_html"
   gem 'rubocop'
   gem 'rubocop-performance'
   gem 'rubocop-rails'

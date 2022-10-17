@@ -9,7 +9,9 @@ linters:
       - "db/**/*"
       - "spec/**/*"
       - "config/**/*"
-      - "node_modules/**/*"
+      - "public/**/*"
+      - "tmp/**/*"
+      - "vendor/**/*"
     rubocop_config:
       inherit_from:
         - .rubocop.yml

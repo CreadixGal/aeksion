@@ -1,6 +1,6 @@
 name: DB & RSpec CI
 run-name: ${{github.ref_name}} is tested by @${{ github.actor }} 🚀
-on: [push, pull_request]
+on:  [push, pull_request]
 jobs:
   Database:
     runs-on: ubuntu-22.04
@@ -21,7 +21,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: ruby/setup-ruby@v1
-      - name: Install PostgreSQLs
+        with:
+          bundler-cache: true
+      - name: Install PostgreSQL
         run: sudo apt-get -yqq install libpq-dev
       - name: Run bundle install
         run: |
@@ -47,3 +49,5 @@ jobs:
         run: |
           bundle exec rake assets:precompile
           bundle exec rspec
+          bundle exec rails db:reset
+          bundle exec rails tailwindcss:clobber
