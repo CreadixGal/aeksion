@@ -46,7 +46,7 @@ RSpec.describe '/customers', type: :request do
 
       it 'redirects to the created customer' do
         post customers_url, params: { customer: valid_attributes }
-        expect(response).to redirect_to(customer_url(Customer.last))
+        expect(response).to redirect_to(customers_path)
       end
     end
 
