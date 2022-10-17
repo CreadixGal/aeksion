@@ -1,5 +1,5 @@
-name: Aeksion linter CI
-run-name: ${{ github.actor }} is ${{ github.event.action }} 🚀
+name: Linter CI
+run-name: ${{github.ref_name}} is linting by @${{ github.actor }} 🚀
 on: [push, pull_request]
 
 jobs:

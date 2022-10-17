@@ -1,5 +1,5 @@
-name: Aeksion database & rspec CI
-run-name: ${{ github.actor }} is ${{ github.event.action }} 🚀
+name: DB & RSpec CI
+run-name: ${{github.ref_name}} is tested by @${{ github.actor }} 🚀
 on: [push, pull_request]
 jobs:
   Database:
@@ -35,7 +35,7 @@ jobs:
           POSTGRES_DB: postgres
         run: |
           cp config/database.yml.ci.github-actions config/database.yml
-          bundle exec rails db:setup
+          bundle exec rails db:drop db:create db:migrate
       - name: Build Precompile and Test with RSpec
         env:
           RAILS_ENV: test

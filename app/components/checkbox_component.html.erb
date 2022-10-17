@@ -1,14 +1,14 @@
 <div class="form-check ">
-  <input id="<%= id %>" 
-          name = "<%= name %>"
-          type="checkbox" 
-          value="<%= value %>" 
-          data-checkbox-select-all-target="<%= target %>" 
+  <input id="<%= id %>"
+          name="<%= name %>"
+          type="checkbox"
+          value="<%= value %>"
+          data-checkbox-select-all-target="<%= target %>"
           data-action="click->checkbox-select-all#<%= action %>"
           class="<%= style %>">
-  
+
   <% if show %>
-    <label class="form-check-label inline-block text-gray-800 cursor-pointer" for="<%= id %>" >
+    <label class="form-check-label inline-block text-gray-800 cursor-pointer" for="<%= id %>">
       <%= label %>
     </label>
   <% end %>
