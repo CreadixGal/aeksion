@@ -1,3 +1,3 @@
-class Customer < ApplicationRecord
+class Zone < ApplicationRecord
     validates_presence_of :name
 end
