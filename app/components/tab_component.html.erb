@@ -1,12 +1,13 @@
-<%= link_to path, 
+<%= link_to path,
             data: {
               'tab-target': 'option',
-              'tab-option': "#{item}",
+              'tab-option': item.to_s,
               action: 'click->tab#storage',
-              turbo_frame:  turbo
+              turbo_frame: turbo,
+              turbo: false
             },
-            class: "#{link_style}",
-            id: "#{item}" do %>
+            class: link_style.to_s,
+            id: item.to_s do %>
   <div class="flex justify-center">
     <% if text.present? %>
       <span class="font-semibold mr-3"> <%= text %></span>

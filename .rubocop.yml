@@ -27,6 +27,10 @@ AllCops:
     - "db/**/*"
     - "public/**/*"
     - "tmp/**/*"
+    - "vendor/**/*"
+    - "storage/**/*"
+    - "resources/**/*"
+    - "log/**/*"
 
 Style/Documentation:
   Enabled: false

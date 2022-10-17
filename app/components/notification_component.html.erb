@@ -13,26 +13,24 @@
           <% end %>
           <% if data[:action].present? %>
             <div class="mt-2" data-notification-target="buttons">
-              <%= link_to data.dig(:action, :name), 
-                  data.dig(:action, :method) == 'get' ? data.dig(:action, :url) : "",
-                  class:'text-sm leading-5 font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:underline transition ease-in-out duration-150',
-                  data: {
-                    action: 'notification#run'
-                  } 
-              %>
+              <%= link_to data.dig(:action, :name),
+                          data.dig(:action, :method) == 'get' ? data.dig(:action, :url) : '',
+                          class: 'text-sm leading-5 font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:underline transition ease-in-out duration-150',
+                          data: {
+                            action: 'notification#run'
+                          } %>
 
               <%= button_to 'x',
-                  class: 'ml-6 text-sm leading-5 font-medium text-white hover:text-white focus:outline-none focus:underline transition ease-in-out duration-150',
-                  data: {
-                    action: 'notification#close'
-                  } 
-              %>
+                            class: 'ml-6 text-sm leading-5 font-medium text-white hover:text-white focus:outline-none focus:underline transition ease-in-out duration-150',
+                            data: {
+                              action: 'notification#close'
+                            } %>
             </div>
           <% end %>
         </div>
         <div class="ml-4 flex-shrink-0 flex">
           <button class="inline-flex text-slate-700 focus:outline-none focus:text-slate-700 transition ease-in-out duration-150" data-action="notification#close">
-            <%= inline_svg_tag('icons/x-circle.svg', size: '32')%>
+            <%= inline_svg_tag('icons/x-circle.svg', size: '32') %>
           </button>
         </div>
       </div>

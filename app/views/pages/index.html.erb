@@ -2,15 +2,13 @@
   <div class="flex flex-col items">
     <%= render 'pages/shared/tabs' %>
   </div>
-  
-  <div class="container mt-8 px-10 text-teal-400">
+
+  <div class="w-full flex flex-col gap-8 mt-8 px-10">
+    <%= turbo_frame_tag :tab_content do %>
+      <h1 class="w-full font-bold text-4xl text-center">Pages#index</h1>
+    <% end %>
     <%= turbo_frame_tag :dashboard, src: dashboard_path, loading: :lazy do %>
       <div class="w-12 h-12 border-2 border-red-600 rounded-full loader"></div>
-    <% end %>
-    
-    <%= turbo_frame_tag :tab_content do %>
-      <h1 class="font-bold text-4xl text-center">Pages#index</h1>
-      <p>Find me in app/views/pages/index.html.erb</p>
     <% end %>
   </div>
 </div>
