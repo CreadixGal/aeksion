@@ -1,0 +1,26 @@
+<aside data-controller="menu"
+      data-toogle-target="aside"
+      class="flex flex-col items-center w-1/2 md:w-[5%] fixed md:relative min-h-screen overflow-hidden text-gray-400 bg-gray-900 z-10" >
+  <!--LOGO--->
+  <div class="w-full h-16 flex justify-center items-center content-center">
+    <%= link_to inline_svg_tag('icons/box.svg', class: 'w-12 h-12'), root_path, class: 'flex items-center justify-center my-3' %>
+  </div>
+  <!---LINK OPITIONS-->
+  <div class="w-full flex flex-col items-center border-t border-gray-700">
+    <%= render MenuItemComponent.new(item: 'home',  path: root_path, options: { icon: 'home.svg' })   %>
+    <%= render MenuItemComponent.new(item: 'truck', path: root_path, options: { icon: 'truck.svg' })  %>
+    <%= render MenuItemComponent.new(item: 'box',   path: root_path, options: { icon: 'box.svg' })    %>
+  </div>
+  <div class="w-full fixed top-2 right-[40%] flex justify-end md:hidden z-10" data-toogle-target="button">
+    <button class="w-10 ml-5 group focus:outline-none" data-action="click->toogle#hide">
+      <div class="rounded-xl bg-black h-1 w-8 my-1 relative top-2 rotate-45 "></div>
+      <div class=""></div>
+      <div class="rounded-xl bg-black h-1 w-8 my-1 relative -rotate-45"></div>
+    </button>
+  </div>
+</aside>
+
+
+
+
+
