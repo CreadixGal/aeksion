@@ -13,7 +13,7 @@ RSpec.describe Zone, type: :model do
   end
 
   it "is not null" do
-    expect(subject).to_not eq(nil)
+    expect(subject).not_to eq(nil)
   end
 
   it "is valid with valid attributes" do
@@ -25,7 +25,7 @@ RSpec.describe Zone, type: :model do
     expect(subject).to_not be_valid
   end
   it "name is not empty" do
-    expect(subject.name).to_not be_empty
+    expect(subject.name).not_to be_empty
   end
 
   it "is a new zone and persisted" do
