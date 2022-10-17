@@ -42,8 +42,8 @@ class CustomersController < ApplicationController
 
     respond_to do |format|
       if @customer.save
-        format.html { redirect_to customer_url(@customer), notice: 'Customer was successfully created.' }
-        format.json { render :show, status: :created, location: @customer }
+        format.html { redirect_to customers_path, notice: 'Customer was successfully created.' }
+        format.json { render :show, status: :created, location: customers_path }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @customer.errors, status: :unprocessable_entity }
@@ -55,7 +55,7 @@ class CustomersController < ApplicationController
   def update
     respond_to do |format|
       if @customer.update(customer_params)
-        format.html { redirect_to customer_url(@customer), notice: 'Customer was successfully updated.' }
+        format.html { redirect_to customer_path(@customer), notice: 'Customer was successfully updated.' }
         format.json { render :show, status: :ok, location: @customer }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -70,6 +70,17 @@ class CustomersController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to customers_url, notice: 'Customer was successfully destroyed.' }
+      format.json { head :no_content }
+    end
+  end
+
+  def multiple_delete
+    ids = params[:customer_ids].compact
+
+    Customer.where(id: ids).destroy_all
+
+    respond_to do |format|
+      format.html { redirect_to root_path, success: 'All selected Customers were successfully destroyed.' }
       format.json { head :no_content }
     end
   end

@@ -1,12 +1,12 @@
-<%= link_to path, 
+<%= link_to path,
             data: {
               'menu-target': 'item',
-              'menu-item': "#{item}",
+              'menu-item': item.to_s,
               action: 'click->menu#storage',
-              turbo_frame:  turbo
+              turbo_frame: turbo
             },
-            class: "#{link_style}",
-            id: "#{item}" do %>
+            class: link_style.to_s,
+            id: item.to_s do %>
   <% if text.present? %>
     <span class="font-semibold"> <%= text %> </span>
   <% end %>
