@@ -3,7 +3,8 @@
               'tab-target': 'option',
               'tab-option': "#{item}",
               action: 'click->tab#storage',
-              turbo_frame:  turbo
+              turbo_frame:  turbo,
+              turbo: false
             },
             class: "#{link_style}",
             id: "#{item}" do %>

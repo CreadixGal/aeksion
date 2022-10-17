@@ -39,10 +39,9 @@ RSpec.describe '/customers', type: :request do
   describe 'POST /create' do
     context 'with valid parameters' do
       it 'creates a new Customer' do
-        pending 'This test is not implemented yet.'
         expect do
           post customers_url, params: { customer: valid_attributes }
-        end.to change(Customer, :count).by(2) # TODO: why is this 2? -> replace by 1
+        end.to change(Customer, :count).by(1)
       end
 
       it 'redirects to the created customer' do
@@ -59,9 +58,8 @@ RSpec.describe '/customers', type: :request do
       end
 
       it "renders a successful response (i.e. to display the 'new' template)" do
-        pending 'This test is not implemented yet.'
         post customers_url, params: { customer: invalid_attributes }
-        expect(response).to be_successful
+        expect(subject).to render_template(:new)
       end
     end
   end
@@ -89,10 +87,9 @@ RSpec.describe '/customers', type: :request do
 
     context 'with invalid parameters' do
       it "renders a successful response (i.e. to display the 'edit' template)" do
-        pending 'This test is not implemented yet.'
         customer = Customer.create! valid_attributes
         patch customer_url(customer), params: { customer: invalid_attributes }
-        expect(response).to be_successful
+        expect(subject).to render_template(:edit)
       end
     end
   end
