@@ -4,6 +4,7 @@ class CustomersController < ApplicationController
   # GET /customers or /customers.json
   def index
     @customers = Customer.all
+    @pagy, @customers = pagy(@customers, items: 5)
   end
 
   def search

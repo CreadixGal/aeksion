@@ -169,6 +169,8 @@ GEM
     nio4r (2.5.8)
     nokogiri (1.13.8-x86_64-linux)
       racc (~> 1.4)
+    pagy (5.10.1)
+      activesupport
     parallel (1.22.1)
     parser (3.1.2.1)
       ast (~> 2.4.1)
@@ -354,6 +356,7 @@ DEPENDENCIES
   importmap-rails
   inline_svg
   jbuilder
+  pagy
   pg (~> 1.1)
   puma (~> 5.0)
   rails (~> 7.0.4)

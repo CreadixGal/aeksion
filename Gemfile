@@ -96,6 +96,7 @@ gem 'figaro'
 # custom gems
 gem 'breadcrumbs_on_rails'
 gem 'inline_svg'
+gem 'pagy'
 gem 'view_component'
 
 # testing coverage
