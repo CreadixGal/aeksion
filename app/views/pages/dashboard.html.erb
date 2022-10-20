@@ -1,0 +1,11 @@
+<div class="w-full mb-8">
+  <div class="flex flex-col items-start">
+    <%= render 'pages/shared/tabs' %>
+  </div>
+
+  <%= turbo_frame_tag :dashboard, class: 'w-full m-12' do %>
+        <%= turbo_frame_tag :customers_index, src: customers_path, loading: :lazy do %>
+      <div class="w-12 h-12 border-2 border-red-600 rounded-full loader"></div>
+    <% end %>
+  <% end %>
+</div>

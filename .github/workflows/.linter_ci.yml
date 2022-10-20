@@ -1,0 +1,17 @@
+name: Code style
+run-name: ${{github.ref_name}} is linting by @${{ github.actor }} 🚀
+on: [push, pull_request]
+
+jobs:
+  Linters:
+    runs-on: ubuntu-22.04
+    name: all linters
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: Bundle install
+        run: bundle install
+      - name: rubocop
+        run: bundle exec rubocop --parallel

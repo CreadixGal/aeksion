@@ -27,6 +27,10 @@ AllCops:
     - "db/**/*"
     - "public/**/*"
     - "tmp/**/*"
+    - "vendor/**/*"
+    - "storage/**/*"
+    - "resources/**/*"
+    - "log/**/*"
 
 Style/Documentation:
   Enabled: false
@@ -47,4 +51,12 @@ Style/RedundantSelfAssignment:
 Style/OpenStructUse: # new in 1.23
   Enabled: false
 Performance/OpenStruct:
+  Enabled: false
+Lint/EmptyBlock:
+  Enabled: false
+Rails/I18nLocaleTexts:
+  Enabled: false
+RSpec/NoExpectationExample:
+  Enabled: false
+RSpec/Capybara/SpecificMatcher:
   Enabled: false

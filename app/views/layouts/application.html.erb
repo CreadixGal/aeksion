@@ -5,15 +5,24 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag 'tailwind', 'inter-font', 'data-turbo-track': 'reload' %>
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag 'application', 'data-turbo-track': 'reload' %>
     <%= javascript_importmap_tags %>
   </head>
 
   <body>
-    <main class="container mx-auto mt-28 px-5 flex">
-      <%= yield %>
+    <div class="fixed inset-0 px-4 py-6 pointer-events-none sm:p-6 sm:items-start sm:justify-end">
+      <div id="notifications" class="flex flex-col items-end justify-center">
+        <%= render 'layouts/shared/notification' %>
+      </div>
+    </div>
+    <main class="w-full flex justify-between" data-controller="toogle">
+      <%= render 'layouts/shared/aside_menu' %>
+      <div class="w-full flex flex-col">
+        <%= render 'layouts/shared/navbar' %>
+        <%= yield %>
+      </div>
     </main>
   </body>
 </html>
