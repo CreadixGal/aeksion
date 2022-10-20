@@ -1,13 +1,13 @@
 require 'rails_helper'
 
-RSpec.describe Customer, type: :model do
+RSpec.describe Zone, type: :model do
   subject { described_class.new(name: Faker::Company.name) }
 
   it 'is string' do
     expect(subject.name).to be_a(String)
   end
 
-  it 'is Customer' do
+  it 'is Zone' do
     expect(subject).to be_a(described_class)
   end
 
@@ -28,7 +28,7 @@ RSpec.describe Customer, type: :model do
     expect(subject.name).not_to be_empty
   end
 
-  it 'is a new customer and persisted' do
+  it 'is a new zone and persisted' do
     expect(subject).to be_a_new(described_class)
   end
 end
