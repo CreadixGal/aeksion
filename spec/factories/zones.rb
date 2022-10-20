@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :zone do
-    name { "MyString" }
+    name { 'MyString' }
   end
 end

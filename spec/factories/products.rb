@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :product do
-    code { "MyString" }
+    code { 'MyString' }
     kind { 1 }
-    name { "MyString" }
+    name { 'MyString' }
     price { 1.5 }
     stock { 1 }
   end

@@ -1,3 +1,3 @@
 class Product < ApplicationRecord
-    validates_presence_of :code
+  validates :code, presence: true
 end

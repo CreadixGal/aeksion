@@ -1,5 +1,5 @@
 class Zone < ApplicationRecord
-    validates_presence_of :name
+  validates :name, presence: true
 
-    has_many :rates
+  has_many :rates
 end
