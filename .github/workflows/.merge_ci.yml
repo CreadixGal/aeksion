@@ -1,10 +1,9 @@
 name: PRs to staging
-on: 
+on:
   pull_request:
-    branches: [staging]
     types: [closed]
 jobs:
-  merge-main-back-to-develop:
+  merged:
     if: github.event.pull_request.merged == true
     timeout-minutes: 2
     runs-on: ubuntu-22.04
