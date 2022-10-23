@@ -1,25 +1,17 @@
-<%= form_with(model: customer, class: 'contents') do |form| %>
-  <% if customer.errors.any? %>
-    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
-      <h2><%= pluralize(customer.errors.count, 'error') %> prohibited this customer from being saved:</h2>
-
-      <ul>
-        <% customer.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+<div id="<%= dom_id customer %>" class="w-full flex justify-between border-x-2
+  border-t-2 border-b-0 border-indigo-500 bg-indigo-50 opacity-70">
+  <div class="w-1/12 flex justify-center items-center content-center px-4">
+    <%= render CheckboxComponent.new(id: customer.id, name: 'customer_ids[]', options: { value: customer.id }) %>
+  </div>
+  <%= form_with(model: customer, class: 'contents') do |form| %>
+    <div class="w-9/12 text-indigo-600 text-center font-semibold border-x border-indigo-400 py-2 px-4 relative z-0 group"> 
+      <%= form.text_field :name, placeholder: 'Introduce nombre de cliente', class:'w-1/2 mx-auto block py-2.5 px-0 w-full text-lg text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'%>
+    </div>
+    <div class="w-2/12 flex justify-center items-center gap-6">
+      <%= form.submit '✔️', class: 'w-8 h-8 flex justify-center items-center text-center rounded-lg bg-green-300 hover:bg-green-500 cursor-pointer' %>
+      <%= link_to customers_path, class: 'w-8 h-8 flex justify-center items-center content-center rounded-lg bg-slate-300 hover:bg-slate-400' do %>
+        <%= inline_svg_tag('icons/x-circle.svg', class: 'w-6 h-6') %>
+      <% end %>
     </div>
   <% end %>
-
-  <div class="grid md:grid-cols-3 md:gap-6 my-8">
-    <div class="relative z-0 mb-6 w-full group">
-      <%= form.label :name, class: 'peer-focus:font-medium absolute text-lg text-slate-700 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'%>
-      <%= form.text_field :name, class:'block py-2.5 px-0 w-full text-lg text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'%>
-    </div>
-  </div>
-
-  <div class="flex my-8">
-    <%= form.submit class: 'rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer' %>
-    <%= link_to 'Back to customers', customers_path, class: 'ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium' %>
-  </div>
-<% end %>
+</div>
