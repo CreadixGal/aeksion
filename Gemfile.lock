@@ -84,6 +84,9 @@ GEM
     breadcrumbs_on_rails (4.1.0)
       railties (>= 5.0)
     builder (3.2.4)
+    bullet (7.0.3)
+      activesupport (>= 3.0.0)
+      uniform_notifier (~> 1.11)
     capybara (3.37.1)
       addressable
       matrix
@@ -314,6 +317,7 @@ GEM
     tzinfo (2.0.5)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.3.0)
+    uniform_notifier (1.16.0)
     view_component (2.74.0)
       activesupport (>= 5.0.0, < 8.0)
       concurrent-ruby (~> 1.0)
@@ -345,6 +349,7 @@ DEPENDENCIES
   better_html
   bootsnap
   breadcrumbs_on_rails
+  bullet
   capybara
   coderay
   debug
