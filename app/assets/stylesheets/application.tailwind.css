@@ -22,7 +22,7 @@
   }
 
   .menu-item-component {
-    @apply w-full flex items-center justify-center py-5 hover:bg-gray-700 hover:text-gray-300;
+    @apply w-full flex flex-col items-center justify-center py-3 hover:bg-gray-700 hover:text-gray-300 border-b border-gray-700;
   }
 
   .search-form-component {

@@ -1,3 +1,11 @@
 <div class="w-11/12 flex flex-wrap mx-auto my-3">
-
+  <%= render ConfigurationCardComponent.new(
+        title: 'Clientes', 
+        description: 'Consulta, crea y edita clientes',
+        options: {
+          icon: 'user-group.svg', 
+          href_1: customers_path,
+          href_2: new_customer_path
+        }
+      )%>
 </div>
