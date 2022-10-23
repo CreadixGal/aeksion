@@ -9,7 +9,7 @@ class ConfigurationCardComponent < ViewComponent::Base
     @description  = description
     @icon         = options[:icon].presence   || 'info-circle.svg'
     @link_1       = options[:link_1].presence || 'Consultar'
-    @link_2       = options[:link_2]
+    @link_2       = options[:link_2].presence || 'Añadir'
     @href_1       = options[:href_1]
     @href_2       = options[:href_2]
   end
