@@ -4,13 +4,12 @@
   <% end %>
   <div class="flex justify-between items-center my-8">
     <h1 class="font-bold text-4xl">Customers</h1>
-    <%= link_to 'New customer', new_customer_path, class: 'rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium' %>
   </div>
   <%= turbo_frame_tag :customers_index do %>
-    <%= form_with(model: @customers, url: multiple_delete_customers_path, html: { class: 'my-10', turbo: false }) do |form| %>
-      <div id="customers" class="min-w-full flex flex-col justify-center items-center mx-auto" data-controller="checkbox-select-all">
-        <div id="" class="w-full flex justify-between border-x-2 border-t-2 border-b-0 border-indigo-500 bg-indigo-100 opacity-70 my-4">
-          <div class="border-r border-indigo-400 px-4 py-2">
+    <%= form_with(model: @customers, url: multiple_delete_customers_path, html: { class: 'w-full flex flex-col gap-8 mt-8 px-10', turbo: false }) do |form| %>
+      <div id="customers" class="min-w-full flex flex-col justify-center items-center mx-auto mb-10" data-controller="checkbox-select-all">
+        <div id="" class="w-full flex justify-between border-x-2 border-t-2 border-b-0 border-indigo-500 bg-indigo-100 opacity-70">
+          <div class="w-1/12 border-r border-indigo-400 px-4 py-2">
             <%= render CheckboxComponent.new(
                   id: 'select-all',
                   name: 'customer_ids[]',
@@ -22,8 +21,8 @@
                   }
                 ) %>
           </div>
-          <div class="w-full"></div>
-          <div class="border-l border-indigo-400 px-4 py-2">
+          <div class="w-9/12"></div>
+          <div class="w-2/12 border-l border-indigo-400 px-4 py-2">
             <input type="submit" value="multiple delete" class="border border-amber-400 hover:bg-amber-400 px-4 py-2 rounded">
           </div>
         </div>
@@ -31,5 +30,6 @@
       </div>
       <%== pagy_nav(@pagy) %>
     <% end %>
+
   <% end %>
 </div>

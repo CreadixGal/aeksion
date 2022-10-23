@@ -11,7 +11,15 @@
     </div>
   <% end %>
 
-  <div class="inline">
+  <div class="grid md:grid-cols-3 md:gap-6 my-8">
+    <div class="relative z-0 mb-6 w-full group">
+      <%= form.label :name, class: 'peer-focus:font-medium absolute text-lg text-slate-700 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'%>
+      <%= form.text_field :name, class:'block py-2.5 px-0 w-full text-lg text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'%>
+    </div>
+  </div>
+
+  <div class="flex my-8">
     <%= form.submit class: 'rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer' %>
+    <%= link_to 'Back to customers', customers_path, class: 'ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium' %>
   </div>
 <% end %>
