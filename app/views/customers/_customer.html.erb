@@ -1,16 +1,18 @@
-<div id="<%= dom_id customer %>" class="w-full flex justify-between border-x-2
-border-t-2 border-b-0 border-indigo-500 bg-indigo-50 opacity-70">
-  <div class="w-1/12 flex justify-center items-center content-center px-4">
-    <%= render CheckboxComponent.new(id: customer.id, name: 'customer_ids[]', options: { value: customer.id }) %>
-  </div>
-  <div class="w-9/12 text-indigo-600 text-center font-semibold border-x border-indigo-400 py-2 px-4"> <%= customer.name %> </div>
-  <% if action_name != "show" %>
+<%= turbo_frame_tag dom_id(customer), class: 'w-full' do %>
+  <div id="<%= dom_id customer %>" class="w-full flex justify-between border-x-2
+  border-t-2 border-b-0 border-indigo-500 bg-indigo-50 opacity-70">
+    <div class="w-1/12 flex justify-center items-center content-center px-4">
+      <%= render CheckboxComponent.new(id: customer.id, name: 'customer_ids[]', options: { value: customer.id }) %>
+    </div>
+    <div class="w-9/12 text-indigo-600 text-center font-semibold border-x border-indigo-400 py-2 px-4"> <%= customer.name %> </div>
     <div class="w-2/12 flex justify-center px-6">
-      <%= link_to inline_svg_tag('icons/eye.svg', class: 'w-4 h-4'), customer, class: 'rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium m-2' %>
-      <%= link_to inline_svg_tag('icons/pencil-square.svg', class: 'w-4 h-4'), edit_customer_path(customer), class: 'rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium m-2' %>
-      <%= button_to customer, method: :delete, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'rounded-lg py-3 ml-2 px-5 bg-gray-100 hover:bg-amber-300 inline-block font-medium m-2' do %>
-        <%= inline_svg_tag('icons/trash.svg', class: 'w-4 h-4') %>
+      <% if action_name != "show" %>
+        <%= link_to inline_svg_tag('icons/eye.svg', class: 'w-4 h-4'), customer, class: 'rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium m-2' %>
+        <%= link_to inline_svg_tag('icons/pencil-square.svg', class: 'w-4 h-4'), edit_customer_path(customer), class: 'rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium m-2' %>
+        <%= button_to customer, method: :delete, form: { data: { turbo_frame: "_top" } }, class: 'rounded-lg py-3 ml-2 px-5 bg-gray-100 hover:bg-amber-300 inline-block font-medium m-2' do %>
+          <%= inline_svg_tag('icons/trash.svg', class: 'w-4 h-4') %>
+        <% end %>
       <% end %>
     </div>
-  <% end %>
-</div>
+  </div>
+<% end %>

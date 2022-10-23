@@ -3,7 +3,7 @@ class CustomersController < ApplicationController
 
   # GET /customers or /customers.json
   def index
-    @customers = Customer.all
+    @customers = Customer.ordered
     @pagy, @customers = pagy(@customers, items: 10)
   end
 
@@ -44,10 +44,9 @@ class CustomersController < ApplicationController
     respond_to do |format|
       if @customer.save
         format.html { redirect_to customers_path, success: 'Customer was successfully created.' }
-        format.json { render :show, status: :created, location: customers_path }
+        format.turbo_stream { flash.now[:success] = "Customer was successfully created." }
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @customer.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -56,11 +55,10 @@ class CustomersController < ApplicationController
   def update
     respond_to do |format|
       if @customer.update(customer_params)
-        format.html { redirect_to customer_path(@customer), success: 'Customer was successfully updated.' }
-        format.json { render :show, status: :ok, location: @customer }
+        format.html { redirect_to customers_path, success: 'Customer was successfully updated.' }
+        format.turbo_stream { flash.now[:success] = "Customer was successfully updated." }
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @customer.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -70,8 +68,8 @@ class CustomersController < ApplicationController
     @customer.destroy!
 
     respond_to do |format|
-      format.html { redirect_to customers_url, alert: 'Customer was successfully destroyed.' }
-      format.json { head :no_content }
+      format.html { redirect_to customers_path, alert: 'Customer was successfully destroyed.' }
+      format.turbo_stream { flash.now[:alert] = "Customer was successfully destroyed." }
     end
   end
 
