@@ -6,6 +6,17 @@
   <%= form_with(model: customer, class: 'contents') do |form| %>
     <div class="w-9/12 text-indigo-600 text-center font-semibold border-x border-indigo-400 py-2 px-4 relative z-0 group"> 
       <%= form.text_field :name, placeholder: 'Introduce nombre de cliente', class:'w-1/2 mx-auto block py-2.5 px-0 w-full text-lg text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'%>
+      <% if customer.errors.any? %>
+        <div id="error_explanation" class="bg-red-50 text-red-500 border-b-8 border-b-red-600 px-3 py-2 font-medium rounded-lg mt-3">
+          <h2><%= pluralize(customer.errors.count, 'error') %> prohibited this customer from being saved:</h2>
+
+          <ul>
+            <% customer.errors.each do |error| %>
+              <li><%= error.full_message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
     </div>
     <div class="w-2/12 flex justify-center items-center gap-6">
       <%= form.submit '✔️', class: 'w-8 h-8 flex justify-center items-center text-center rounded-lg bg-green-300 hover:bg-green-500 cursor-pointer' %>

@@ -4,9 +4,9 @@
   </div>
   <%= turbo_frame_tag :customers_index do %>
     <%= form_with(model: @customers, url: multiple_delete_customers_path, html: { class: 'w-full flex flex-col gap-8 mt-8 px-10', turbo: false }) do |form| %>
-      <div class="min-w-full flex flex-col justify-center items-center mx-auto mb-10" data-controller="checkbox-select-all">
+      <div class="min-w-full flex flex-col justify-center items-center mx-auto mb-5" data-controller="checkbox-select-all">
         <div id="" class="w-full flex justify-between border-x-2 border-t-2 border-b-0 border-indigo-500 bg-indigo-100 opacity-70">
-          <div class="w-1/12 border-r border-indigo-400 px-4 py-2">
+          <div class="w-1/12 flex justify-center items-center content-center px-4 border-r border-indigo-500">
             <%= render CheckboxComponent.new(
                   id: 'select-all',
                   name: 'customer_ids[]',
@@ -29,7 +29,9 @@
           <%= render @customers %>
         <% end %>
       </div>
-      <%== pagy_nav(@pagy) %>
+      <div class="w-full flex gap-8 my-3 px-10">
+        <%== pagy_nav(@pagy) %>
+      </div>
     <% end %>
   <% end %>
 </div>
