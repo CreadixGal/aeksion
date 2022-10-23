@@ -6,7 +6,6 @@ RSpec.describe ConfigurationCardComponent, type: :component do
   let(:required_params) do 
     {
       title: 'Clientes', 
-      description: 'Consulta, crea y edita clientes',
       options: {
         href_1: 'www.example.com',
       }
@@ -27,19 +26,19 @@ RSpec.describe ConfigurationCardComponent, type: :component do
     render_inline(described_class.new(title: required_params[:title], description: required_params[:description], options: required_params[:options]))
 
     expect(page).to have_content required_params[:title]
-    expect(page).to have_content required_params[:description]
+    expect(page).to have_content 'Consultar, editar y eliminar clientes'
     expect(page).to have_content 'Consultar'
     expect(page).to have_link href: required_params[:options][:href_1]
   end
 
   it 'renders configuration card component with full params' do
     options = required_params
-    options = options.merge(options: full_params)
-    puts options
-    render_inline(described_class.new(title: options[:title], description: options[:description], options: options[:options]))
+    options = options.merge(description: 'Random description', options: full_params)
+
+    render_inline(described_class.new(title: options[:title], description: options[:description] , options: options[:options]))
 
     expect(page).to have_content options[:title]
-    expect(page).to have_content options[:description]
+    expect(page).to have_content 'Random description'
     expect(page).to have_content 'Ver clientes'
     expect(page).to have_link href: options[:options][:href_1]
     expect(page).to have_content 'Crear cliente'
