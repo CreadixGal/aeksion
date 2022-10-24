@@ -27,5 +27,7 @@ module Aeksion
 
     # to use component previews in tests
     config.view_component.preview_paths << Rails.root.join('/spec/components/previews')
+
+    config.active_job.queue_adapter = :sidekiq
   end
 end

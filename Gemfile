@@ -101,3 +101,6 @@ gem 'view_component'
 
 # testing coverage
 gem 'simplecov-formatter-badge', require: false
+
+#jobs
+gem 'sidekiq'
