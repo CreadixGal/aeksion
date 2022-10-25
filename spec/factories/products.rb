@@ -6,10 +6,6 @@ FactoryBot.define do
     price { rand(0.001..0.999) }
     stock { rand(1..800) }
 
-    # trait :with_attachment do
-    #   attachment { Rack::Test::UploadedFile.new("#{Rails.root}/spec/factories/images/pale.jpg", 'image/jpeg') }
-    # end
-
     trait :with_image do
       after :build do |product|
         file_name = 'pale.jpg'
