@@ -4,7 +4,7 @@ class CreateRates < ActiveRecord::Migration[7.0]
       t.references :customer, null: false, foreign_key: true, type: :uuid
       t.references :zone, null: false, foreign_key: true, type: :uuid
       t.integer :kind
-      t.float :price, precision: 8, scale: 3
+      t.decimal :price, precision: 8, scale: 3, null: false, default: 0.000
 
       t.timestamps
     end

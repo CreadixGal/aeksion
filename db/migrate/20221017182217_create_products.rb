@@ -4,8 +4,8 @@ class CreateProducts < ActiveRecord::Migration[7.0]
       t.string :code, null: false
       t.integer :kind
       t.string :name
-      t.float :price, precision: 8, scale: 3
-      t.integer :stock
+      t.decimal :price, precision: 8, scale: 3, null: false, default: 0.000
+      t.integer :stock, null: false, default: 0
 
       t.timestamps
     end
