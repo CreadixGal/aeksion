@@ -1,0 +1,12 @@
+<div class="w-full px-8">
+  <div class="flex justify-between items-center my-8">
+    <h1 class="font-bold text-4xl">Customers</h1>
+  </div>
+    <div class="w-full flex justify-between gap-8 my-3 px-10">
+      <%= link_to 'crear producto', new_product_path, class: ' text-lg text-indigo-500 font-semibold rounded-lg border border-indigo-400 bg-indigo-200 hover:bg-indigo-300 px-4 py-2' %>
+      <%== pagy_nav(@pagy) %>
+    </div>
+    <% @products.each do |product| %>
+      <%= render 'products/product', product: product %>
+    <% end %>
+    </div>
