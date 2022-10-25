@@ -1,6 +1,6 @@
 class ProductsController < ApplicationController
-  before_action :set_product, only: [:show, :edit, :update, :destroy]
-  # create CRUD controller actions por Product model
+  before_action :set_product, only: %i[show edit update destroy]
+
   def index
     @products = Product.all
     @pagy, @products = pagy(@products, items: 10)
@@ -38,12 +38,12 @@ class ProductsController < ApplicationController
 
   def destroy
     @product = Product.find(params[:id])
-    @product.destroy
+    @product.destroy!
 
     redirect_to products_path
   end
 
-  private 
+  private
 
   def product_params
     params.require(:product).permit(:name, :code, :kind, :image, :price, :stock)

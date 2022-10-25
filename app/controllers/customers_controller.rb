@@ -44,7 +44,7 @@ class CustomersController < ApplicationController
     respond_to do |format|
       if @customer.save
         format.html { redirect_to customers_path, success: 'Customer was successfully created.' }
-        format.turbo_stream { flash.now[:success] = "Customer was successfully created." }
+        format.turbo_stream { flash.now[:success] = 'Customer was successfully created.' }
       else
         format.html { render :new, status: :unprocessable_entity }
       end
@@ -56,7 +56,7 @@ class CustomersController < ApplicationController
     respond_to do |format|
       if @customer.update(customer_params)
         format.html { redirect_to customers_path, success: 'Customer was successfully updated.' }
-        format.turbo_stream { flash.now[:success] = "Customer was successfully updated." }
+        format.turbo_stream { flash.now[:success] = 'Customer was successfully updated.' }
       else
         format.html { render :edit, status: :unprocessable_entity }
       end
@@ -69,7 +69,7 @@ class CustomersController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to customers_path, alert: 'Customer was successfully destroyed.' }
-      format.turbo_stream { flash.now[:alert] = "Customer was successfully destroyed." }
+      format.turbo_stream { flash.now[:alert] = 'Customer was successfully destroyed.' }
     end
   end
 
