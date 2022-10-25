@@ -31,8 +31,8 @@ RSpec.describe Product, type: :model do
       expect(subject.price).to be_a(BigDecimal)
     end
 
-    it 'kind is Integer' do
-      expect(subject.kind).to be_a(Integer)
+    it 'kind is String' do
+      expect(subject.kind).to be_a(String)
     end
 
     it 'product is Product' do
