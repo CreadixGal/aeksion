@@ -1,19 +1,19 @@
 # frozen_string_literal: true
 
 class ConfigurationCardComponent < ViewComponent::Base
-  attr_reader :icon, :title, :description, :link_1, :link_2, :href_1, :href_2
+  attr_reader :icon, :title, :description, :link1, :link2, :href1, :href2
 
   def initialize(title:, description: nil, options: {})
     super
     @title        = title.capitalize
     @description  = description.presence || "Consultar, editar y eliminar #{title.downcase}"
-    @icon         = options[:icon].presence   || 'info-circle.svg'
-    @link_1       = options[:link_1].presence || 'Consultar'
-    @link_2       = options[:link_2].presence || 'Añadir'
-    @href_1       = options[:href_1]
-    @href_2       = options[:href_2]
+    @icon         = options[:icon].presence || 'info-circle.svg'
+    @link1       = options[:link1].presence || 'Consultar'
+    @link2       = options[:link2].presence || 'Añadir'
+    @href1       = options[:href1]
+    @href2       = options[:href2]
   end
-  
+
   def render?
     title.present?
   end
