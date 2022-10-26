@@ -31,7 +31,11 @@ RSpec.describe Product, type: :model do
       expect(subject.price).to be_a(BigDecimal)
     end
 
-    it 'kind is String' do
+    it 'kind in database is saved as Integer' do
+      expect(subject.kind_before_type_cast).to be_a(Integer)
+    end
+
+    it 'kind is get as String' do
       expect(subject.kind).to be_a(String)
     end
 
@@ -57,10 +61,15 @@ RSpec.describe Product, type: :model do
       expect(subject.stock).not_to be_blank
     end
 
+    it 'must contain kind' do
+      expect(subject.kind).not_to be_blank
+    end
+
     # rubocop:disable RSpec/FactoryBot/SyntaxMethods
     product_no_code  = FactoryBot.build(:product, code: nil)
     product_no_price = FactoryBot.build(:product, price: nil)
     product_no_stock = FactoryBot.build(:product, stock: nil)
+    product_no_kind  = FactoryBot.build(:product, kind: nil)
     # rubocop:enable RSpec/FactoryBot/SyntaxMethods
 
     it 'code must not be empty' do
@@ -74,6 +83,10 @@ RSpec.describe Product, type: :model do
 
     it 'stock must not be empty' do
       expect(product_no_stock.stock).to be_falsey
+    end
+
+    it 'kind must not be empty' do
+      expect(product_no_kind.kind).to be_falsey
     end
   end
 
