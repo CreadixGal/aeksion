@@ -2,7 +2,7 @@ class ProductsController < ApplicationController
   before_action :set_product, only: %i[show edit update destroy]
 
   def index
-    @products = Product.all
+    @products = Product.all.order(created_at: :desc)
     @pagy, @products = pagy(@products, items: 10)
   end
 
@@ -10,6 +10,7 @@ class ProductsController < ApplicationController
   end
 
   def new
+    @product = Product.new
   end
 
   def edit
@@ -18,29 +19,34 @@ class ProductsController < ApplicationController
   def create
     @product = Product.new(product_params)
 
-    if @product.save
-      redirect_to @product, notice: 'Product was successfully created.'
-    else
-      flash.now[:alert] = 'Product was not created.'
-      render 'new'
+    respond_to do |format|
+      if @product.save
+        format.html { redirect_to products_path, success: 'Product was successfully created.' }
+        format.turbo_stream { flash.now[:success] = 'Product was successfully created.' }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+      end
     end
   end
 
   def update
-    @product = Product.find(params[:id])
-
-    if @product.update(product_params)
-      redirect_to @product
-    else
-      render 'edit'
+    respond_to do |format|
+      if @product.update(product_params)
+        format.html { redirect_to products_path, success: 'Product was successfully updated.' }
+        format.turbo_stream { flash.now[:success] = 'Product was successfully updated.' }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+      end
     end
   end
 
   def destroy
-    @product = Product.find(params[:id])
     @product.destroy!
 
-    redirect_to products_path
+    respond_to do |format|
+      format.html { redirect_to products_path, alert: 'Product was successfully destroyed.' }
+      format.turbo_stream { flash.now[:alert] = 'Product was successfully destroyed.' }
+    end
   end
 
   private
