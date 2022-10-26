@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   root 'pages#index'
+  require 'sidekiq/web'
   
+  mount Sidekiq::Web => '/sidekiq'
+
   resources :customers do 
     collection do
       post :search
