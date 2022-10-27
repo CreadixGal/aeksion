@@ -87,9 +87,9 @@ end
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem 'capybara'
+  gem 'rspec-sidekiq'
   gem 'selenium-webdriver'
   gem 'webdrivers'
-  gem 'rspec-sidekiq'
 end
 # secrets
 gem 'figaro'
