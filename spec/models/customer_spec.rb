@@ -1,28 +1,34 @@
 require 'rails_helper'
 
 RSpec.describe Customer, type: :model do
-  before(:all) do
-    @name = Faker::Company.name
-    @customer = described_class.create!(name: @name)
+  subject { described_class.new(name: Faker::Company.name) }
+
+  it 'is string' do
+    expect(subject.name).to be_a(String)
   end
 
-  it 'name is string' do
-    expect(@customer.name).to be_a(String)
+  it 'is Customer' do
+    expect(subject).to be_a(described_class)
   end
 
-  it 'this kind Customer' do
-    expect(@customer).to be_a(described_class)
+  it 'is not null' do
+    expect(subject).not_to be_nil
   end
 
-  it 'value name' do
-    expect(@customer.name).to eq(@name)
+  it 'is valid with valid attributes' do
+    expect(subject).to be_valid
   end
 
-  it 'not null' do
-    expect(@customer.name).not_to be_nil
+  it 'is not valid without name' do
+    subject.name = nil
+    expect(subject).not_to be_valid
   end
 
-  it 'persisted' do
-    expect(@customer).to be_persisted
+  it 'name is not empty' do
+    expect(subject.name).not_to be_empty
+  end
+
+  it 'is a new customer and persisted' do
+    expect(subject).to be_a_new(described_class)
   end
 end

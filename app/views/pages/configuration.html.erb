@@ -1,0 +1,18 @@
+<div class="w-11/12 flex flex-wrap mx-auto my-3">
+  <%= render ConfigurationCardComponent.new(
+        title: 'clientes', 
+        options: {
+          icon: 'user-group.svg',
+          href1: customers_path
+        }
+      )%>
+
+  <%= render ConfigurationCardComponent.new(
+        title: 'productos',
+        options: {
+          icon: 'box.svg',
+          href1: products_path,
+          href2: new_product_path
+        }
+      )%>
+</div>

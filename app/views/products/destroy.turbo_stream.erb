@@ -1,0 +1,2 @@
+<%= turbo_stream.remove "product_#{@product.id}" %>
+<%= turbo_stream.prepend "notification", partial: "layouts/shared/notification" %>

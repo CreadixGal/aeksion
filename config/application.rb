@@ -14,7 +14,7 @@ module Aeksion
     config.time_zone = 'Europe/Madrid'
 
     config.i18n.available_locales = %i[es en]
-    config.i18n.default_locale = :es
+    config.i18n.default_locale = :en
     config.i18n.fallbacks = true
 
     config.generators do |gen|

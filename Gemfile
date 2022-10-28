@@ -52,6 +52,7 @@ gem 'bootsnap', require: false
 gem 'image_processing', '~> 1.2'
 
 group :development, :test do
+  gem 'bullet'
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri mingw x64_mingw]
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -76,7 +77,6 @@ end
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem 'web-console'
-
   # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
   # gem "rack-mini-profiler"
 
@@ -96,7 +96,12 @@ gem 'figaro'
 # custom gems
 gem 'breadcrumbs_on_rails'
 gem 'inline_svg'
+gem 'pagy'
 gem 'view_component'
 
 # testing coverage
 gem 'simplecov-formatter-badge', require: false
+
+# jobs
+gem 'sidekiq'
+gem 'sidekiq-cron'
