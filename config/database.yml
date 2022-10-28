@@ -81,13 +81,14 @@ test:
 #
 production:
   <<: *default
-  database: aeksion_production
+  database: aeksion_stag
   username: aeksion
   password: <%= ENV["AEKSION_DATABASE_PASSWORD"] %>
+  url: <%= ENV['DATABASE_URL'] %> # render
 
 staging:
-<<: *default
-database: aeksion_staging
-username: aeksion
-password: <%= ENV["AEKSION_DATABASE_PASSWORD"] %>
-url: <%= ENV['DATABASE_URL'] %> # render
+  <<: *default
+  database: aeksion_staging
+  username: aeksion
+  password: <%= ENV["AEKSION_DATABASE_PASSWORD"] %>
+  url: <%= ENV['DATABASE_URL'] %> # render
