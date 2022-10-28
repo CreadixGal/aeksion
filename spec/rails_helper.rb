@@ -10,7 +10,9 @@ require 'rspec/rails'
 # custom configurations https://dev.to/adrianvalenz/setup-rspec-on-a-fresh-rails-7-project-5gp
 require_relative 'support/factory_bot'
 require_relative 'support/chrome'
-
+# view component requires ocnfigurations
+require "view_component/test_helpers"
+require "capybara/rspec"
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
 # run as spec files by default. This means that files in spec/support that end
@@ -35,6 +37,10 @@ rescue ActiveRecord::PendingMigrationError => e
   exit 1
 end
 RSpec.configure do |config|
+  # view componenten configurations
+  config.include ViewComponent::TestHelpers, type: :component
+  config.include Capybara::RSpecMatchers, type: :component
+  config.include ApplicationHelper
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 

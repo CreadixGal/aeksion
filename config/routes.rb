@@ -1,6 +1,15 @@
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  # WEB
+  root 'pages#index'
+  get 'dashboard', to: 'pages#dashboard', as: :dashboard
+  
+  # API
+  namespace :api do
+    namespace :v1 do
+      resources :customers
+    end
+  end
 
-  # Defines the root path route ("/")
-  # root "articles#index"
+  # monitoring
+  get '/test-coverage', :to => redirect('/coverage/index.html')
 end
