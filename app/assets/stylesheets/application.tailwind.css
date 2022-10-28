@@ -22,7 +22,7 @@
   }
 
   .menu-item-component {
-    @apply w-full flex items-center justify-center py-5 hover:bg-gray-700 hover:text-gray-300;
+    @apply w-full flex flex-col items-center justify-center py-3 hover:bg-gray-700 hover:text-gray-300 border-b border-gray-700;
   }
 
   .search-form-component {
@@ -38,6 +38,6 @@
   }
 
   .page {
-    @apply px-4 py-2 text-lg rounded text-gray-700 border border-red-500 hover:bg-red-200 hover:text-slate-800;
+    @apply px-4 py-2 text-lg rounded text-indigo-600 border border-indigo-500 hover:bg-indigo-50;
   }
 }

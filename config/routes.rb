@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  root 'pages#index'
 
   require 'sidekiq/web'
   
@@ -10,7 +11,8 @@ Rails.application.routes.draw do
       delete :multiple_delete
     end
   end
-  root 'pages#index'
-  get 'dashboard', to: 'pages#dashboard', as: :dashboard
-  get '/test-coverage', :to => redirect('/coverage/index.html')
+  
+  get 'dashboard',      to: 'pages#dashboard', as: :dashboard
+  get 'configuration',  to: 'pages#configuration', as: :configuration
+  get '/test-coverage', to: redirect('/coverage/index.html')
 end
