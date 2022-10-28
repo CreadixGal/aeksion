@@ -1,0 +1,54 @@
+  <div id="<%= dom_id product %>" class="w-full py-2 px-4">
+    <% border = product.errors.any? ? 'border-t-red-600' : 'border-t-indigo-400' %>
+    <div class="flex flex-wrap bg-white border-t-8 <%= border %> rounded-lg shadow-lg px-4 py-8">
+      <%= form_with(model: product, class: 'contents') do |form| %>
+        <% if product.errors.any? %>
+          <div id="error_explanation" class="w-full bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+            <h2><%= pluralize(product.errors.count, 'error') %> prohibited this customer from being saved:</h2>
+
+            <ul>
+              <% product.errors.each do |error| %>
+                <li><%= error.full_message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+        <div class="w-1/12 flex items-center">        
+          <div class="flex w-full items-center justify-start bg-grey-lighter">
+            <label class="w-24 h-24 flex flex-col justify-center items-center mx-2 p-2 bg-white text-blue rounded-full shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-indigo-100 hover:text-white">
+              <%= inline_svg_tag('icons/plus-circle.svg', class:'w-8 h-8 text-indigo-500')%>
+              <span class="mt-2 text-sm text-indigo-500">image</span>
+              <%= form.file_field :image, class: 'hidden' %>
+            </label>
+          </div>
+        </div>
+        <div class="w-10/12 flex flex-col items-center gap-8">
+          <div class="w-full flex items-center justify-between">
+            <span class="w-full text-xl text-center text-indigo-800 font-semibold">Name: <%= form.text_field :name, placeholder: 'Introduce nombre de producto', class:'text-center text-indigo-600 font-semibold' %></span>
+            <span class="flex text-sm font-medium hover:text text-center text-indigo-600border-2 border-indigo-600 rounded-xl bg-indigo-300 py-3 px-6"><%= form.text_field :code, placeholder: 'Introduce codigo de producto', class:'text-center text-indigo-600 font-semibold' %></span>
+          </div>
+          <div class="w-full flex gap-8">
+            <div class="w-full mx-4">
+              <span class="text-indigo-600 mr-4">Tipo: </span>
+              <%= form.select :kind, options_for_select(['pallet', 'box']), {}, { class: '' } %>
+              <span class='text-center text-indigo-600 font-semibold'><%= product.kind %></span>
+            </div>
+            <div class="w-full">
+              <span class="text-indigo-600 mr-4">Precio: </span>
+              <%= form.number_field :price, step: 0.001, placeholder: 'ex: 0.382', class: 'text-center text-indigo-600 font-semibold'%>
+            </div>
+            <div class="w-full">
+              <span class="text-indigo-600 mr-4">Stock: </span>
+              <%= form.number_field :stock, placeholder: 'ex: 382', class: 'text-center text-indigo-600 font-semibold'%>
+            </div>
+          </div>
+        </div>
+        <div class="w-1/12 flex flex-col border-l border-indigo-200">
+          <%= form.submit 'Añadir', class: 'text-indigo-500 border berder-indigo-500 hover:bg-indigo-300 px-4 py-2 cursor-pointer'%>
+          <%= link_to 'Back', products_path, class: 'text-slate-500 border berder-slate-500 bg-slate-200 hover:bg-slate-400 px-4 py-2 cursor-pointer' %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+ 

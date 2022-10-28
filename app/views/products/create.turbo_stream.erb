@@ -1,0 +1,3 @@
+<%= turbo_stream.update Product.new, "" %>
+<%= turbo_stream.prepend :products, partial: "products/product", locals: { product: @product } %>
+<%= turbo_stream.prepend "notification", partial: "layouts/shared/notification" %>

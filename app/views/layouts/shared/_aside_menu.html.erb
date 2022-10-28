@@ -7,7 +7,7 @@
   <div class="w-full flex flex-col items-center border-t border-gray-700">
     <%= render MenuItemComponent.new(item: 'home',  path: root_path,          options: { text: 'Inicio',        icon: 'home.svg' }) %>
     <%= render MenuItemComponent.new(item: 'truck', path: root_path,          options: { text: 'Flujos',        icon: 'truck.svg' }) %>
-    <%= render MenuItemComponent.new(item: 'box',   path: root_path,          options: { text: 'Actividades',   icon: 'box.svg' }) %>
+    <%= render MenuItemComponent.new(item: 'box',   path: products_path,      options: { text: 'Productos',     icon: 'box.svg' }) %>
     <%= render MenuItemComponent.new(item: 'config',path: configuration_path, options: { text: 'Configuración', icon: 'cog.svg' }) %>
   </div>
   <div class="w-full fixed top-2 right-[40%] flex justify-end md:hidden z-10" data-toogle-target="button">

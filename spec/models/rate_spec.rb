@@ -12,7 +12,7 @@ RSpec.describe Rate, type: :model do
     expect(subject.kind).to be_a(Integer)
   end
 
-  it 'price is float' do
-    expect(subject.price).to be_a(Float)
+  it 'price is Decimal' do
+    expect(subject.price).to be_a(BigDecimal)
   end
 end

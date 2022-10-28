@@ -77,11 +77,11 @@ RSpec.describe '/customers', type: :request do
         expect(customer.name).to eq(new_attributes[:name])
       end
 
-      it 'redirects to the customer' do
+      it 'redirects to the customers' do
         customer = Customer.create! valid_attributes
-        patch customer_url(customer), params: { customer: new_attributes }
+        patch customer_path(customer), params: { customer: new_attributes }
         customer.reload
-        expect(response).to redirect_to(customer_url(customer))
+        expect(response).to redirect_to(customers_path)
       end
     end
 
