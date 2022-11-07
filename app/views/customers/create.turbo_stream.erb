@@ -1,0 +1,3 @@
+<%= turbo_stream.update Customer.new, "" %>
+<%= turbo_stream.prepend :customers, partial: "customers/customer", locals: { customer: @customer } %>
+<%= turbo_stream.prepend "notification", partial: "layouts/shared/notification" %>
