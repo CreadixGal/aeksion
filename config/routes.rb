@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-
   # SIDEKIQ
   require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'
@@ -19,6 +18,9 @@ Rails.application.routes.draw do
   get 'dashboard',      to: 'pages#dashboard', as: :dashboard
   get 'configuration',  to: 'pages#configuration', as: :configuration
   get '/test-coverage', to: redirect('/coverage/index.html')
+
+  # authentication
+  devise_for :users
 
   # API
   namespace :api do
