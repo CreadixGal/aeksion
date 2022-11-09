@@ -12,17 +12,23 @@
   </head>
 
   <body>
-    <div class="fixed inset-0 px-4 py-6 pointer-events-none sm:p-6 sm:items-start sm:justify-end">
-      <div id="notification" class="flex flex-col items-end justify-center">
-        <%= render 'layouts/shared/notification' %>
+    
+    <% if user_signed_in? %>
+      <div class="fixed inset-0 px-4 py-6 pointer-events-none sm:p-6 sm:items-start sm:justify-end">
+        <div id="notification" class="flex flex-col items-end justify-center">
+          <%= render 'layouts/shared/notification' %>
+        </div>
       </div>
-    </div>
-    <main class="w-full flex justify-between" data-controller="toogle">
-      <%= render 'layouts/shared/aside_menu' %>
-      <div class="w-full flex flex-col">
-        <%= render 'layouts/shared/navbar' %>
-        <%= yield %>
-      </div>
-    </main>
+      <main class="w-full flex justify-between" data-controller="toogle">
+        <%= render 'layouts/shared/aside_menu' %>
+        <div class="w-full flex flex-col">
+          <%= render 'layouts/shared/navbar' %>
+          <%= yield %>
+        </div>
+      </main>
+    <% else %>
+      <%= render 'layouts/shared/navbar' %>
+      <%= yield %>
+    <% end %>
   </body>
 </html>
