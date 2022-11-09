@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/BlockLength
 Rails.application.routes.draw do
   # SIDEKIQ
   require 'sidekiq/web'
@@ -6,7 +7,7 @@ Rails.application.routes.draw do
   # WEB
   root 'pages#index'
 
-  resources :customers do 
+  resources :customers do
     collection do
       post :search
       delete :multiple_delete
@@ -20,7 +21,15 @@ Rails.application.routes.draw do
   get '/test-coverage', to: redirect('/coverage/index.html')
 
   # authentication
-  devise_for :users
+  devise_for :users,
+    path: 'auth',
+    controllers: { 
+      sessions: 'user_sessions'
+    },
+    path_names: {
+      sign_in: 'login',
+      sign_out: 'logout'
+    }
 
   # API
   namespace :api do
@@ -29,3 +38,4 @@ Rails.application.routes.draw do
     end
   end
 end
+# rubocop:enable Metrics/BlockLength
