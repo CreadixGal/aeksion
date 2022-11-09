@@ -1,0 +1,30 @@
+<!-- create a tailwind login form component -->
+
+<div class="container mx-auto">
+  <!-- create a tailwind row component -->
+  <div class="flex justify-center px-6 my-12">
+      <!-- create a tailwind column component -->
+      <div class="w-full lg:w-1/2 bg-white p-5 rounded-lg lg:rounded-l-none">
+        <!-- create a tailwind heading component -->
+        <%= form_for(User, as: @user, url: session_path(@user)) do |f| %>
+          <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <div class="mb-4">
+              <%= f.label :email, class: "block text-grey-darker text-sm font-bold mb-2" %>
+              <%= f.text_field :email, class: "shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline" %>
+            </div>
+
+            <div class="mb-6">
+              <%= f.label :password, class: "block text-grey-darker text-sm font-bold mb-2" %>
+              <%= f.password_field :password, class: "shadow appearance-none border border-red rounded w-full py-2 px-3 text-grey-darker mb-3 leading-tight focus:outline-none focus:shadow-outline" %>
+              <%= f.label :remember_me, class: "block text-grey-darker text-sm font-bold mb-2" %>
+              <%= f.check_box :remember_me %>
+            </div>
+          <div class='flex flex-wrap -mx-3 mb-6'>
+            <div class='w-full px-3'>
+              <%= f.submit 'Sign In', class: 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline cursor-pointer' %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+  </div>
+</div>
