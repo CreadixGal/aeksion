@@ -1,12 +1,18 @@
-<div class="w-full min-h-screen">
-  <div class="flex flex-col items">
-    <%= render 'pages/shared/tabs' %>
-  </div>
 
-  <div class="w-full flex flex-col">
-    <%= turbo_frame_tag :tab_content do %>
-      <h1 class="w-full font-bold text-4xl text-center">Pages#index</h1>
-    <% end %>
-    <%= turbo_frame_tag :dashboard, src: dashboard_path %>
+<% if user_signed_in? %>
+  <div class="w-full min-h-screen">
+    <div class="flex flex-col items">
+      <%= render 'pages/shared/tabs' %>
+    </div>
+
+    <div class="w-full flex flex-col">
+      <%= turbo_frame_tag :tab_content do %>
+        <h1 class="w-full font-bold text-4xl text-center">Pages#index</h1>
+      <% end %>
+      <%= turbo_frame_tag :dashboard, src: dashboard_path %>
+    </div>
   </div>
-</div>
+<% else %>
+  <div class="w-3/4 mx-auto text-center mt-48">Not signed in index page</div>
+<% end %>
+
