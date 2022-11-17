@@ -6,7 +6,7 @@ class DeviseCreateUsers < ActiveRecord::Migration[7.0]
       # cusom fields
       t.string :name
       t.string :surname
-      t.string :phone, null: false, default: ''
+      t.string :phone
       t.string :role, null: false, default: 'user'
       ## Database authenticatable
       t.string :email,              null: false, default: ''
