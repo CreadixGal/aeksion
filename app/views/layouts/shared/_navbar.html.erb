@@ -11,6 +11,7 @@
   <div class="w-2/6 flex justify-end items-center">
     
     <% if user_signed_in? %>
+      <span class="border border-slate-300 rounded-lg px-4 py-2 mr-4"><%= current_user.role %></span>
       <%= link_to destroy_user_session_path, class: 'border border-indigo-300 rounded rounden-xl px-3 py-2 mx-4' do %>
         <%= inline_svg_tag('icons/logout.svg', class: 'w-8 h-8 text-indigo-300') %>
       <% end %>

@@ -24,11 +24,14 @@
         <div class="w-full flex flex-col">
           <%= render 'layouts/shared/navbar' %>
           <%= yield %>
+          <%= render 'layouts/shared/footer' %>
         </div>
       </main>
     <% else %>
-      <%= render 'layouts/shared/navbar' %>
-      <%= yield %>
+      <div class="w-full flex flex-col">
+        <%= yield %>
+        <%= render 'layouts/shared/footer' %>
+      </div>
     <% end %>
   </body>
 </html>
