@@ -13,6 +13,15 @@
     </div>
   </div>
 <% else %>
-  <div class="w-3/4 mx-auto text-center mt-48">Not signed in index page</div>
+  <%= turbo_frame_tag :login do %>
+    <div class="min-h-screen flex justify-center items-center">
+      <%= link_to new_user_session_path, class: 'flex justify-between items-center bg-blue-500 shadow-ouline shadow-lg shadow-blue-200 hover:bg-blue-700 py-2 px-6 rounded focus:outline-none focus:shadow-outline cursor-pointer' do %>
+        <span class="text-white text-2xl font-bold mx-2">Entrar</span>
+        <span class="w-8 h-8 flex justify-center items-center mx-2 border-2 border-white rounded-full">
+          <%= inline_svg_tag('icons/user.svg', class: 'w-6 h-6 text-white')%>
+        </span>
+      <% end %>
+    <% end %>
+  </div>
 <% end %>
 
