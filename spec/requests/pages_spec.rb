@@ -1,10 +1,38 @@
 require 'rails_helper'
+require_relative '../support/devise'
 
 RSpec.describe 'Pages', type: :request do
+  subject { create(:user) }
+  
+  before(:each) do
+    sign_in subject
+  end
+  
   describe 'GET /index' do
-    it 'returns http success' do
-      get root_path
-      expect(response).to have_http_status(:success)
+    context 'not logged in' do
+      it 'returns http success' do
+        sign_out subject
+        get root_path
+        expect(response).to have_http_status(:success)
+      end
+    
+      it 'renders login button' do
+        sign_out subject
+        get root_path
+        expect(response.body).to include('Entrar') 
+      end
+    end
+
+    context 'logged in' do
+      it 'returns http success' do
+        get root_path
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'renders logout button' do
+        get root_path
+        expect(response.body).to include('logout') 
+      end
     end
   end
 
