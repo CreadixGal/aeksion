@@ -1,13 +1,10 @@
 require 'rails_helper'
-require_relative '../support/devise'
 
 RSpec.describe 'Pages', type: :request do
   subject { create(:user) }
-  
-  before(:each) do
-    sign_in subject
-  end
-  
+
+  before { sign_in subject }
+
   describe 'GET /index' do
     context 'not logged in' do
       it 'returns http success' do
@@ -15,11 +12,11 @@ RSpec.describe 'Pages', type: :request do
         get root_path
         expect(response).to have_http_status(:success)
       end
-    
+
       it 'renders login button' do
         sign_out subject
         get root_path
-        expect(response.body).to include('Entrar') 
+        expect(response.body).to include('Entrar')
       end
     end
 
@@ -31,7 +28,7 @@ RSpec.describe 'Pages', type: :request do
 
       it 'renders logout button' do
         get root_path
-        expect(response.body).to include('logout') 
+        expect(response.body).to include('logout')
       end
     end
   end
