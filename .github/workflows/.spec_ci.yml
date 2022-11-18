@@ -49,5 +49,3 @@ jobs:
         run: |
           bundle exec rake assets:precompile
           bundle exec rspec
-          bundle exec rails db:reset
-          bundle exec rails tailwindcss:clobber
