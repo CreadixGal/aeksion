@@ -13,9 +13,13 @@ Rails.application.routes.draw do
       delete :multiple_delete
     end
   end
+  resources :zones do
+    collection do
+      delete :multiple_delete
+    end
+  end
 
   resources :products
-  resources :zones
 
   get 'dashboard',      to: 'pages#dashboard', as: :dashboard
   get 'configuration',  to: 'pages#configuration', as: :configuration
