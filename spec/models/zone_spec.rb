@@ -1,14 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe Zone, type: :model do
-  subject { described_class.new(name: Zone::VALID_NAMES.sample) }
+  subject { described_class.new(name: described_class::VALID_NAMES.sample) }
 
   context 'with valid attributes' do
     it 'is valid' do
       expect(subject).to be_valid
     end
 
-    it 'is a new zone and persisted' do      
+    it 'is a new zone and persisted' do
       zone = described_class.create! name: 'random'
       expect(zone).to be_persisted
     end
@@ -20,18 +20,18 @@ RSpec.describe Zone, type: :model do
     end
 
     it 'class is Zone' do
-      expect(subject).to be_a(Zone)
+      expect(subject).to be_a(described_class)
     end
 
     it 'class is not null' do
       expect(subject).not_to be_nil
     end
-    
+
     it 'is not valid without name' do
       subject.name = nil
       expect(subject).not_to be_valid
     end
-  
+
     it 'name is not empty' do
       expect(subject.name).not_to be_empty
     end
