@@ -36,9 +36,13 @@ RSpec.describe 'Customers', type: :request do
     end
   end
 
-
   describe 'GET /show' do
     it 'renders a successful response' do
+      get customer_path(subject)
+      expect(response).to have_http_status(:success)
+    end
+
+    it 'subject is present' do
       get customer_path(subject)
       expect(subject).to be_present
     end
