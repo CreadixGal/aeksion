@@ -111,9 +111,9 @@ RSpec.describe 'Zones', type: :request do
   end
 
   describe 'DELETE /destroy' do
-    it 'destroys the requested zone' do
+    it 'deleted requested customer' do
       delete zone_path(subject)
-      expect(Customer.last).to be_nil
+      expect { subject.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
 
     it 'renders a successful response' do
