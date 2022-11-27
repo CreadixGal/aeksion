@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :rate do
-    customer { nil }
-    zone { nil }
+    association :customer, factory: :customer
+    association :zone, factory: :zone
     kind { 1 }
-    price { 1.5 }
+    price { 0.09 }
   end
 end
