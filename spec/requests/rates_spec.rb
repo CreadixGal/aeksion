@@ -94,7 +94,7 @@ RSpec.describe 'Rates', type: :request do
           post rates_path, params: { rate: valid_attributes }
         end.to change(Rate, :count).by(1)
       end
-      
+
       it 'redirects to the created rate' do
         post rates_path, params: { rate: valid_attributes }
         expect(response).to redirect_to(rates_path)

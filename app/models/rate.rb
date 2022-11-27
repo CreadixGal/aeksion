@@ -5,6 +5,6 @@ class Rate < ApplicationRecord
   validates :price, presence: true
 
   def self.includes_all
-    includes([:customer, :zone]).all
+    includes(%i[customer zone]).all
   end
 end

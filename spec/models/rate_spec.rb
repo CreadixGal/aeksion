@@ -38,7 +38,7 @@ RSpec.describe Rate, type: :model do
     it 'price is BigDecimal' do
       expect(subject.price).to be_a(BigDecimal)
     end
-    
+
     it 'price is not empty' do
       expect(subject.price).not_to be_blank
     end
