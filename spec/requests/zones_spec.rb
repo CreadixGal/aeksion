@@ -135,7 +135,7 @@ RSpec.describe 'Zones', type: :request do
 
     it 'redirects to the zones index' do
       zone1 = create(:zone)
-      zone2 = create(:zone)
+      zone2 = create(:zone, name: 'Ourense')
       delete multiple_delete_zones_path, params: { zone_ids: [zone1.id, zone2.id] }
       expect(response).to redirect_to(zones_path)
     end
