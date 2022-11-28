@@ -26,4 +26,16 @@ RSpec.describe 'Movements', type: :request do
       expect(response.body).to include('<turbo-frame class="w-full" id="movements">')
     end
   end
+
+  describe 'GET /show' do
+    it 'returns http success' do
+      get movement_path(subject)
+      expect(response).to have_http_status(:success)
+    end
+
+    it 'renders a movement' do
+      get movement_path(subject)
+      expect(response.body).to include(subject.id)
+    end
+  end
 end
