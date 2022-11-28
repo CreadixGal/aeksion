@@ -26,8 +26,9 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :movements
   resources :products
-
+  
   get 'dashboard',      to: 'pages#dashboard', as: :dashboard
   get 'configuration',  to: 'pages#configuration', as: :configuration
   get '/test-coverage', to: redirect('/coverage/index.html')
