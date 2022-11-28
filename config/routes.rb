@@ -14,6 +14,12 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :movements do
+    collection do
+      delete :multiple_delete # TODO: move this to a concern
+    end
+  end
+
   resources :rates do
     collection do
       delete :multiple_delete # TODO: move this to a concern
@@ -26,9 +32,8 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :movements
   resources :products
-  
+
   get 'dashboard',      to: 'pages#dashboard', as: :dashboard
   get 'configuration',  to: 'pages#configuration', as: :configuration
   get '/test-coverage', to: redirect('/coverage/index.html')
