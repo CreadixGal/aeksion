@@ -8,8 +8,12 @@ class MovementsController < ApplicationController
 
   def show; end
 
+  def new
+    @movement = Movement.new
+  end
+
   private
-  
+
   def set_movement
     @movement = Movement.find(params[:id])
   end

@@ -38,4 +38,21 @@ RSpec.describe 'Movements', type: :request do
       expect(response.body).to include(subject.id)
     end
   end
+
+  describe 'GET /new' do
+    it 'returns http success' do
+      get new_movement_path
+      expect(response).to have_http_status(:success)
+    end
+
+    it 'renders a new movement form' do
+      get new_movement_path
+      expect(response.body).to include('form')
+    end
+
+    it 'renders a date select on form' do
+      get new_movement_path
+      expect(response.body).to include('movement[date')
+    end
+  end
 end
