@@ -4,6 +4,12 @@ class Rate < ApplicationRecord
 
   validates :price, presence: true
 
+  enum kind: {
+    delivery: 'delivery',
+    pickup: 'pickup',
+  }, _default: 'delivery'
+  validates :kind, presence: true
+
   def self.includes_all
     includes(%i[customer zone]).all
   end
