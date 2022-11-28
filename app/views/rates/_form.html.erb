@@ -10,6 +10,8 @@
       
         <%= form.select :zone_id, Zone.all.map { |z| [z.name, z.id] }, { include_blank: 'Selecciona zona' }, class: 'w-1/2 mx-auto block py-2.5 px-0 w-full text-lg text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer' %>
 
+        <%= form.select :kind, Rate.kinds.keys.map { |k| [k.humanize, k] }, { include_blank: 'Selecciona tipo' }, class: 'w-1/2 mx-auto block py-2.5 px-0 w-full text-lg text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer' %>
+
         <%= form.number_field :price, step: 0.001, min: 0.000, max: 1, placeholder: 'Introduce precio', class:'w-1/2 mx-auto block py-2.5 px-0 w-full text-lg text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'%>
       </div>
 
