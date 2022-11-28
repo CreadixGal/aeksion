@@ -2,6 +2,8 @@ class Rate < ApplicationRecord
   belongs_to :customer
   belongs_to :zone
 
+  delegate :name, to: :customer, prefix: :customer
+
   validates :price, presence: true
 
   enum kind: {
