@@ -87,4 +87,21 @@ RSpec.describe 'Movements', type: :request do
       end
     end
   end
+
+  describe 'GET /edit' do
+    it 'returns http success' do
+      get edit_movement_path(subject)
+      expect(response).to have_http_status(:success)
+    end
+
+    it 'renders a edit movement form' do
+      get edit_movement_path(subject)
+      expect(response.body).to include('form')
+    end
+
+    it 'renders a date select on form' do
+      get edit_movement_path(subject)
+      expect(response.body).to include('movement[date')
+    end
+  end
 end
