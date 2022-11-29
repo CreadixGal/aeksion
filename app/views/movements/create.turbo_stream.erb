@@ -1,0 +1,3 @@
+<%= turbo_stream.update Movement.new, "" %>
+<%= turbo_stream.prepend :movements, partial: "movements/movement", locals: { movement: @movement } %>
+<%= turbo_stream.prepend "notification", partial: "layouts/shared/notification" %>
