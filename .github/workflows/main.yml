@@ -65,4 +65,3 @@ jobs:
         run: |
           bundle exec rake assets:precompile
           bundle exec rspec
-          bundle exec db:drop
