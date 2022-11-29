@@ -11,7 +11,7 @@ class MovementsController < ApplicationController
   def new
     @movement = Movement.new
   end
-  
+
   def create
     @movement = Movement.new(movement_params)
 

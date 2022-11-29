@@ -109,14 +109,12 @@ RSpec.describe 'Movements', type: :request do
     context 'with valid attributes' do
       date = Date.today - 5.days
       it 'updates the movement' do
-        puts date.class
-        puts date
-        patch movement_path(subject), params: { movement:  { date: date } }
-        expect(subject.reload.date.strftime("%d%m%y")).to eq(date.strftime("%d%m%y"))
+        patch movement_path(subject), params: { movement: { date: } }
+        expect(subject.reload.date.strftime('%d%m%y')).to eq(date.strftime('%d%m%y'))
       end
 
       it 'redirects to the movements index' do
-        patch movement_path(subject), params: { movement: { date: date } }
+        patch movement_path(subject), params: { movement: { date: } }
         expect(response).to redirect_to(movements_path)
       end
     end

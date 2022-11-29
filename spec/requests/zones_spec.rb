@@ -134,7 +134,7 @@ RSpec.describe 'Zones', type: :request do
     end
 
     it 'redirects to the zones index' do
-      names = ["A_Coruña", "Lugo", "Ourense", "Pontevedra"]
+      names = %w[A_Coruña Lugo Ourense Pontevedra]
       zone1 = create(:zone, name: names[0])
       names.delete(names[0])
       zone2 = create(:zone, name: names[1])

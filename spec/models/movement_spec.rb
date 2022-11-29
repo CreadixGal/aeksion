@@ -19,7 +19,7 @@ RSpec.describe Movement, type: :model do
       expect(movement).to be_persisted
     end
   end
-  
+
   describe 'mandatory field' do
     it 'rate_id is string' do
       expect(subject.rate_id).to be_a(String)
@@ -35,4 +35,3 @@ RSpec.describe Movement, type: :model do
     end
   end
 end
-

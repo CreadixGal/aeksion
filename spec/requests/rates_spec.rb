@@ -11,7 +11,7 @@ RSpec.describe 'Rates', type: :request do
     {
       customer_id: create(:customer).id,
       zone_id: create(:zone).id,
-      kind: ['delivery', 'pickup'].sample,
+      kind: %w[delivery pickup].sample,
       price: 0.5
     }
   end
@@ -20,7 +20,7 @@ RSpec.describe 'Rates', type: :request do
     {
       customer_id: nil,
       zone_id: create(:zone).id,
-      kind: ['delivery', 'pickup'].sample,
+      kind: %w[delivery pickup].sample,
       price: 0.5
     }
   end
