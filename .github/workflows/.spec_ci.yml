@@ -37,7 +37,7 @@ jobs:
           POSTGRES_DB: postgres
         run: |
           cp config/database.yml.ci.github-actions config/database.yml
-          bundle exec rails db:drop db:create db:migrate
+          bundle exec rails db:create db:migrate
       - name: Build Precompile and Test with RSpec
         env:
           RAILS_ENV: test
@@ -49,3 +49,4 @@ jobs:
         run: |
           bundle exec rake assets:precompile
           bundle exec rspec
+          bundle exec db:drop
