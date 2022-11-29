@@ -1,5 +1,5 @@
 class MovementsController < ApplicationController
-  before_action :set_movement, only: %i[show edit update]
+  before_action :set_movement, only: %i[show edit update destroy]
 
   def index
     @movements = Movement.includes([:rate]).all.order(created_at: :desc)
@@ -40,10 +40,21 @@ class MovementsController < ApplicationController
     end
   end
 
+  def destroy
+    @movement.destroy!
+
+    respond_to do |format|
+      format.html { redirect_to movements_path, alert: 'Movement was successfully destroyed.' }
+      format.turbo_stream { flash.now[:alert] = 'Movement was successfully destroyed.' }
+    end
+  end
+
   private
+
   def movement_params
     params.require(:movement).permit(:rate_id, :date)
   end
+
   def set_movement
     @movement = Movement.find(params[:id])
   end

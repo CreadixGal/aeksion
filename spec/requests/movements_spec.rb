@@ -133,4 +133,21 @@ RSpec.describe 'Movements', type: :request do
       end
     end
   end
+
+  describe 'DELETE /destroy' do
+    it 'decrements by 1 the number of movements' do
+      move = create(:movement)
+
+      expect do
+        delete movement_path(move)
+      end.to change(Movement, :count).by(-1)
+    end
+
+    it 'redirects to the movements index' do
+      move = create(:movement)
+
+      delete movement_path(move)
+      expect(response).to redirect_to(movements_path)
+    end
+  end
 end
