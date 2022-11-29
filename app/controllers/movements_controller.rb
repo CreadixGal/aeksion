@@ -1,5 +1,5 @@
 class MovementsController < ApplicationController
-  before_action :set_movement, only: %i[show edit]
+  before_action :set_movement, only: %i[show edit update]
 
   def index
     @movements = Movement.includes([:rate]).all.order(created_at: :desc)
@@ -20,14 +20,25 @@ class MovementsController < ApplicationController
         format.html { redirect_to movements_path, success: 'Movement was successfully created.' }
         format.turbo_stream { flash.now[:success] = 'Movement was successfully created.' }
       else
-        format.html { render :new, error: 'Movement was not created.' }
-        format.turbo_stream { flash.now[:error] = 'Movement was not created.' }
         format.html { render :new, status: :unprocessable_entity }
+        format.turbo_stream { flash.now[:error] = 'Movement was not created.' }
       end
     end
   end
 
   def edit; end
+
+  def update
+    respond_to do |format|
+      if @movement.update(movement_params)
+        format.html { redirect_to movements_path, success: 'Movement was successfully updated.' }
+        format.turbo_stream { flash.now[:success] = 'Movement was successfully updated.' }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+        format.turbo_stream { flash.now[:error] = 'Movement was not updated.' }
+      end
+    end
+  end
 
   private
   def movement_params

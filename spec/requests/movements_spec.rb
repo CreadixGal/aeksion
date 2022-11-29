@@ -104,4 +104,33 @@ RSpec.describe 'Movements', type: :request do
       expect(response.body).to include('movement[date')
     end
   end
+
+  describe 'PATCH /update' do
+    context 'with valid attributes' do
+      date = Date.today - 5.days
+      it 'updates the movement' do
+        puts date.class
+        puts date
+        patch movement_path(subject), params: { movement:  { date: date } }
+        expect(subject.reload.date.strftime("%d%m%y")).to eq(date.strftime("%d%m%y"))
+      end
+
+      it 'redirects to the movements index' do
+        patch movement_path(subject), params: { movement: { date: date } }
+        expect(response).to redirect_to(movements_path)
+      end
+    end
+
+    context 'with invalid attributes' do
+      it 'does not update the requested movement and responds with unprocessable entity' do
+        patch movement_path(subject), params: { movement: { rate_id: nil } }
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it 'renders a edit movement form' do
+        patch movement_path(subject), params: { movement: invalid_attributes }
+        expect(response.body).to include('form')
+      end
+    end
+  end
 end
