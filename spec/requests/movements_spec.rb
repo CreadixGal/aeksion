@@ -5,9 +5,9 @@ RSpec.describe 'Movements', type: :request do
 
   before { sign_in build(:user) }
 
-  let(:valid_attributes) { { rate_id: create(:rate).id, date: Date.today } }
+  let(:valid_attributes) { { rate_id: create(:rate).id, date: Time.zone.now } }
 
-  let(:invalid_attributes) { { rate_id: nil, date: Date.today } }
+  let(:invalid_attributes) { { rate_id: nil, date: Time.zone.now } }
 
   describe 'GET /movements' do
     it 'returns http success' do
@@ -107,7 +107,7 @@ RSpec.describe 'Movements', type: :request do
 
   describe 'PATCH /update' do
     context 'with valid attributes' do
-      date = Date.today - 5.days
+      date = 5.days.ago
       it 'updates the movement' do
         patch movement_path(subject), params: { movement: { date: } }
         expect(subject.reload.date.strftime('%d%m%y')).to eq(date.strftime('%d%m%y'))
