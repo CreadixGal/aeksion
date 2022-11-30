@@ -1,0 +1,6 @@
+<div class="mx-auto md:w-2/3 w-full">
+  <h1 class="font-bold text-4xl">Editing <%= @rate.id %> </h1>
+  <%= turbo_frame_tag dom_id(@rate) do %>
+    <%= render 'form', rate: @rate %>
+  <% end %>
+</div>

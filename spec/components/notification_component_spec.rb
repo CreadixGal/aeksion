@@ -32,4 +32,12 @@ RSpec.describe NotificationComponent, type: :component do
     expect(page).to have_text 'Default message!'
     expect(page).to have_css 'div.border-b-blue-400', class: 'border-b-blue-400'
   end
+
+  # rubocop:disable Layout/LineLength
+  it 'renders notification with data' do
+    render_inline(described_class.new(type: 'success', data: { title: 'Success message!', body: 'This is a success message!' }))
+    expect(page).to have_text 'Success message!'
+    expect(page).to have_text 'This is a success message!'
+  end
+  # rubocop:enable Layout/LineLength
 end

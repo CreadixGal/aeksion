@@ -1,0 +1,66 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  rubocop-test:
+    name: Rubocop
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.1.2
+      - name: Install dependencies
+        run: |
+          gem install bundler
+          bundle install --jobs 4 --retry 3
+      - name: Run Rubocop
+        run: bundle exec rubocop
+  database-test:
+    name: Rspec
+    needs: rubocop-test
+    runs-on: ubuntu-22.04
+    services:
+      db:
+        image: postgres:13.4
+        ports: ["5432:5432"]
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready 
+          --health-interval 10s 
+          --health-timeout 5s 
+          --health-retries 5
+      redis:
+        image: redis:6.2.5
+        ports:
+          - 6379:6379
+        options: >-
+          --entrypoint redis-server
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.1.2
+      - name: Build and test with Rake
+        env:
+          RAILS_ENV: test
+          POSTGRES_HOST: localhost
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+          REDIS_URL: redis://localhost:6379/1
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+        run: |
+          sudo apt-get -yqq install libpq-dev
+          cp config/database.yml.ci.github-actions config/database.yml
+          gem install bundler
+          bundle install --jobs 4 --retry 3
+          bundle exec rails db:create 
+          bundle exec rails db:migrate
+          bundle exec rails assets:precompile
+          bundle exec rspec
+ 

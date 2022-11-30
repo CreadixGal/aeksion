@@ -87,11 +87,15 @@ end
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem 'capybara'
+  gem 'rspec-sidekiq'
   gem 'selenium-webdriver'
   gem 'webdrivers'
 end
 # secrets
 gem 'figaro'
+
+# authentication
+gem 'devise'
 
 # custom gems
 gem 'breadcrumbs_on_rails'

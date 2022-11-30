@@ -1,12 +1,27 @@
-<div class="w-full min-h-screen">
-  <div class="flex flex-col items">
-    <%= render 'pages/shared/tabs' %>
-  </div>
 
-  <div class="w-full flex flex-col">
-    <%= turbo_frame_tag :tab_content do %>
-      <h1 class="w-full font-bold text-4xl text-center">Pages#index</h1>
-    <% end %>
-    <%= turbo_frame_tag :dashboard, src: dashboard_path %>
+<% if user_signed_in? %>
+  <div class="w-full min-h-screen">
+    <div class="flex flex-col items">
+      <%= render 'pages/shared/tabs' %>
+    </div>
+
+    <div class="w-full flex flex-col">
+      <%= turbo_frame_tag :tab_content do %>
+        <h1 class="w-full font-bold text-4xl text-center">Pages#index</h1>
+      <% end %>
+      <%= turbo_frame_tag :dashboard, src: dashboard_path %>
+    </div>
   </div>
-</div>
+<% else %>
+  <%= turbo_frame_tag :login do %>
+    <div class="min-h-screen flex justify-center items-center">
+      <%= link_to new_user_session_path, class: 'flex justify-between items-center bg-blue-500 shadow-ouline shadow-lg shadow-blue-200 hover:bg-blue-700 py-2 px-6 rounded focus:outline-none focus:shadow-outline cursor-pointer' do %>
+        <span class="text-white text-2xl font-bold mx-2">Entrar</span>
+        <span class="w-8 h-8 flex justify-center items-center mx-2 border-2 border-white rounded-full">
+          <%= inline_svg_tag('icons/user.svg', class: 'w-6 h-6 text-white')%>
+        </span>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
+

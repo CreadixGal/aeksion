@@ -6,7 +6,7 @@ require_relative '../config/environment'
 abort('The Rails environment is running in production mode!') if Rails.env.production?
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
-
+require 'devise'
 # custom configurations https://dev.to/adrianvalenz/setup-rspec-on-a-fresh-rails-7-project-5gp
 require_relative 'support/factory_bot'
 require_relative 'support/chrome'
@@ -71,4 +71,10 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
+  config.expect_with :rspec do |c|
+    c.syntax = :expect
+  end
+
+  config.include Devise::Test::IntegrationHelpers, type: :request
+  config.include Warden::Test::Helpers
 end
