@@ -48,7 +48,7 @@ RSpec.describe Rate, type: :model do
     end
 
     it 'kind is in enum' do
-      expect(subject.kind).to be_in(described_class.kinds.keys)  
+      expect(subject.kind).to be_in(described_class.kinds.keys)
     end
   end
 

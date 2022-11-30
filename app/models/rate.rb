@@ -2,11 +2,13 @@ class Rate < ApplicationRecord
   belongs_to :customer
   belongs_to :zone
 
+  delegate :name, to: :customer, prefix: :customer
+
   validates :price, presence: true
 
   enum kind: {
     delivery: 'delivery',
-    pickup: 'pickup',
+    pickup: 'pickup'
   }, _default: 'delivery'
   validates :kind, presence: true
 

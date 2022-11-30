@@ -1,8 +1,23 @@
-name: DB & RSpec CI
-run-name: ${{github.ref_name}} is tested by @${{ github.actor }} 🚀
-on:  [push, pull_request]
+name: CI
+
+on: [push]
+
 jobs:
-  Database:
+  rubocop-test:
+    name: Rubocop
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: Install Gems
+        run: bundle install
+      - name: Check code
+        run: bundle exec rubocop --parallel
+  rspec-test:
+    name: RSpec
+    needs: rubocop-test
     runs-on: ubuntu-22.04
     services:
       postgres:
@@ -37,7 +52,8 @@ jobs:
           POSTGRES_DB: postgres
         run: |
           cp config/database.yml.ci.github-actions config/database.yml
-          bundle exec rails db:create db:migrate
+          bundle exec rails db:create 
+          bundle exec rails db:migrate
       - name: Build Precompile and Test with RSpec
         env:
           RAILS_ENV: test
