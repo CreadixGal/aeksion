@@ -1,0 +1,3 @@
+<%= turbo_stream.update Zone.new, "" %>
+<%= turbo_stream.prepend :zones, partial: "zones/zone", locals: { zone: @zone } %>
+<%= turbo_stream.prepend "notification", partial: "layouts/shared/notification" %>

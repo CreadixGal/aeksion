@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_23_190608) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_07_224036) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -80,7 +80,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_23_190608) do
   create_table "rates", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "customer_id", null: false
     t.uuid "zone_id", null: false
-    t.integer "kind"
+    t.string "kind", default: "delivery", null: false
     t.decimal "price", precision: 8, scale: 3, default: "0.0", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -88,10 +88,32 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_23_190608) do
     t.index ["zone_id"], name: "index_rates_on_zone_id"
   end
 
+  create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+    t.string "surname"
+    t.string "phone"
+    t.string "role", default: "user", null: false
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer "sign_in_count", default: 0, null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string "current_sign_in_ip"
+    t.string "last_sign_in_ip"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
   create_table "zones", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_zones_on_name", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

@@ -1,0 +1,7 @@
+<div class="mx-auto md:w-2/3 w-full">
+  <h1 class="font-bold text-4xl">New rate</h1>
+
+  <%= turbo_frame_tag @rate do %>
+    <%= render 'form', rate: @rate %>
+  <% end %>
+</div>

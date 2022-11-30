@@ -1,0 +1,37 @@
+<div class="w-full px-8">
+  <div class="flex justify-between items-center my-8">
+    <h1 class="font-bold text-4xl">Zonas</h1>
+  </div>
+  <%= turbo_frame_tag :zones_index do %>
+    <%= form_with(model: @zones, url: multiple_delete_zones_path, html: { class: 'w-full flex flex-col gap-8 mt-8 px-10', turbo: false }) do |form| %>
+      <div class="min-w-full flex flex-col justify-center items-center mx-auto mb-5" data-controller="checkbox-select-all">
+        <div id="" class="w-full flex justify-between border-x-2 border-t-2 border-b-0 border-indigo-500 bg-indigo-100 opacity-70">
+          <div class="w-1/12 flex justify-center items-center content-center px-4 border-r border-indigo-500">
+            <%= render CheckboxComponent.new(
+                  id: 'select-all',
+                  name: 'zone_ids[]',
+                  options: {
+                    display_label: true,
+                    value: '',
+                    action: 'checkAll',
+                    target: 'parent'
+                  }
+                ) %>
+          </div>
+          <div class="w-9/12"></div>
+          <div class="w-2/12 flex justify-center border-l border-indigo-400 px-4 py-2">
+            <input type="submit" value="multiple delete" class="border border-amber-400 hover:bg-amber-400 px-4 py-2 rounded">
+            <%= link_to inline_svg_tag('icons/plus-circle.svg', class: 'w-8 h-8'), new_zone_path, data: { turbo_frame: dom_id(Zone.new) }, class: 'rounded-lg py-3 ml-2 px-5 bg-green-300 hover:bg-green-500 inline-block font-medium m-2' %>
+          </div>
+        </div>
+        <%= turbo_frame_tag Zone.new, class: 'w-full' %>
+        <%= turbo_frame_tag :zones, class:'w-full' do %>
+          <%= render @zones %>
+        <% end %>
+      </div>
+      <div class="w-full flex gap-8 my-3 px-10">
+        <%== pagy_nav(@pagy) %>
+      </div>
+    <% end %>
+  <% end %>
+</div>

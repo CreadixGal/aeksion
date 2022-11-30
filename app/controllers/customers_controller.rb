@@ -80,8 +80,8 @@ class CustomersController < ApplicationController
       Customer.where(id: ids).destroy_all
 
       respond_to do |format|
-        format.html { redirect_to root_path, alert: 'All selected Customers were successfully destroyed.' }
-        format.json { head :no_content }
+        format.html { redirect_to customers_path, alert: 'All selected Customers were successfully destroyed.' }
+        format.turbo_stream { flash.now[:alert] = 'All selected Customers were successfully destroyed.' }
       end
     else
       flash.now[:error] = 'Please select at least one Customer.'

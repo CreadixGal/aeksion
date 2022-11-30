@@ -18,11 +18,12 @@
       </div>
     </div>
     <main class="w-full flex justify-between" data-controller="toogle">
-      <%= render 'layouts/shared/aside_menu' %>
+      <%= render 'layouts/shared/aside_menu' if user_signed_in? %>
       <div class="w-full flex flex-col">
-        <%= render 'layouts/shared/navbar' %>
+        <%= render 'layouts/shared/navbar' if user_signed_in?%>
         <%= yield %>
       </div>
     </main>
+    <%= render 'layouts/shared/footer' %>
   </body>
 </html>
