@@ -5,63 +5,56 @@ on: [push]
 jobs:
   rubocop-test:
     name: Rubocop
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-ruby@v1
+      - uses: actions/checkout@v2
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
         with:
-          bundler-cache: true
-      - name: Install Gems
-        run: bundle install
-      - name: Check code
-        run: bundle exec rubocop --parallel
-  rspec-test:
-    name: RSpec
+          ruby-version: 3.1.x
+      - name: Install dependencies
+        run: |
+          gem install bundler
+          bundle install --jobs 4 --retry 3
+      - name: Run Rubocop
+        run: bundle exec rubocop
+  database-test:
+    name: Rspec
     needs: rubocop-test
     runs-on: ubuntu-22.04
     services:
-      postgres:
-        image: postgres
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: postgres
-        ports:
-          - 5432:5432
+      db:
+        image: postgres:13.4
+        ports: ["5432:5432"]
         options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
+          --health-cmd pg_isready 
+          --health-interval 10s 
+          --health-timeout 5s 
           --health-retries 5
+      redis:
+        image: redis:6.2.5
+        ports:
+          - 6379:6379
+        options: >-
+          --entrypoint redis-server
     steps:
       - uses: actions/checkout@v2
-      - uses: ruby/setup-ruby@v1
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
         with:
-          bundler-cache: true
-      - name: Install PostgreSQL
-        run: sudo apt-get -yqq install libpq-dev
-      - name: Run bundle install
-        run: |
-          bundle install
-      - name: Setup Database
+          ruby-version: 3.1.x
+      - name: Build and test with Rake
         env:
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
+          REDIS_URL: redis://localhost:6379/1
           RAILS_ENV: test
-          POSTGRES_HOST: localhost
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: postgres
-        run: |
-          cp config/database.yml.ci.github-actions config/database.yml
-          bundle exec rails db:create 
-          bundle exec rails db:migrate
-      - name: Build Precompile and Test with RSpec
-        env:
-          RAILS_ENV: test
-          POSTGRES_HOST: localhost
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: postgres
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
         run: |
-          bundle exec rake assets:precompile
+          sudo apt-get -yqq install libpq-dev
+          cp config/database.yml.ci.github-actions config/database.yml
+          gem install bundler
+          bundle install --jobs 4 --retry 3
+          bundle exec rails db:prepare
+          bundle exec rails assets:precompile
           bundle exec rspec
+ 
