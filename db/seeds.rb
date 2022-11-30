@@ -5,13 +5,19 @@ Faker::Config.locale = :es
 25.times do
 end
 
+User.create!(email: 'sadmin@test.com', password: 'test123', role: 'superadmin')
+
 4.times do
-  Zone.create!(name: Faker::Address.community)
+  names = ['A coruña', 'Lugo', 'Ourense', 'Pontevedra']
+  name = names.sample
+  zone = Zone.new(name: name)
+  names.delete(name)
+  zone.name = name unless zone.save
   Customer.create!(name: Faker::Company.name)
   Rate.create!(
-    customer: Customer.all.sample.id,
-    zone: Zone.all.sample.id,
-    kind: 0,
+    customer_id: Customer.all.sample.id,
+    zone_id: Zone.all.sample.id,
+    kind: ['delivery','pickup'].sample,
     price: rand(0.001..0.999)
   )
 
@@ -35,18 +41,18 @@ end
   user.add_phone_prefix!
 end
 
-300.times do
-  Movement.create!(
-    customer_id: Customer.all.sample.id,
-    user_id: User.all.sample.id,
-    date: Faker::Date.between(from: '2020-01-01', to: '2022-11-01'),
-    price: rand(0.001..0.999),
-    kind: [1, 2].sample
-  )
+# 300.times do
+#   Movement.create!(
+#     customer_id: Customer.all.sample.id,
+#     user_id: User.all.sample.id,
+#     date: Faker::Date.between(from: '2020-01-01', to: '2022-11-01'),
+#     price: rand(0.001..0.999),
+#     kind: [1, 2].sample
+#   )
 
-  ProductMovement.create!(
-    product_id: Product.all.sample.id,
-    movement_id: Movement.all.sample.id,
-    quantity: rand(1..800)
-  )
-end
+#   ProductMovement.create!(
+#     product_id: Product.all.sample.id,
+#     movement_id: Movement.all.sample.id,
+#     quantity: rand(1..800)
+#   )
+# end

@@ -15,4 +15,19 @@
           href2: new_product_path
         }
       )%>
+
+  <%= render ConfigurationCardComponent.new(
+        title: 'zonas',
+        options: {
+          icon: 'box.svg',
+          href1: zones_path
+        }
+      )%>
+  <%= render ConfigurationCardComponent.new(
+        title: 'tarifas',
+        options: {
+          icon: 'box.svg',
+          href1: rates_path
+        }
+      )%>
 </div>

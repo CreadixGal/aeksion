@@ -80,7 +80,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_07_224036) do
   create_table "rates", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "customer_id", null: false
     t.uuid "zone_id", null: false
-    t.integer "kind"
+    t.string "kind", default: "delivery", null: false
     t.decimal "price", precision: 8, scale: 3, default: "0.0", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -113,6 +113,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_07_224036) do
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_zones_on_name", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

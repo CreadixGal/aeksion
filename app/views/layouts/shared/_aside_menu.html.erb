@@ -5,10 +5,11 @@
   </div>
   <!---LINK OPITIONS-->
   <div class="w-full flex flex-col items-center border-t border-gray-700">
-    <%= render MenuItemComponent.new(item: 'home',  path: root_path,          options: { text: 'Inicio',        icon: 'home.svg' }) %>
-    <%= render MenuItemComponent.new(item: 'truck', path: root_path,          options: { text: 'Flujos',        icon: 'truck.svg' }) %>
-    <%= render MenuItemComponent.new(item: 'box',   path: products_path,      options: { text: 'Productos',     icon: 'box.svg' }) %>
-    <%= render MenuItemComponent.new(item: 'config',path: configuration_path, options: { text: 'Configuración', icon: 'cog.svg' }) %>
+    <%= render MenuItemComponent.new(item: 'home',    path: root_path,          options: { text: 'Inicio',        icon: 'home.svg'          }) %>
+    <%= render MenuItemComponent.new(item: 'truck',   path: movements_path,     options: { text: 'Flujos',        icon: 'truck.svg'         }) %>
+    <%= render MenuItemComponent.new(item: 'product', path: products_path,      options: { text: 'Productos',     icon: 'box.svg'           }) %>
+    <%= render MenuItemComponent.new(item: 'rate',    path: rates_path,         options: { text: 'Tarifas',       icon: 'info-circle.svg'   }) %>
+    <%= render MenuItemComponent.new(item: 'config',  path: configuration_path, options: { text: 'Configuración', icon: 'cog.svg'           }) %>
   </div>
   <div class="w-full fixed top-2 right-[40%] flex justify-end md:hidden z-10" data-toogle-target="button">
     <button class="w-10 ml-5 group focus:outline-none" data-action="click->toogle#hide">
