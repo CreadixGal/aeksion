@@ -111,9 +111,9 @@ RSpec.describe 'Zones', type: :request do
   end
 
   describe 'DELETE /destroy' do
-    it 'destroys the requested zone' do
+    it 'deleted requested customer' do
       delete zone_path(subject)
-      expect(Customer.last).to be_nil
+      expect { subject.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
 
     it 'renders a successful response' do
@@ -134,8 +134,10 @@ RSpec.describe 'Zones', type: :request do
     end
 
     it 'redirects to the zones index' do
-      zone1 = create(:zone)
-      zone2 = create(:zone, name: 'Ourense')
+      names = %w[A_Coruña Lugo Ourense Pontevedra]
+      zone1 = create(:zone, name: names[0])
+      names.delete(names[0])
+      zone2 = create(:zone, name: names[1])
       delete multiple_delete_zones_path, params: { zone_ids: [zone1.id, zone2.id] }
       expect(response).to redirect_to(zones_path)
     end

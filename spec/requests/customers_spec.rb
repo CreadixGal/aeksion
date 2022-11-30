@@ -32,7 +32,9 @@ RSpec.describe 'Customers', type: :request do
     it 'renders a successful media type response' do
       pending 'IDK how to test turbo stream 😠😠😠'
       post search_customers_path, params: { name: subject.name }
-      expect(response.media_type).to eq Mime[:turbo_stream]
+      # rubocop:disable Layout/LineLength
+      expect(response.body).to include('flex justify-start my-2 p-2  hover:text-blue-500 dark:text-gray-800 dark:hover:text-gray-300 bg-yellow-300 dark:hover:bg-gray-700 hover:bg-indigo-50 rounded-xl hover:cursor-pointer')
+      # rubocop:enable Layout/LineLength
     end
   end
 
@@ -81,8 +83,9 @@ RSpec.describe 'Customers', type: :request do
 
     context 'with invalid parameters' do
       it 'does not create a new Customer' do
-        post customers_path, params: { customer: invalid_attributes }
-        expect(Customer.last).to be_nil
+        expect do
+          post customers_path, params: { customer: invalid_attributes }
+        end.not_to change(Customer, :count)
       end
 
       it 'renders customers new form' do
@@ -127,9 +130,9 @@ RSpec.describe 'Customers', type: :request do
   end
 
   describe 'DELETE /destroy' do
-    it 'destroys the requested customer' do
+    it 'deleted requested customer' do
       delete customer_path(subject)
-      expect(Customer.last).to be_nil
+      expect { subject.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
 
     it 'renders a successful response' do
