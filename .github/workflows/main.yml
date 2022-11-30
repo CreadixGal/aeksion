@@ -50,7 +50,6 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: postgres
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
           REDIS_URL: redis://localhost:6379/1
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
         run: |
