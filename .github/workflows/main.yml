@@ -45,9 +45,13 @@ jobs:
           ruby-version: 3.1.2
       - name: Build and test with Rake
         env:
+          RAILS_ENV: test
+          POSTGRES_HOST: localhost
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
           REDIS_URL: redis://localhost:6379/1
-          RAILS_ENV: test
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
         run: |
           sudo apt-get -yqq install libpq-dev
