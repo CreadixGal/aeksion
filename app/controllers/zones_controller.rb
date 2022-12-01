@@ -51,7 +51,7 @@ class ZonesController < ApplicationController
     if params[:zone_ids].present?
       ids = params[:zone_ids].compact
 
-      Zone.includes([:rates, :customers]).where(id: ids).destroy_all
+      Zone.includes(%i[rates customers]).where(id: ids).destroy_all
 
       respond_to do |format|
         format.html { redirect_to zones_path, alert: 'All selected Zone were successfully destroyed.' }
