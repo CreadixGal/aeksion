@@ -57,7 +57,7 @@ RSpec.describe 'Zones', type: :request do
       post zones_path, params: { zone: valid_attributes }
       expect(response).to have_http_status(:found)
       expect(response).to redirect_to(zones_path)
-      expect(Zone.last.name).to eq(valid_attributes[:name])
+      expect(Zone.includes([:customers]).last.name).to eq(valid_attributes[:name])
     end
 
     it 'does not create a new Zone' do
@@ -134,6 +134,7 @@ RSpec.describe 'Zones', type: :request do
     end
 
     it 'redirects to the zones index' do
+      Zone.includes([:customers]).destroy_all
       names = %w[A_Coruña Lugo Ourense Pontevedra]
       zone1 = create(:zone, name: names[0])
       names.delete(names[0])

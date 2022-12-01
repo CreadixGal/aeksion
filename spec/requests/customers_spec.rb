@@ -155,6 +155,7 @@ RSpec.describe 'Customers', type: :request do
     it 'redirects to the customers index' do
       customer1 = create(:customer)
       customer2 = create(:customer)
+      puts customer1.name + ' | ' + customer2.name
       delete multiple_delete_customers_path, params: { customer_ids: [customer1.id, customer2.id] }
       expect(response).to redirect_to(customers_path)
     end

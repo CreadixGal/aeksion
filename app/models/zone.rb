@@ -9,5 +9,4 @@ class Zone < ApplicationRecord
   scope :ordered, -> { order(name: :desc) }
 
   VALID_NAMES = %w[A_Coruña Lugo Ourense Pontevedra].freeze
-
 end
