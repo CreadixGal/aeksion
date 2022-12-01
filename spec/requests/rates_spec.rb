@@ -174,15 +174,15 @@ RSpec.describe 'Rates', type: :request do
 
   describe 'DELETE /destroy' do
     it 'decrements by 1 the number of rates' do
-      rates  = create_list(:rate, 2)
+      rate = create(:rate)
       expect do
-        delete rate_path(rates.first)
+        delete rate_path(rate)
       end.to change(Rate, :count).by(-1)
     end
 
     it 'redirects to the rates path' do
-      rates = create_list(:rate, 2)
-      delete rate_path(rates.first)
+      rate = create(:rate)
+      delete rate_path(rate)
       expect(response).to redirect_to(rates_path)
     end
   end

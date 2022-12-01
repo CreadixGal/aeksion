@@ -77,7 +77,7 @@ class CustomersController < ApplicationController
     if params[:customer_ids].present?
       ids = params[:customer_ids].compact
 
-      Customer.where(id: ids).destroy_all
+      Customer.includes([:rates, :zones]).where(id: ids).destroy_all
 
       respond_to do |format|
         format.html { redirect_to customers_path, alert: 'All selected Customers were successfully destroyed.' }
