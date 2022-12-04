@@ -12,6 +12,14 @@ class Api::V1::ProductMovementsController < Api::V1::BaseController
   end
 
   def create
+    movement_id = params[:product_movements][0][:movement_id]
+    product_id = params[:product_movements][0][:product_id]
+    quantity = params[:product_movements][0][:quantity]
+    product_movement = ProductMovement.create(movement_id: movement_id, product_id: product_id, quantity: quantity)
+    json_render(product_movement)
+  end
+
+  def create_bulk
     product_movements = params[:product_movements].map do |product_movement|
       {
         movement_id: product_movement[:movement_id],

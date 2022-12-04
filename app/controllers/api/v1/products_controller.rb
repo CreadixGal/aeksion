@@ -12,6 +12,16 @@ class Api::V1::ProductsController < Api::V1::BaseController
   end
 
   def create
+    code = params[:products][0][:code]
+    kind = params[:products][0][:kind]
+    name = params[:products][0][:name]
+    price = params[:products][0][:price]
+    stock = params[:products][0][:stock]
+    product = Product.create(code: code, kind: kind, name: name, price: price, stock: stock)
+    json_render(product)
+  end
+
+  def create_bulk
     products = params[:products].map do |product|
       {
         code: product[:code],

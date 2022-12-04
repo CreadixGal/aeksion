@@ -12,6 +12,12 @@ class Api::V1::ZonesController < Api::V1::BaseController
   end
 
   def create
+    name = params[:zones][0][:name]
+    zone = Zone.create(name: name)
+    json_render(zone)
+  end
+
+  def create_bulk
     zones = params[:zones].map do |zone|
       {
         name: zone[:name]

@@ -12,6 +12,15 @@ class Api::V1::RatesController < Api::V1::BaseController
   end
 
   def create
+    customer_id = params[:rates][0][:customer_id]
+    zone_id = params[:rates][0][:zone_id]
+    kind = params[:rates][0][:kind]
+    price = params[:rates][0][:price]
+    rate = Rate.create(customer_id: customer_id, zone_id: zone_id, kind: kind, price: price)
+    json_render(rate)
+  end
+
+  def create_bulk
     rates = params[:rates].map do |rate|
       {
         customer_id: rate[:customer_id],

@@ -55,31 +55,37 @@ Rails.application.routes.draw do
       resources :customers, only: [:index, :show, :create, :destroy] do
         collection do
           patch :bulk_update
+          post :create_bulk
         end
       end
       resources :zones, only: [:index, :show, :create, :destroy] do
         collection do
           patch :bulk_update
+          post :create_bulk
         end
       end
       resources :rates, only: [:index, :show, :create, :destroy] do
         collection do
           patch :bulk_update
+          post :create_bulk
         end
       end
       resources :products, only: [:index, :show, :create, :destroy] do
         collection do
           patch :bulk_update
+          post :create_bulk
         end
       end
       resources :movements, only: [:index, :show, :create, :destroy] do
         collection do
           patch :bulk_update
+          post :create_bulk
         end
       end
       resources :product_movements, only: [:index, :show, :create, :destroy] do
         collection do
           patch :bulk_update
+          post :create_bulk
         end
       end
     end

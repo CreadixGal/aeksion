@@ -11,6 +11,11 @@ class Api::V1::CustomersController < Api::V1::BaseController
   end
 
   def create
+    customer = Customer.create(name: params[:customers][0][:name])
+    json_render(customer)
+  end
+
+  def create_bulk
     customers = params[:customers].map do |customer|
       {
         name: customer[:name]

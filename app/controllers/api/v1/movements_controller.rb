@@ -11,6 +11,13 @@ class Api::V1::MovementsController < Api::V1::BaseController
   end
 
   def create
+    rate_id = params[:movements][0][:rate_id]
+    date = params[:movements][0][:date]
+    movement = Movement.create(rate_id: rate_id, date: date)
+    json_render(movement)
+  end
+
+  def create_bulk
     movements = params[:movements].map do |movement|
       {
         rate_id: movement[:rate_id],
