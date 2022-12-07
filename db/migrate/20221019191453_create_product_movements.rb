@@ -4,6 +4,7 @@ class CreateProductMovements < ActiveRecord::Migration[7.0]
       t.references :movement, null: false, foreign_key: true, type: :uuid
       t.references :product, null: false, foreign_key: true, type: :uuid
       t.integer :quantity
+      t.decimal :amount
 
       t.timestamps
     end
