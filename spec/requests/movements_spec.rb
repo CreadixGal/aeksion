@@ -5,9 +5,29 @@ RSpec.describe 'Movements', type: :request do
 
   before { sign_in build(:user) }
 
-  let(:valid_attributes) { { rate_id: create(:rate).id, date: Time.zone.now } }
+  let(:valid_attributes) do
+    {
+      rate_id: create(:rate).id,
+      date: Time.zone.now,
+      product_movements_attributes: [
+        product_id: create(:product).id,
+        quantity: rand(1..80)
+      ]
+    }
+  end
 
   let(:invalid_attributes) { { rate_id: nil, date: Time.zone.now } }
+
+  let(:out_of_stock) do
+    {
+      rate_id: create(:rate, kind: 'delivery').id,
+      date: Time.zone.now,
+      product_movements_attributes: [
+        product_id: create(:product, stock: 10).id,
+        quantity: 11
+      ]
+    }
+  end
 
   describe 'GET /movements' do
     it 'returns http success' do
@@ -84,6 +104,11 @@ RSpec.describe 'Movements', type: :request do
       it 'renders a new movement form' do
         post movements_path, params: { movement: invalid_attributes }
         expect(response.body).to include('form')
+      end
+
+      it 'show error message if stock is not enough' do
+        post movements_path, params: { movement: out_of_stock }
+        expect(response.body).to include('el stock del producto es insuficiente para crear este movimiento')
       end
     end
   end

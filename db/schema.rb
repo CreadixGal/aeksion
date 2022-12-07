@@ -61,6 +61,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_07_224036) do
     t.uuid "movement_id", null: false
     t.uuid "product_id", null: false
     t.integer "quantity"
+    t.decimal "amount"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["movement_id"], name: "index_product_movements_on_movement_id"

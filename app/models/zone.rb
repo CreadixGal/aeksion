@@ -4,6 +4,8 @@ class Zone < ApplicationRecord
   has_many :rates
   has_many :customers, through: :rates, dependent: :destroy
 
+  delegate :code, :name, :price, to: :customer, prefix: :customer
+
   validates :name, uniqueness: true
 
   scope :ordered, -> { order(name: :desc) }

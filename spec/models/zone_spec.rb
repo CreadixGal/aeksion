@@ -38,11 +38,9 @@ RSpec.describe Zone, type: :model do
   end
 
   describe 'show error message' do
-    it 'name can`t be blank' do
-      pending 'not show error message ❌'
+    it 'raise an ActiveRecord::RecordInvalid error' do
       subject.name = ''
-      subject.save!
-      expect(subject.errors[:name]).to include("can't be blank")
+      expect { subject.save! }.to raise_error(ActiveRecord::RecordInvalid)
     end
   end
 end
