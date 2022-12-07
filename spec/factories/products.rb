@@ -1,10 +1,10 @@
 FactoryBot.define do
   factory :product do
-    code { SecureRandom.hex(8).to_s }
+    code { "PR#{rand(0..999)}" }
     kind { [1, 2].sample }
     name { Faker::Commerce.product_name }
     price { rand(0.001..0.999) }
-    stock { rand(1..800) }
+    stock { rand(190..800) }
 
     trait :with_image do
       after :build do |product|
