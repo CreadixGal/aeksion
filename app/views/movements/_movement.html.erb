@@ -6,6 +6,9 @@
     </div>
     <div class="w-9/12 flex justify-center text-indigo-600 text-center font-semibold">
       <div class="w-full flex justify-start border-x border-indigo-300 items-center px-4">
+        <%= movement.rate.kind %>
+      </div>
+      <div class="w-full flex justify-start border-x border-indigo-300 items-center px-4">
         <%= movement.date.strftime('%d-%m-%y') %>
       </div>
       <div class="w-full flex justify-start border-x border-indigo-300 items-center px-4">
@@ -17,21 +20,21 @@
       <div class="w-full flex justify-start border-x border-indigo-300 items-center px-4">
         <%= movement.products.first.name %>
       </div>
-      <div class="w-full flex justify-start border-x border-indigo-300 items-center px-4">
+      <div class="w-full flex justify-end border-x border-indigo-300 items-center px-4">
         <%= movement.product_movements.first.quantity %>
       </div>
-      <div class="w-full flex justify-start border-x border-indigo-300 items-center px-4">
-        <%= number_to_currency movement.rate_price %>
+      <div class="w-full flex justify-end border-x border-indigo-300 items-center px-4">
+        <%= number_to_currency movement.rate_price, precision: 3 %>
       </div>
-      <div class="w-full flex justify-start border-x border-indigo-300 items-center px-4">
-        <%= number_to_currency movement.product_movements.first.amount %>
+      <div class="w-full flex justify-end border-x border-indigo-300 items-center px-4">
+        <%= number_to_currency movement.product_movements.first.amount, precision: 3 %>
       </div>
     </div>
     <div class="w-2/12 flex justify-center px-6">
       <% if action_name != "show" %>
         <%= link_to inline_svg_tag('icons/eye.svg', class: 'w-4 h-4 text-indigo-600'), movement, class: 'rounded-lg py-3 ml-2 px-5 bg-indigo-100  hover:bg-indigo-300 inline-block font-medium m-2' %>
         <%#= link_to inline_svg_tag('icons/pencil-square.svg', class: 'w-4 h-4 text-indigo-600'), edit_movement_path(movement), class: 'rounded-lg py-3 ml-2 px-5 bg-indigo-100 hover:bg-indigo-300  inline-block font-medium m-2' %>
-        <%= button_to movement, method: :delete, form: { data: { turbo_frame: "_top" } }, class: 'rounded-lg py-3 ml-2 px-5 bg-indigo-100 hover:bg-amber-300 inline-block font-medium m-2' do %>
+        <%= button_to movement, method: :delete, data: { confirm: "Are you sure?" }, form: { data: { turbo_frame: "_top" } }, class: 'rounded-lg py-3 ml-2 px-5 bg-indigo-100 hover:bg-amber-300 inline-block font-medium m-2' do %>
           <%= inline_svg_tag('icons/trash.svg', class: 'w-4 h-4 text-indigo-600') %>
         <% end %>
       <% end %>
