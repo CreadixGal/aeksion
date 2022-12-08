@@ -7,4 +7,7 @@ class Movement < ApplicationRecord
   delegate :name, :price, :customer_name, to: :rate, prefix: :rate
 
   accepts_nested_attributes_for :product_movements
+
+  scope :delivery, -> { joins(:rate).where(rates: { kind: 'delivery' }) }
+  scope :pickup, -> { joins(:rate).where(rates: { kind: 'pickup' }) }
 end
