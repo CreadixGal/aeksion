@@ -37,6 +37,18 @@ class Api::V1::ProductsController < Api::V1::BaseController
     json_render(products)
   end
 
+  def update
+    product = Product.find(params[:id])
+    product.update(
+      code: params[:product][0][:code],
+      kind: params[:product][0][:kind],
+      name: params[:product][0][:name],
+      price: params[:product][0][:price],
+      stock: params[:product][0][:stock]
+    )
+    json_render(product)
+  end
+
   def update_bulk
     products = params[:products].map do |product|
       {

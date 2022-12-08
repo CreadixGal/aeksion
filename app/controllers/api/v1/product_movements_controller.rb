@@ -33,6 +33,16 @@ class Api::V1::ProductMovementsController < Api::V1::BaseController
     json_render(product_movements)
   end
 
+  def update
+    product_movement = ProductMovement.find(params[:id])
+    product_movement.update(
+      movement_id: params[:product_movement][0][:movement_id],
+      product_id: params[:product_movement][0][:product_id],
+      quantity: params[:product_movement][0][:quantity]
+    )
+    json_render(product_movement)
+  end
+
   def update_bulk
     product_movements = params[:product_movements].map do |product_movement|
       {

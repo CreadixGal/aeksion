@@ -35,6 +35,17 @@ class Api::V1::RatesController < Api::V1::BaseController
     json_render(rates)
   end
 
+  def update
+    rate = Rate.find(params[:id])
+    rate.update(
+      customer_id: params[:rate][0][:customer_id],
+      zone_id: params[:rate][0][:zone_id],
+      kind: params[:rate][0][:kind],
+      price: params[:rate][0][:price]
+    )
+    json_render(rate)
+  end
+
   def update_bulk
     rates = params[:rates].map do |rate|
       {

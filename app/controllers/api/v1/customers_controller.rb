@@ -27,6 +27,12 @@ class Api::V1::CustomersController < Api::V1::BaseController
     json_render(customers)
   end
 
+  def update
+    customer = Customer.find(params[:id])
+    customer.update(name: params[:customers][0][:name])
+    json_render(customer)
+  end
+
   def update_bulk
     customers = params[:customers].map do |customer|
       {
