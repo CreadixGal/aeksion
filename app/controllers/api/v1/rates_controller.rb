@@ -35,7 +35,7 @@ class Api::V1::RatesController < Api::V1::BaseController
     json_render(rates)
   end
 
-  def bulk_update
+  def update_bulk
     rates = params[:rates].map do |rate|
       {
         id: rate[:id],

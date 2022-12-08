@@ -29,7 +29,7 @@ class Api::V1::ZonesController < Api::V1::BaseController
     json_render(zones)
   end
 
-  def bulk_update
+  def update_bulk
     zones = params[:zones].map do |zone|
       {
         id: zone[:id],

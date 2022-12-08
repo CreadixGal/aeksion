@@ -30,7 +30,7 @@ class Api::V1::MovementsController < Api::V1::BaseController
     json_render(movements)
   end
 
-  def bulk_update
+  def update_bulk
     movements = params[:movements].map do |movement|
       {
         id: movement[:id],
