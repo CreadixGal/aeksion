@@ -12,12 +12,13 @@ class Api::V1::ProductsController < Api::V1::BaseController
   end
 
   def create
-    code = params[:products][0][:code]
-    kind = params[:products][0][:kind]
-    name = params[:products][0][:name]
-    price = params[:products][0][:price]
-    stock = params[:products][0][:stock]
-    product = Product.create(code: code, kind: kind, name: name, price: price, stock: stock)
+    product = Product.create!(
+      code: params[:products][0][:code],
+      kind: params[:products][0][:kind],
+      name: params[:products][0][:name],
+      price: params[:products][0][:price],
+      stock: params[:products][0][:stock]
+    )
     json_render(product)
   end
 
@@ -39,7 +40,7 @@ class Api::V1::ProductsController < Api::V1::BaseController
 
   def update
     product = Product.find(params[:id])
-    product.update(
+    product.update!(
       code: params[:product][0][:code],
       kind: params[:product][0][:kind],
       name: params[:product][0][:name],

@@ -11,7 +11,7 @@ class Api::V1::CustomersController < Api::V1::BaseController
   end
 
   def create
-    customer = Customer.create(name: params[:customers][0][:name])
+    customer = Customer.create!(name: params[:customers][0][:name])
     json_render(customer)
   end
 
@@ -29,7 +29,7 @@ class Api::V1::CustomersController < Api::V1::BaseController
 
   def update
     customer = Customer.find(params[:id])
-    customer.update(name: params[:customers][0][:name])
+    customer.update!(name: params[:customers][0][:name])
     json_render(customer)
   end
 

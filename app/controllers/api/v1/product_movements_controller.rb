@@ -12,10 +12,11 @@ class Api::V1::ProductMovementsController < Api::V1::BaseController
   end
 
   def create
-    movement_id = params[:product_movements][0][:movement_id]
-    product_id = params[:product_movements][0][:product_id]
-    quantity = params[:product_movements][0][:quantity]
-    product_movement = ProductMovement.create(movement_id: movement_id, product_id: product_id, quantity: quantity)
+    product_movement = ProductMovement.create!(
+      movement_id: params[:product_movements][0][:movement_id],
+      product_id: params[:product_movements][0][:product_id],
+      quantity: params[:product_movements][0][:quantity]
+    )
     json_render(product_movement)
   end
 
@@ -35,7 +36,7 @@ class Api::V1::ProductMovementsController < Api::V1::BaseController
 
   def update
     product_movement = ProductMovement.find(params[:id])
-    product_movement.update(
+    product_movement.update!(
       movement_id: params[:product_movement][0][:movement_id],
       product_id: params[:product_movement][0][:product_id],
       quantity: params[:product_movement][0][:quantity]

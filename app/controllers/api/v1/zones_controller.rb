@@ -12,8 +12,7 @@ class Api::V1::ZonesController < Api::V1::BaseController
   end
 
   def create
-    name = params[:zones][0][:name]
-    zone = Zone.create(name: name)
+    zone = Zone.create!(name: params[:zones][0][:name])
     json_render(zone)
   end
 
@@ -31,7 +30,7 @@ class Api::V1::ZonesController < Api::V1::BaseController
 
   def update
     zone = Zone.find(params[:id])
-    zone.update(name: params[:zone][0][:name])
+    zone.update!(name: params[:zone][0][:name])
     json_render(zone)
   end
 

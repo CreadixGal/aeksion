@@ -11,9 +11,7 @@ class Api::V1::MovementsController < Api::V1::BaseController
   end
 
   def create
-    rate_id = params[:movements][0][:rate_id]
-    date = params[:movements][0][:date]
-    movement = Movement.create(rate_id: rate_id, date: date)
+    movement = Movement.create!(rate_id: params[:movements][0][:rate_id], date: params[:movements][0][:date])
     json_render(movement)
   end
 
@@ -32,7 +30,7 @@ class Api::V1::MovementsController < Api::V1::BaseController
 
   def update
     movement = Movement.find(params[:id])
-    movement.update(
+    movement.update!(
       rate_id: params[:movement][0][:rate_id],
       date: params[:movement][0][:date]
     )
