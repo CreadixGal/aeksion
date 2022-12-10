@@ -1,18 +1,19 @@
 # rubocop:disable Rails/SkipsModelValidations
 
 class Api::V1::ZonesController < Api::V1::BaseController
+  before_action :set_zone, only: %i[show update destroy]
+
   def index
     zones = Zone.all
     json_render(zones)
   end
 
   def show
-    zone = Zone.find(params[:id])
-    json_render(zone)
+    json_render(@zone)
   end
 
   def create
-    zone = Zone.create!(name: params[:zones][0][:name])
+    zone = Zone.create!(zone_params)
     json_render(zone)
   end
 
@@ -29,9 +30,8 @@ class Api::V1::ZonesController < Api::V1::BaseController
   end
 
   def update
-    zone = Zone.find(params[:id])
-    zone.update!(name: params[:zone][0][:name])
-    json_render(zone)
+    @zone.update!(zone_params)
+    json_render(@zone)
   end
 
   def update_bulk
@@ -51,6 +51,16 @@ class Api::V1::ZonesController < Api::V1::BaseController
     zone = Zone.find(params[:zones][0][:id])
     zone.rates.destroy! if zone.rates.present?
     zone.destroy!
+  end
+
+  private
+
+  def set_zone
+    @zone = Zone.find(params[:id])
+  end
+
+  def zone_params
+    params.require(:zones).permit(:name)
   end
 end
 

@@ -1,22 +1,19 @@
 # rubocop:disable Rails/SkipsModelValidations
 
 class Api::V1::ProductMovementsController < Api::V1::BaseController
+  before_action :set_product_movement, only: %i[show update destroy]
+
   def index
     product_movements = ProductMovement.all
     json_render(product_movements)
   end
 
   def show
-    product_movement = ProductMovement.find(params[:id])
-    json_render(product_movement)
+    json_render(@product_movement)
   end
 
   def create
-    product_movement = ProductMovement.create!(
-      movement_id: params[:product_movements][0][:movement_id],
-      product_id: params[:product_movements][0][:product_id],
-      quantity: params[:product_movements][0][:quantity]
-    )
+    product_movement = ProductMovement.create!(product_movement_params)
     json_render(product_movement)
   end
 
@@ -35,13 +32,8 @@ class Api::V1::ProductMovementsController < Api::V1::BaseController
   end
 
   def update
-    product_movement = ProductMovement.find(params[:id])
-    product_movement.update!(
-      movement_id: params[:product_movement][0][:movement_id],
-      product_id: params[:product_movement][0][:product_id],
-      quantity: params[:product_movement][0][:quantity]
-    )
-    json_render(product_movement)
+    @product_movement.update!(product_movement_params)
+    json_render(@product_movement)
   end
 
   def update_bulk
@@ -62,6 +54,16 @@ class Api::V1::ProductMovementsController < Api::V1::BaseController
   def destroy
     product_movement = ProductMovement.find(params[:product_movements][0][:id])
     product_movement.destroy!
+  end
+
+  private
+
+  def set_product_movement
+    @product_movement = ProductMovement.find(params[:id])
+  end
+
+  def product_movement_params
+    params.require(:product_movements).permit(:movement_id, :product_id, :quantity)
   end
 end
 

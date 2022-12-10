@@ -1,17 +1,18 @@
 # rubocop:disable Rails/SkipsModelValidations
 class Api::V1::CustomersController < Api::V1::BaseController
+  before_action :set_customer, only: %i[show update destroy]
+
   def index
     customers = Customer.all
     json_render(customers)
   end
 
   def show
-    customer = Customer.find(params[:id])
-    json_render(customer)
+    json_render(@customer)
   end
 
   def create
-    customer = Customer.create!(name: params[:customers][0][:name])
+    customer = Customer.create!(customer_params)
     json_render(customer)
   end
 
@@ -28,9 +29,8 @@ class Api::V1::CustomersController < Api::V1::BaseController
   end
 
   def update
-    customer = Customer.find(params[:id])
-    customer.update!(name: params[:customers][0][:name])
-    json_render(customer)
+    @customer.update!(customer_params)
+    json_render(@customer)
   end
 
   def update_bulk
@@ -47,9 +47,21 @@ class Api::V1::CustomersController < Api::V1::BaseController
   end
 
   def destroy
+    #@customer.rates.destroy! if @customer.rates.present?
+    #@customer.destroy!
     customer = Customer.find(params[:customers][0][:id])
     customer.rates.destroy! if customer.rates.present?
     customer.destroy!
+  end
+
+  private
+
+  def set_customer
+    @customer = Customer.find(params[:id])
+  end
+
+  def customer_params
+    params.require(:customers).permit(:name)
   end
 end
 

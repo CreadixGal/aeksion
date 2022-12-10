@@ -1,17 +1,17 @@
 # rubocop:disable Rails/SkipsModelValidations
 class Api::V1::MovementsController < Api::V1::BaseController
+  before_action :set_movement, only: %i[show update destroy]
   def index
     movements = Movement.all
     json_render(movements)
   end
 
   def show
-    movement = Movement.find(params[:id])
-    json_render(movement)
+    json_render(@movement)
   end
 
   def create
-    movement = Movement.create!(rate_id: params[:movements][0][:rate_id], date: params[:movements][0][:date])
+    movement = Movement.create!(movement_params)
     json_render(movement)
   end
 
@@ -29,12 +29,8 @@ class Api::V1::MovementsController < Api::V1::BaseController
   end
 
   def update
-    movement = Movement.find(params[:id])
-    movement.update!(
-      rate_id: params[:movement][0][:rate_id],
-      date: params[:movement][0][:date]
-    )
-    json_render(movement)
+    @movement.update!(movement_params)
+    json_render(@movement)
   end
 
   def update_bulk
@@ -55,6 +51,16 @@ class Api::V1::MovementsController < Api::V1::BaseController
     movement = Movement.find(params[:movements][0][:id])
     movement.product_movements.destroy! if movement.product_movements.present?
     movement.destroy!
+  end
+
+  private
+
+  def set_movement
+    @movement = Movement.find(params[:id])
+  end
+
+  def movement_params
+    params.require(:movements).permit(:rate_id, :date)
   end
 end
 

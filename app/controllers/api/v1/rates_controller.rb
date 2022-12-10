@@ -1,23 +1,19 @@
 # rubocop:disable Rails/SkipsModelValidations
 
 class Api::V1::RatesController < Api::V1::BaseController
+  before_action :set_rate, only: %i[show update destroy]
+
   def index
     rates = Rate.all
     json_render(rates)
   end
 
   def show
-    rate = Rate.find(params[:id])
-    json_render(rate)
+    json_render(@rate)
   end
 
   def create
-    rate = Rate.create!(
-      customer_id: params[:rates][0][:customer_id],
-      zone_id: params[:rates][0][:zone_id],
-      kind: params[:rates][0][:kind],
-      price: params[:rates][0][:price]
-    )
+    rate = Rate.create!(rate_params)
     json_render(rate)
   end
 
@@ -37,14 +33,8 @@ class Api::V1::RatesController < Api::V1::BaseController
   end
 
   def update
-    rate = Rate.find(params[:id])
-    rate.update!(
-      customer_id: params[:rate][0][:customer_id],
-      zone_id: params[:rate][0][:zone_id],
-      kind: params[:rate][0][:kind],
-      price: params[:rate][0][:price]
-    )
-    json_render(rate)
+    @rate.update!(rate_params)
+    json_render(@rate)
   end
 
   def update_bulk
@@ -67,6 +57,16 @@ class Api::V1::RatesController < Api::V1::BaseController
     rate = Rate.find(params[:rates][0][:id])
     rate.movements.destroy! if rate.movements.present?
     rate.destroy!
+  end
+
+  private
+
+  def set_rate
+    @rate = Rate.find(params[:id])
+  end
+
+  def rate_params
+    params.require(:rates).permit(:customer_id, :zone_id, :kind, :price)
   end
 end
 

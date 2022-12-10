@@ -1,24 +1,18 @@
 # rubocop:disable Rails/SkipsModelValidations
 
 class Api::V1::ProductsController < Api::V1::BaseController
+  before_action :set_product, only: %i[show update destroy]
   def index
     products = Product.all
     json_render(products)
   end
 
   def show
-    product = Product.find(params[:id])
-    json_render(product)
+    json_render(@product)
   end
 
   def create
-    product = Product.create!(
-      code: params[:products][0][:code],
-      kind: params[:products][0][:kind],
-      name: params[:products][0][:name],
-      price: params[:products][0][:price],
-      stock: params[:products][0][:stock]
-    )
+    product = Product.create!(product_params)
     json_render(product)
   end
 
@@ -39,15 +33,8 @@ class Api::V1::ProductsController < Api::V1::BaseController
   end
 
   def update
-    product = Product.find(params[:id])
-    product.update!(
-      code: params[:product][0][:code],
-      kind: params[:product][0][:kind],
-      name: params[:product][0][:name],
-      price: params[:product][0][:price],
-      stock: params[:product][0][:stock]
-    )
-    json_render(product)
+    @product.update!(product_params)
+    json_render(@product)
   end
 
   def update_bulk
@@ -71,6 +58,16 @@ class Api::V1::ProductsController < Api::V1::BaseController
     product = Product.find(params[:products][0][:id])
     product.rates.destroy! if product.rates.present?
     product.destroy!
+  end
+
+  private
+
+  def set_product
+    @product = Product.find(params[:id])
+  end
+
+  def product_params
+    params.require(:products).permit(:code, :kind, :name, :price, :stock)
   end
 end
 
