@@ -7,8 +7,8 @@ class NotificationComponent < ViewComponent::Base
     super
     @type = type
     @data = prepare_data(data)
-    @border_color = border_color
-    @stroke_color = stroke_color
+    @border_color = set_border_color
+    @stroke_color = set_stroke_color
     @data[:timeout] ||= 10
   end
 
@@ -23,7 +23,7 @@ class NotificationComponent < ViewComponent::Base
     end
   end
 
-  def border_color
+  def set_border_color
     case @type
     when 'success'
       'border-t-green-400'
@@ -38,7 +38,7 @@ class NotificationComponent < ViewComponent::Base
     end
   end
 
-  def stroke_color
+  def set_stroke_color
     case @type
     when 'success'
       'stroke-green-400'
@@ -61,8 +61,6 @@ class NotificationComponent < ViewComponent::Base
       'exclamation-circle'
     when 'alert'
       'exclamation-triangle'
-    when 'info'
-      'info-circle'
     else
       'info-circle'
     end
