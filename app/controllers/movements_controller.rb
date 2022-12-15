@@ -5,6 +5,10 @@ class MovementsController < ApplicationController
     @movements = Movement.includes([:rate]).all
     @movements = Movement.includes([:rate]).delivery if params[:kind] == 'delivery'
     @movements = Movement.includes([:rate]).pickup if params[:kind] == 'pickup'
+    @movements = @movements.filter_by_customer(params[:customer]) if params[:customer_name].present?
+    @movements = @movements.filter_by_rate(params[:rate]) if params[:rate_name].present?
+    @movements = @movements.filter_by_product(params[:product]) if params[:product_code].present?
+    @movements = @movements.filter_between_dates(params[:start_date], params[:end_date]) if params[:start_date].present? && params[:end_date].present?
     @pagy, @movements = pagy(@movements, items: 10)
   end
 
