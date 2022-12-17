@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :product_movement do
-    movement { nil }
-    product { nil }
-    quantity { 1 }
+    association :movement, factory: :movement
+    association :product, factory: :product
+    quantity { rand(1..50) }
   end
 end

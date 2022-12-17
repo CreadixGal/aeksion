@@ -61,4 +61,10 @@ RSpec.describe Rate, type: :model do
       expect(subject.zone).to be_a(Zone)
     end
   end
+
+  describe '#includes_all' do
+    it 'returns a collection of rates' do
+      expect(described_class.includes_all).to be_a(ActiveRecord::Relation)
+    end
+  end
 end
