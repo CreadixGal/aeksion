@@ -2,7 +2,9 @@ class MovementsController < ApplicationController
   before_action :set_movement, only: %i[show edit update destroy]
 
   def index
-    @movements = Movement.includes([:rate]).all.order(created_at: :desc)
+    @movements = Movement.includes([:rate]).all
+    @movements = Movement.includes([:rate]).delivery if params[:kind] == 'delivery'
+    @movements = Movement.includes([:rate]).pickup if params[:kind] == 'pickup'
     @pagy, @movements = pagy(@movements, items: 10)
   end
 
@@ -46,6 +48,23 @@ class MovementsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to movements_path, alert: 'Movement was successfully destroyed.' }
       format.turbo_stream { flash.now[:alert] = 'Movement was successfully destroyed.' }
+    end
+  end
+
+  def multiple_delete
+    if params[:movement_ids].present?
+      ids = params[:movement_ids].compact
+
+      Movement.joins(:products).includes([:product_movements]).where(id: ids).destroy_all
+
+      respond_to do |format|
+        format.html do
+          redirect_to movements_path(params[:kind]), alert: 'All selected Zone were successfully destroyed.'
+        end
+        format.json { head :no_content }
+      end
+    else
+      flash.now[:error] = 'Please select at least one Zone.'
     end
   end
 
