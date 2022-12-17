@@ -10,25 +10,25 @@ Rails.application.routes.draw do
   resources :customers do
     collection do
       post :search
-      delete :multiple_delete # TODO: move this to a concern
+      delete :multiple_delete
     end
   end
 
   resources :movements do
     collection do
-      delete :multiple_delete # TODO: move this to a concern
+      delete :multiple_delete
     end
   end
 
   resources :rates do
     collection do
-      delete :multiple_delete # TODO: move this to a concern
+      delete :multiple_delete
     end
   end
   
   resources :zones do
     collection do
-      delete :multiple_delete # TODO: move this to a concern
+      delete :multiple_delete
     end
   end
 
