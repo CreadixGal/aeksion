@@ -35,19 +35,38 @@ RSpec.describe 'Movements', type: :request do
       expect(response).to have_http_status(:success)
     end
 
-    it 'renders a list of movements' do
+    it 'renders a tab menu' do
       get movements_path
-      expect(response.body).to include('Movimientos')
+      expect(response).to render_template('movements/_tabs')
     end
 
-    it 'renders total count of created movements' do
+    it 'renders total count of delivery movements' do
       get movements_path
-      expect(response.body).to include("Total: #{Movement.count}")
+      expect(response.body).to include(Movement.delivery.count.to_s)
+    end
+
+    it 'renders total count of pickup movements' do
+      get movements_path
+      expect(response.body).to include(Movement.pickup.count.to_s)
+    end
+
+    it 'renders a delivery movements list' do
+      get movements_path(kind: 'delivery')
+      expect(response.body).to include('delivery')
+    end
+
+    it 'renders a pickup movements list' do
+      get movements_path(kind: 'pickup')
+      expect(response.body).to include('pickup')
     end
 
     it 'renders a turbo frame with id movements' do
       get movements_path
-      expect(response.body).to include('<turbo-frame class="w-full" id="movements">')
+      if Movement.all.count > 0
+        expect(response.body).to include('<turbo-frame class="w-full" id="movements">')
+      else
+        expect(response.body).to include('no data provided')
+      end
     end
   end
 
@@ -170,6 +189,32 @@ RSpec.describe 'Movements', type: :request do
       move = create(:movement)
 
       delete movement_path(move)
+      expect(response).to redirect_to(movements_path)
+    end
+  end
+
+  describe 'DELETE /multiple_delete' do
+    it 'renders no content when no movements selected' do
+      delete multiple_delete_movements_path, params: { ids: [] }
+      expect(response).to have_http_status(:no_content)
+    end
+
+    it 'redirects to the movements index' do
+      pending 'pending to fix:
+      Bullet::Notification::UnoptimizedQueryError:
+      user: cisco
+      DELETE /movements/multiple_delete
+      USE eager loading detected
+        ProductMovement => [:product]
+        Add to your query: .includes([:product])'
+      Zone.destroy_all
+      Rate.destroy_all
+      zone1 = create(:zone, name: 'Pontevedra')
+      zone2 = create(:zone, name: 'Ourense')
+      rates = [create(:rate, zone_id: zone1.id), create(:rate, zone_id: zone2.id)]
+      movements = [create(:movement, rate_id: rates.first.id), create(:movement, rate_id: rates.last.id)]
+
+      delete multiple_delete_movements_path, params: { movement_ids: [movements.first.id, movements.last.id] }
       expect(response).to redirect_to(movements_path)
     end
   end

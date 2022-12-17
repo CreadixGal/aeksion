@@ -1,8 +1,9 @@
-<div class="max-w-sm w-full shadow-lg rounded-lg pointer-events-auto mt-4 mr-16 py-4 px-4 bg-white border-b-8 <%= border_color %> z-10 hidden" data-notification-action-url="<%= data.dig(:action, :url) %>" data-notification-action-method="<%= data.dig(:action, :method) %>" data-notification-timeout="<%= data[:timeout] %>" data-controller="notification">
+<div class="max-w-sm w-full shadow-lg rounded-lg pointer-events-auto mt-9 mr-16 py-4 px-4 bg-white border-t-8 <%= border_color %> z-auto hidden" data-notification-action-url="<%= data.dig(:action, :url) %>" data-notification-action-method="<%= data.dig(:action, :method) %>" data-notification-timeout="<%= data[:timeout] %>" data-controller="notification">
   <div class="rounded-lg shadow-xs overflow-hidden">
     <div class="p-4">
-      <div class="flex items-start">
-        <div class="ml-3 w-0 flex-1 pt-0.5">
+      <div class="flex items-center justify-between">
+        <%= inline_svg_tag("icons/#{icon}.svg", class: "w-8 h-8 #{stroke_color} mr-2")%>
+        <div class="w-0 flex-1 pt-0.5">
           <p class="text-lg leading-5 font-medium text-slate-700">
             <%= data[:title] %>
           </p>
@@ -30,7 +31,7 @@
         </div>
         <div class="ml-4 flex-shrink-0 flex">
           <button class="inline-flex text-slate-700 focus:outline-none focus:text-slate-700 transition ease-in-out duration-150" data-action="notification#close">
-            <%= inline_svg_tag('icons/x-circle.svg', size: '32') %>
+            <%= inline_svg_tag('icons/x-circle.svg', class: "w-8 h-8 #{stroke_color}") %>
           </button>
         </div>
       </div>

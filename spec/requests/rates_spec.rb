@@ -186,4 +186,20 @@ RSpec.describe 'Rates', type: :request do
       expect(response).to redirect_to(rates_path)
     end
   end
+
+  describe 'DELETE /multiple_delete' do
+    it 'renders no content when no rates selected' do
+      delete multiple_delete_rates_path, params: { ids: [] }
+      expect(response).to have_http_status(:no_content)
+    end
+
+    it 'redirects to the rates index' do
+      Zone.includes([:rates]).destroy_all
+      zone1 = create(:zone, name: 'Pontevedra')
+      zone2 = create(:zone, name: 'Ourense')
+      rates = [create(:rate, zone_id: zone1.id), create(:rate, zone_id: zone2.id)]
+      delete multiple_delete_rates_path, params: { rate_ids: [rates.first.id, rates.last.id] }
+      expect(response).to redirect_to(rates_path)
+    end
+  end
 end
