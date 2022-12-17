@@ -1,28 +1,21 @@
 <nav class="w-full sm:w-1/2 flex justify-start mt-3" data-controller="tab">
   <%= render TabComponent.new(
-        item: 'one',
-        path: root_path,
+        item: 'Entradas',
+        path: movements_path(params: { kind: 'pickup' }),
         options: {
-          text: 'One',
+          icon: 'arrow-down-circle.svg',
+          text: 'Entradas',
+          notification: Movement.pickup.count,
           link_style: 'tab-component'
         }
       ) %>
   <%= render TabComponent.new(
-        item: 'two',
-        path: dashboard_path,
+        item: 'Salidas',
+        path: movements_path(params: { kind: 'delivery' }),
         options: {
-          text: 'Two',
-          notification: '0',
-          link_style: 'tab-component'
-        }
-      ) %>
-  <%= render TabComponent.new(
-        item: 'three',
-        path: root_path,
-        options: {
-          icon: 'truck.svg',
-          text: 'Three',
-          notification: '3',
+          icon: 'arrow-up-circle.svg',
+          text: 'Salidas',
+          notification: Movement.delivery.count,
           link_style: 'tab-component'
         }
       ) %>
@@ -49,7 +42,7 @@
   <div class="w-full md:w-1/3 px-4 my-2 flex flex-col">
     <h3 class="title font-semibold font-sm md:font-lg text-left">Busca Cosa</h3>
     <div class="flex">
-      <%= render SearcherComponent.new(
+      <%#= render SearcherComponent.new(
             path: search_customers_path,
             options: {
               params: 'name'

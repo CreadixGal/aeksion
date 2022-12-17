@@ -1,12 +1,14 @@
-  <div class="flex justify-between items-center my-8">
-    <h1 class="font-bold text-4xl">Movimientos</h1>
-  </div>
-  <div>Total: <%= @movements.count %></div>
+<div class="w-full flex flex-col items">
+  <%= render 'movements/tabs' %>
+</div>
+
+
+
   <%= turbo_frame_tag :movements_index do %>
     <%= form_with(model: @movements, url: multiple_delete_movements_path, html: { class: 'w-full flex flex-col gap-8 mt-8 px-10', turbo: false }) do |form| %>
       <div class="min-w-full flex flex-col justify-center items-center mx-auto mb-5" data-controller="checkbox-select-all">
-        <div id="" class="w-full flex justify-between
-  border-t-4 border-b-2 border-indigo-500 bg-indigo-200 opacity-80">
+        <!-- TABLE HEADER -->
+        <div id="" class="w-full flex justify-between border-t-4 border-b-2 border-indigo-500 bg-indigo-200 opacity-80">
           <div class="w-1/12 flex justify-center items-center content-center px-4 border-l-2 border-indigo-500">
             <%= render CheckboxComponent.new(
                   id: 'select-all',
@@ -21,6 +23,9 @@
           </div>
           <div class="w-9/12 flex justify-center text-indigo-600 text-center font-semibold">
             <div class="w-full flex justify-start border-x border-indigo-300 items-center px-4">
+              TIPO
+            </div>
+            <div class="w-full flex justify-start border-x border-indigo-300 items-center px-4">
               FECHA
             </div>
             <div class="w-full flex justify-start border-x border-indigo-300 items-center px-4">
@@ -32,29 +37,53 @@
             <div class="w-full flex justify-start border-x border-indigo-300 items-center px-4">
               DESCRIPCIÓN
             </div>
-            <div class="w-full flex justify-start border-x border-indigo-300 items-center px-4">
+            <div class="w-full flex justify-end border-x border-indigo-300 items-center px-4">
               CANTIDAD
             </div>
-            <div class="w-full flex justify-start border-x border-indigo-300 items-center px-4">
+            <div class="w-full flex justify-end border-x border-indigo-300 items-center px-4">
               TARIFA
             </div>
-            <div class="w-full flex justify-start border-x border-indigo-300 items-center px-4">
+            <div class="w-full flex justify-end border-x border-indigo-300 items-center px-4">
               TOTAL
             </div>
           </div>
           <div class="w-2/12 flex justify-center px-4 py-2 border-r-2 border-indigo-500">
-            <input type="submit" value="multiple delete" class="border border-amber-400 hover:bg-amber-400 px-4 py-2 rounded">
-            <%= link_to inline_svg_tag('icons/plus-circle.svg', class: 'w-8 h-8'), new_movement_path, data: { turbo_frame: dom_id(Movement.new) }, class: 'rounded-lg py-3 ml-2 px-5 bg-green-300 hover:bg-green-500 inline-block font-medium m-2' %>
+            <%= button_to inline_svg_tag('icons/trash.svg', class: 'w-6 h-6'),{ action: "multiple_delete" }, method: :delete, data: { confirm: "Are you sure?" }, class: 'rounded-lg ml-2 px-4 py-2 bg-green-300 hover:bg-green-500 inline-block font-medium m-2'%>
+            <%= link_to inline_svg_tag('icons/plus-circle.svg', class: 'w-6 h-6'), new_movement_path, data: { turbo_frame: dom_id(Movement.new) }, class: 'rounded-lg ml-2 px-4 py-2 bg-green-300 hover:bg-green-500 inline-block font-medium m-2' %>
           </div>
         </div>
+        <!-- TABLE HEADER -->
         <%= turbo_frame_tag Movement.new, class: 'w-full' %>
-        <%= turbo_frame_tag :movements, class:'w-full' do %>
-          <%= render @movements %>
+        <!--- TABLE ROWS -->
+        <% if @movements.present? %>
+          <%= turbo_frame_tag :movements, class:'w-full' do %>
+            <%= render @movements %>
+          <% end %>
+        <% else %>
+          no data provided
         <% end %>
+        <!-- TABLE ROWS -->
+        <!-- TABLE FOOTER -->
+        <div id="" class="w-full flex justify-between border-2 border-indigo-500 bg-indigo-200 opacity-80 py-4">
+          <div class="w-1/12"></div>
+          <div id="" class="w-9/12 flex justify-center text-indigo-600 text-center font-semibold">
+            <% 7.times do %>
+                <%= content_tag(:div, content_tag(:p, ""), class: "w-full px-4") %>
+            <% end %>
+            <div class="w-full flex justify-end border-x border-indigo-300 items-center px-4">
+              <% total_amount = 0; @movements.each { |m| total_amount += m.product_movements.sum(:amount) } %>
+              <span class="font-semibold text-indigo-500 text-right"> <%= number_to_currency total_amount, precision: 3 %> </span>
+            </div>
+          </div>
+          <div class="w-2/12"></div>
+        </div>
+        <!-- TABLE FOOTER -->
       </div>
       <div class="w-full flex gap-8 my-3 px-10">
         <%== pagy_nav(@pagy) %>
       </div>
     <% end %>
   <% end %>
-</div>
+
+
+
