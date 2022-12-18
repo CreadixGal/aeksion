@@ -10,6 +10,7 @@
       <%= highlight('0 resultados', '0 resultados', highlighter: '<div class="p-2" >\1</div>') %>
     </div>
   </div>
+<% elsif params[:name].blank? %>
 <% else %>
   <div class="w-full overflow-y-auto custom-scroll">
     <% customers.each do |customer| %>
