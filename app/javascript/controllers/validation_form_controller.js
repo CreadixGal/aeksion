@@ -31,7 +31,7 @@ export default class extends Controller {
     let target = dataTarget
     if (target) {
       target.addEventListener('keyup', () => {
-        if (target.value.length < 3 || target.value.length > 30) {
+        if (target.value.length < 6 || target.value.length > 50) {
           this.containsGray900(target)
           this.containsGreen900(target)
           this.errorClasses(target)
