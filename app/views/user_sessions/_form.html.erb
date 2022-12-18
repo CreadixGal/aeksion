@@ -3,15 +3,25 @@
   <h1 class="text-8xl font-medium text-red-700 text-center my-32 opacity-30">ORPAL</h1>
   <div class="w-full lg:w-1/2 p-5 bg-white border rounded-xl shadow-zinc-800 shadow-lg ">
     <%= form_for(User, as: @user, url: session_path(@user)) do |f| %>
-      <div class="px-8 pt-6 pb-8 mb-4">
+      <div class="px-8 pt-6 pb-8 mb-4" data-controller="validation-form">
         <div class="mb-4">
           <%= f.label :email, class: "block text-grey-darker text-sm font-bold mb-2" %>
-          <%= f.text_field :email, class: "shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline" %>
+          <%= f.text_field :email, 
+          data: { 
+            'validation-form-target': 'email',
+            action: 'validation-form#emailValidation'
+          },
+          class: "shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline focus:border-transparent focus:ring-0" %>
         </div>
 
         <div class="mb-6">
           <%= f.label :password, class: "block text-grey-darker text-sm font-bold mb-2" %>
-          <%= f.password_field :password, class: "shadow appearance-none border border-red rounded w-full py-2 px-3 text-grey-darker mb-3 leading-tight focus:outline-none focus:shadow-outline" %>
+          <%= f.password_field :password,
+          data: { 
+            'validation-form-target': 'password',
+            action: 'validation-form#passwordValidation'
+          },
+          class: "shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker mb-3 leading-tight focus:outline-none focus:shadow-outline focus:border-transparent focus:ring-0" %>
           <%= f.label :remember_me, class: "block text-grey-darker text-sm font-bold mb-2" %>
           <%= f.check_box :remember_me %>
         </div>
