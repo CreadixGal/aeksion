@@ -13,17 +13,12 @@ export default class extends Controller {
     let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
     let target = this.emailTarget
     if (target) {
-      console.log(target)
       target.addEventListener('keyup', () => {
-        console.log(target.value)
-        console.log(target.value.match(emailRegex))
         if (!target.value.match(emailRegex)) {
-          console.log(target.value.match(emailRegex))
           this.containsGray900(target)
           this.containsGreen900(target)
           this.errorClasses(target)
         } else {
-          console.log(target.value.match(emailRegex))
           this.containsRed900(target)
           this.successClasses(target)
         }
