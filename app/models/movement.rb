@@ -8,7 +8,7 @@ class Movement < ApplicationRecord
 
   accepts_nested_attributes_for :product_movements
 
-  before_create :run_code
+  after_create :run_code
 
   scope :delivery, -> { joins(:rate).where(rates: { kind: 'delivery' }) }
   scope :pickup, -> { joins(:rate).where(rates: { kind: 'pickup' }) }
@@ -24,7 +24,7 @@ class Movement < ApplicationRecord
 
   def generate_code(last_code)
     code = last_code.to_s.slice(5, 7).to_i + 1
-    rate = rate.kind.slice(0..1).upcase
+    rate = self.rate.kind.slice(0..1).upcase
     year = Time.zone.now.year.to_s.last(2)
     code = code.to_s.rjust(7, '0')
     self.code = "#{rate}#{year}-#{code}"
