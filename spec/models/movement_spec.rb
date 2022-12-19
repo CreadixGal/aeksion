@@ -14,7 +14,7 @@ RSpec.describe Movement, type: :model do
       expect(subject).to be_valid
     end
 
-    it 'is a new zone and persisted' do
+    it 'is a new movement and persisted' do
       movement = create(:movement)
       expect(movement).to be_persisted
     end
@@ -30,8 +30,61 @@ RSpec.describe Movement, type: :model do
     end
 
     it 'has a valid date' do
-      puts subject.date.class
       expect(subject.date).to be_a(ActiveSupport::TimeWithZone)
+    end
+  end
+
+  describe 'callbacks' do
+    it 'executes run_code after creation' do
+      movement = build(:movement)
+      puts expect(movement).to receive(:run_code)
+      movement.save
+    end
+  end
+
+  describe 'scopes' do
+    context '.delivery' do
+      it 'returns only movements with rate of kind delivery' do
+        Rate.destroy_all
+        delivery = create(:movement, rate: create(:rate, :delivery))
+        pickup = create(:movement, rate: create(:rate, :pickup))
+        expect(Movement.delivery).to eq([delivery])
+      end
+    end
+  
+    context '.pickup' do
+      it 'returns only movements with rate of kind pickup' do
+        Rate.destroy_all
+        delivery = create(:movement, rate: create(:rate, :delivery))
+        pickup = create(:movement, rate: create(:rate, :pickup))
+        expect(Movement.pickup).to eq([pickup])
+      end
+    end
+  end
+
+  describe '#run_code' do
+    let(:movement) { create(:movement) }
+  
+    context 'when rate is pickup' do
+      it 'sets code based on the last pickup movement' do
+        Rate.destroy_all
+        rate = create(:rate, :pickup)
+        last_pickup = create(:movement, rate: rate)
+        movement = create(:movement, rate: rate)
+        last_code = last_pickup.code.to_s.slice(5, 7).to_i
+        expect(movement.code.slice(5,7).to_i).to eq(last_code)
+      end
+    end
+
+    context 'when rate is delivery' do
+      it 'sets code based on the last delivery movement' do
+        Rate.destroy_all
+        rate = create(:rate, :delivery)
+        last_delivery = create(:movement, rate: rate)
+        movement = create(:movement, rate: rate)
+        last_code = last_delivery.code.slice(5,7).to_i
+        expect(movement.code.slice(5,7).to_i).to eq(last_code)
+      end
     end
   end
 end
