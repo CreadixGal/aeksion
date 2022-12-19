@@ -44,25 +44,26 @@ RSpec.describe Movement, type: :model do
   end
 
   describe 'scopes' do
-    context '.delivery' do
+    describe '.delivery' do
       it 'returns only movements with rate of kind delivery' do
         Rate.destroy_all
         delivery = create(:movement, rate: create(:rate, :delivery))
-        pickup = create(:movement, rate: create(:rate, :pickup))
-        expect(Movement.delivery).to eq([delivery])
+        create(:movement, rate: create(:rate, :pickup))
+        expect(described_class.delivery).to eq([delivery])
       end
     end
-  
-    context '.pickup' do
+
+    describe '.pickup' do
       it 'returns only movements with rate of kind pickup' do
         Rate.destroy_all
-        delivery = create(:movement, rate: create(:rate, :delivery))
+        create(:movement, rate: create(:rate, :delivery))
         pickup = create(:movement, rate: create(:rate, :pickup))
-        expect(Movement.pickup).to eq([pickup])
+        expect(described_class.pickup).to eq([pickup])
       end
     end
   end
 
+  # rubocop:disable Style/HashSyntax
   describe '#run_code' do
     context 'when rate is pickup' do
       it 'sets code based on the last pickup movement' do
@@ -71,7 +72,7 @@ RSpec.describe Movement, type: :model do
         last_pickup = create(:movement, rate: rate)
         movement = create(:movement, rate: rate)
         last_code = last_pickup.code.to_s.slice(5, 7).to_i
-        expect(movement.code.slice(5,7).to_i).to eq(last_code + 1)
+        expect(movement.code.slice(5, 7).to_i).to eq(last_code + 1)
       end
     end
 
@@ -81,9 +82,10 @@ RSpec.describe Movement, type: :model do
         rate = create(:rate, :delivery)
         last_delivery = create(:movement, rate: rate)
         movement = create(:movement, rate: rate)
-        last_code = last_delivery.code.slice(5,7).to_i
-        expect(movement.code.slice(5,7).to_i).to eq(last_code + 1)
+        last_code = last_delivery.code.slice(5, 7).to_i
+        expect(movement.code.slice(5, 7).to_i).to eq(last_code + 1)
       end
     end
   end
+  # rubocop:enable Style/HashSyntax
 end
