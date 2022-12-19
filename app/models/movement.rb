@@ -14,8 +14,9 @@ class Movement < ApplicationRecord
   scope :pickup, -> { joins(:rate).where(rates: { kind: 'pickup' }) }
 
   def run_code
-    code = rate.delivery? ? Movement.delivery&.order(created_at: :asc).last&.code : Movement.pickup&.order(created_at: :asc).last&.code
-    code = code.nil? ? 0 : code
+    last_code = Movement.pickup&.order(created_at: :asc).last    if rate.pickup?
+    last_code = Movement.delivery&.order(created_at: :asc).last  if rate.delivery?
+    code = last_code.nil? ? 0 : last_code.code
     self.code = generate_code(code)
   end
 
