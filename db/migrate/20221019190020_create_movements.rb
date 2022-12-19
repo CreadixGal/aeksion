@@ -3,7 +3,7 @@ class CreateMovements < ActiveRecord::Migration[7.0]
     create_table :movements, id: :uuid do |t|
       t.references :rate, null: false, foreign_key: true, type: :uuid
       t.datetime :date
-      t.string :code, index: { unique: true }
+      t.string :code, null: false, index: { unique: true }
 
       t.timestamps
     end
