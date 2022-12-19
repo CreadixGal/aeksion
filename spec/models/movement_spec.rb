@@ -35,10 +35,11 @@ RSpec.describe Movement, type: :model do
   end
 
   describe 'callbacks' do
-    it 'executes run_code after creation' do
-      movement = build(:movement)
-      puts expect(movement).to receive(:run_code)
-      movement.save
+    context 'before create' do
+      it 'sets code' do
+        movement = create(:movement)
+        expect(movement.code).not_to be_nil
+      end
     end
   end
 
@@ -63,8 +64,6 @@ RSpec.describe Movement, type: :model do
   end
 
   describe '#run_code' do
-    let(:movement) { create(:movement) }
-  
     context 'when rate is pickup' do
       it 'sets code based on the last pickup movement' do
         Rate.destroy_all
@@ -72,7 +71,7 @@ RSpec.describe Movement, type: :model do
         last_pickup = create(:movement, rate: rate)
         movement = create(:movement, rate: rate)
         last_code = last_pickup.code.to_s.slice(5, 7).to_i
-        expect(movement.code.slice(5,7).to_i).to eq(last_code)
+        expect(movement.code.slice(5,7).to_i).to eq(last_code + 1)
       end
     end
 
@@ -83,7 +82,7 @@ RSpec.describe Movement, type: :model do
         last_delivery = create(:movement, rate: rate)
         movement = create(:movement, rate: rate)
         last_code = last_delivery.code.slice(5,7).to_i
-        expect(movement.code.slice(5,7).to_i).to eq(last_code)
+        expect(movement.code.slice(5,7).to_i).to eq(last_code + 1)
       end
     end
   end
