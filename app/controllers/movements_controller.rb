@@ -19,11 +19,11 @@ class MovementsController < ApplicationController
 
     respond_to do |format|
       if @movement.save
-        format.html { redirect_to movements_path, success: 'Movimiento creado correctamente.' }
-        format.turbo_stream { flash.now[:success] = 'Movimiento creado correctamente.' }
+        format.html { redirect_to movements_path, success: t('.success') }
+        format.turbo_stream { flash.now[:success] = t('.success') }
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.turbo_stream { flash.now[:error] = 'No se ha creado registro. Comprueba que los campos sean válidos.' }
+        format.turbo_stream { flash.now[:error] = t('.error') }
       end
     end
   end
@@ -33,11 +33,11 @@ class MovementsController < ApplicationController
   def update
     respond_to do |format|
       if @movement.update(movement_params)
-        format.html { redirect_to movements_path, success: 'Movimiento actualizado correctamente.' }
-        format.turbo_stream { flash.now[:success] = 'Movimiento actualizado correctamente.' }
+        format.html { redirect_to movements_path, success: t('.success') }
+        format.turbo_stream { flash.now[:success] = t('.success') }
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.turbo_stream { flash.now[:error] = 'No se ha creado el movimiento. Comprueba que los campos sean válidos.' }
+        format.turbo_stream { flash.now[:error] = t('.error') }
       end
     end
   end
@@ -46,8 +46,8 @@ class MovementsController < ApplicationController
     @movement.destroy!
 
     respond_to do |format|
-      format.html { redirect_to movements_path, alert: 'Movimiento eliminado correctamente.' }
-      format.turbo_stream { flash.now[:alert] = 'Movimiento eliminado correctamente.' }
+      format.html { redirect_to movements_path, alert: t('.success') }
+      format.turbo_stream { flash.now[:alert] = t('.success') }
     end
   end
 
@@ -59,14 +59,14 @@ class MovementsController < ApplicationController
 
       respond_to do |format|
         format.html do
-          redirect_to movements_path(params[:kind]), alert: 'Todos los elementos seleccionados han sido eliminados.'
+          redirect_to movements_path(params[:kind]), alert: t('.success')
         end
         format.turbo_stream do
-          redirect_to movements_path(params[:kind]), alert: 'Todos los elementos seleccionados han sido eliminados.' 
+          redirect_to movements_path(params[:kind]), alert: t('.success')
         end
       end
     else
-      flash.now[:error] = 'Marca almenos un movimiento.'
+      flash.now[:alert] = t('.alert')
     end
   end
 
