@@ -72,7 +72,7 @@
             <% end %>
             <div class="w-full flex justify-end border-x border-indigo-300 items-center px-4">
               <% total_amount = 0; @movements.each { |m| total_amount += m.product_movements.sum(:amount) } %>
-              <span class="font-semibold text-indigo-500 text-right"> <%= number_to_currency total_amount, precision: 3 %> </span>
+              <span class="font-semibold text-indigo-500 text-right"> <%= number_to_currency @total_amount, precision: 3 %> </span>
             </div>
           </div>
           <div class="w-2/12"></div>

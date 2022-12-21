@@ -1,6 +1,5 @@
 <%= turbo_frame_tag dom_id(rate), class: 'w-full' do %>
-  <div id="<%= dom_id rate %>" class="w-full flex justify-between border-x-2
-  border-t-[0.5px] border-b-[0.5px] border-indigo-500 bg-indigo-50 opacity-70">
+  <div id="<%= dom_id rate %>" class="w-full flex justify-between border-t-[0.5px] border-b-[0.5px] border-indigo-500 bg-indigo-50 opacity-70">
     <div class="w-1/12 flex justify-center items-center content-center px-4">
       <%= render CheckboxComponent.new(id: rate.id, name: 'rate_ids[]', options: { value: rate.id }) %>
     </div>
