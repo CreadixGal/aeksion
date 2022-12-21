@@ -2,16 +2,41 @@ class MovementsController < ApplicationController
   before_action :set_movement, only: %i[show edit update destroy]
 
   def index
-    @movements = Movement.includes([:rate]).all
-    @movements = Movement.includes([:rate]).delivery if params[:kind] == 'delivery'
-    @movements = Movement.includes([:rate]).pickup if params[:kind] == 'pickup'
-    @movements = @movements.filter_by_customer(params[:customer]) if params[:customer_name].present?
-    @movements = @movements.filter_by_rate(params[:rate]) if params[:rate_name].present?
-    @movements = @movements.filter_by_product(params[:product]) if params[:product_code].present?
-    @movements = @movements.filter_between_dates(params[:start_date], params[:end_date]) if params[:start_date].present? && params[:end_date].present?
+    @movements = Movement.includes(%i[rate customer]).all
+    @movements = Movement.includes(%i[rate customer]).delivery if params[:kind] == 'delivery'
+    @movements = Movement.includes(%i[rate customer]).pickup if params[:kind] == 'pickup'
+    # @movements = filter_by(params)
+    if params[:start_date].present? && params[:end_date].present?
+      @movements = @movements.filter_between_dates(params[:start_date], params[:end_date])
+    end
     @pagy, @movements = pagy(@movements, items: 10)
   end
 
+  def search
+    @customers = Movement.all.map(&:customer) if params[:kind].blank?
+    @customers = Movement.delivery.map(&:customer) if params[:kind] == 'delivery'
+    @customers = Movement.pickup.map(&:customer) if params[:kind] == 'pickup'
+    text_fragment = params[:name]
+    @filtered_customers = @customers.select { |e| e.name.upcase.include?(text_fragment.upcase) } if @customers.present?
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: [
+          turbo_stream.update(
+            'search_results',
+            partial: 'movements/shared/search_results',
+            locals: { customers: @filtered_customers }
+          )
+        ]
+      end
+    end
+  end
+
+  # def filter_by(params)
+  #   movements.filter_by_customer(params[:customer]) if params[:customer_name].present?
+  #   movements.filter_by_rate(params[:rate]) if params[:rate_name].present?
+  #   movements.filter_by_product(params[:product]) if params[:product_code].present?
+  # end
+  
   def show; end
 
   def new
