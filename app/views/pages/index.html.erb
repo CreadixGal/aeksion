@@ -2,7 +2,7 @@
 <% if user_signed_in? %>
   <h1 class="text-8xl font-medium text-red-700 text-center my-32">ORPAL</h1>
 <% else %>
-  <%= turbo_frame_tag :login, class: 'w-full min-h-screen flex flex-col justify-start items-center gap-32' do %>
+  <%= turbo_frame_tag :login, class: 'w-full min-h-[calc(100vh-40px)] flex flex-col justify-start items-center gap-32' do %>
     <h1 class="text-8xl font-medium text-red-700 text-center my-32">ORPAL</h1>
     <div class="flex justify-center items-center">
       <%= link_to new_user_session_path, class: 'flex justify-between items-center bg-blue-500  shadow-ouline shadow-lg shadow-blue-200 hover:bg-blue-700 py-2 px-6 rounded focus:outline-none focus:shadow-outline cursor-pointer' do %>
