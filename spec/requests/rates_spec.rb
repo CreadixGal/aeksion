@@ -74,7 +74,6 @@ RSpec.describe 'Rates', type: :request do
       customer = create(:customer)
       get new_rate_path
       expect(response.body).to include('id="rate_customer_id"')
-      expect(response.body).to include(customer.name)
       expect(response.body).to include("value=\"#{customer.id}\"")
     end
 
