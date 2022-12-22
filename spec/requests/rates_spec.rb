@@ -113,7 +113,7 @@ RSpec.describe 'Rates', type: :request do
 
       it 'renders a error message for customer' do
         post rates_path, params: { rate: invalid_attributes }
-        expect(response.body).to include('Customer must exist')
+        expect(response.body).to include('debe existir')
       end
     end
   end
@@ -166,7 +166,7 @@ RSpec.describe 'Rates', type: :request do
 
       it 'renders a error message for price' do
         patch rate_path(subject), params: { rate: { price: nil } }
-        expect(response.body).to include('can&#39;t be blank') # -> 'can\'t be blank'
+        expect(response.body).to include('no puede estar en blanco')
       end
     end
   end

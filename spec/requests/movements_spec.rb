@@ -62,7 +62,7 @@ RSpec.describe 'Movements', type: :request do
 
     it 'renders a turbo frame with id movements' do
       get movements_path
-      if Movement.all.count > 0
+      if Movement.all.count.positive?
         expect(response.body).to include('<turbo-frame class="w-full" id="movements">')
       else
         expect(response.body).to include('no data provided')
@@ -200,13 +200,6 @@ RSpec.describe 'Movements', type: :request do
     end
 
     it 'redirects to the movements index' do
-      pending 'pending to fix:
-      Bullet::Notification::UnoptimizedQueryError:
-      user: cisco
-      DELETE /movements/multiple_delete
-      USE eager loading detected
-        ProductMovement => [:product]
-        Add to your query: .includes([:product])'
       Zone.destroy_all
       Rate.destroy_all
       zone1 = create(:zone, name: 'Pontevedra')

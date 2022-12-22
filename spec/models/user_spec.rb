@@ -56,19 +56,19 @@ RSpec.describe User, type: :model do
     it 'email can`t be blank' do
       subject.email = nil
       subject.save
-      expect(subject.errors[:email]).to include("can't be blank")
+      expect(subject.errors[:email].first).to include('Email no puede estar en blanco')
     end
 
     it 'email doesn`t match format' do
       subject.email = 'email'
       subject.save
-      expect(subject.errors[:email]).to include('is invalid')
+      expect(subject.errors[:email].first).to include('Email no es válido')
     end
 
     it 'password can`t be blank' do
       subject.password = nil
       subject.save
-      expect(subject.errors[:password]).to include("can't be blank")
+      expect(subject.errors[:password]).to include('Password no puede estar en blanco')
     end
   end
   # rubocop:enable Rails/SaveBang
