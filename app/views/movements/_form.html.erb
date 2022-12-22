@@ -10,7 +10,7 @@
       <%= form.fields_for :product_movements, movement.product_movements.new do |product_movement_form| %>        
           <%= product_movement_form.select :product_id, options_for_select(Product.all.map { |product| [product.name, product.id] }), {}, class: 'w-full border-none bg-transparent text-center' %> 
 
-          <%= product_movement_form.number_field :quantity, value: 560, max: 900%>
+          <%= product_movement_form.number_field :quantity, placeholder: 100, max: 9000, required: true%>
       <% end %>
 
       <%= form.date_select :date, start_year: 2021, end_year: 2022, class: 'w-1/2 mx-auto block py-2.5 px-0 w-full text-lg text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'%>

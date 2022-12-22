@@ -1,0 +1,254 @@
+es:
+  currency: '€'
+  date:
+    abbr_day_names:
+    - dom
+    - lun
+    - mar
+    - mié
+    - jue
+    - vie
+    - sáb
+    abbr_month_names:
+    - 
+    - ene
+    - feb
+    - mar
+    - abr
+    - may
+    - jun
+    - jul
+    - ago
+    - sep
+    - oct
+    - nov
+    - dic
+    day_names:
+    - domingo
+    - lunes
+    - martes
+    - miércoles
+    - jueves
+    - viernes
+    - sábado
+    formats:
+      default: "%-d/%-m/%Y"
+      long: "%-d de %B de %Y"
+      short: "%-d de %b"
+    month_names:
+    - 
+    - enero
+    - febrero
+    - marzo
+    - abril
+    - mayo
+    - junio
+    - julio
+    - agosto
+    - septiembre
+    - octubre
+    - noviembre
+    - diciembre
+    order:
+    - :day
+    - :month
+    - :year
+  datetime:
+    distance_in_words:
+      about_x_hours:
+        one: alrededor de 1 hora
+        other: alrededor de %{count} horas
+      about_x_months:
+        one: alrededor de 1 mes
+        other: alrededor de %{count} meses
+      about_x_years:
+        one: alrededor de 1 año
+        other: alrededor de %{count} años
+      almost_x_years:
+        one: casi 1 año
+        other: casi %{count} años
+      half_a_minute: medio minuto
+      less_than_x_seconds:
+        one: menos de 1 segundo
+        other: menos de %{count} segundos
+      less_than_x_minutes:
+        one: menos de 1 minuto
+        other: menos de %{count} minutos
+      over_x_years:
+        one: más de 1 año
+        other: más de %{count} años
+      x_seconds:
+        one: 1 segundo
+        other: "%{count} segundos"
+      x_minutes:
+        one: 1 minuto
+        other: "%{count} minutos"
+      x_days:
+        one: 1 día
+        other: "%{count} días"
+      x_months:
+        one: 1 mes
+        other: "%{count} meses"
+      x_years:
+        one: 1 año
+        other: "%{count} años"
+    prompts:
+      second: Segundo
+      minute: Minuto
+      hour: Hora
+      day: Día
+      month: Mes
+      year: Año
+
+  number:
+    currency:
+      format:
+        delimiter: "."
+        format: "%n %u"
+        precision: 2
+        separator: ","
+        significant: false
+        strip_insignificant_zeros: false
+        unit: "€"
+    format:
+      delimiter: "."
+      precision: 3
+      separator: ","
+      significant: false
+      strip_insignificant_zeros: false
+    human:
+      decimal_units:
+        format: "%n %u"
+        units:
+          billion: mil millones
+          million:
+            one: millón
+            other: millones
+          quadrillion: mil billones
+          thousand: mil
+          trillion:
+            one: billón
+            other: billones
+          unit: ''
+      format:
+        delimiter: ''
+        precision: 1
+        significant: true
+        strip_insignificant_zeros: true
+      storage_units:
+        format: "%n %u"
+        units:
+          byte:
+            one: Byte
+            other: Bytes
+          eb: EB
+          gb: GB
+          kb: KB
+          mb: MB
+          pb: PB
+          tb: TB
+    percentage:
+      format:
+        delimiter: ''
+        format: "%n %"
+    precision:
+      format:
+        delimiter: ''
+  support:
+    array:
+      last_word_connector: " y "
+      two_words_connector: " y "
+      words_connector: ", "
+  time:
+    am: am
+    formats:
+      default: "%A, %-d de %B de %Y %H:%M:%S %z"
+      long: "%-d de %B de %Y %H:%M"
+      short: "%-d de %b %H:%M"
+    pm: pm    
+  
+  activerecord:
+    errors:
+      format: "%{attribute} %{message}"
+      messages:
+        accepted: "%{attribute} debe ser aceptado"
+        blank: "%{attribute} no puede estar en blanco"
+        confirmation: "%{attribute} no coincide"
+        empty: "%{attribute} no puede estar vacío"
+        equal_to: "%{attribute} debe ser igual a %{count}"
+        even: "%{attribute} debe ser par"
+        exclusion: "%{attribute} está reservado"
+        greater_than: "%{attribute} debe ser mayor que %{count}"
+        greater_than_or_equal_to: "%{attribute} debe ser mayor que o igual a %{count}"
+        inclusion: "%{attribute} no está incluido en la lista"
+        invalid: "%{attribute} no es válido"
+        less_than: "%{attribute} debe ser menor que %{count}"
+        less_than_or_equal_to: "%{attribute} debe ser menor que o igual a %{count}"
+        model_invalid: 'La validación falló: %{errors}'
+        not_a_number: "%{attribute} no es un número"
+        not_an_integer: "%{attribute} debe ser un entero"
+        odd: "%{attribute} debe ser impar"
+        other_than: "%{attribute} debe ser distinto de %{count}"
+        present: "%{attribute} debe estar en blanco"
+        required: "%{attribute} debe existir"
+        taken: "%{attribute} ya está en uso"
+        too_long:
+          one: "%{attribute} es demasiado largo (1 carácter máximo)"
+          other: "%{attribute} es demasiado largo (%{count} caracteres máximo)"
+        too_short:
+          one: "%{attribute} es demasiado corto (1 carácter mínimo)"
+          other: "%{attribute} es demasiado corto (%{count} caracteres mínimo)"
+        wrong_length:
+          one: "%{attribute} no tiene la longitud correcta (1 carácter exactos)"
+          other: "%{attribute} no tiene la longitud correcta (%{count} caracteres exactos)"
+        record_invalid: 'La validación falló: %{errors}'
+        restrict_dependent_destroy:
+          has_one: No se puede eliminar el registro porque existe un %{record} dependiente
+          has_many: No se puede eliminar el registro porque existen %{record} dependientes
+      template:
+        body: 'Se encontraron problemas con los siguientes campos:'
+        header:
+          one: No se pudo guardar este/a %{model} porque se encontró 1 error
+          other: No se pudo guardar este/a %{model} porque se encontraron %{count} errores
+
+    models:
+      movements: Movimiento
+      customers: Cliente
+      products: Producto
+      rate: Tarifa
+      user: Usuario
+      zone: Zona
+    attributes:
+      movements:
+        date: Fecha
+        code: Código
+  
+  helpers:
+    select:
+      prompt: 'Por favor seleccione '
+    submit:
+      create: Crear %{model}
+      update: Actualizar %{model}
+      submit: Guardar %{model}
+      cancel: Cancelar %{model}
+      delete: Eliminar %{model}
+    labels:
+    placeholder:
+  
+  movements:
+    index:
+      title: Movimientos
+      delivery: Entregas
+      pickup: Recogidas
+    create:
+      success: Movimiento creado correctamente
+      error: No se ha podido crear el movimiento
+    update:
+      success: Movimiento actualizado correctamente
+      error: No se ha podido actualizar el movimiento
+    destroy:
+      success: Movimiento eliminado correctamente
+      error: No se ha podido eliminar el movimiento
+    multiple_delete:
+      success: Todos los elementos seleccionados han sido eliminados.
+      alert: Marca almenos un movimiento.
