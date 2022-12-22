@@ -52,8 +52,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_07_224036) do
   create_table "movements", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "rate_id", null: false
     t.datetime "date"
+    t.string "code", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["code"], name: "index_movements_on_code", unique: true
     t.index ["rate_id"], name: "index_movements_on_rate_id"
   end
 

@@ -2,7 +2,7 @@ class MovementsController < ApplicationController
   before_action :set_movement, only: %i[show edit update destroy]
 
   def index
-    @movements = Movement.includes([:rate]).all
+    @movements = Movement.includes([:rate]).all.order(created_at: :desc)
     @movements = Movement.includes([:rate]).delivery if params[:kind] == 'delivery'
     @movements = Movement.includes([:rate]).pickup if params[:kind] == 'pickup'
     @pagy, @movements = pagy(@movements, items: 10)
