@@ -23,7 +23,7 @@ class Movement < ApplicationRecord
   scope :delivery, -> { joins(:rate).where(rates: { kind: 'delivery' }) }
   scope :pickup, -> { joins(:rate).where(rates: { kind: 'pickup' }) }
   scope :sort_by_date, -> { order('date ASC') }
-  
+
   scope :filter_between_dates, ->(start_date, end_date) { where(date: start_date..end_date) }
 
   # ! pgsearch search in text fields
