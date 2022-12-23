@@ -11,10 +11,12 @@ module Aeksion
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults Rails::VERSION::STRING.to_f
 
+    config.exceptions_app = ->(env) { ErrorsController.action(:show).call(env) }
+
     config.time_zone = 'Europe/Madrid'
 
     config.i18n.available_locales = %i[es en]
-    config.i18n.default_locale = :en
+    config.i18n.default_locale = :es
     config.i18n.fallbacks = true
 
     config.generators do |gen|

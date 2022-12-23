@@ -1,7 +1,7 @@
 class UserSessionsController < Devise::SessionsController
   def create
     super
-    flash[:notice] = "Welcome back, #{current_user.email}!"
+    flash[:notice] = "Bienvenido, #{current_user.email}!"
   end
 
   private

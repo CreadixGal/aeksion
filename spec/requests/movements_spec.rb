@@ -31,22 +31,22 @@ RSpec.describe 'Movements', type: :request do
 
   describe 'GET /movements' do
     it 'returns http success' do
-      get movements_path
+      get movements_path(kind: 'delivery')
       expect(response).to have_http_status(:success)
     end
 
     it 'renders a tab menu' do
-      get movements_path
+      get movements_path(kind: 'delivery')
       expect(response).to render_template('movements/_tabs')
     end
 
     it 'renders total count of delivery movements' do
-      get movements_path
+      get movements_path(kind: 'delivery')
       expect(response.body).to include(Movement.delivery.count.to_s)
     end
 
     it 'renders total count of pickup movements' do
-      get movements_path
+      get movements_path(kind: 'pickup')
       expect(response.body).to include(Movement.pickup.count.to_s)
     end
 
@@ -61,8 +61,9 @@ RSpec.describe 'Movements', type: :request do
     end
 
     it 'renders a turbo frame with id movements' do
-      get movements_path
-      if Movement.all.count > 0
+      get movements_path(kind: 'delivery')
+      @movements = Movement.delivery
+      if @movements.count.positive?
         expect(response.body).to include('<turbo-frame class="w-full" id="movements">')
       else
         expect(response.body).to include('no data provided')
@@ -200,13 +201,6 @@ RSpec.describe 'Movements', type: :request do
     end
 
     it 'redirects to the movements index' do
-      pending 'pending to fix:
-      Bullet::Notification::UnoptimizedQueryError:
-      user: cisco
-      DELETE /movements/multiple_delete
-      USE eager loading detected
-        ProductMovement => [:product]
-        Add to your query: .includes([:product])'
       Zone.destroy_all
       Rate.destroy_all
       zone1 = create(:zone, name: 'Pontevedra')

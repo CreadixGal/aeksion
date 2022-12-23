@@ -2,10 +2,49 @@ class MovementsController < ApplicationController
   before_action :set_movement, only: %i[show edit update destroy]
 
   def index
-    @movements = Movement.includes([:rate]).all
-    @movements = Movement.includes([:rate]).delivery if params[:kind] == 'delivery'
-    @movements = Movement.includes([:rate]).pickup if params[:kind] == 'pickup'
+    @movements = movements(params[:kind])
+
+    @movements = filter_by(params)
+    if params[:start_date].present? && params[:end_date].present?
+      @movements = @movements.filter_between_dates(params[:start_date], params[:end_date])
+    end
     @pagy, @movements = pagy(@movements, items: 10)
+  end
+
+  def movements(kind)
+    allowed_methods = %w[delivery pickup]
+    Movement.send(kind) if allowed_methods.include?(kind)
+  end
+
+  def filter_by(params)
+    @movements = movements(params[:kind])
+    return @movements if params[:product_kind].blank?
+
+    @movements = @movements.joins(:products)
+                           .where(products: { kind: params[:product_kind] })
+  end
+
+  def search
+    @movements = movements(params[:kind])
+    text_fragment = params[:name]
+    unless @movements.empty?
+      @filtered_movements = @movements.select do |e|
+        customer = e.attributes.merge(customer_name: e.customer.name.upcase)
+        customer[:customer_name].include?(text_fragment.upcase)
+      end
+    end
+
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: [
+          turbo_stream.update(
+            'search_results',
+            partial: 'movements/shared/search_results',
+            locals: { movements: @filtered_movements.presence || [] }
+          )
+        ]
+      end
+    end
   end
 
   def show; end
@@ -19,11 +58,11 @@ class MovementsController < ApplicationController
 
     respond_to do |format|
       if @movement.save
-        format.html { redirect_to movements_path, success: 'Movement was successfully created.' }
-        format.turbo_stream { flash.now[:success] = 'Movement was successfully created.' }
+        format.html { redirect_to movements_path, success: t('.success') }
+        format.turbo_stream { flash.now[:success] = t('.success') }
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.turbo_stream { flash.now[:error] = 'Movement was not created.' }
+        format.turbo_stream { flash.now[:error] = t('.error') }
       end
     end
   end
@@ -33,11 +72,11 @@ class MovementsController < ApplicationController
   def update
     respond_to do |format|
       if @movement.update(movement_params)
-        format.html { redirect_to movements_path, success: 'Movement was successfully updated.' }
-        format.turbo_stream { flash.now[:success] = 'Movement was successfully updated.' }
+        format.html { redirect_to movements_path, success: t('.success') }
+        format.turbo_stream { flash.now[:success] = t('.success') }
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.turbo_stream { flash.now[:error] = 'Movement was not updated.' }
+        format.turbo_stream { flash.now[:error] = t('.error') }
       end
     end
   end
@@ -46,8 +85,8 @@ class MovementsController < ApplicationController
     @movement.destroy!
 
     respond_to do |format|
-      format.html { redirect_to movements_path, alert: 'Movement was successfully destroyed.' }
-      format.turbo_stream { flash.now[:alert] = 'Movement was successfully destroyed.' }
+      format.html { redirect_to movements_path(params[:kind]), alert: t('.success') }
+      format.turbo_stream { flash.now[:alert] = t('.success') }
     end
   end
 
@@ -55,16 +94,18 @@ class MovementsController < ApplicationController
     if params[:movement_ids].present?
       ids = params[:movement_ids].compact
 
-      Movement.joins(:products).includes([:product_movements]).where(id: ids).destroy_all
+      Movement.joins(:products).includes(%i[product_movements products]).where(id: ids).destroy_all
 
       respond_to do |format|
         format.html do
-          redirect_to movements_path(params[:kind]), alert: 'All selected Zone were successfully destroyed.'
+          redirect_to movements_path(params[:kind]), alert: t('.success')
         end
-        format.json { head :no_content }
+        format.turbo_stream do
+          redirect_to movements_path(params[:kind]), alert: t('.success')
+        end
       end
     else
-      flash.now[:error] = 'Please select at least one Zone.'
+      flash.now[:alert] = t('.alert')
     end
   end
 

@@ -1,0 +1,10 @@
+<div class="flex  flex-col justify-center items-center min-h-screen gap-8">
+  <svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M100 0C44.7715 0 0 44.7715 0 100C0 155.228 44.7715 200 100 200C155.228 200 200 155.228 200 100C200 44.7715 155.228 0 100 0Z" fill="#EF5350"/>
+    <path d="M63.2353 63.2353L136.765 136.765" stroke="white" stroke-width="24"/>
+    <path d="M136.765 63.2353L63.2353 136.765" stroke="white" stroke-width="24"/>
+  </svg>
+  <h1 class="text-3xl text-red-400">Error 404: Página no encontrada</h1>
+  <p class="text-lg">Lo sentimos, la página que estás buscando no pudo ser encontrada. Por favor, verifica que la URL que estás intentando acceder sea correcta o vuelve a la página principal.</p>
+  <%= link_to "Volver a la página principal", root_path, class: "px-4 py-2 font-bold rounded-full text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:shadow-outline-red active:bg-red-800 transition duration-150 ease-in-out" %>
+</div>

@@ -16,7 +16,27 @@
   animation: loader-rotate 1s linear infinite;
 }
 
-@layer components { 
+@layer components {
+  .button-primary {
+    @apply inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out;
+  }
+
+  .button-success {
+    @apply inline-block px-6 py-2.5 bg-green-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-700 hover:shadow-lg focus:bg-green-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-800 active:shadow-lg transition duration-150 ease-in-out; 
+  }
+
+  .button-danger {
+    @apply inline-block px-6 py-2.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out;
+  }
+
+  .button-warning {
+    @apply inline-block px-6 py-2.5 bg-yellow-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-yellow-700 hover:shadow-lg focus:bg-yellow-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-yellow-800 active:shadow-lg transition duration-150 ease-in-out; 
+  }
+
+  .button-info {
+    @apply inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out;
+  }
+
   .tab-component {
     @apply w-full md:w-2/6 flex items-center justify-center flex-1 py-2 hover:bg-gray-100 border-t-2 border-x-2 border-gray-300 opacity-60 rounded-tr-lg;
   }
@@ -39,5 +59,25 @@
 
   .page {
     @apply px-4 py-2 text-lg rounded text-indigo-600 border border-indigo-500 hover:bg-indigo-50;
+  }
+
+  .table-main {
+    @apply flex justify-between border-t-[0.5px] border-b-[0.5px] border-indigo-500 bg-indigo-50 opacity-70;
+  }
+
+  .table-select-all {
+    @apply flex justify-center items-center content-center px-4 border-l-2 border-indigo-500;
+  }
+
+  .table-header {
+    @apply flex justify-center text-indigo-600 text-center font-semibold;
+  }
+
+  .table-header-actions{
+    @apply flex justify-center px-4 py-2 border-r-2 border-indigo-500;
+  }
+
+  .table-cell-text {
+    @apply flex justify-start border-x border-indigo-300 items-center px-4;
   }
 }

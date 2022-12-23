@@ -16,6 +16,7 @@ Rails.application.routes.draw do
 
   resources :movements do
     collection do
+      post :search
       delete :multiple_delete
     end
   end
