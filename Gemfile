@@ -109,3 +109,6 @@ gem 'simplecov-formatter-badge', require: false
 # jobs
 gem 'sidekiq'
 gem 'sidekiq-cron'
+
+# postgres
+gem 'pg_search'

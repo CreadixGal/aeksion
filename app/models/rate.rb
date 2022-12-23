@@ -1,6 +1,6 @@
 class Rate < ApplicationRecord
-  belongs_to :customer
-  belongs_to :zone
+  belongs_to :customer, inverse_of: :rates
+  belongs_to :zone, inverse_of: :rates
 
   has_many :movements, dependent: :destroy
 

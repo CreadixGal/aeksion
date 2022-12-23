@@ -60,7 +60,10 @@
         <!--- TABLE ROWS -->
         <% if @movements.present? %>
           <%= turbo_frame_tag :movements, class:'w-full' do %>
-            <%= render @movements %>
+            <div id="search_results">
+              <%= render @movements if params[:name].blank? %>
+            </div>
+
           <% end %>
         <% else %>
           no data provided
@@ -74,8 +77,8 @@
                 <%= content_tag(:div, content_tag(:p, ""), class: "w-full px-4") %>
             <% end %>
             <div class="w-full flex justify-end border-x border-indigo-300 items-center px-4">
-              <% total_amount = 0; @movements.each { |m| total_amount += m.product_movements.sum(:amount) } %>
-              <span class="font-semibold text-indigo-500 text-right"> <%= number_to_currency total_amount, precision: 3 %> </span>
+              <% total_amount = 0; @movements&.each { |m| total_amount += m&.product_movements.sum(:amount) } %>
+              <span class="font-semibold text-indigo-500 text-right"> <%= number_to_currency @total_amount, precision: 3 %> </span>
             </div>
           </div>
           <div class="w-2/12"></div>
@@ -83,7 +86,7 @@
         <!-- TABLE FOOTER -->
       </div>
       <div class="w-full flex gap-8 my-3 px-10">
-        <%== pagy_nav(@pagy) %>
+        <%== pagy_nav(@pagy) if @pagy.present?  %>
       </div>
     <% end %>
   <% end %>

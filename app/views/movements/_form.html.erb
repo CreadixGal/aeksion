@@ -5,7 +5,7 @@
   </div>
   <%= form_with(model: movement, class: 'contents') do |form| %>
     <div class="w-9/12 flex text-indigo-600 text-center font-semibold border-x border-indigo-400 py-2 px-4 relative z-0 group"> 
-      <%= form.select :rate_id, options_for_select(Rate.includes([:customer]).all.map { |rate| ["#{rate.customer_name} - #{rate.kind} [#{rate.price}€]", rate.id] }, selected: movement.rate_id), {}, class: 'w-full border-none bg-transparent text-center' %>
+      <%= form.select :rate_id, options_for_select(Rate.all.map { |rate| ["#{rate.customer_name} - #{rate.kind} [#{rate.price}€]", rate.id] }, selected: movement.rate_id), {}, class: 'w-full border-none bg-transparent text-center' %>
 
       <%= form.fields_for :product_movements, movement.product_movements.new do |product_movement_form| %>        
           <%= product_movement_form.select :product_id, options_for_select(Product.all.map { |product| [product.name, product.id] }), {}, class: 'w-full border-none bg-transparent text-center' %> 

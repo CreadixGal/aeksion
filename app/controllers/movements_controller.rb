@@ -2,10 +2,48 @@ class MovementsController < ApplicationController
   before_action :set_movement, only: %i[show edit update destroy]
 
   def index
-    @movements = Movement.includes([:rate]).all.order(created_at: :desc)
-    @movements = Movement.includes([:rate]).delivery if params[:kind] == 'delivery'
-    @movements = Movement.includes([:rate]).pickup if params[:kind] == 'pickup'
-    @pagy, @movements = pagy(@movements, items: 10)
+    @movements = movements(params[:kind])
+
+    @movements = filter_by(params)
+    if params[:start_date].present? && params[:end_date].present?
+      @movements = @movements.filter_between_dates(params[:start_date], params[:end_date])
+    end
+    @pagy, @movements = pagy(@movements, items: 10) if @pagy.present?
+  end
+
+  def movements(kind)
+    allowed_methods = %w[delivery pickup]
+    Movement.send(kind) if allowed_methods.include?(kind)
+  end
+
+  def filter_by(params)
+    @movements = movements(params[:kind])
+    return @movements if params[:product_kind].blank?
+
+    @movements = @movements.joins(:products)
+                           .where(products: { kind: params[:product_kind] })
+  end
+
+  def search
+    @movements = movements(params[:kind])
+    text_fragment = params[:name]
+    unless @movements.empty?
+      @filtered_movements = @movements.select do |e|
+        customer = e.attributes.merge(customer_name: e.customer.name.upcase)
+        customer[:customer_name].include?(text_fragment.upcase)
+      end
+    end
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: [
+          turbo_stream.update(
+            'search_results',
+            partial: 'movements/shared/search_results',
+            locals: { movements: @filtered_movements.presence || [] }
+          )
+        ]
+      end
+    end
   end
 
   def show; end
