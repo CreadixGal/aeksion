@@ -8,7 +8,7 @@ class MovementsController < ApplicationController
     if params[:start_date].present? && params[:end_date].present?
       @movements = @movements.filter_between_dates(params[:start_date], params[:end_date])
     end
-    @pagy, @movements = pagy(@movements, items: 10) if @pagy.present?
+    @pagy, @movements = pagy(@movements, items: 10)
   end
 
   def movements(kind)
@@ -33,6 +33,7 @@ class MovementsController < ApplicationController
         customer[:customer_name].include?(text_fragment.upcase)
       end
     end
+
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: [
@@ -84,7 +85,7 @@ class MovementsController < ApplicationController
     @movement.destroy!
 
     respond_to do |format|
-      format.html { redirect_to movements_path, alert: t('.success') }
+      format.html { redirect_to movements_path(params[:kind]), alert: t('.success') }
       format.turbo_stream { flash.now[:alert] = t('.success') }
     end
   end
@@ -93,7 +94,7 @@ class MovementsController < ApplicationController
     if params[:movement_ids].present?
       ids = params[:movement_ids].compact
 
-      Movement.includes(%i[product_movements products]).where(id: ids).destroy_all
+      Movement.joins(:products).includes(%i[product_movements products]).where(id: ids).destroy_all
 
       respond_to do |format|
         format.html do

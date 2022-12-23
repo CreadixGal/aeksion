@@ -61,12 +61,11 @@
         <% if @movements.present? %>
           <%= turbo_frame_tag :movements, class:'w-full' do %>
             <div id="search_results">
-              <%= render @movements if params[:name].blank? %>
-            </div>
-
+              <%= render @movements if params[:name].blank?%>
+            </div> 
           <% end %>
         <% else %>
-          no data provided
+          <span class="p-4">no data provided</span>          
         <% end %>
         <!-- TABLE ROWS -->
         <!-- TABLE FOOTER -->
@@ -86,7 +85,7 @@
         <!-- TABLE FOOTER -->
       </div>
       <div class="w-full flex gap-8 my-3 px-10">
-        <%== pagy_nav(@pagy) if @pagy.present?  %>
+        <%== pagy_nav(@pagy) if @pagy.present? %>
       </div>
     <% end %>
   <% end %>
