@@ -20,8 +20,8 @@ class Movement < ApplicationRecord
   validates :date, presence: true
   validates :code, uniqueness: true
 
-  scope :delivery, -> { includes([:rate, :product_movements]).where(rates: { kind: 'delivery' }) }
-  scope :pickup, -> { includes([:rate, :product_movements]).where(rates: { kind: 'pickup' }) }
+  scope :delivery, -> { includes(%i[rate product_movements]).where(rates: { kind: 'delivery' }) }
+  scope :pickup, -> { includes(%i[rate product_movements]).where(rates: { kind: 'pickup' }) }
   scope :sort_by_date, -> { order('date ASC') }
 
   scope :filter_between_dates, ->(start_date, end_date) { where(date: start_date..end_date) }

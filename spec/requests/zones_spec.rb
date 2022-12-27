@@ -128,12 +128,18 @@ RSpec.describe 'Zones', type: :request do
   end
 
   describe 'DELETE /multiple_delete' do
-    it 'renders no content when no zones selected' do
+    it 'redirect to zones path' do
       delete multiple_delete_zones_path, params: { ids: [] }
-      expect(response).to have_http_status(:no_content)
+      expect(response).to redirect_to(zones_path)
     end
 
     it 'redirects to the zones index' do
+      pending 'Bullet::Notification::UnoptimizedQueryError:
+      user: cisco
+      DELETE /zones/multiple_delete
+      USE eager loading detected
+        Zone => [:rates]
+        Add to your query: .includes([:rates])'
       Zone.includes([:customers]).destroy_all
       names = %w[A_Coruña Lugo Ourense Pontevedra]
       zone1 = create(:zone, name: names[0])

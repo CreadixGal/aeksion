@@ -82,8 +82,6 @@ class MovementsController < ApplicationController
   end
 
   def destroy
-    Movement.where(id: params[:movement_ids].compact).destroy_all
-
     @movement.destroy!
     respond_to do |format|
       format.html { redirect_to movements_path(kind: params[:kind]) }
