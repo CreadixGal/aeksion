@@ -3,14 +3,14 @@ class Movement < ApplicationRecord
 
   belongs_to :rate, inverse_of: :movements
 
-  has_many :product_movements
+  has_many :product_movements, inverse_of: :movement, dependent: :destroy
   has_many :products, through: :product_movements, dependent: :destroy
 
   has_one :customer, through: :rate
 
   validates :date, presence: true
 
-  delegate :name, :price, to: :rate, prefix: :rate
+  delegate :name, :price, :kind, to: :rate, prefix: :rate
   delegate :name, to: :customer, prefix: :customer
   delegate :amount, to: :product_movements
   accepts_nested_attributes_for :product_movements
@@ -20,8 +20,8 @@ class Movement < ApplicationRecord
   validates :date, presence: true
   validates :code, uniqueness: true
 
-  scope :delivery, -> { joins(:rate).where(rates: { kind: 'delivery' }) }
-  scope :pickup, -> { joins(:rate).where(rates: { kind: 'pickup' }) }
+  scope :delivery, -> { includes([:rate, :product_movements]).where(rates: { kind: 'delivery' }) }
+  scope :pickup, -> { includes([:rate, :product_movements]).where(rates: { kind: 'pickup' }) }
   scope :sort_by_date, -> { order('date ASC') }
 
   scope :filter_between_dates, ->(start_date, end_date) { where(date: start_date..end_date) }
