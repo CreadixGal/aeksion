@@ -1,4 +1,9 @@
 <div class="form-check flex">
+  
+  <% if params[:kind].present? %>
+    <input type="hidden" name= 'kind' value= <%= params[:kind] %> />
+  <% end %>
+  
   <input id="<%= id %>"
           name="<%= name %>"
           type="checkbox"

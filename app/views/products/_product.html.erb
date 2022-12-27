@@ -25,9 +25,17 @@
         </div>
       </div>
       <div class="w-1/12 flex flex-col border-l border-indigo-200">
-        <%= link_to 'Show', product_path(product), class: 'w-full text-lg text-right text-indigo-600 hover:bg-indigo-300 px-4 py-2' %>
+        <%#= link_to 'Show', product_path(product), class: 'w-full text-lg text-right text-indigo-600 hover:bg-indigo-300 px-4 py-2' %>
         <%= link_to 'Edit', edit_product_path(product), class: 'w-full text-lg text-right text-indigo-600 hover:bg-indigo-300 px-4 py-2' %>
-        <%= button_to 'Destroy', product_path(product), method: :delete, data: { confirm: 'Are you sure?' }, class: 'w-full text-lg text-right text-indigo-600 hover:bg-indigo-300 px-4 py-2' %>
+        <%= button_to product, method: :delete,
+                                data: { 
+                                  controller: "swal",
+                                  swal_name_value: product.code,
+                                  action: "click->swal#single"
+                                },
+                                class: 'rounded-lg py-3 ml-2 px-5 bg-indigo-100 hover:bg-amber-300 inline-block font-medium m-2' do %>
+          <%= inline_svg_tag('icons/trash.svg', class: 'w-4 h-4 text-indigo-600') %>
+        <% end %>
       </div>
     </div>
   </div>
