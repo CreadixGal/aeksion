@@ -1,0 +1,10 @@
+
+<% if params[:zone_ids].present? %>
+  <% params[:zone_ids].each do |id| %>
+    <%= turbo_stream.remove "zone_#{id}" %>
+  <% end %>
+<% else %>
+  <%= turbo_stream.remove "zone_#{@zone.id}" %>
+<% end %>
+
+<%= turbo_stream.prepend "notification", partial: "layouts/shared/notification" %>
