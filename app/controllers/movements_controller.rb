@@ -83,29 +83,25 @@ class MovementsController < ApplicationController
 
   def destroy
     @movement.destroy!
-
     respond_to do |format|
-      format.html { redirect_to movements_path(params[:kind]), alert: t('.success') }
-      format.turbo_stream { flash.now[:alert] = t('.success') }
+      format.html { redirect_to movements_path(kind: params[:kind]) }
+      format.turbo_stream { flash[:success] = t('.success') }
     end
   end
 
   def multiple_delete
     if params[:movement_ids].present?
-      ids = params[:movement_ids].compact
 
-      Movement.joins(:products).includes(%i[product_movements products]).where(id: ids).destroy_all
-
+      Movement.where(id: params[:movement_ids].compact).destroy_all
       respond_to do |format|
-        format.html do
-          redirect_to movements_path(params[:kind]), alert: t('.success')
-        end
-        format.turbo_stream do
-          redirect_to movements_path(params[:kind]), alert: t('.success')
-        end
+        format.html { redirect_to movements_path(kind: params[:kind]), success: t('.success') }
+        format.turbo_stream { flash.now[:success] = t('.success') }
       end
     else
-      flash.now[:alert] = t('.alert')
+      respond_to do |format|
+        format.html { redirect_to movements_path(params[:kind]), error: t('.alert') }
+        format.turbo_stream { flash.now[:error] = t('.alert') }
+      end
     end
   end
 
