@@ -1,0 +1,10 @@
+
+<% if params[:movement_ids].present? %>
+  <% params[:movement_ids].each do |id| %>
+    <%= turbo_stream.remove "movement_#{id}" %>
+  <% end %>
+<% else %>
+  <%= turbo_stream.remove "movement_#{@movement.id}" %>
+<% end %>
+
+<%= turbo_stream.prepend "notification", partial: "layouts/shared/notification" %>

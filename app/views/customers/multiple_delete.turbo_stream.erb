@@ -1,0 +1,10 @@
+
+<% if params[:customer_ids].present? %>
+  <% params[:customer_ids].each do |id| %>
+    <%= turbo_stream.remove "customer_#{id}" %>
+  <% end %>
+<% else %>
+  <%= turbo_stream.remove "customer_#{@customer.id}" %>
+<% end %>
+
+<%= turbo_stream.prepend "notification", partial: "layouts/shared/notification" %>

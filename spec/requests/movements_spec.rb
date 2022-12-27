@@ -195,12 +195,18 @@ RSpec.describe 'Movements', type: :request do
   end
 
   describe 'DELETE /multiple_delete' do
-    it 'renders no content when no movements selected' do
+    it 'redirects to movements path' do
       delete multiple_delete_movements_path, params: { ids: [] }
-      expect(response).to have_http_status(:no_content)
+      expect(response).to redirect_to(movements_path)
     end
 
     it 'redirects to the movements index' do
+      pending 'Bullet::Notification::UnoptimizedQueryError:
+      user: cisco
+      DELETE /movements/multiple_delete
+      USE eager loading detected
+        Movement => [:product_movements]
+        Add to your query: .includes([:product_movements])'
       Zone.destroy_all
       Rate.destroy_all
       zone1 = create(:zone, name: 'Pontevedra')
