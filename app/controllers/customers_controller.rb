@@ -75,16 +75,17 @@ class CustomersController < ApplicationController
 
   def multiple_delete
     if params[:customer_ids].present?
-      ids = params[:customer_ids].compact
 
-      Customer.includes(%i[rates zones]).where(id: ids).destroy_all
-
+      Customer.where(id: params[:customer_ids].compact).destroy_all
       respond_to do |format|
-        format.html { redirect_to customers_path, alert: 'All selected Customers were successfully destroyed.' }
-        format.turbo_stream { flash.now[:alert] = 'All selected Customers were successfully destroyed.' }
+        format.html { redirect_to customers_path, success: t('.success') }
+        format.turbo_stream { flash.now[:success] = t('.success') }
       end
     else
-      flash.now[:error] = 'Please select at least one Customer.'
+      respond_to do |format|
+        format.html { redirect_to customers_path, error: t('.alert') }
+        format.turbo_stream { flash.now[:error] = t('.alert') }
+      end
     end
   end
 
