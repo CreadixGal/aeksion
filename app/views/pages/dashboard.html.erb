@@ -15,7 +15,7 @@
             <div class="w-full flex-1 flex justify-center items-center p-4">
               <div class="w-full flex flex-col justify-center items-around gap-4">
                 <% color = ['orange','green','blue', 'yellow'] %>
-                <h1 class="w-full text-xl text-center font-semibold text-red-700">DELIVERY <%= @total_deliveries.size %></h1>
+                <h1 class="w-full text-xl text-center font-semibold text-red-700">DELIVERY <%= Movement.delivery.size %></h1>
                 <svg viewBox="0 0 36 36" class="circular-chart <%= color.sample %>">
                   <path class="circle-bg"
                     d="M18 2.0845
@@ -23,19 +23,19 @@
                       a 15.9155 15.9155 0 0 1 0 -31.831"
                   />
                   <path class="circle"
-                    stroke-dasharray="<%= circle_percentage(@total_deliveries.size, @total_movements.size) %>, 100"
+                    stroke-dasharray="<%= @total_deliveries %>, 100"
                     d="M18 2.0845
                       a 15.9155 15.9155 0 0 1 0 31.831
                       a 15.9155 15.9155 0 0 1 0 -31.831"
                   />
-                  <text x="18" y="20.35" class="percentage"><%= number_to_percentage(circle_percentage(@total_deliveries.size, @total_movements.size), precision: 2, rounded: 3)%></text>
+                  <text x="18" y="20.35" class="percentage"><%= number_to_percentage(@total_deliveries, precision: 2, rounded: 3)%></text>
                 </svg>
               </div>
             </div>
             <div class="w-full flex-1 flex justify-center items-center p-4">
               <div class="w-full flex flex-col justify-center items-around gap-4">
                 <% color = ['orange','green','blue', 'yellow'] %>
-                <h1 class="w-full text-xl text-center font-semibold text-red-700">PICKUPS <%= @total_pickups.size %></h1>
+                <h1 class="w-full text-xl text-center font-semibold text-red-700">PICKUPS <%= Movement.pickup.size %></h1>
                 <svg viewBox="0 0 36 36" class="circular-chart <%= color.sample %>">
                   <path class="circle-bg"
                     d="M18 2.0845
@@ -43,25 +43,25 @@
                       a 15.9155 15.9155 0 0 1 0 -31.831"
                   />
                   <path class="circle"
-                    stroke-dasharray="<%= circle_percentage(@total_pickups.size, @total_movements.size) %>, 100"
+                    stroke-dasharray="<%= @total_pickups %>, 100"
                     d="M18 2.0845
                       a 15.9155 15.9155 0 0 1 0 31.831
                       a 15.9155 15.9155 0 0 1 0 -31.831"
                   />
-                  <text x="18" y="20.35" class="percentage"><%= number_to_percentage(circle_percentage(@total_pickups.size, @total_movements.size), precision: 2, rounded: 3)%></text>
+                  <text x="18" y="20.35" class="percentage"><%= number_to_percentage(@total_pickups, precision: 2, rounded: 3)%></text>
                 </svg>
               </div>
             </div>
           </div>
         </div>
         <div class="w-1/2 flex flex-col justify-between items-start border border-slate-200 rounded-lg shadow-md shadow-slate-200 p-4 gap-8 fill-">
-          <h1 class="w-full text-xl text-center font-semibold text-red-700">Año actual <%= @this_year_movements.size %></h1>
+          <h1 class="w-full text-xl text-center font-semibold text-red-700">Año actual</h1>
           <div class="w-full flex">
             <div class="w-full flex-1 flex justify-center items-center p-4">
               <div class="w-full flex flex-col justify-center items-around gap-4">
                 <% color = ['orange','green','blue', 'yellow'] %>
                   <h1 class="w-full flex justify-between items-center text-xl text-center font-semibold text-red-700">
-                    DELIVERY <%= @this_year_deliveries.size %>
+                    DELIVERY
                     <span class="text-right">
                       <% color_500  = @comparision_delivery ? 'green-500' : 'red-500' %>
                       <% rotate = @comparision_delivery ? 'rotate-180': '' %>
@@ -75,12 +75,12 @@
                       a 15.9155 15.9155 0 0 1 0 -31.831"
                   />
                   <path class="circle"
-                    stroke-dasharray="<%= circle_percentage(@this_year_deliveries.size, @this_year_movements.size) %>, 100"
+                    stroke-dasharray="<%= @this_year_deliveries %>, 100"
                     d="M18 2.0845
                       a 15.9155 15.9155 0 0 1 0 31.831
                       a 15.9155 15.9155 0 0 1 0 -31.831"
                   />
-                  <text x="18" y="20.35" class="percentage"><%= number_to_percentage(circle_percentage(@this_year_deliveries.size, @this_year_movements.size), precision: 2, rounded: 3)%></text>
+                  <text x="18" y="20.35" class="percentage"><%= number_to_percentage(@this_year_deliveries, precision: 2, rounded: 3)%></text>
                 </svg>
               </div>
             </div>
@@ -88,7 +88,7 @@
               <div class="w-full flex flex-col justify-center items-around gap-4">
                 <% color = ['orange','green','blue', 'yellow'] %>
                   <h1 class="w-full flex justify-between items-center text-xl text-center font-semibold text-red-700">
-                    PICKUP <%= @this_year_deliveries.size %>
+                    PICKUP
                     <span class="text-right">
                       <% color_500  = @comparision_pickup ? 'green-500' : 'red-500' %>
                       <% rotate = @comparision_pickup ? 'rotate-180': '' %>
@@ -102,12 +102,12 @@
                       a 15.9155 15.9155 0 0 1 0 -31.831"
                   />
                   <path class="circle"
-                    stroke-dasharray="<%= circle_percentage(@this_year_pickups.size, @this_year_movements.size) %>, 100"
+                    stroke-dasharray="<%= @this_year_pickups %>, 100"
                     d="M18 2.0845
                       a 15.9155 15.9155 0 0 1 0 31.831
                       a 15.9155 15.9155 0 0 1 0 -31.831"
                   />
-                  <text x="18" y="20.35" class="percentage"><%= number_to_percentage(circle_percentage(@this_year_pickups.size, @this_year_movements.size), precision: 2, rounded: 3)%></text>
+                  <text x="18" y="20.35" class="percentage"><%= number_to_percentage(@this_year_pickups, precision: 2, rounded: 3)%></text>
                 </svg>
               </div>
             </div>
@@ -119,7 +119,7 @@
         <div class="w-full flex-1 flex justify-center items-center border border-slate-200 rounded-lg p-4 shadow-md shadow-slate-200">
           <div class="w-full flex flex-col justify-center items-around gap-4">
             <% color = ['orange','green','blue', 'yellow'] %>
-            <h1 class="w-full text-xl text-center font-semibold text-red-700">DELIVERY last month <%= @last_month_deliveries.size %></h1>
+            <h1 class="w-full text-xl text-center font-semibold text-red-700">DELIVERY last month </h1>
             <svg viewBox="0 0 36 36" class="circular-chart <%= color.sample %>">
               <path class="circle-bg"
                 d="M18 2.0845
@@ -127,18 +127,18 @@
                   a 15.9155 15.9155 0 0 1 0 -31.831"
               />
               <path class="circle"
-                stroke-dasharray="<%= circle_percentage(@last_month_deliveries.size, @last_month_movements.size) %>, 100"
+                stroke-dasharray="<%= @this_month_deliveries %>, 100"
                 d="M18 2.0845
                   a 15.9155 15.9155 0 0 1 0 31.831
                   a 15.9155 15.9155 0 0 1 0 -31.831"
               />
-              <text x="18" y="20.35" class="percentage"><%= number_to_percentage(circle_percentage(@last_month_deliveries.size, @last_month_movements.size), precision: 1, rounded: 3)%></text>
+              <text x="18" y="20.35" class="percentage"><%= number_to_percentage(@this_month_deliveries, precision: 1, rounded: 3)%></text>
             </svg>
           </div>
         </div>
         <div class="w-full flex-1 flex justify-center items-center border border-slate-200 rounded-lg p-4 shadow-md shadow-slate-200">
           <div class="w-full flex flex-col justify-center items-around gap-4">
-            <h1 class="w-full text-xl text-center font-semibold text-red-700">PICKUP last month <%= @last_month_pickups.size %></h1>
+            <h1 class="w-full text-xl text-center font-semibold text-red-700">PICKUP last month</h1>
             <svg viewBox="0 0 36 36" class="circular-chart <%= color.sample %>">
               <path class="circle-bg"
                 d="M18 2.0845
@@ -146,57 +146,16 @@
                   a 15.9155 15.9155 0 0 1 0 -31.831"
               />
               <path class="circle"
-                stroke-dasharray="<%= circle_percentage(@last_month_pickups.size, @last_month_movements.size) %>, 100"
+                stroke-dasharray="<%= @this_month_pickups %>, 100"
                 d="M18 2.0845
                   a 15.9155 15.9155 0 0 1 0 31.831
                   a 15.9155 15.9155 0 0 1 0 -31.831"
               />
-              <text x="18" y="20.35" class="percentage"><%= number_to_percentage(circle_percentage(@last_month_pickups.size, @last_month_movements.size), precision: 1, rounded: 3)%></text>
+              <text x="18" y="20.35" class="percentage"><%= number_to_percentage(@this_month_pickups, precision: 1, rounded: 3)%></text>
             </svg>
           </div>
         </div>
       </div>
-      <div class="w-full flex justify-between items-start gap-8">
-        <div class="w-full flex-1 flex justify-center items-center border border-slate-200 rounded-lg p-4 shadow-md shadow-slate-200">
-          <div class="w-full flex flex-col justify-center items-around gap-4">
-            <% color = ['orange','green','blue', 'yellow'] %>
-            <h1 class="w-full text-xl text-center font-semibold text-red-700">DELIVERY last month <%= @last_month_deliveries.size %></h1>
-            <svg viewBox="0 0 36 36" class="circular-chart <%= color.sample %>">
-              <path class="circle-bg"
-                d="M18 2.0845
-                  a 15.9155 15.9155 0 0 1 0 31.831
-                  a 15.9155 15.9155 0 0 1 0 -31.831"
-              />
-              <path class="circle"
-                stroke-dasharray="<%= circle_percentage(@last_month_deliveries.size, @last_month_movements.size) %>, 100"
-                d="M18 2.0845
-                  a 15.9155 15.9155 0 0 1 0 31.831
-                  a 15.9155 15.9155 0 0 1 0 -31.831"
-              />
-              <text x="18" y="20.35" class="percentage"><%= number_to_percentage(circle_percentage(@last_month_deliveries.size, @last_month_movements.size), precision: 1, rounded: 3)%></text>
-            </svg>
-          </div>
-        </div>
-        <div class="w-full flex-1 flex justify-center items-center border border-slate-200 rounded-lg p-4 shadow-md shadow-slate-200">
-          <div class="w-full flex flex-col justify-center items-around gap-4">
-            <h1 class="w-full text-xl text-center font-semibold text-red-700">PICKUP last month <%= @last_month_pickups.size %></h1>
-            <svg viewBox="0 0 36 36" class="circular-chart <%= color.sample %>">
-              <path class="circle-bg"
-                d="M18 2.0845
-                  a 15.9155 15.9155 0 0 1 0 31.831
-                  a 15.9155 15.9155 0 0 1 0 -31.831"
-              />
-              <path class="circle"
-                stroke-dasharray="<%= circle_percentage(@last_month_pickups.size, @last_month_movements.size) %>, 100"
-                d="M18 2.0845
-                  a 15.9155 15.9155 0 0 1 0 31.831
-                  a 15.9155 15.9155 0 0 1 0 -31.831"
-              />
-              <text x="18" y="20.35" class="percentage"><%= number_to_percentage(circle_percentage(@last_month_pickups.size, @last_month_movements.size), precision: 1, rounded: 3)%></text>
-            </svg>
-          </div>
-        </div>
-      </div> 
     </div>
   </div>
 </div>
