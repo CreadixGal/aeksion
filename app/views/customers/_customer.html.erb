@@ -4,11 +4,17 @@
       <%= render CheckboxComponent.new(id: customer.id, name: 'customer_ids[]', options: { value: customer.id }) %>
     </div>
     <div class="w-9/12 flex justify-center items-center text-indigo-600 text-center font-semibold border-x border-indigo-400 py-2 px-4"> <%= customer.name %> </div>
-    <div class="w-2/12 flex justify-center px-6">
+    <div class="w-2/12 flex justify-center px-6" data-controller="swal">
       <% if action_name != "show" %>
-        <%= link_to inline_svg_tag('icons/eye.svg', class: 'w-4 h-4 text-indigo-600'), customer, class: 'rounded-lg py-3 ml-2 px-5 bg-indigo-100  hover:bg-indigo-300 inline-block font-medium m-2' %>
+        <%#= link_to inline_svg_tag('icons/eye.svg', class: 'w-4 h-4 text-indigo-600'), customer, class: 'rounded-lg py-3 ml-2 px-5 bg-indigo-100  hover:bg-indigo-300 inline-block font-medium m-2' %>
         <%= link_to inline_svg_tag('icons/pencil-square.svg', class: 'w-4 h-4 text-indigo-600'), edit_customer_path(customer), class: 'rounded-lg py-3 ml-2 px-5 bg-indigo-100 hover:bg-indigo-300  inline-block font-medium m-2' %>
-        <%= button_to customer, method: :delete, form: { data: { turbo_frame: "_top" } }, class: 'rounded-lg py-3 ml-2 px-5 bg-indigo-100 hover:bg-amber-300 inline-block font-medium m-2' do %>
+        <%= button_to customer, method: :delete,
+                                data: { 
+                                  controller: "swal",
+                                  swal_name_value: customer.name,
+                                  action: "click->swal#single"
+                                },
+                                class: 'rounded-lg py-3 ml-2 px-5 bg-indigo-100 hover:bg-amber-300 inline-block font-medium m-2' do %>
           <%= inline_svg_tag('icons/trash.svg', class: 'w-4 h-4 text-indigo-600') %>
         <% end %>
       <% end %>

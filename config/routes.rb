@@ -26,7 +26,7 @@ Rails.application.routes.draw do
       delete :multiple_delete
     end
   end
-  
+
   resources :zones do
     collection do
       delete :multiple_delete

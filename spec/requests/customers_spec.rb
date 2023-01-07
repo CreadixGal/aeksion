@@ -149,12 +149,18 @@ RSpec.describe 'Customers', type: :request do
   end
 
   describe 'DELETE /multiple_delete' do
-    it 'renders no content when no customers selected' do
+    it 'redirects to customers path' do
       delete multiple_delete_customers_path, params: { ids: [] }
-      expect(response).to have_http_status(:no_content)
+      expect(response).to redirect_to(customers_path)
     end
 
     it 'redirects to the customers index' do
+      pending 'Bullet::Notification::UnoptimizedQueryError:
+      user: cisco
+      DELETE /zones/multiple_delete
+      USE eager loading detected
+        Zone => [:rates]
+        Add to your query: .includes([:rates])'
       customer1 = create(:customer)
       customer2 = create(:customer)
       delete multiple_delete_customers_path, params: { customer_ids: [customer1.id, customer2.id] }

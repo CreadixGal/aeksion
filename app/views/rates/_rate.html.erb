@@ -19,9 +19,15 @@
     </div>
     <div class="w-2/12 flex justify-center px-6">
       <% if action_name != "show" %>
-        <%= link_to inline_svg_tag('icons/eye.svg', class: 'w-4 h-4 text-indigo-600'), rate, class: 'rounded-lg py-3 ml-2 px-5 bg-indigo-100  hover:bg-indigo-300 inline-block font-medium m-2' %>
+        <%#= link_to inline_svg_tag('icons/eye.svg', class: 'w-4 h-4 text-indigo-600'), rate, class: 'rounded-lg py-3 ml-2 px-5 bg-indigo-100  hover:bg-indigo-300 inline-block font-medium m-2' %>
         <%= link_to inline_svg_tag('icons/pencil-square.svg', class: 'w-4 h-4 text-indigo-600'), edit_rate_path(rate), class: 'rounded-lg py-3 ml-2 px-5 bg-indigo-100 hover:bg-indigo-300  inline-block font-medium m-2' %>
-        <%= button_to rate, method: :delete, form: { data: { turbo_frame: "_top" } }, class: 'rounded-lg py-3 ml-2 px-5 bg-indigo-100 hover:bg-amber-300 inline-block font-medium m-2' do %>
+        <%= button_to rate, method: :delete,
+                                data: { 
+                                  controller: "swal",
+                                  swal_name_value: "#{rate.customer.name} - #{rate.zone.name}: #{rate.kind}",
+                                  action: "click->swal#single"
+                                },
+                                class: 'rounded-lg py-3 ml-2 px-5 bg-indigo-100 hover:bg-amber-300 inline-block font-medium m-2' do %>
           <%= inline_svg_tag('icons/trash.svg', class: 'w-4 h-4 text-indigo-600') %>
         <% end %>
       <% end %>

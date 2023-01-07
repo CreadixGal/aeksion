@@ -47,16 +47,17 @@ class RatesController < ApplicationController
 
   def multiple_delete
     if params[:rate_ids].present?
-      ids = params[:rate_ids].compact
 
-      Rate.includes([:movements]).where(id: ids).destroy_all
-
+      Rate.where(id: params[:rate_ids].compact).destroy_all
       respond_to do |format|
-        format.html { redirect_to rates_path, alert: 'All selected Rates were successfully destroyed.' }
-        format.json { head :no_content }
+        format.html { redirect_to rates_path, success: t('.success') }
+        format.turbo_stream { flash.now[:success] = t('.success') }
       end
     else
-      flash.now[:error] = 'Please select at least one Rate.'
+      respond_to do |format|
+        format.html { redirect_to rates_path, error: t('.alert') }
+        format.turbo_stream { flash.now[:error] = t('.alert') }
+      end
     end
   end
 
