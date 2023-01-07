@@ -3,7 +3,7 @@
   <div class="w-full flex justify-between items-start">
     <div class="w-full flex flex-col justify-center items-center p-4 gap-8">
       <div class="w-full text-center text-4xl text-red-700">
-        Movimientos
+        <%= t('.movements') %>
         <span><%= total = Movement.count %> </span>
       </div>
       
@@ -14,7 +14,7 @@
             <div class="w-full flex-1 flex justify-center items-center p-4">
               <div class="w-full flex flex-col justify-center items-around gap-4">
                 <% color = ['orange','green','blue', 'yellow'] %>
-                <h1 class="w-full text-xl text-center font-semibold text-red-700">DELIVERY</h1>
+                <h1 class="w-full text-xl text-center font-semibold text-red-700"><%= t('.delivery') %></h1>
                 <svg viewBox="0 0 36 36" class="circular-chart <%= color.sample %>">
                   <path class="circle-bg"
                     d="M18 2.0845
@@ -35,7 +35,7 @@
             <div class="w-full flex-1 flex justify-center items-center p-4">
               <div class="w-full flex flex-col justify-center items-around gap-4">
                 <% color = ['orange','green','blue', 'yellow'] %>
-                <h1 class="w-full text-xl text-center font-semibold text-red-700">PICKUPS</h1>
+                <h1 class="w-full text-xl text-center font-semibold text-red-700"><%= t('.pickup')%></h1>
                 <svg viewBox="0 0 36 36" class="circular-chart <%= color.sample %>">
                   <path class="circle-bg"
                     d="M18 2.0845
@@ -64,7 +64,7 @@
                 <% color_500  = @comparision_year_delivery ? 'text-green-500' : 'text-red-500' %>
                 <% rotate = @comparision_year_delivery ? 'rotate-180': '' %>
                 <h1 class="w-full flex justify-between items-center text-xl text-center font-semibold <%= color_500 %>">
-                  Delivery
+                  <%= t('.delivery') %>
                   <span class="text-right">
                     <%= inline_svg_tag('icons/stonksdown.svg', class: "h-8 w-8 #{rotate}") %>
                   </span>
@@ -92,7 +92,7 @@
                 <% color_500  = @comparision_year_pickup ? 'text-green-500' : 'text-red-500' %>
                 <% rotate = @comparision_year_pickup ? 'rotate-180': '' %>
                 <h1 class="w-full flex justify-between items-center text-xl text-center font-semibold <%= color_500 %>">
-                  Pickup
+                  <%= t('.pickup') %>
                   <span class="text-right">
                     <%= inline_svg_tag('icons/stonksdown.svg', class: "h-8 w-8 #{rotate}") %>
                   </span>
@@ -122,7 +122,7 @@
         <div class="w-full flex-1 flex justify-center items-center border border-slate-200 rounded-lg p-4 shadow-md shadow-slate-200">
           <div class="w-full flex flex-col justify-center items-around gap-4">
             <% color = ['orange','green','blue', 'yellow'] %>
-            <h1 class="w-full text-xl text-center font-semibold text-red-700">Deliveries <%= t('date.month_names')[Time.zone.now.prev_month.month].capitalize %></h1>
+            <h1 class="w-full text-xl text-center font-semibold text-red-700"><%= t('.delivery')%> <%= t('date.month_names')[Time.zone.now.prev_month.month].capitalize %></h1>
             <svg viewBox="0 0 36 36" class="circular-chart <%= color.sample %>">
               <path class="circle-bg"
                 d="M18 2.0845
@@ -140,7 +140,7 @@
             <h4 class="w-full text-lg text-center text-red-800"><%= Movement.delivery.where(date: Time.zone.now.prev_month.all_month).size %></h4>
           </div>
           <div class="w-full flex flex-col justify-center items-around gap-4">
-            <h1 class="w-full text-xl text-center font-semibold text-red-700">Pickups <%= t('date.month_names')[Time.zone.now.prev_month.month].capitalize %></h1>
+            <h1 class="w-full text-xl text-center font-semibold text-red-700"><%= t('.pickup')%> <%= t('date.month_names')[Time.zone.now.prev_month.month].capitalize %></h1>
             <svg viewBox="0 0 36 36" class="circular-chart <%= color.sample %>">
               <path class="circle-bg"
                 d="M18 2.0845
@@ -164,7 +164,7 @@
             <% color_500  = @comparision_month_delivery ? 'text-green-500' : 'text-red-500' %>
             <% rotate = @comparision_month_delivery ? 'rotate-180': '' %>
             <h1 class="w-full flex justify-between items-center text-xl text-center font-semibold <%= color_500 %>">
-              Deliveries <%= t('date.month_names')[Time.zone.now.month].capitalize %>
+              <%= t('.delivery')%> <%= t('date.month_names')[Time.zone.now.month].capitalize %>
               <span class="text-right">
                 <%= inline_svg_tag('icons/stonksdown.svg', class: "h-8 w-8 #{rotate}") %>
               </span>
@@ -190,7 +190,7 @@
             <% color_500  = @comparision_month_pickup ? 'text-green-500' : 'text-red-500' %>
             <% rotate = @comparision_month_pickup ? 'rotate-180': '' %>
             <h1 class="w-full flex justify-between items-center text-xl text-center font-semibold <%= color_500 %>">
-              Pickups <%= t('date.month_names')[Time.zone.now.month].capitalize %>
+              <%= t('.pickup') %> <%= t('date.month_names')[Time.zone.now.month].capitalize %>
               <span class="text-right">
                 <%= inline_svg_tag('icons/stonksdown.svg', class: "h-8 w-8 #{rotate}") %>
               </span>
