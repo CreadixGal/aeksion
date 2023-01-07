@@ -42,7 +42,7 @@ Rails.application.routes.draw do
   # authentication
   devise_for  :users,
               path: 'auth',
-              controllers: { 
+              controllers: {
                 sessions: 'user_sessions'
               },
               path_names: {
