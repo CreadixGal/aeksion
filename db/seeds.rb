@@ -1,3 +1,5 @@
+require 'faker'
+
 file_name = 'pale.jpg'
 file_path = Rails.root.join('spec', 'factories', 'images', file_name)
 Faker::Config.locale = :es
