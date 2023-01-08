@@ -102,6 +102,7 @@ gem 'breadcrumbs_on_rails'
 gem 'inline_svg'
 gem 'pagy'
 gem 'view_component'
+gem 'faker'
 
 # testing coverage
 gem 'simplecov-formatter-badge', require: false
