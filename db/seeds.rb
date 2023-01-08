@@ -11,7 +11,7 @@ end
 4.times do |i|
   names = ['A coruña', 'Lugo', 'Ourense', 'Pontevedra']
   name = names.sample
-  zone = Zone.new(name: name)
+  zone = Zone.new(name:)
   names.delete(name)
   zone.name = name unless zone.save
 
@@ -42,42 +42,28 @@ Customer.all.each do |customer|
     price: rand(0.001..0.999)
   )
 end
+two_years_ago = 2.years.ago
 
-500.times do |i|
-  3.times do
+while two_years_ago <= Time.zone.now
+  two_years_ago += 1.day
+  next if two_years_ago.saturday? || two_years_ago.sunday?
+
+  puts amount = rand(6..22)
+  amount.times do
     rate = Rate.all.sample
     product = Product.all.sample
     random = rand(0..300)
     quantity = (product.stock - random).positive? ? random : 0
     next if quantity.zero?
 
-    Movement.create!(
+    mov = Movement.create!(
       rate_id: rate.id,
-      date: (i + 2).days.ago,
+      date: two_years_ago,
       product_movements_attributes: [
         product_id: product.id,
         quantity:
       ]
     )
-  end
-end
-
-500.times do |i|
-  3.times do
-    time = (i + 2).days.ago - 1.year
-    rate = Rate.all.sample
-    product = Product.all.sample
-    random = rand(0..300)
-    quantity = (product.stock - random).positive? ? random : 0
-    next if quantity.zero?
-
-    Movement.create!(
-      rate_id: rate.id,
-      date: time,
-      product_movements_attributes: [
-        product_id: product.id,
-        quantity:
-      ]
-    )
+    puts "#{two_years_ago}: #{mov.persisted?}"
   end
 end
