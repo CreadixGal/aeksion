@@ -110,7 +110,7 @@ RSpec.describe 'Movements', type: :request do
 
       it 'redirects to the movements index' do
         post movements_path, params: { movement: valid_attributes }
-        expect(response).to redirect_to(movements_path)
+        expect(response).to redirect_to(movements_path(kind: Movement.last.rate.kind))
       end
     end
 
@@ -160,7 +160,7 @@ RSpec.describe 'Movements', type: :request do
 
       it 'redirects to the movements index' do
         patch movement_path(subject), params: { movement: { date: } }
-        expect(response).to redirect_to(movements_path)
+        expect(response).to redirect_to(movements_path(kind: subject.rate.kind))
       end
     end
 

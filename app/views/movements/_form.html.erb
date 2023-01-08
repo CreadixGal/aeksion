@@ -1,37 +1,43 @@
-<div id="<%= dom_id movement %>" class="w-full flex justify-between border-x-2
-  border-t-2 border-b-0 border-indigo-500 bg-indigo-50 opacity-70">
-  <div class="w-1/12 flex justify-center items-center content-center px-4">
-    <%= render CheckboxComponent.new(id: movement.id, name: 'movement_ids[]', options: { value: movement.id }) %>
+<li id="<%= dom_id movement %>" class="table-row-li">
+  <div class="w-full flex justify-between">
+    <div class="w-1/12 flex justify-center items-center content-center px-4">
+      <%= render CheckboxComponent.new(id: movement.id, name: 'movement_ids[]', options: { value: movement.id }) %>
+    </div>
+    <%= form_with(model: movement, class: 'contents') do |form| %>
+      <div class="w-9/12 flex text-black text-center font-semibold border-x border-slate-100 py-2 px-0 relative z-0 group"> 
+        <%= form.select :rate_id, options_for_select(Rate.all.map { |rate| ["#{rate.customer_name} - #{rate.kind} [#{rate.price}€]", rate.id] }, selected: movement.rate_id), {}, class: 'w-full border-none bg-transparent text-center' %>
+
+        <%= form.fields_for :product_movements, movement.product_movements.new do |product_movement_form| %>        
+            <%= product_movement_form.select :product_id, options_for_select(Product.all.map { |product| [product.name, product.id] }), {}, class: 'w-full border-none bg-transparent text-center' %> 
+
+            <%= product_movement_form.number_field :quantity, placeholder: 100, max: 9000, required: true%>
+        <% end %>
+
+        <%= form.date_select :date, start_year: 2021, end_year: 2022, class: 'w-1/2 mx-auto block py-2.5 px-0 w-full text-lg text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'%>
+
+        <% if movement.errors.any? %>
+          <div id="error_explanation" class="bg-red-50 text-red-500 border-b-8 border-b-red-600 px-3 py-2 font-medium rounded-lg mt-3">
+            <h2><%= pluralize(movement.errors.count, 'error') %> prohibited this movement from being saved:</h2>
+
+            <ul>
+              <% movement.errors.each do |error| %>
+                <li><%= error.full_message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+      </div>
+      <div class="table-actions">
+        <%= form.submit '✔️', class: 'wrapper-icon-button-default' %>
+        
+        <%= link_to movements_path(kind: movement&.rate&.kind.presence || 'pickup'),
+                    class: 'wrapper-icon-button-default' do %>
+          <%= inline_svg_tag(
+                'icons/x-circle.svg',
+                class: 'icon-button-default'
+              ) %>
+        <% end %>
+      </div>
+    <% end %>
   </div>
-  <%= form_with(model: movement, class: 'contents') do |form| %>
-    <div class="w-9/12 flex text-indigo-600 text-center font-semibold border-x border-indigo-400 py-2 px-4 relative z-0 group"> 
-      <%= form.select :rate_id, options_for_select(Rate.all.map { |rate| ["#{rate.customer_name} - #{rate.kind} [#{rate.price}€]", rate.id] }, selected: movement.rate_id), {}, class: 'w-full border-none bg-transparent text-center' %>
-
-      <%= form.fields_for :product_movements, movement.product_movements.new do |product_movement_form| %>        
-          <%= product_movement_form.select :product_id, options_for_select(Product.all.map { |product| [product.name, product.id] }), {}, class: 'w-full border-none bg-transparent text-center' %> 
-
-          <%= product_movement_form.number_field :quantity, placeholder: 100, max: 9000, required: true%>
-      <% end %>
-
-      <%= form.date_select :date, start_year: 2021, end_year: 2022, class: 'w-1/2 mx-auto block py-2.5 px-0 w-full text-lg text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'%>
-
-      <% if movement.errors.any? %>
-        <div id="error_explanation" class="bg-red-50 text-red-500 border-b-8 border-b-red-600 px-3 py-2 font-medium rounded-lg mt-3">
-          <h2><%= pluralize(movement.errors.count, 'error') %> prohibited this movement from being saved:</h2>
-
-          <ul>
-            <% movement.errors.each do |error| %>
-              <li><%= error.full_message %></li>
-            <% end %>
-          </ul>
-        </div>
-      <% end %>
-    </div>
-    <div class="w-2/12 flex justify-center items-center gap-6">
-      <%= form.submit '✔️', class: 'w-8 h-8 flex justify-center items-center text-center rounded-lg bg-green-300 hover:bg-green-500 cursor-pointer' %>
-      <%= link_to movements_path, class: 'w-8 h-8 flex justify-center items-center content-center rounded-lg bg-slate-300 hover:bg-slate-400' do %>
-        <%= inline_svg_tag('icons/x-circle.svg', class: 'w-6 h-6') %>
-      <% end %>
-    </div>
-  <% end %>
-</div>
+</li>
