@@ -70,14 +70,30 @@
   }
 
   .table-header {
-    @apply flex justify-center text-indigo-600 text-center font-semibold;
+    @apply w-full flex justify-between border rounded-t-lg border-black bg-black opacity-100 text-white;
   }
 
-  .table-header-actions{
-    @apply flex justify-center px-4 py-2 border-r-2 border-indigo-500;
+  .table-body {
+    @apply w-full flex odd:bg-white even:bg-gray-100;
+  }
+
+  .table-row-li {
+    @apply w-full list-none border-t-[0.5px] border-b-[0.5px] border-slate-100 odd:bg-white even:bg-slate-50 hover:bg-slate-100;
+  }
+
+  .table-actions{
+    @apply w-2/12 flex justify-end items-center border-l px-4 py-2 gap-8;
   }
 
   .table-cell-text {
     @apply flex justify-start border-x border-indigo-300 items-center px-4;
+  }
+
+  .icon-button-default {
+    @apply w-6 h-6 text-black;
+  }
+
+  .wrapper-icon-button-default {
+    @apply w-10 h-10 flex justify-center items-center rounded-lg bg-slate-100 hover:bg-slate-200 inline-block font-medium;
   }
 }
