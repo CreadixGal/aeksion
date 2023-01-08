@@ -252,3 +252,8 @@ es:
     multiple_delete:
       success: Todos los elementos seleccionados han sido eliminados.
       alert: Marca almenos un movimiento.
+  pages:
+    dashboard:
+      movements: Movimientos
+      delivery: Entregas
+      pickup: Recogidas

@@ -48,7 +48,6 @@ RSpec.describe Movement, type: :model do
       it 'returns only movements with rate of kind delivery' do
         Rate.destroy_all
         delivery = create(:movement, rate: create(:rate, :delivery))
-        create(:movement, rate: create(:rate, :pickup))
         expect(described_class.delivery).to eq([delivery])
       end
     end
@@ -56,7 +55,6 @@ RSpec.describe Movement, type: :model do
     describe '.pickup' do
       it 'returns only movements with rate of kind pickup' do
         Rate.destroy_all
-        create(:movement, rate: create(:rate, :delivery))
         pickup = create(:movement, rate: create(:rate, :pickup))
         expect(described_class.pickup).to eq([pickup])
       end

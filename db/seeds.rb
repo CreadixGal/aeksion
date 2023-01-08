@@ -43,7 +43,7 @@ Customer.all.each do |customer|
   )
 end
 
-70.times do |i|
+500.times do |i|
   3.times do
     rate = Rate.all.sample
     product = Product.all.sample
@@ -54,6 +54,26 @@ end
     Movement.create!(
       rate_id: rate.id,
       date: (i + 2).days.ago,
+      product_movements_attributes: [
+        product_id: product.id,
+        quantity:
+      ]
+    )
+  end
+end
+
+500.times do |i|
+  3.times do
+    time = (i + 2).days.ago - 1.year
+    rate = Rate.all.sample
+    product = Product.all.sample
+    random = rand(0..300)
+    quantity = (product.stock - random).positive? ? random : 0
+    next if quantity.zero?
+
+    Movement.create!(
+      rate_id: rate.id,
+      date: time,
       product_movements_attributes: [
         product_id: product.id,
         quantity:

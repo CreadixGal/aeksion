@@ -1,7 +1,218 @@
-<div class="w-full mb-8">
-  <%= turbo_frame_tag :dashboard do %>
-    <%= turbo_frame_tag :customers_index, src: customers_path, loading: :lazy do %>
-      <div class="w-12 h-12 mx-auto border-2 border-red-600 rounded-full loader"></div>
-    <% end %>
-  <% end %>
+<div class="w-4/5 mx-auto flex flex-col gap-8">
+  
+  <div class="w-full flex justify-between items-start">
+    <div class="w-full flex flex-col justify-center items-center p-4 gap-8">
+      <div class="w-full text-center text-4xl text-red-700">
+        <%= t('.movements') %>
+        <span><%= total = Movement.count %> </span>
+      </div>
+      
+      <div class="w-full flex justify-between items-start gap-8">
+        <div class="w-1/2 flex flex-col justify-between items-start border border-slate-200 rounded-lg shadow-md shadow-slate-200 p-4 gap-8">
+          <h1 class="w-full text-xl text-center font-semibold text-red-700">Historico <%= @total_movements.size %></h1>
+          <div class="w-full flex">
+            <div class="w-full flex-1 flex justify-center items-center p-4">
+              <div class="w-full flex flex-col justify-center items-around gap-4">
+                <% color = ['orange','green','blue', 'yellow'] %>
+                <h1 class="w-full text-xl text-center font-semibold text-red-700"><%= t('.delivery') %></h1>
+                <svg viewBox="0 0 36 36" class="circular-chart <%= color.sample %>">
+                  <path class="circle-bg"
+                    d="M18 2.0845
+                      a 15.9155 15.9155 0 0 1 0 31.831
+                      a 15.9155 15.9155 0 0 1 0 -31.831"
+                  />
+                  <path class="circle"
+                    stroke-dasharray="<%= @total_deliveries %>, 100"
+                    d="M18 2.0845
+                      a 15.9155 15.9155 0 0 1 0 31.831
+                      a 15.9155 15.9155 0 0 1 0 -31.831"
+                  />
+                  <text x="18" y="20.35" class="percentage"><%= number_to_percentage(@total_deliveries, precision: 2, rounded: 3)%></text>
+                </svg>
+                <h4 class="w-full text-lg text-center text-red-800"><%= Movement.delivery.size %></h4>
+              </div>
+            </div>
+            <div class="w-full flex-1 flex justify-center items-center p-4">
+              <div class="w-full flex flex-col justify-center items-around gap-4">
+                <% color = ['orange','green','blue', 'yellow'] %>
+                <h1 class="w-full text-xl text-center font-semibold text-red-700"><%= t('.pickup')%></h1>
+                <svg viewBox="0 0 36 36" class="circular-chart <%= color.sample %>">
+                  <path class="circle-bg"
+                    d="M18 2.0845
+                      a 15.9155 15.9155 0 0 1 0 31.831
+                      a 15.9155 15.9155 0 0 1 0 -31.831"
+                  />
+                  <path class="circle"
+                    stroke-dasharray="<%= @total_pickups %>, 100"
+                    d="M18 2.0845
+                      a 15.9155 15.9155 0 0 1 0 31.831
+                      a 15.9155 15.9155 0 0 1 0 -31.831"
+                  />
+                  <text x="18" y="20.35" class="percentage"><%= number_to_percentage(@total_pickups, precision: 2, rounded: 3)%></text>
+                </svg>
+                <h4 class="w-full text-lg text-center text-red-800"><%= Movement.pickup.size %></h4>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="w-1/2 flex flex-col justify-between items-start border border-slate-200 rounded-lg shadow-md shadow-slate-200 p-4 gap-8 fill-">
+          <h1 class="w-full text-xl text-center font-semibold text-red-700">Año actual <%= Movement.filter_between_dates(Time.zone.now.beginning_of_year, Time.zone.now).count %></h1>
+          <div class="w-full flex">
+            <div class="w-full flex-1 flex justify-center items-center p-4">
+              <div class="w-full flex flex-col justify-center items-around gap-4">
+                <% color = ['orange','green','blue', 'yellow'] %>
+                <% color_500  = @comparision_year_delivery ? 'text-green-500' : 'text-red-500' %>
+                <% rotate = @comparision_year_delivery ? 'rotate-180': '' %>
+                <h1 class="w-full flex justify-between items-center text-xl text-center font-semibold <%= color_500 %>">
+                  <%= t('.delivery') %>
+                  <span class="text-right">
+                    <%= inline_svg_tag('icons/stonksdown.svg', class: "h-8 w-8 #{rotate}") %>
+                  </span>
+                </h1>
+                <svg viewBox="0 0 36 36" class="circular-chart <%= color.sample %>">
+                  <path class="circle-bg"
+                    d="M18 2.0845
+                      a 15.9155 15.9155 0 0 1 0 31.831
+                      a 15.9155 15.9155 0 0 1 0 -31.831"
+                  />
+                  <path class="circle"
+                    stroke-dasharray="<%= @this_year_deliveries %>, 100"
+                    d="M18 2.0845
+                      a 15.9155 15.9155 0 0 1 0 31.831
+                      a 15.9155 15.9155 0 0 1 0 -31.831"
+                  />
+                  <text x="18" y="20.35" class="percentage"><%= number_to_percentage(@this_year_deliveries, precision: 2, rounded: 3)%></text>
+                </svg>
+                <h4 class="w-full text-lg text-center text-red-800"><%= Movement.delivery.where(date: Time.zone.now.all_year).size %></h4>
+              </div>
+            </div>
+            <div class="w-full flex-1 flex justify-center items-center p-4">
+              <div class="w-full flex flex-col justify-center items-around gap-4">
+                <% color = ['orange','green','blue', 'yellow'] %>
+                <% color_500  = @comparision_year_pickup ? 'text-green-500' : 'text-red-500' %>
+                <% rotate = @comparision_year_pickup ? 'rotate-180': '' %>
+                <h1 class="w-full flex justify-between items-center text-xl text-center font-semibold <%= color_500 %>">
+                  <%= t('.pickup') %>
+                  <span class="text-right">
+                    <%= inline_svg_tag('icons/stonksdown.svg', class: "h-8 w-8 #{rotate}") %>
+                  </span>
+                </h1>
+                <svg viewBox="0 0 36 36" class="circular-chart <%= color.sample %>">
+                  <path class="circle-bg"
+                    d="M18 2.0845
+                      a 15.9155 15.9155 0 0 1 0 31.831
+                      a 15.9155 15.9155 0 0 1 0 -31.831"
+                  />
+                  <path class="circle"
+                    stroke-dasharray="<%= @this_year_pickups %>, 100"
+                    d="M18 2.0845
+                      a 15.9155 15.9155 0 0 1 0 31.831
+                      a 15.9155 15.9155 0 0 1 0 -31.831"
+                  />
+                  <text x="18" y="20.35" class="percentage"><%= number_to_percentage(@this_year_pickups, precision: 2, rounded: 3)%></text>
+                </svg>
+                <h4 class="w-full text-lg text-center text-red-800"><%= Movement.pickup.where(date: Time.zone.now.all_year).size %></h4>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="w-full flex justify-between items-start gap-8">
+        <div class="w-full flex-1 flex justify-center items-center border border-slate-200 rounded-lg p-4 shadow-md shadow-slate-200">
+          <div class="w-full flex flex-col justify-center items-around gap-4">
+            <% color = ['orange','green','blue', 'yellow'] %>
+            <h1 class="w-full text-xl text-center font-semibold text-red-700"><%= t('.delivery')%> <%= t('date.month_names')[Time.zone.now.prev_month.month].capitalize %></h1>
+            <svg viewBox="0 0 36 36" class="circular-chart <%= color.sample %>">
+              <path class="circle-bg"
+                d="M18 2.0845
+                  a 15.9155 15.9155 0 0 1 0 31.831
+                  a 15.9155 15.9155 0 0 1 0 -31.831"
+              />
+              <path class="circle"
+                stroke-dasharray="<%= @last_month_deliveries %>, 100"
+                d="M18 2.0845
+                  a 15.9155 15.9155 0 0 1 0 31.831
+                  a 15.9155 15.9155 0 0 1 0 -31.831"
+              />
+              <text x="18" y="20.35" class="percentage"><%= number_to_percentage(@last_month_deliveries, precision: 2, rounded: 3)%></text>
+            </svg>
+            <h4 class="w-full text-lg text-center text-red-800"><%= Movement.delivery.where(date: Time.zone.now.prev_month.all_month).size %></h4>
+          </div>
+          <div class="w-full flex flex-col justify-center items-around gap-4">
+            <h1 class="w-full text-xl text-center font-semibold text-red-700"><%= t('.pickup')%> <%= t('date.month_names')[Time.zone.now.prev_month.month].capitalize %></h1>
+            <svg viewBox="0 0 36 36" class="circular-chart <%= color.sample %>">
+              <path class="circle-bg"
+                d="M18 2.0845
+                  a 15.9155 15.9155 0 0 1 0 31.831
+                  a 15.9155 15.9155 0 0 1 0 -31.831"
+              />
+              <path class="circle"
+                stroke-dasharray="<%= @last_month_pickups %>, 100"
+                d="M18 2.0845
+                  a 15.9155 15.9155 0 0 1 0 31.831
+                  a 15.9155 15.9155 0 0 1 0 -31.831"
+              />
+              <text x="18" y="20.35" class="percentage"><%= number_to_percentage(@last_month_pickups, precision: 2, rounded: 3)%></text>
+            </svg>
+            <h4 class="w-full text-lg text-center text-red-800"><%= Movement.pickup.where(date: Time.zone.now.prev_month.all_month).size %></h4>
+          </div>
+        </div>
+        <div class="w-full flex-1 flex justify-center items-center border border-slate-200 rounded-lg p-4 shadow-md shadow-slate-200">
+          <div class="w-full flex flex-col justify-center items-around gap-4">
+            <% color = ['orange','green','blue', 'yellow'] %>
+            <% color_500  = @comparision_month_delivery ? 'text-green-500' : 'text-red-500' %>
+            <% rotate = @comparision_month_delivery ? 'rotate-180': '' %>
+            <h1 class="w-full flex justify-between items-center text-xl text-center font-semibold <%= color_500 %>">
+              <%= t('.delivery')%> <%= t('date.month_names')[Time.zone.now.month].capitalize %>
+              <span class="text-right">
+                <%= inline_svg_tag('icons/stonksdown.svg', class: "h-8 w-8 #{rotate}") %>
+              </span>
+            </h1>
+            <svg viewBox="0 0 36 36" class="circular-chart <%= color.sample %>">
+              <path class="circle-bg"
+                d="M18 2.0845
+                  a 15.9155 15.9155 0 0 1 0 31.831
+                  a 15.9155 15.9155 0 0 1 0 -31.831"
+              />
+              <path class="circle"
+                stroke-dasharray="<%= @this_month_deliveries %>, 100"
+                d="M18 2.0845
+                  a 15.9155 15.9155 0 0 1 0 31.831
+                  a 15.9155 15.9155 0 0 1 0 -31.831"
+              />
+              <text x="18" y="20.35" class="percentage"><%= number_to_percentage(@this_month_deliveries, precision: 2, rounded: 3)%></text>
+            </svg>
+            <h4 class="w-full text-lg text-center text-red-800"><%= Movement.delivery.where(date: Time.zone.now.all_month).size %></h4>
+          </div>
+          <div class="w-full flex flex-col justify-center items-around gap-4">
+            <% color = ['orange','green','blue', 'yellow'] %>
+            <% color_500  = @comparision_month_pickup ? 'text-green-500' : 'text-red-500' %>
+            <% rotate = @comparision_month_pickup ? 'rotate-180': '' %>
+            <h1 class="w-full flex justify-between items-center text-xl text-center font-semibold <%= color_500 %>">
+              <%= t('.pickup') %> <%= t('date.month_names')[Time.zone.now.month].capitalize %>
+              <span class="text-right">
+                <%= inline_svg_tag('icons/stonksdown.svg', class: "h-8 w-8 #{rotate}") %>
+              </span>
+            </h1>
+            <svg viewBox="0 0 36 36" class="circular-chart <%= color.sample %>">
+              <path class="circle-bg"
+                d="M18 2.0845
+                  a 15.9155 15.9155 0 0 1 0 31.831
+                  a 15.9155 15.9155 0 0 1 0 -31.831"
+              />
+              <path class="circle"
+                stroke-dasharray="<%= @this_month_pickups %>, 100"
+                d="M18 2.0845
+                  a 15.9155 15.9155 0 0 1 0 31.831
+                  a 15.9155 15.9155 0 0 1 0 -31.831"
+              />
+              <text x="18" y="20.35" class="percentage"><%= number_to_percentage(@this_month_pickups, precision: 2, rounded: 3)%></text>
+            </svg>
+            <h4 class="w-full text-lg text-center text-red-800"><%= Movement.pickup.where(date: Time.zone.now.all_month).size %></h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
