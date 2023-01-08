@@ -1,28 +1,29 @@
-<div id="<%= dom_id zone %>" class="w-full flex justify-between border-x-2
-  border-t-2 border-b-0 border-indigo-500 bg-indigo-50 opacity-70">
-  <div class="w-1/12 flex justify-center items-center content-center px-4">
-    <%= render CheckboxComponent.new(id: zone.id, name: 'zone_ids[]', options: { value: zone.id }) %>
-  </div>
-  <%= form_with(model: zone, class: 'contents') do |form| %>
-    <div class="w-9/12 text-indigo-600 text-center font-semibold border-x border-indigo-400 py-2 px-4 relative z-0 group"> 
-      <%= form.text_field :name, placeholder: 'Introduce nombre de zona', class:'w-1/2 mx-auto block py-2.5 px-0 w-full text-lg text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'%>
-      <% if zone.errors.any? %>
-        <div id="error_explanation" class="bg-red-50 text-red-500 border-b-8 border-b-red-600 px-3 py-2 font-medium rounded-lg mt-3">
-          <h2><%= pluralize(zone.errors.count, 'error') %> prohibited this zone from being saved:</h2>
+<li id="<%= dom_id zone %>" class="table-row-li">
+  <div class="w-full flex justify-between">
+    <div class="w-1/12 flex justify-center items-center content-center px-4">
+      <%= render CheckboxComponent.new(id: zone.id, name: 'zone_ids[]', options: { value: zone.id }) %>
+    </div>
+    <%= form_with(model: zone, class: 'contents') do |form| %>
+      <div class="w-9/12 text-black text-center font-semibold border-x border-slate-100 py-2 px-0 relative z-0 group"> 
+        <%= form.text_field :name, placeholder: 'Introduce nombre de zona', class:'w-1/2 mx-auto block py-2.5 px-0 w-full text-lg text-black bg-transparent border-0 border-b-2 border-slate-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'%>
+        <% if zone.errors.any? %>
+          <div id="error_explanation" class="bg-red-50 text-red-500 border-b-8 border-b-red-600 px-3 py-2 font-medium rounded-lg mt-3">
+            <h2><%= pluralize(zone.errors.count, 'error') %> prohibited this zone from being saved:</h2>
 
-          <ul>
-            <% zone.errors.each do |error| %>
-              <li><%= error.full_message %></li>
-            <% end %>
-          </ul>
-        </div>
-      <% end %>
-    </div>
-    <div class="w-2/12 flex justify-center items-center gap-6">
-      <%= form.submit '✔️', class: 'w-8 h-8 flex justify-center items-center text-center rounded-lg bg-green-300 hover:bg-green-500 cursor-pointer' %>
-      <%= link_to zones_path, class: 'w-8 h-8 flex justify-center items-center content-center rounded-lg bg-slate-300 hover:bg-slate-400' do %>
-        <%= inline_svg_tag('icons/x-circle.svg', class: 'w-6 h-6') %>
-      <% end %>
-    </div>
-  <% end %>
-</div>
+            <ul>
+              <% zone.errors.each do |error| %>
+                <li><%= error.full_message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+      </div>
+      <div class="table-actions">
+        <%= form.submit '✔️', class: 'wrapper-icon-button-default' %>
+        <%= link_to zones_path, class: 'wrapper-icon-button-default' do %>
+          <%= inline_svg_tag('icons/x-circle.svg', class: 'icon-button-default') %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</li>
