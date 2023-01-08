@@ -73,6 +73,10 @@
     @apply w-full flex justify-between border rounded-t-lg border-black bg-black opacity-100 text-white;
   }
 
+  .table-footer {
+    @apply w-full flex justify-between border rounded-b-lg border-black bg-black opacity-100 text-white;
+  }
+
   .table-body {
     @apply w-full flex odd:bg-white even:bg-gray-100;
   }
