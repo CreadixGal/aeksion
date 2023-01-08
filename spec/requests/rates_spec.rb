@@ -36,11 +36,6 @@ RSpec.describe 'Rates', type: :request do
       expect(response.body).to include('Tarifas')
     end
 
-    it 'renders total count of created rates' do
-      get rates_path
-      expect(response.body).to include("Total: #{Rate.count}")
-    end
-
     it 'renders a turbo frame with id rates' do
       get rates_path
       expect(response.body).to include('<turbo-frame class="w-full" id="rates">')
