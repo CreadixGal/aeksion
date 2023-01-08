@@ -58,7 +58,7 @@ class MovementsController < ApplicationController
 
     respond_to do |format|
       if @movement.save
-        format.html { redirect_to movements_path, success: t('.success') }
+        format.html { redirect_to movements_path(kind: @movement.rate_kind), success: t('.success') }
         format.turbo_stream { flash.now[:success] = t('.success') }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -72,7 +72,7 @@ class MovementsController < ApplicationController
   def update
     respond_to do |format|
       if @movement.update(movement_params)
-        format.html { redirect_to movements_path, success: t('.success') }
+        format.html { redirect_to movements_path(kind: @movement.rate_kind), success: t('.success') }
         format.turbo_stream { flash.now[:success] = t('.success') }
       else
         format.html { render :edit, status: :unprocessable_entity }

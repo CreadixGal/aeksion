@@ -1,38 +1,39 @@
-<div id="<%= dom_id rate %>" class="w-full flex justify-between border-x-2
-  border-t-2 border-b-0 border-indigo-500 bg-indigo-50 opacity-70">
-  <div class="w-1/12 flex justify-center items-center content-center px-4">
-    <%= render CheckboxComponent.new(id: rate.id, name: 'rate_ids[]', options: { value: rate.id }) %>
-  </div>
-  <%= form_with(model: rate, class: 'contents') do |form| %>
-    <div class="w-9/12 text-indigo-600 text-center font-semibold border-x border-indigo-400 py-2 px-4 relative z-0 group"> 
-      <div class="w-full flex justify-evenly gap-8">
-        <%= form.select :customer_id, Customer.all.map { |c| [c.name, c.id] }, { include_blank: 'Selecciona cliente' }, class: 'w-1/2 mx-auto block py-2.5 px-0 w-full text-lg text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer' %>
-      
-        <%= form.select :zone_id, Zone.all.map { |z| [z.name, z.id] }, { include_blank: 'Selecciona zona' }, class: 'w-1/2 mx-auto block py-2.5 px-0 w-full text-lg text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer' %>
+<li id="<%= dom_id rate %>" class="table-row-li">
+  <div class="w-full flex justify-between">
+    <div class="w-1/12 flex justify-center items-center content-center px-4">
+      <%= render CheckboxComponent.new(id: rate.id, name: 'rate_ids[]', options: { value: rate.id }) %>
+    </div>
+    <%= form_with(model: rate, class: 'contents') do |form| %>
+      <div class="w-9/12 text-black text-center font-semibold border-x border-slate-100 py-2 px-4 relative z-0 group"> 
+        <div class="w-full flex justify-evenly gap-8">
+          <%= form.select :customer_id, Customer.all.map { |c| [c.name, c.id] }, { include_blank: 'Selecciona cliente' }, class: 'w-1/2 mx-auto block py-2.5 px-0 w-full text-lg text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer' %>
+        
+          <%= form.select :zone_id, Zone.all.map { |z| [z.name, z.id] }, { include_blank: 'Selecciona zona' }, class: 'w-1/2 mx-auto block py-2.5 px-0 w-full text-lg text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer' %>
 
-        <%= form.select :kind, Rate.kinds.keys.map { |k| [k.humanize, k] }, { include_blank: 'Selecciona tipo' }, class: 'w-1/2 mx-auto block py-2.5 px-0 w-full text-lg text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer' %>
+          <%= form.select :kind, Rate.kinds.keys.map { |k| [k.humanize, k] }, { include_blank: 'Selecciona tipo' }, class: 'w-1/2 mx-auto block py-2.5 px-0 w-full text-lg text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer' %>
 
-        <%= form.number_field :price, step: 0.001, min: 0.000, max: 1, placeholder: 'Introduce precio', class:'w-1/2 mx-auto block py-2.5 px-0 w-full text-lg text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'%>
-      </div>
-
-
-      <% if rate.errors.any? %>
-        <div id="error_explanation" class="bg-red-50 text-red-500 border-b-8 border-b-red-600 px-3 py-2 font-medium rounded-lg mt-3">
-          <h2><%= pluralize(rate.errors.count, 'error') %> prohibited this rate from being saved:</h2>
-
-          <ul>
-            <% rate.errors.each do |error| %>
-              <li><%= error.full_message %></li>
-            <% end %>
-          </ul>
+          <%= form.number_field :price, step: 0.001, min: 0.000, max: 1, placeholder: 'Introduce precio', class:'w-1/2 mx-auto block py-2.5 px-0 w-full text-lg text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'%>
         </div>
-      <% end %>
-    </div>
-    <div class="w-2/12 flex justify-center items-center gap-6">
-      <%= form.submit '✔️', class: 'w-8 h-8 flex justify-center items-center text-center rounded-lg bg-green-300 hover:bg-green-500 cursor-pointer' %>
-      <%= link_to rates_path, class: 'w-8 h-8 flex justify-center items-center content-center rounded-lg bg-slate-300 hover:bg-slate-400' do %>
-        <%= inline_svg_tag('icons/x-circle.svg', class: 'w-6 h-6') %>
-      <% end %>
-    </div>
-  <% end %>
-</div>
+
+
+        <% if rate.errors.any? %>
+          <div id="error_explanation" class="bg-red-50 text-red-500 border-b-8 border-b-red-600 px-3 py-2 font-medium rounded-lg mt-3">
+            <h2><%= pluralize(rate.errors.count, 'error') %> prohibited this rate from being saved:</h2>
+
+            <ul>
+              <% rate.errors.each do |error| %>
+                <li><%= error.full_message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+      </div>
+      <div class="table-actions">
+        <%= form.submit '✔️', class: 'wrapper-icon-button-default text-black' %>
+        <%= link_to rates_path, class: 'wrapper-icon-button-default' do %>
+          <%= inline_svg_tag('icons/x-circle.svg', class: 'icon-button-default') %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</li>

@@ -1,9 +1,15 @@
-<div class="form-check flex">
+<div class="form-check flex flex-col justify-center items-center py-4 px-2">
   
   <% if params[:kind].present? %>
     <input type="hidden" name= 'kind' value= <%= params[:kind] %> />
   <% end %>
   
+  <% if show %>
+    <label class="form-check-label inline-block text-white cursor-pointer text-sm text-center whitespace-nowrap" for="<%= id %>">
+      <%= label %>
+    </label>
+  <% end %>
+
   <input id="<%= id %>"
           name="<%= name %>"
           type="checkbox"
@@ -11,10 +17,4 @@
           data-checkbox-select-all-target="<%= target %>"
           data-action="click->checkbox-select-all#<%= action %>"
           class="<%= style %>">
-
-  <% if show %>
-    <label class="form-check-label inline-block text-gray-800 cursor-pointer text-sm" for="<%= id %>">
-      <%= label %>
-    </label>
-  <% end %>
 </div>

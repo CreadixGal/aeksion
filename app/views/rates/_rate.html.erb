@@ -1,36 +1,35 @@
-<%= turbo_frame_tag dom_id(rate), class: 'w-full' do %>
-  <div id="<%= dom_id rate %>" class="w-full flex justify-between border-t-[0.5px] border-b-[0.5px] border-indigo-500 bg-indigo-50 opacity-70">
+<div id="<%= dom_id rate %>" class="table-row-li">
+  <%= turbo_frame_tag dom_id(rate), class: 'w-full flex justify-between' do %>
     <div class="w-1/12 flex justify-center items-center content-center px-4">
       <%= render CheckboxComponent.new(id: rate.id, name: 'rate_ids[]', options: { value: rate.id }) %>
     </div>
-    <div class="w-9/12 flex justify-center items-center text-indigo-600 text-center font-semibold border-x border-indigo-400 py-2 px-4">
-      <div class="w-full flex justify start">
+    <div class="w-9/12 flex justify-center items-center text-center font-semibold border-x border-slate-100 py-2 px-4">
+      <div class="flex flex-1 items-center px-2 justify-start text-left">
         <%= link_to rate.customer.name, customer_path(rate.customer_id) %>
       </div>
-      <div class="w-full flex justify-start border-x border-indigo-300">
+      <div class="flex flex-1 items-center px-4">
         <%= link_to rate.zone.name, zone_path(rate.zone_id) %>
       </div>
-      <div class="w-full flex justify start">
+      <div class="flex flex-1 items-center px-4">
         <%= rate.price %>
       </div>
-      <div class="w-full flex justify start">
+      <div class="flex flex-1 items-center px-4">
         <%= rate.kind %>
       </div>
     </div>
-    <div class="w-2/12 flex justify-center px-6">
+    <div class="table-actions">
       <% if action_name != "show" %>
-        <%#= link_to inline_svg_tag('icons/eye.svg', class: 'w-4 h-4 text-indigo-600'), rate, class: 'rounded-lg py-3 ml-2 px-5 bg-indigo-100  hover:bg-indigo-300 inline-block font-medium m-2' %>
-        <%= link_to inline_svg_tag('icons/pencil-square.svg', class: 'w-4 h-4 text-indigo-600'), edit_rate_path(rate), class: 'rounded-lg py-3 ml-2 px-5 bg-indigo-100 hover:bg-indigo-300  inline-block font-medium m-2' %>
+        <%= link_to inline_svg_tag('icons/pencil-square.svg', class: 'icon-button-default'), edit_rate_path(rate), class: 'wrapper-icon-button-default' %>
         <%= button_to rate, method: :delete,
                                 data: { 
                                   controller: "swal",
                                   swal_name_value: "#{rate.customer.name} - #{rate.zone.name}: #{rate.kind}",
                                   action: "click->swal#single"
                                 },
-                                class: 'rounded-lg py-3 ml-2 px-5 bg-indigo-100 hover:bg-amber-300 inline-block font-medium m-2' do %>
-          <%= inline_svg_tag('icons/trash.svg', class: 'w-4 h-4 text-indigo-600') %>
+                                class: 'wrapper-icon-button-default' do %>
+          <%= inline_svg_tag('icons/trash.svg', class: 'icon-button-default') %>
         <% end %>
       <% end %>
     </div>
-  </div>
-<% end %>
+  <% end %>
+</div>

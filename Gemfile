@@ -68,7 +68,6 @@ group :development, :test do
   # testing gems & fake data
   gem 'coderay'
   gem 'factory_bot_rails'
-  gem 'faker'
   gem 'rails-controller-testing'
   gem 'rspec-rails'
   gem 'simplecov', require: false
@@ -99,10 +98,10 @@ gem 'devise'
 
 # custom gems
 gem 'breadcrumbs_on_rails'
+gem 'faker'
 gem 'inline_svg'
 gem 'pagy'
 gem 'view_component'
-gem 'faker'
 
 # testing coverage
 gem 'simplecov-formatter-badge', require: false
