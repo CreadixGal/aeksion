@@ -28,10 +28,10 @@
         </div>
       <% end %>
     </div>
-    <div class="w-2/12 flex justify-center items-center gap-6">
-      <%= form.submit '✔️', class: 'w-8 h-8 flex justify-center items-center text-center rounded-lg bg-green-300 hover:bg-green-500 cursor-pointer' %>
-      <%= link_to rates_path, class: 'w-8 h-8 flex justify-center items-center content-center rounded-lg bg-slate-300 hover:bg-slate-400' do %>
-        <%= inline_svg_tag('icons/x-circle.svg', class: 'w-6 h-6') %>
+    <div class="table-actions">
+      <%= form.submit '✔️', class: 'wrapper-icon-button-default' %>
+      <%= link_to rates_path, class: 'wrapper-icon-button-default' do %>
+        <%= inline_svg_tag('icons/x-circle.svg', class: 'icon-button-default') %>
       <% end %>
     </div>
   <% end %>
