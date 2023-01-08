@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class CheckboxComponent < ViewComponent::Base
-  attr_reader :id, :name, :value, :action, :target, :style, :show
+  attr_reader :id, :name, :value, :action, :target, :style, :show, :kind
 
   def initialize(id:, name:, options: {})
     super
@@ -12,6 +12,7 @@ class CheckboxComponent < ViewComponent::Base
     @target = options[:target].presence         || 'child'
     @style  = options[:style].presence          || 'checkbox-default'
     @show   = options[:display_label].presence  || false
+    @kind   = options[:kind].presence           || nil
   end
 
   def label

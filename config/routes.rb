@@ -26,7 +26,7 @@ Rails.application.routes.draw do
       delete :multiple_delete
     end
   end
-  
+
   resources :zones do
     collection do
       delete :multiple_delete
@@ -40,15 +40,15 @@ Rails.application.routes.draw do
   get '/test-coverage', to: redirect('/coverage/index.html')
 
   # authentication
-  devise_for :users,
-    path: 'auth',
-    controllers: { 
-      sessions: 'user_sessions'
-    },
-    path_names: {
-      sign_in: 'login',
-      sign_out: 'logout'
-    }
+  devise_for  :users,
+              path: 'auth',
+              controllers: {
+                sessions: 'user_sessions'
+              },
+              path_names: {
+                sign_in: 'login',
+                sign_out: 'logout'
+              }
 
   # API
   namespace :api do
