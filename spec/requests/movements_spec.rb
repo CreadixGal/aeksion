@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Movements', type: :request do
+RSpec.describe 'Movements' do
   subject { create(:movement) }
 
   before { sign_in build(:user) }

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Zone, type: :model do
+RSpec.describe Zone do
   subject { described_class.new(name: described_class::VALID_NAMES.sample) }
 
   context 'with valid attributes' do

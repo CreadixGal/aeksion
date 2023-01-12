@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Api::V1::Customers', type: :request do
+RSpec.describe 'Api::V1::Customers' do
   describe 'GET /index' do
     it 'returns http success' do
       get '/api/v1/customers'

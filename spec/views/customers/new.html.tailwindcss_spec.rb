@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'customers/new', type: :view do
+RSpec.describe 'customers/new' do
   before do
     assign(:customer, Customer.new({ name: Faker::Company.name }))
   end
