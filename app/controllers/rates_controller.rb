@@ -3,7 +3,7 @@ class RatesController < ApplicationController
 
   def index
     @rates = Rate.includes_all
-    @pagy, @rates = pagy(@rates, items: 10)
+    @pagy, @rates = pagy(@rates)
   end
 
   def show; end

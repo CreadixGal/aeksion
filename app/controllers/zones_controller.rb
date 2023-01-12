@@ -3,7 +3,7 @@ class ZonesController < ApplicationController
 
   def index
     @zones = Zone.ordered
-    @pagy, @zones = pagy(@zones, items: 10)
+    @pagy, @zones = pagy(@zones)
   end
 
   def show; end

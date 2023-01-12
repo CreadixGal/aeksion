@@ -8,7 +8,7 @@ class MovementsController < ApplicationController
     if params[:start_date].present? && params[:end_date].present?
       @movements = @movements.filter_between_dates(params[:start_date], params[:end_date])
     end
-    @pagy, @movements = pagy(@movements, items: 10)
+    @pagy, @movements = pagy(@movements)
   end
 
   def movements(kind)
