@@ -32,6 +32,10 @@ RSpec.describe Movement, type: :model do
     it 'has a valid date' do
       expect(subject.date).to be_a(ActiveSupport::TimeWithZone)
     end
+
+    it 'code is present' do
+      expect(subject.code).to be_present
+    end
   end
 
   describe 'callbacks' do
@@ -60,30 +64,4 @@ RSpec.describe Movement, type: :model do
       end
     end
   end
-
-  # rubocop:disable Style/HashSyntax
-  describe '#run_code' do
-    context 'when rate is pickup' do
-      it 'sets code based on the last pickup movement' do
-        Rate.destroy_all
-        rate = create(:rate, :pickup)
-        last_pickup = create(:movement, rate: rate)
-        movement = create(:movement, rate: rate)
-        last_code = last_pickup.code.to_s.slice(5, 7).to_i
-        expect(movement.code.slice(5, 7).to_i).to eq(last_code + 1)
-      end
-    end
-
-    context 'when rate is delivery' do
-      it 'sets code based on the last delivery movement' do
-        Rate.destroy_all
-        rate = create(:rate, :delivery)
-        last_delivery = create(:movement, rate: rate)
-        movement = create(:movement, rate: rate)
-        last_code = last_delivery.code.slice(5, 7).to_i
-        expect(movement.code.slice(5, 7).to_i).to eq(last_code + 1)
-      end
-    end
-  end
-  # rubocop:enable Style/HashSyntax
 end

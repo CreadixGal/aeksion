@@ -9,6 +9,7 @@ RSpec.describe 'Movements', type: :request do
     {
       rate_id: create(:rate).id,
       date: Time.zone.now,
+      code: 'ALB-1234567',
       product_movements_attributes: [
         product_id: create(:product).id,
         quantity: rand(1..80)
