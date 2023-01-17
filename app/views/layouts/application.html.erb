@@ -12,12 +12,13 @@
   </head>
 
   <body>
-    <div class="fixed inset-0 px-4 py-6 pointer-events-none sm:p-6 sm:items-start sm:justify-end z-10">
-      <div id="notification" class="flex flex-col items-end justify-center">
-        <%= render 'layouts/shared/notification' %>
-      </div>
-    </div>
     <main class="w-full flex justify-between" data-controller="toogle">
+      <div class="fixed inset-0 px-4 py-6 pointer-events-none sm:p-6 sm:items-start sm:justify-end z-10">
+        <div id="notification" class="flex flex-col items-end justify-center">
+          <%= render 'layouts/shared/notification' %>
+        </div>
+      </div>
+      <%= turbo_frame_tag 'modal' %>
       <%= render 'layouts/shared/aside_menu' if user_signed_in? %>
       <div class="w-full flex flex-col">
         <%= render 'layouts/shared/navbar' if user_signed_in?%>
