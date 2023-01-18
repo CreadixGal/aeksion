@@ -3,7 +3,7 @@ class RatesController < ApplicationController
 
   def index
     @rates = Rate.includes_all
-    @pagy, @rates = pagy(@rates, items: 10)
+    @pagy, @rates = pagy(@rates)
   end
 
   def show; end
@@ -11,6 +11,8 @@ class RatesController < ApplicationController
   def new
     @rate = Rate.new
   end
+
+  def edit; end
 
   def create
     @rate = Rate.new(rate_params)
@@ -24,8 +26,6 @@ class RatesController < ApplicationController
       end
     end
   end
-
-  def edit; end
 
   def update
     respond_to do |format|

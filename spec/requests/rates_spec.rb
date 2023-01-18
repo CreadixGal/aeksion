@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Rates', type: :request do
+RSpec.describe 'Rates' do
   subject { create(:rate) }
 
   before { sign_in build(:user) }

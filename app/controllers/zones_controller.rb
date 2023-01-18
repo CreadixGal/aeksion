@@ -3,7 +3,7 @@ class ZonesController < ApplicationController
 
   def index
     @zones = Zone.ordered
-    @pagy, @zones = pagy(@zones, items: 10)
+    @pagy, @zones = pagy(@zones)
   end
 
   def show; end
@@ -11,6 +11,8 @@ class ZonesController < ApplicationController
   def new
     @zone = Zone.new
   end
+
+  def edit; end
 
   def create
     @zone = Zone.new(zone_params)
@@ -24,8 +26,6 @@ class ZonesController < ApplicationController
       end
     end
   end
-
-  def edit; end
 
   def update
     respond_to do |format|

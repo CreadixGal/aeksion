@@ -8,7 +8,7 @@ class MovementsController < ApplicationController
     if params[:start_date].present? && params[:end_date].present?
       @movements = @movements.filter_between_dates(params[:start_date], params[:end_date])
     end
-    @pagy, @movements = pagy(@movements, items: 10)
+    @pagy, @movements = pagy(@movements)
   end
 
   def movements(kind)
@@ -53,6 +53,8 @@ class MovementsController < ApplicationController
     @movement = Movement.new
   end
 
+  def edit; end
+
   def create
     @movement = Movement.new(movement_params)
 
@@ -66,8 +68,6 @@ class MovementsController < ApplicationController
       end
     end
   end
-
-  def edit; end
 
   def update
     respond_to do |format|
@@ -85,7 +85,7 @@ class MovementsController < ApplicationController
     @movement.destroy!
     respond_to do |format|
       format.html { redirect_to movements_path(kind: params[:kind]) }
-      format.turbo_stream { flash[:success] = t('.success') }
+      format.turbo_stream { flash.now[:success] = t('.success') }
     end
   end
 

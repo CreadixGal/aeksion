@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Zones', type: :request do
+RSpec.describe 'Zones' do
   subject { create(:zone) }
 
   before { sign_in build(:user) }

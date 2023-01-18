@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ProductMovement, type: :model do
+RSpec.describe ProductMovement do
   subject { create(:movement) }
 
   let(:delivery_valid_product_movement) do

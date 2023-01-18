@@ -4,7 +4,7 @@ class CustomersController < ApplicationController
   # GET /customers or /customers.json
   def index
     @customers = Customer.ordered
-    @pagy, @customers = pagy(@customers, items: 10)
+    @pagy, @customers = pagy(@customers)
   end
 
   def search
@@ -75,7 +75,6 @@ class CustomersController < ApplicationController
 
   def multiple_delete
     if params[:customer_ids].present?
-
       Customer.where(id: params[:customer_ids].compact).destroy_all
       respond_to do |format|
         format.html { redirect_to customers_path, success: t('.success') }
