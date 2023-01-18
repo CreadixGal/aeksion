@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Product, type: :model do
+RSpec.describe Product do
   subject { build(:product, :with_image) }
 
   context 'with all properly attributes' do

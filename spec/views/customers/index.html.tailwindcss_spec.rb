@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'customers/index', type: :view do
+RSpec.describe 'customers/index' do
   before do
     assign(:customers, [
              Customer.create!({ name: Faker::Company.name }),

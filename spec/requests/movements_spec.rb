@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Movements', type: :request do
+RSpec.describe 'Movements' do
   subject { create(:movement) }
 
   before { sign_in build(:user) }
@@ -9,6 +9,7 @@ RSpec.describe 'Movements', type: :request do
     {
       rate_id: create(:rate).id,
       date: Time.zone.now,
+      code: 'ALB-1234567',
       product_movements_attributes: [
         product_id: create(:product).id,
         quantity: rand(1..80)

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe User, type: :model do
+RSpec.describe User do
   subject { build(:user) }
 
   after(:all) { described_class.all.each { |user| user.delete! if user.email.include?('test_') } }
