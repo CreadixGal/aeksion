@@ -6,6 +6,9 @@
     <%= form_with(model: movement, class: 'contents') do |form| %>
       <div class="w-9/12 flex text-black text-center font-semibold border-x border-slate-100 py-2 px-0 relative z-0 group"> 
         <%= form.text_field :code, placeholder: 'Introduce nº de albarán', class:'w-1/2 mx-auto block py-2.5 px-0 w-full text-lg text-black bg-transparent border-0 border-b-2 border-slate-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'%>
+
+        <%= form.select :state, options_for_select(Movement.states.keys.to_a),  class: 'w-full border-none bg-transparent text-center' %>
+
         <%= form.select :rate_id, options_for_select(Rate.all.map { |rate| ["#{rate.customer_name} - #{rate.kind} [#{rate.price}€]", rate.id] }, selected: movement.rate_id), {}, class: 'w-full border-none bg-transparent text-center' %>
         
         <%= form.fields_for :product_movements, movement.product_movements.new do |product_movement_form| %>

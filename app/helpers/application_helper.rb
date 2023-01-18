@@ -8,4 +8,12 @@ module ApplicationHelper
   rescue ZeroDivisionError
     0
   end
+
+  def proccess_movement(movement)
+    if movement.progress?
+      "Iniciado"
+    elsif movement.finished?
+      "Finalizado"
+    end
+  end
 end
