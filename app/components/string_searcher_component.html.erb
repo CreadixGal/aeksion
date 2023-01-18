@@ -7,9 +7,16 @@
                 'debounce-target': 'form',
                 'searcher-target': 'input'
               }  do |form| %>
-  <%= form.search_field :name,
-                        value: params[:name],
-                        placeholder:,
+              
+  <% if kind.present? %>
+    <%= form.hidden_field :kind,
+                          value: kind %>
+                
+  <% end %>
+              
+  <%= form.search_field attribute.to_sym,
+                        value: regex,
+                        placeholder: placeholder,
                         data: {
                           action: 'input->debounce#search'
                         },
