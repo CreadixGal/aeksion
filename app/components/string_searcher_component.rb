@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class StringSearcherComponent < ViewComponent::Base
-  attr_reader :path, :placeholder, :form_style, :input_style, :kind, :regex, :attribute
+  attr_reader :path, :placeholder, :kind, :regex, :attribute
 
   def initialize(path:, attribute:, options: {})
     super
