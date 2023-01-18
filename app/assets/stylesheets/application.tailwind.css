@@ -50,7 +50,7 @@
   }
 
   .search-form-component {
-    @apply w-full mx-2 text-gray-700 leading-tight;
+    @apply mx-2 text-gray-700 leading-tight;
   }
 
   .tab-item-component {
