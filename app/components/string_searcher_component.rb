@@ -8,8 +8,6 @@ class StringSearcherComponent < ViewComponent::Base
     @path         = path
     @attribute    = attribute
     @placeholder  = options[:placeholder] || 'Search...'
-    @form_style   = options[:form_style]  || 'search-form-component focus:outline-none focus:shadow-outline'
-    @input_style  = options[:input_style] || 'w-full'
     @kind         = options[:kind]        || nil
     @regex        = options[:regex]       || ''
   end

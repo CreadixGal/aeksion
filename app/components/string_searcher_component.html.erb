@@ -1,7 +1,7 @@
 <%= form_with url: path,
               method: :post,
               autocomplete: 'disabled',
-              class: form_style,
+              class: 'w-full relative search-form-component focus:outline-none focus:shadow-outline',
               data: {
                 controller: 'debounce',
                 'debounce-target': 'form',
@@ -13,13 +13,19 @@
                           value: kind %>
                 
   <% end %>
-              
-  <%= form.search_field attribute.to_sym,
-                        value: regex,
-                        placeholder: placeholder,
-                        data: {
-                          action: 'input->debounce#search'
-                        },
-                        class: input_style,
-                        autocomplete: 'off' %>
+  <div class="relative">
+    <%= form.search_field attribute.to_sym,
+                          value: regex,
+                          placeholder: placeholder,
+                          data: {
+                            debounce_target: 'input',
+                            action: 'input->debounce#search'
+                          },
+                          class: 'w-full bg-purple-white shadow rounded border-0 p-3',
+                          autocomplete: 'off' %>
+
+    <div class="absolute top-1/4 right-2" data-debounce-target="icon">
+      <%= inline_svg_tag('icons/search.svg', class: 'w-6 h-6 stroke-gray-600')%>
+    </div>
+  </div>
 <% end %>
