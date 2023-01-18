@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Movement, type: :model do
+RSpec.describe Movement do
   subject { create(:movement) }
 
   describe 'associations' do
