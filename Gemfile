@@ -112,3 +112,7 @@ gem 'sidekiq-cron'
 
 # postgres
 gem 'pg_search'
+
+# wicked_pdf
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'

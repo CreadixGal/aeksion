@@ -2,8 +2,6 @@
   <%= render 'movements/tabs' %>
 </div>
 
-
-
   <%= turbo_frame_tag :movements_index do %>
     <%= form_with(model: @movements, url: multiple_delete_movements_path, html: { class: 'w-full flex flex-col gap-8 mt-8 px-10', turbo: false }) do |form| %>
       <%= form.hidden_field :kind, value: params[:kind] %>

@@ -19,6 +19,9 @@ Rails.application.routes.draw do
       post :search
       delete :multiple_delete
     end
+    member do
+      get :export_pdf
+    end
   end
 
   resources :rates do
