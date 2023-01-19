@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Customer, type: :model do
+RSpec.describe Customer do
   subject { described_class.new(name: Faker::Company.name) }
 
   it 'is string' do

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ZonesController, type: :routing do
+RSpec.describe ZonesController do
   describe 'routing' do
     it 'routes to #index' do
       expect(get: '/customers').to route_to('customers#index')
