@@ -25,14 +25,12 @@ class MovementsController < ApplicationController
   end
 
   def search
-    @movements = movements(params[:kind])
     text_fragment = params[:name]
-    unless @movements.empty?
-      @filtered_movements = @movements.select do |e|
-        customer = e.attributes.merge(customer_name: e.customer.name.upcase)
-        customer[:customer_name].include?(text_fragment.upcase)
-      end
-    end
+    movements = movements(params[:kind])
+    movements = movements.joins(:customer).where('customers.name ILIKE ?', "%#{text_fragment}%") unless movements.empty?
+    @filtered_movements = movements
+
+    @pagy, @filtered_movements = pagy(movements)
 
     respond_to do |format|
       format.turbo_stream do
