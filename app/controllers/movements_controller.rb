@@ -3,7 +3,7 @@ class MovementsController < ApplicationController
 
   def index
     @movements = movements(params[:kind])
-
+    @products = Product.all
     @movements = filter_by(params)
     if params[:range].present?
       start_date, end_date = params[:range].split('a')
