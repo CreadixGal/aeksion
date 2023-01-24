@@ -8,7 +8,7 @@ RSpec.describe CheckboxComponent, type: :component do
       value: 'Hola mundo',
       action: 'checkAll',
       target: 'parent',
-      input_style: 'form-check-input appearance-none h-6 w-6 bg-white checked:bg-red-600 mt-1 align-top float-left mr-2',
+      input_style: 'form-check-input appearance-none h-6 w-6 bg-white',
       display_label: true
     }
   end
