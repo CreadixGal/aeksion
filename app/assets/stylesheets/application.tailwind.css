@@ -102,7 +102,7 @@
   }
 
   .checkbox-label {
-    @apply form-check-label inline-block text-white cursor-pointer text-sm text-center whitespace-nowrap;
+    @apply form-check inline-block text-white cursor-pointer text-sm text-center whitespace-nowrap;
   }
 
   .checkbox-wrap {
