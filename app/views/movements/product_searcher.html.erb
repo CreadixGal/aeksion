@@ -1,0 +1,26 @@
+<%= render ModalComponent.new(title: "Buscar #{params[:product_kind]}".titleize) do %>
+  <%= form_with url: movements_path, method: :get, local: true, class: 'contents', data: { controller: "checkbox-select-all" } do |form| %>
+    <%= form.hidden_field :kind, value: params[:kind] %>
+    <%= form.hidden_field :product_kind, value: params[:product_kind] %>
+    <div class="w-full p-2 text-black">
+      <%= render CheckboxComponent.new(
+          id: 'select-all',
+          name: 'product_ids[]',
+          options: {
+            display_label: true,
+            value: '',
+            action: 'checkAll',
+            target: 'parent',
+            input_style: 'w-6 h-6 text-green-500 bg-white border-green-300 rounded focus:ring-green-500 focus:ring-2 cursor-pointer',
+            wrap_style: 'flex justify-start items-center flex-row-reverse',
+            label_style: 'ml-2 text-lg font-medium text-gray-400 cursor-pointer whitespace-nowrap'
+          }) %>
+    </div>
+    <div class="flex flex-wrap justify-between items-center gap-8 my-8">
+      <%= render CheckboxSearcherComponent.with_collection(@items) %>
+    </div>
+    <div class="inline">
+      <%= form.submit 'buscar', class: 'button-danger' %>
+    </div>
+  <% end %>
+<% end %>
