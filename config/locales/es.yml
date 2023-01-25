@@ -240,6 +240,10 @@ es:
       title: Movimientos
       delivery: Entregas
       pickup: Recogidas
+    new:
+      pickup: Añadir recogida
+      delivery: Añadir entrega
+      return: Añadir devolución
     create:
       success: Movimiento creado correctamente
       error: No se ha podido crear el movimiento
@@ -253,6 +257,12 @@ es:
       success: Todos los elementos seleccionados han sido eliminados.
       alert: Marca almenos un movimiento.
     form:
+      create: Guardar
+      back: Volver
+      add_item: Añadir
+    product_movement_fields:
+      remove_item: Eliminar
+    edit_form:
       create: Guardar
       back: Volver
   pages:
