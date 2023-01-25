@@ -1,20 +1,46 @@
-<%= form_with(model: movement, class: 'contents') do |form| %>
-  <div class="w-full flex text-black text-center font-semibold border-x border-slate-100 py-2 px-0 relative z-0 group"> 
-    <%= form.select :rate_id, options_for_select(Rate.all.map { |rate| ["#{rate.customer_name} - #{rate.kind} [#{rate.price}€]", rate.id] }, selected: movement.rate_id), {}, class: 'w-full border-none bg-transparent text-center' %>
+<%= form_with(model: movement, class: '') do |form| %>
+  <%= form.hidden_field :kind %>
+  <div class="w-full flex flex-col items-start justify-start text-black text-center font-semibold py-2 px-0 relative z-0 group gap-8">
+    <div class="w-full flex justify-between items-center gap-8">
+    
+      <div class="flex flex-col justify-center items-start gap-4">
+        <%= form.label :code, class: 'text-lg text-gray-800'%>
+        <%= form.text_field :code, class: 'w-full mx-auto block py-2.5 px-2.5 w-full text-lg text-left text-slate-700 bg-transparent border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer' %>
+      </div>
+      <div class="flex flex-col justify-center items-start gap-4 relative">
+        <%= form.label :date, class: 'text-lg text-gray-800'%>
+        <%= form.text_field :date,
+                            data: { 
+                              controller: "flatpickr",
+                              flatpickr_target: "calendar" 
+                            },
+                            autocomplete: "off",
+                            class: 'w-full mx-auto block py-2.5 px-2.5 w-full text-lg text-left text-slate-700 bg-transparent border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer' %>
+        <div class="absolute bottom-[15%] right-2">
+          <%= inline_svg_tag('icons/calendar.svg', class: 'w-6 h-6 stroke-gray-600')%>
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-col justify-center items-start gap-4">
+      <%= form.label :rate_id, class: 'text-lg text-gray-800'%>
+      <%= form.select :rate_id, options_for_select(Rate.where(kind: params[:kind]).map { |rate| ["#{rate.customer_name} - #{rate.kind} [#{rate.price}€]", rate.id] }, selected: movement.rate_id), {}, class: 'w-full bg-transparent text-center' %>
+    </div>
 
-    <%= form.fields_for :product_movements, movement.product_movements.new do |product_movement_form| %>        
-        <%= product_movement_form.select :product_id, options_for_select(Product.all.map { |product| [product.name, product.id] }), {}, class: 'w-full border-none bg-transparent text-center' %> 
+    <div data-controller="nested-form" class="flex flex-col items-end gap-8">
+      <template data-nested-form-target="template">
+        <%= form.fields_for :product_movements, movement.product_movements.new, child_index: 'TEMPLATE_RECORD' do |product_movement|%>
+          <%= render 'product_movement_fields', form: product_movement if product_movement.present? %>
+        <% end %>
+      </template>
 
-        <%= product_movement_form.number_field :quantity, placeholder: 100, max: 9000, required: true%>
-    <% end %>
+      <%= form.fields_for :product_movements do |product_movement| %> 
+        <%= render 'product_movement_fields', form: product_movement if product_movement.present? %>
+      <% end %>
 
-    <%= form.text_field :date,
-                        data: { 
-                          controller: "flatpickr",
-                          flatpickr_target: "calendar" 
-                        },
-                        autocomplete: "off",
-                        class: 'w-1/2 mx-auto block py-2.5 px-0 w-full text-lg text-right text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer' %>
+      <div class="" data-nested-form-target="add_item"> 
+        <%= link_to "#{t '.add_item'}", "#",class: 'button-success', data: { action: "nested-form#add_association" } %>
+      </div>
+    </div>
 
     <% if movement.errors.any? %>
       <div id="error_explanation" class="bg-red-50 text-red-500 border-b-8 border-b-red-600 px-3 py-2 font-medium rounded-lg mt-3">
@@ -29,6 +55,6 @@
     <% end %>
   </div>
   <div class="inline">
-    <%= form.submit t('.create'), class: 'button-success' %>
+    <%= form.submit t('.create'), class: 'button-success cursor-pointer' %>
   </div>
 <% end %>
