@@ -64,9 +64,9 @@
                           'icons/plus-circle.svg',
                           class: 'icon-button-default'
                         ),
-                        new_movement_path,
+                        new_movement_path(kind: params[:kind]),
                         data: {
-                          turbo_frame: dom_id(Movement.new)
+                          turbo_frame: 'modal'
                         },
                         class: 'wrapper-icon-button-default' %>
             <%= link_to inline_svg_tag(
