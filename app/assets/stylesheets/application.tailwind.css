@@ -102,11 +102,11 @@
   }
 
   .checkbox-label {
-    @apply form-check inline-block text-white cursor-pointer text-sm text-center whitespace-nowrap;
+    @apply inline-block text-white cursor-pointer text-sm text-center whitespace-nowrap;
   }
 
   .checkbox-wrap {
-    @apply form-check flex flex-col justify-center items-center py-4 px-2 cursor-pointer;
+    @apply flex flex-col justify-center items-center py-4 px-2 cursor-pointer;
   }
 
   .checkbox-input {
