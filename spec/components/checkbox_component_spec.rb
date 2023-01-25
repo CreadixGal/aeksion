@@ -8,7 +8,7 @@ RSpec.describe CheckboxComponent, type: :component do
       value: 'Hola mundo',
       action: 'checkAll',
       target: 'parent',
-      style: 'form-check-input appearance-none h-6 w-6 bg-white checked:bg-red-600 mt-1 align-top float-left mr-2',
+      input_style: 'appearance-none h-6 w-6 bg-white',
       display_label: true
     }
   end
@@ -19,8 +19,8 @@ RSpec.describe CheckboxComponent, type: :component do
     expect(page).to have_selector 'input[data-checkbox-select-all-target="child"]'
     expect(page).to have_selector 'input[data-action="click->checkbox-select-all#checkParent"]'
     expect(page).to have_selector 'input[type="checkbox"]'
-    expect(page).to have_selector 'input[class="checkbox-default"]'
-    expect(page).to have_css      'input#default', class: 'checkbox-default'
+    expect(page).to have_selector 'input[class="checkbox-input"]'
+    expect(page).to have_css      'input#default', class: 'checkbox-input'
   end
 
   it 'with full parameters' do
@@ -31,8 +31,8 @@ RSpec.describe CheckboxComponent, type: :component do
     expect(page).to     have_selector 'input[data-action="click->checkbox-select-all#checkAll"]'
     expect(page).to     have_selector 'input[type="checkbox"]'
     expect(page).to     have_selector 'input[value="Hola mundo"]'
-    expect(page).to     have_css      'input#component', class: full_options[:style]
-    expect(page).not_to have_selector 'input[class="checkbox-default"]'
-    expect(page).not_to have_css      'input#default', class: 'checkbox-default'
+    expect(page).to     have_css      'input#component', class: full_options[:input_style]
+    expect(page).not_to have_selector 'input[class="checkbox-input"]'
+    expect(page).not_to have_css      'input#default', class: 'checkbox-input'
   end
 end

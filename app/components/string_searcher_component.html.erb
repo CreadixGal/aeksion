@@ -1,0 +1,27 @@
+<%= form_with url: path,
+              method: :post,
+              autocomplete: 'disabled',
+              class: 'w-full relative search-form-component focus:outline-none focus:shadow-outline',
+              data: {
+                controller: 'debounce',
+                'debounce-target': 'form',
+                'searcher-target': 'input'
+              }  do |form| %>
+              
+  <%= form.hidden_field :kind, value: kind if kind.present? %>
+  <div class="relative">
+    <%= form.search_field attribute.to_sym,
+                          value: regex,
+                          placeholder: placeholder,
+                          data: {
+                            debounce_target: 'input',
+                            action: 'input->debounce#search'
+                          },
+                          class: 'w-full bg-purple-white shadow rounded border-0 p-3',
+                          autocomplete: 'off' %>
+
+    <div class="absolute top-1/4 right-2" data-debounce-target="icon">
+      <%= inline_svg_tag('icons/search.svg', class: 'w-6 h-6 stroke-gray-600')%>
+    </div>
+  </div>
+<% end %>
