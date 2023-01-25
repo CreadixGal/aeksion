@@ -1,4 +1,8 @@
-<%= form_with url: search_customers_path, method: :post, autocomplete: 'disabled' , class:"w-full flex justify-end", data: { controller: 'debounce', "debounce-target": 'form', 'searcher-target': 'input' }  do |form| %>
-  <%= form.search_field :name, value: params[:name], placeholder: 'search customer', data: { action: "input->debounce#search" }, class:'w-full my-3', autocomplete: 'off' %>
-<% end %>
-
+<%= render StringSearcherComponent.new(
+  path: search_customers_path,
+  attribute: 'name',
+  options: {
+    placeholder: 'search customer',
+    regex: params[:name]
+  }
+)%>

@@ -18,7 +18,8 @@ SimpleCov.start 'rails' do
   SimpleCov.coverage_dir('public/coverage')
 
   add_filter '/bin/'
-  add_filter '/spec/' # for rspec
+  add_filter '/spec' # for rspec
+  add_filter '/controllers/api'
   add_group 'Models', 'app/models'
   add_group 'Controllers', 'app/controllers'
   add_group 'Components', 'app/components'

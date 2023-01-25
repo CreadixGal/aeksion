@@ -1,20 +1,20 @@
-<div class="form-check flex flex-col justify-center items-center py-4 px-2">
+<div class="<%= wrap_style %>">
   
   <% if params[:kind].present? %>
     <input type="hidden" name= 'kind' value= <%= params[:kind] %> />
   <% end %>
-  
+
   <% if show %>
-    <label class="form-check-label inline-block text-white cursor-pointer text-sm text-center whitespace-nowrap" for="<%= id %>">
+    <label class="<%= label_style %>" for="<%= id %>">
       <%= label %>
     </label>
   <% end %>
-
+  
   <input id="<%= id %>"
           name="<%= name %>"
           type="checkbox"
           value="<%= value %>"
           data-checkbox-select-all-target="<%= target %>"
           data-action="click->checkbox-select-all#<%= action %>"
-          class="<%= style %>">
+          class="<%= input_style %>">
 </div>
