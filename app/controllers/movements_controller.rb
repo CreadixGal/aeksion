@@ -8,7 +8,7 @@ class MovementsController < ApplicationController
 
   def movements(kind)
     allowed_methods = %w[delivery pickup]
-    Movement.send(kind) if allowed_methods.include?(kind)
+    Movement.includes([:products]).send(kind) if allowed_methods.include?(kind)
   end
 
   def filter_by(params)
