@@ -1,32 +1,32 @@
-<%= form_with(model: movement, class: '') do |form| %>
+<%= form_with(model: movement, class: '', data: { controller: "nested-form" }) do |form| %>
   <%= form.hidden_field :kind %>
   <div class="w-full flex flex-col items-start justify-start text-black text-center font-semibold py-2 px-0 relative z-0 group gap-8">
     <div class="w-full flex justify-between items-center gap-8">
     
       <div class="flex flex-col justify-center items-start gap-4">
-        <%= form.label :code, class: 'text-lg text-gray-800'%>
-        <%= form.text_field :code, class: 'w-full mx-auto block py-2.5 px-2.5 w-full text-lg text-left text-slate-700 bg-transparent border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer' %>
+        <%= form.label t('.code'), class: 'text-lg text-gray-800'%>
+        <%= form.text_field :code, class: 'w-full mx-auto block py-2 px-2 w-full text-lg text-left text-slate-700 bg-transparent border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer' %>
       </div>
       <div class="flex flex-col justify-center items-start gap-4 relative">
-        <%= form.label :date, class: 'text-lg text-gray-800'%>
+        <%= form.label t('.date'), class: 'text-lg text-gray-800'%>
         <%= form.text_field :date,
                             data: { 
                               controller: "flatpickr",
                               flatpickr_target: "calendar" 
                             },
                             autocomplete: "off",
-                            class: 'w-full mx-auto block py-2.5 px-2.5 w-full text-lg text-left text-slate-700 bg-transparent border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer' %>
+                            class: 'w-full mx-auto block py-2 px-2 w-full text-lg text-left text-slate-700 bg-transparent border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer' %>
         <div class="absolute bottom-[15%] right-2">
           <%= inline_svg_tag('icons/calendar.svg', class: 'w-6 h-6 stroke-gray-600')%>
         </div>
       </div>
     </div>
-    <div class="flex flex-col justify-center items-start gap-4">
-      <%= form.label :rate_id, class: 'text-lg text-gray-800'%>
-      <%= form.select :rate_id, options_for_select(Rate.where(kind: params[:kind]).map { |rate| ["#{rate.customer_name} - #{rate.kind} [#{rate.price}€]", rate.id] }, selected: movement.rate_id), {}, class: 'w-full bg-transparent text-center' %>
+    <div class="w-full flex flex-col justify-center items-start gap-4">
+      <%= form.label t('.rate'), class: 'text-lg text-gray-800'%>
+      <%= form.select :rate_id, options_for_select(Rate.where(kind: params[:kind]).map { |rate| ["#{rate.customer_name} - #{rate.kind} [#{rate.price}€]", rate.id] }, selected: movement.rate_id), {}, class: 'w-full mx-auto block py-2 px-2 w-full text-lg text-left text-slate-700 bg-transparent border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer' %>
     </div>
 
-    <div data-controller="nested-form" class="flex flex-col items-end gap-8">
+    <div class="flex flex-col items-end gap-8">
       <template data-nested-form-target="template">
         <%= form.fields_for :product_movements, movement.product_movements.new, child_index: 'TEMPLATE_RECORD' do |product_movement|%>
           <%= render 'product_movement_fields', form: product_movement if product_movement.present? %>
@@ -37,9 +37,7 @@
         <%= render 'product_movement_fields', form: product_movement if product_movement.present? %>
       <% end %>
 
-      <div class="" data-nested-form-target="add_item"> 
-        <%= link_to "#{t '.add_item'}", "#",class: 'button-success', data: { action: "nested-form#add_association" } %>
-      </div>
+      <div data-nested-form-target="add_item"></div>
     </div>
 
     <% if movement.errors.any? %>
@@ -56,5 +54,8 @@
   </div>
   <div class="inline">
     <%= form.submit t('.create'), class: 'button-success cursor-pointer' %>
+    <%#= link_to t('.back'), '', data: { action: 'modal#hideModal'}, class: 'button-default' %>
+    
+    <%= link_to "#{t '.add_item'}", "#",class: 'button-success float-right', data: { action: "nested-form#add_association" } %>
   </div>
 <% end %>

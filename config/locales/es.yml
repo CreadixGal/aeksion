@@ -234,7 +234,7 @@ es:
       delete: Eliminar %{model}
     labels:
     placeholder:
-  
+
   movements:
     index:
       title: Movimientos
@@ -259,8 +259,15 @@ es:
     form:
       create: Guardar
       back: Volver
-      add_item: Añadir
+      cancel: Cancelar
+      add_item: Añadir Producto
+      code: Código
+      date: Fecha
+      customer: Cliente
+      rate: Tarifa
     product_movement_fields:
+      product: Producto
+      quantity: Cantidad
       remove_item: Eliminar
     edit_form:
       create: Guardar
