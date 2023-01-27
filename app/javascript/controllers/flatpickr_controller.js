@@ -2,22 +2,19 @@ import { Controller } from "@hotwired/stimulus"
 import flatpickr  from "flatpickr"
 
 export default class extends Controller {
+  static targets = [ "calendar", "search" ]
+  
   connect() {
-    console.log('Flatpickr controller connected')
-
-    this.calendar()
-    console.log(this.calendar())
+    if (this.hasCalendarTarget) this.calendar()
+    if (this.hasSearchTarget) this.search()
   }
 
   calendar() {
-    const today = new Date()
-    let calendar = flatpickr(this.element, this.config)
-    console.log(calendar.config)
-    this.config = {
+    let calendar = this.calendarTarget
+    calendar.config = {
       enableTime: false,
       dateFormat: "d-m-Y",
-      allowInput: true,
-      maxDate: today,
+      maxDate: "today",
       disable: [
         function(date) {
             return (date.getDay() === 0 || date.getDay() === 6);
@@ -28,8 +25,24 @@ export default class extends Controller {
         "firstDayOfWeek": 1 // start week on Monday
       },
       locale: Spanish
-
     }
+
+    return flatpickr(calendar, calendar.config)
+  }
+
+  search() {
+    let search = this.searchTarget
+    search.config = {
+      enableTime: false,
+      dateFormat: "d-m-Y",
+      mode: 'range',
+      locale: {
+        "firstDayOfWeek": 1 // start week on Monday
+      },
+      locale: Spanish
+    }
+
+    return flatpickr(search, search.config)
   }
 }
 

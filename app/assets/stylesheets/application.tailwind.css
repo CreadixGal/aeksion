@@ -50,15 +50,11 @@
   }
 
   .search-form-component {
-    @apply w-2/5 mx-2 text-gray-700 leading-tight;
+    @apply mx-2 text-gray-700 leading-tight;
   }
 
   .tab-item-component {
     @apply w-full flex items-center justify-center py-5 hover:bg-gray-900 hover:text-gray-300;
-  }
-
-  .checkbox-default {
-    @apply appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer;
   }
 
   .page {
@@ -103,5 +99,17 @@
 
   .wrapper-icon-button-default {
     @apply w-10 h-10 flex justify-center items-center rounded-lg bg-slate-100 hover:bg-slate-200 inline-block font-medium;
+  }
+
+  .checkbox-label {
+    @apply inline-block text-white cursor-pointer text-sm text-center whitespace-nowrap;
+  }
+
+  .checkbox-wrap {
+    @apply flex flex-col justify-center items-center py-4 px-2 cursor-pointer;
+  }
+
+  .checkbox-input {
+    @apply appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer;
   }
 }
