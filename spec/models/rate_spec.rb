@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Rate, type: :model do
+RSpec.describe Rate do
   subject { create(:rate) }
 
   context 'with valid attributes' do

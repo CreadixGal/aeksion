@@ -2,13 +2,8 @@ class MovementsController < ApplicationController
   before_action :set_movement, only: %i[show edit update destroy]
 
   def index
-    @movements = movements(params[:kind])
-
     @movements = filter_by(params)
-    if params[:start_date].present? && params[:end_date].present?
-      @movements = @movements.filter_between_dates(params[:start_date], params[:end_date])
-    end
-    @pagy, @movements = pagy(@movements, items: 10)
+    @pagy, @movements = pagy(@movements)
   end
 
   def movements(kind)
@@ -18,21 +13,36 @@ class MovementsController < ApplicationController
 
   def filter_by(params)
     @movements = movements(params[:kind])
-    return @movements if params[:product_kind].blank?
 
-    @movements = @movements.joins(:products)
-                           .where(products: { kind: params[:product_kind] })
+    if params[:range].present?
+      start_date, end_date = params[:range].split('a')
+      @movements = @movements.filter_between_dates(start_date, end_date)
+    end
+
+    if params[:product_kind].present?
+      @movements = @movements.joins(:products)
+                             .where(products: { kind: params[:product_kind] })
+    end
+
+    if params[:product_ids].present?
+      @movements = @movements.joins(:products)
+                             .where(products: { code: params[:product_ids] })
+    end
+    @movements
+  end
+
+  def product_searcher
+    @items = Product.where(kind: 'box')
+    @items = Product.where(kind: 'pallet') if params[:product_kind] == 'pallet'
   end
 
   def search
-    @movements = movements(params[:kind])
     text_fragment = params[:name]
-    unless @movements.empty?
-      @filtered_movements = @movements.select do |e|
-        customer = e.attributes.merge(customer_name: e.customer.name.upcase)
-        customer[:customer_name].include?(text_fragment.upcase)
-      end
-    end
+    movements = movements(params[:kind])
+    movements = movements.joins(:customer).where('customers.name ILIKE ?', "%#{text_fragment}%") unless movements.empty?
+    @filtered_movements = movements
+
+    @pagy, @filtered_movements = pagy(movements)
 
     respond_to do |format|
       format.turbo_stream do
@@ -53,6 +63,8 @@ class MovementsController < ApplicationController
     @movement = Movement.new
   end
 
+  def edit; end
+
   def create
     @movement = Movement.new(movement_params)
 
@@ -66,8 +78,6 @@ class MovementsController < ApplicationController
       end
     end
   end
-
-  def edit; end
 
   def update
     respond_to do |format|
@@ -85,7 +95,7 @@ class MovementsController < ApplicationController
     @movement.destroy!
     respond_to do |format|
       format.html { redirect_to movements_path(kind: params[:kind]) }
-      format.turbo_stream { flash[:success] = t('.success') }
+      format.turbo_stream { flash.now[:success] = t('.success') }
     end
   end
 
@@ -117,7 +127,7 @@ class MovementsController < ApplicationController
   private
 
   def movement_params
-    params.require(:movement).permit(:rate_id, :date, product_movements_attributes: %i[product_id quantity])
+    params.require(:movement).permit(:rate_id, :code, :date, product_movements_attributes: %i[product_id quantity])
   end
 
   def set_movement

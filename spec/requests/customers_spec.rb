@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Customers', type: :request do
+RSpec.describe 'Customers' do
   subject { create(:customer) }
 
   before { sign_in build(:user) }

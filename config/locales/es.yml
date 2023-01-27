@@ -252,6 +252,9 @@ es:
     multiple_delete:
       success: Todos los elementos seleccionados han sido eliminados.
       alert: Marca almenos un movimiento.
+    form:
+      create: Guardar
+      back: Volver
   pages:
     dashboard:
       movements: Movimientos

@@ -24,6 +24,7 @@ AllCops:
   Exclude:
     - "bin/**/*"
     - "config/**/*"
+    - "config/importmap.rb"
     - "db/**/*"
     - "public/**/*"
     - "tmp/**/*"

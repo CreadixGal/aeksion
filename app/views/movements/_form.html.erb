@@ -1,43 +1,34 @@
-<li id="<%= dom_id movement %>" class="table-row-li">
-  <div class="w-full flex justify-between">
-    <div class="w-1/12 flex justify-center items-center content-center px-4">
-      <%= render CheckboxComponent.new(id: movement.id, name: 'movement_ids[]', options: { value: movement.id }) %>
-    </div>
-    <%= form_with(model: movement, class: 'contents') do |form| %>
-      <div class="w-9/12 flex text-black text-center font-semibold border-x border-slate-100 py-2 px-0 relative z-0 group"> 
-        <%= form.select :rate_id, options_for_select(Rate.all.map { |rate| ["#{rate.customer_name} - #{rate.kind} [#{rate.price}€]", rate.id] }, selected: movement.rate_id), {}, class: 'w-full border-none bg-transparent text-center' %>
+<%= form_with(model: movement, class: 'contents') do |form| %>
+  <div class="w-full flex text-black text-center font-semibold border-x border-slate-100 py-2 px-0 relative z-0 group"> 
+    <%= form.select :rate_id, options_for_select(Rate.all.map { |rate| ["#{rate.customer_name} - #{rate.kind} [#{rate.price}€]", rate.id] }, selected: movement.rate_id), {}, class: 'w-full border-none bg-transparent text-center' %>
 
-        <%= form.fields_for :product_movements, movement.product_movements.new do |product_movement_form| %>        
-            <%= product_movement_form.select :product_id, options_for_select(Product.all.map { |product| [product.name, product.id] }), {}, class: 'w-full border-none bg-transparent text-center' %> 
+    <%= form.fields_for :product_movements, movement.product_movements.new do |product_movement_form| %>        
+        <%= product_movement_form.select :product_id, options_for_select(Product.all.map { |product| [product.name, product.id] }), {}, class: 'w-full border-none bg-transparent text-center' %> 
 
-            <%= product_movement_form.number_field :quantity, placeholder: 100, max: 9000, required: true%>
-        <% end %>
+        <%= product_movement_form.number_field :quantity, placeholder: 100, max: 9000, required: true%>
+    <% end %>
 
-        <%= form.date_select :date, start_year: 2021, end_year: 2022, class: 'w-1/2 mx-auto block py-2.5 px-0 w-full text-lg text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'%>
+    <%= form.text_field :date,
+                        data: { 
+                          controller: "flatpickr",
+                          flatpickr_target: "calendar" 
+                        },
+                        autocomplete: "off",
+                        class: 'w-1/2 mx-auto block py-2.5 px-0 w-full text-lg text-right text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer' %>
 
-        <% if movement.errors.any? %>
-          <div id="error_explanation" class="bg-red-50 text-red-500 border-b-8 border-b-red-600 px-3 py-2 font-medium rounded-lg mt-3">
-            <h2><%= pluralize(movement.errors.count, 'error') %> prohibited this movement from being saved:</h2>
+    <% if movement.errors.any? %>
+      <div id="error_explanation" class="bg-red-50 text-red-500 border-b-8 border-b-red-600 px-3 py-2 font-medium rounded-lg mt-3">
+        <h2><%= pluralize(movement.errors.count, 'error') %> prohibited this movement from being saved:</h2>
 
-            <ul>
-              <% movement.errors.each do |error| %>
-                <li><%= error.full_message %></li>
-              <% end %>
-            </ul>
-          </div>
-        <% end %>
-      </div>
-      <div class="table-actions">
-        <%= form.submit '✔️', class: 'wrapper-icon-button-default' %>
-        
-        <%= link_to movements_path(kind: movement&.rate&.kind.presence || 'pickup'),
-                    class: 'wrapper-icon-button-default' do %>
-          <%= inline_svg_tag(
-                'icons/x-circle.svg',
-                class: 'icon-button-default'
-              ) %>
-        <% end %>
+        <ul>
+          <% movement.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
       </div>
     <% end %>
   </div>
-</li>
+  <div class="inline">
+    <%= form.submit t('.create'), class: 'button-success' %>
+  </div>
+<% end %>
