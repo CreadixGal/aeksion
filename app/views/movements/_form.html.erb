@@ -1,20 +1,22 @@
 <%= form_with(model: movement, class: '', data: { controller: "nested-form" }) do |form| %>
-  <%= form.hidden_field :kind %>
   <div class="w-full flex flex-col items-start justify-start text-black text-center font-semibold py-2 px-0 relative z-0 group gap-8">
     <div class="w-full flex justify-between items-center gap-8">
     
       <div class="flex flex-col justify-center items-start gap-4">
         <%= form.label t('.code'), class: 'text-lg text-gray-800'%>
-        <%= form.text_field :code, class: 'w-full mx-auto block py-2 px-2 w-full text-lg text-left text-slate-700 bg-transparent border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer' %>
+        <%= form.text_field :code,
+                            required: true,
+                            class: 'w-full mx-auto block py-2 px-2 w-full text-lg text-left text-slate-700 bg-transparent border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer' %>
       </div>
       <div class="flex flex-col justify-center items-start gap-4 relative">
         <%= form.label t('.date'), class: 'text-lg text-gray-800'%>
         <%= form.text_field :date,
-                            data: { 
+                            data: {
                               controller: "flatpickr",
                               flatpickr_target: "calendar" 
                             },
                             autocomplete: "off",
+                            required: true,
                             class: 'w-full mx-auto block py-2 px-2 w-full text-lg text-left text-slate-700 bg-transparent border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer' %>
         <div class="absolute bottom-[15%] right-2">
           <%= inline_svg_tag('icons/calendar.svg', class: 'w-6 h-6 stroke-gray-600')%>

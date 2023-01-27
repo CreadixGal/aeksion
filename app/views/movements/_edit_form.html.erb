@@ -2,10 +2,9 @@
   <div class="w-1/12 flex justify-center items-center content-center px-4">
     <%#= render CheckboxComponent.new(id: movement.id, name: 'movement_ids[]', options: { value: movement.id }) %>
   </div>
-  <% rate = Rate.find(movement.rate_id) %>
   <div class="w-9/12 flex justify-center text-black text-center font-semibold ">
     <div class="w-[12.5%] flex justify-start  items-center px-4 text-left">
-      <%= form.text_field :code, class: 'w-full' %>
+      <%= form.text_field :code, class: 'w-full', required: true %>
     </div>
     <div class="w-[12.5%] flex justify-start  items-center px-4 text-left">
       <div class="flex flex-col justify-center items-start gap-4 relative">
@@ -15,6 +14,7 @@
                               flatpickr_target: "calendar" 
                             },
                             autocomplete: "off",
+                            required: true,
                             class: 'w-full mx-auto block py-2 px-2 w-full text-lg text-left text-slate-700 bg-transparent border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer' %>
         <div class="absolute bottom-[15%] right-2">
           <%= inline_svg_tag('icons/calendar.svg', class: 'w-6 h-6 stroke-gray-600')%>
@@ -24,7 +24,7 @@
     <div class="w-1/4 flex justify-start  items-center px-4 text-left">
       <%= form.select :rate_id, 
                       options_for_select(
-                        Rate.where(kind: rate.kind).map { |rate| ["#{rate.kind} - #{rate.customer_name} [#{rate.price}€]", rate.id] }, 
+                        Rate.where(kind: movement.rate_kind).map { |rate| ["#{rate.kind} - #{rate.customer_name} [#{rate.price}€]", rate.id] }, 
                         selected: movement.rate_id
                       ), 
                       {}, 
@@ -62,23 +62,3 @@
     </div>
   </div>
 <% end %>
-
-    
-    <% if 1 == 0 %>
-      
-      <%= form.select :rate_id, options_for_select(Rate.all.map { |rate| ["#{rate.customer_name} - #{rate.kind} [#{rate.price}€]", rate.id] }, selected: movement.rate_id), {}, class: 'w-full border-none bg-transparent text-center' %>
-
-      <%= form.fields_for :product_movements, movement.product_movements.new do |product_movement_form| %>        
-          <%= product_movement_form.select :product_id, options_for_select(Product.all.map { |product| [product.name, product.id] }), {}, class: 'w-full border-none bg-transparent text-center' %> 
-
-          <%= product_movement_form.number_field :quantity, placeholder: 100, max: 9000, required: true%>
-      <% end %>
-
-      <%= form.text_field :date,
-                          data: { 
-                            controller: "flatpickr",
-                            flatpickr_target: "calendar" 
-                          },
-                          autocomplete: "off",
-                          class: 'w-1/2 mx-auto block py-2.5 px-0 w-full text-lg text-right text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer' %>
-    <% end %>
