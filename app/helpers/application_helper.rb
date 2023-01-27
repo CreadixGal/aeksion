@@ -11,9 +11,9 @@ module ApplicationHelper
 
   def proccess_movement(movement)
     if movement.progress?
-      "Iniciado"
+      'Iniciado'
     elsif movement.finished?
-      "Finalizado"
+      'Finalizado'
     end
   end
 end
