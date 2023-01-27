@@ -2,32 +2,25 @@ class MovementsController < ApplicationController
   before_action :set_movement, only: %i[show edit update destroy]
 
   def index
-    @movements = filter_by(params)
+    @movements = filter(params)
     @pagy, @movements = pagy(@movements)
   end
 
   def movements(kind)
     allowed_methods = %w[delivery pickup]
-    Movement.includes([:products]).send(kind) if allowed_methods.include?(kind)
+    Movement.includes(%i[products]).send(kind) if allowed_methods.include?(kind)
   end
 
-  def filter_by(params)
+  def filter(params)
     @movements = movements(params[:kind])
 
     if params[:range].present?
-      start_date, end_date = params[:range].split('a')
-      @movements = @movements.filter_between_dates(start_date, end_date)
+      range = params[:range].include?('a') ? params[:range].split('a') : [params[:range], params[:range]]
+      start_date, end_date = range.map(&:to_date)
+      @movements = @movements.between_dates(start_date.beginning_of_day, end_date.end_of_day)
     end
-
-    if params[:product_kind].present?
-      @movements = @movements.joins(:products)
-                             .where(products: { kind: params[:product_kind] })
-    end
-
-    if params[:product_ids].present?
-      @movements = @movements.joins(:products)
-                             .where(products: { code: params[:product_ids] })
-    end
+    @movements = @movements.by_product_kind(params[:product_kind]) if params[:product_kind].present?
+    @movements = @movements.by_product_code(params[:product_ids]) if params[:product_ids].present?
     @movements
   end
 
