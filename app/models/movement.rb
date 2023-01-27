@@ -8,16 +8,14 @@ class Movement < ApplicationRecord
 
   has_one :customer, through: :rate
 
-  validates :date, presence: true
-
   delegate :name, :price, :kind, to: :rate, prefix: :rate
   delegate :name, to: :customer, prefix: :customer
   delegate :amount, to: :product_movements
   accepts_nested_attributes_for :product_movements
 
   validates :date, presence: true
-  # validates :code, uniqueness: true
   before_create :validate_code
+
   scope :delivery, -> { includes(%i[rate product_movements]).where(rates: { kind: 'delivery' }).order(date: :desc) }
   scope :pickup, -> { includes(%i[rate product_movements]).where(rates: { kind: 'pickup' }).order(date: :desc) }
   scope :sort_by_date, -> { order('date ASC') }
