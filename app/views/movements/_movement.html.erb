@@ -18,7 +18,7 @@
         <%= Customer.find(rate.customer_id).name %>
       </div>
       <div class="w-[12.5%] flex justify-end  items-center px-4 text-left">
-        <%= movement.products.first&.code %>
+        <%= link_to movement.products.first&.code, product_path(movement.products.first&.id), data: {turbo_frame: 'modal'}  %>
       </div>
       <div class="w-[12.5%] flex justify-end  items-center px-4 text-right">
         <%= movement.product_movements.first&.quantity %>
