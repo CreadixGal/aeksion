@@ -6,51 +6,58 @@
           <%= image_tag(product.image.variant(resize_to_limit: [250, 250]), class: 'w-64 h-64 object-fill' ) %>
         </figure>
       <% else %>
-        <figure class="w-full flex justify-center items-center bg-slate-200">
-          <%= inline_svg_tag('icons/image.svg', class: 'w-64 h-64 flex justify-center items-center text-slate-500') %>
+        <figure class="w-full flex justify-center items-center bg-slate-50">
+          <%= inline_svg_tag('icons/image.svg', class: 'w-64 h-64 flex justify-center items-center text-slate-300') %>
         </figure>
       <% end %>
       
-      <div class="w-full flex flex-col px-6 py-4 h-full gap-8 border-y border-y-slate-600">
-        <div class="w-full flex items-center justify-between">
-          <span class="w-full text-xl text-center font-semibold"><%= product.name %></span>
-          <span class="flex text-sm font-semibold text-center border-2 border-black rounded-xl py-3 px-6"><%= product.code %></span>
+      <div class="w-full flex flex-col px-6 py-4 h-full gap-8 border-y border-y-slate-600 mt-3">
+        <div class="w-full flex gap-8">
+          <div class="w-full flex-col justify-center items-start">
+            <div class="w-full mr-4"><%= t('.name') %></div>
+            <div class='w-full text-left font-semibold whitespace-nowrap'><%= product.name %></div>
+          </div>
+          <div class="w-full flex-col justify-center items-start">
+            <div class="w-full mr-4"><%= t('.code') %></div>
+            <div class='w-full text-left  font-semibold'><%= product.code %></div>
+          </div>
         </div>
         <div class="w-full flex gap-8">
           <div class="w-full flex-col justify-center items-start">
-            <div class="w-full mr-4">Tipo: </div>
+            <div class="w-full mr-4"><%= t('.kind') %></div>
             <div class='w-full text-left  font-semibold'><%= product.kind %></div>
           </div>
           <div class="w-full flex-col justify-center items-start">
-            <div class="w-full mr-4">Precio: </div>
+            <div class="w-full mr-4"><%= t('.price') %></div>
             <div class='w-full text-left  font-semibold'><%= number_to_currency product.price, precision: 3 %></div>
           </div>
-          <div class="w-full flex-col justify-center items-start">
-            <div class="w-full mr-4">Stock: </div>
-            <div class='w-full text-center  font-semibold'><%= product.stock %></div>
+          <div class="w-full flex-col justify-center items-end">
+            <div class="w-full text-right"><%= t('.stock')%></div>
+            <div class='w-full text-right font-semibold'><%= product.stock %></div>
           </div>
         </div>
       </div>
       
       <% if action_name != "show" %>
         <div class="w-full flex">
-          <%= link_to edit_product_path(product), 
-                      data: { turbo_frame: 'modal' }, 
-                      class: 'w-full flex justify-start items-center bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 inline-flex items-center gap-4' do %>
+          <%= link_to edit_product_path(product),
+                      data: { turbo_frame: 'modal' },
+                      class: 'w-1/2 flex justify-start items-center bg-gray-100 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 inline-flex items-center gap-4' do %>
             <%= inline_svg_tag('icons/pencil-square.svg', class: 'w-6 h-6') %>
-            <span>Edit</span>
+            <span><%= t('.edit')%></span>
           <% end %>
-          
-          <%= button_to product, 
+          <!-- hardcode style of button_tag -->
+          <style>.button_to {display:flex;flex:1}</style>
+          <%= button_to product,
                         method: :delete,
                         data: { 
                           controller: "swal",
                           swal_name_value: product.code,
                           action: "click->swal#single"
                         },
-                        class: 'w-full flex justify-start items-center bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4  inline-flex items-center gap-4' do %>
+                        class: 'flex-1 w-full flex justify-end items-center bg-gray-100 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4  inline-flex items-center gap-4' do %>
+            <span><%= t('.delete')%></span>
             <%= inline_svg_tag('icons/trash.svg', class: 'w-6 h-6') %>
-            <span>Deelete</span>
           <% end %>
         </div>
       <% end %>
