@@ -58,7 +58,7 @@
   }
 
   .page {
-    @apply px-4 py-2 text-lg rounded text-indigo-600 border border-indigo-500 hover:bg-indigo-50;
+    @apply px-4 py-2 text-lg rounded text-gray-900 hover:text-white border border-gray-900 hover:bg-gray-900;
   }
 
   .table-main {
