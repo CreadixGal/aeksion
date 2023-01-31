@@ -32,7 +32,7 @@ Rails.application.routes.draw do
       delete :multiple_delete
     end
   end
-
+  resources :issue_trackers, only: %i[index show new create]
   resources :products
 
   get 'dashboard',      to: 'pages#dashboard', as: :dashboard
