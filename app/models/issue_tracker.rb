@@ -1,0 +1,2 @@
+class IssueTracker < ApplicationRecord
+end
