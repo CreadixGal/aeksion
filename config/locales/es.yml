@@ -257,8 +257,24 @@ es:
       success: Todos los elementos seleccionados han sido eliminados.
       alert: Marca almenos un movimiento.
     form:
+      code: Código
+      date: Fecha
+      customer: Cliente
+      rate: Tarifa
+      zone: Zona
+      product: Producto
+      quantity: Cantidad
       create: Guardar
       back: Volver
+      add_item: Añadir producto
+    edit_form:
+      update: Actualizar
+      create: Guardar
+      back: Volver
+    product_movement_fields:
+      product: Producto
+      quantity: Cantidad
+      delete: Eliminar
   products:
     index:
       new_product: Nuevo producto
