@@ -8,4 +8,6 @@ class IssueTracker < ApplicationRecord
               maximum: 100,
               message: 'must be between 10 and 100 characters'
             }
+
+  scope :ordered, -> { includes([images_attachments: [:blob]]).order(created_at: :desc) }
 end
