@@ -1,54 +1,74 @@
-  <div id="<%= dom_id product %>" class="w-full py-2 px-4">
-    <% border = product.errors.any? ? 'border-t-red-600' : 'border-t-indigo-400' %>
-    <div class="flex flex-wrap bg-white border-t-8 <%= border %> rounded-lg shadow-lg px-4 py-8">
-      <%= form_with(model: product, class: 'contents') do |form| %>
-        <% if product.errors.any? %>
-          <div id="error_explanation" class="w-full bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
-            <h2><%= pluralize(product.errors.count, 'error') %> prohibited this customer from being saved:</h2>
+<div id="<%= dom_id product %>" class="w-full py-2 px-4">
+  <% border = product.errors.any? ? 'border-t-red-600' : 'border-t-indigo-400' %>
+  <%= form_with(model: product, class: '') do |form| %>
+    <% if product.errors.any? %>
+      <div id="error_explanation" class="w-full bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+        <h2><%= pluralize(product.errors.count, 'error') %> prohibited this customer from being saved:</h2>
 
-            <ul>
-              <% product.errors.each do |error| %>
-                <li><%= error.full_message %></li>
-              <% end %>
-            </ul>
-          </div>
-        <% end %>
-        <div class="w-1/12 flex items-center">        
-          <div class="flex w-full items-center justify-start bg-grey-lighter">
-            <label class="w-24 h-24 flex flex-col justify-center items-center mx-2 p-2 bg-white text-blue rounded-full shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-indigo-100 hover:text-white">
-              <%= inline_svg_tag('icons/plus-circle.svg', class:'w-8 h-8 text-indigo-500')%>
-              <span class="mt-2 text-sm text-indigo-500">image</span>
-              <%= form.file_field :image, class: 'hidden' %>
-            </label>
-          </div>
+        <ul>
+          <% product.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    
+    <div class="w-full lg:flex rounded mx-auto">
+      <div class="w-full rounded overflow-hidden shadow-lg m-10 relative flex flex-col">
+        <div class="w-full flex justify-center items-center bg-slate-50">
+          <label class="flex flex-col justify-center items-center tracking-wide uppercase cursor-pointer">
+            <%= inline_svg_tag('icons/image.svg', class:'w-64 h-64 text-slate-300')%>
+            <span class="mt-2 text-lg text-slate-500 "><%= t('.add_image') %></span>
+            <%= form.file_field :image, class: 'hidden' %>
+          </label>
         </div>
-        <div class="w-10/12 flex flex-col items-center gap-8">
+        
+        <div class="w-full flex flex-col px-6 py-4 h-full gap-8 border-y border-y-slate-600">
           <div class="w-full flex items-center justify-between">
-            <span class="w-full text-xl text-center text-indigo-800 font-semibold">Name: <%= form.text_field :name, placeholder: 'Introduce nombre de producto', class:'text-center text-indigo-600 font-semibold' %></span>
-            <span class="flex text-sm font-medium hover:text text-center text-indigo-600border-2 border-indigo-600 rounded-xl bg-indigo-300 py-3 px-6"><%= form.text_field :code, placeholder: 'Introduce codigo de producto', class:'text-center text-indigo-600 font-semibold' %></span>
+            <div class="w-full flex-col justify-center items-start">
+              <div class="w-full mr-4"><%= t('.name') %></div>
+              <div class='w-full text-left  font-semibold'>
+                <%= form.text_field :name %>
+              </div>
+            </div>
+            
+            <div class="w-full flex-col justify-center items-start">
+              <div class="w-full mr-4"><%= t('.code') %></div>
+              <div class='w-full text-left  font-semibold'>
+                <%= form.text_field :code %>
+              </div>
+            </div>
           </div>
           <div class="w-full flex gap-8">
-            <div class="w-full mx-4">
-              <span class="text-indigo-600 mr-4">Tipo: </span>
-              <%= form.select :kind, options_for_select(['pallet', 'box']), {}, { class: '' } %>
-              <span class='text-center text-indigo-600 font-semibold'><%= product.kind %></span>
+            <div class="w-full flex-col justify-center items-start">
+              <div class="w-full mr-4"><%= t('.kind') %></div>
+              <div class='w-full text-left  font-semibold'><%= form.select :kind, options_for_select([t('.pallet'), t('.box')]), {}, { class: '' } %></div>
             </div>
-            <div class="w-full">
-              <span class="text-indigo-600 mr-4">Precio: </span>
-              <%= form.number_field :price, step: 0.001, placeholder: 'ex: 0.382', min: 0.000, class: 'text-center text-indigo-600 font-semibold'%>
+            <div class="w-full flex-col justify-center items-start">
+              <div class="w-full mr-4"><%= t('.price') %></div>
+              <div class='w-full text-left  font-semibold'>
+                <%= form.number_field :price, placeholder: 'ex: 0,123', min: 0.001, class: 'text-center font-semibold'%>
+              </div>
             </div>
-            <div class="w-full">
-              <span class="text-indigo-600 mr-4">Stock: </span>
-              <%= form.number_field :stock, placeholder: 'ex: 382', min: 1, class: 'text-center text-indigo-600 font-semibold'%>
+            <div class="w-full flex-col justify-center items-start">
+              <div class="w-full mr-4"><%= t('.stock') %></div>
+              <div class='w-full text-center  font-semibold'>
+                <%= form.number_field :stock, placeholder: 'ex: 382', min: 1, class: 'text-center font-semibold'%>
+              </div>
             </div>
           </div>
         </div>
-        <div class="w-1/12 flex flex-col border-l border-indigo-200">
-          <%= form.submit 'Añadir', class: 'text-indigo-500 border berder-indigo-500 hover:bg-indigo-300 px-4 py-2 cursor-pointer'%>
-          <%= link_to 'Back', products_path, class: 'text-slate-500 border berder-slate-500 bg-slate-200 hover:bg-slate-400 px-4 py-2 cursor-pointer' %>
-        </div>
-      <% end %>
+      </div>
     </div>
-  </div>
-
+    <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row justify-start items-center gap-4">
+      <%= form.submit t('.create'), class: 'button-success'%>
+      <%= button_tag "Cancelar", 
+          data: {
+            action: "modal#hideModal" 
+          }, 
+          type: 'button', 
+          class: 'button-default' %>
+    </div>
+  <% end %>
+</div>
  
