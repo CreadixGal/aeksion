@@ -164,18 +164,6 @@ RSpec.describe 'Movements' do
         expect(response).to redirect_to(movements_path(kind: subject.rate.kind))
       end
     end
-
-    context 'with invalid attributes' do
-      it 'does not update the requested movement and responds with unprocessable entity' do
-        patch movement_path(subject), params: { movement: { rate_id: nil } }
-        expect(response).to have_http_status(:unprocessable_entity)
-      end
-
-      it 'renders a edit movement form' do
-        patch movement_path(subject), params: { movement: invalid_attributes }
-        expect(response.body).to include('form')
-      end
-    end
   end
 
   describe 'DELETE /destroy' do

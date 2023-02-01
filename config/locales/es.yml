@@ -234,12 +234,16 @@ es:
       delete: Eliminar %{model}
     labels:
     placeholder:
-  
+
   movements:
     index:
       title: Movimientos
       delivery: Entregas
       pickup: Recogidas
+    new:
+      pickup: Añadir recogida
+      delivery: Añadir entrega
+      return: Añadir devolución
     create:
       success: Movimiento creado correctamente
       error: No se ha podido crear el movimiento
@@ -253,6 +257,54 @@ es:
       success: Todos los elementos seleccionados han sido eliminados.
       alert: Marca almenos un movimiento.
     form:
+      create: Guardar
+      back: Volver
+  products:
+    index:
+      new_product: Nuevo producto
+      title: Productos
+      new: Nuevo producto
+    create:
+      success: Producto creado correctamente
+      error: No se ha podido crear el producto
+    update:
+      success: Producto actualizado correctamente
+      error: No se ha podido actualizar el producto
+    destroy:
+      success: Producto eliminado correctamente
+      error: No se ha podido eliminar el producto
+    product:
+      name: Nombre
+      code: Código
+      kind: Tipo
+      pallet: Pallet
+      box: Caja
+      price: Precio
+      stock: Stock
+      edit: Editar
+      delete: Eliminar
+    form:
+      name: Nombre
+      code: Código
+      price: Precio
+      stock: Stock
+      kind: Tipo
+      pallet: Pallet
+      box: Caja
+      add_image: Añadir imagen
+      create: Guardar
+      back: Volver
+      cancel: Cancelar
+      add_item: Añadir Producto
+      code: Código
+      date: Fecha
+      customer: Cliente
+      rate: Tarifa
+    product_movement_fields:
+      product: Producto
+      quantity: Cantidad
+      remove_item: Eliminar
+    edit_form:
       create: Guardar
       back: Volver
   pages:

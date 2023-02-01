@@ -38,5 +38,10 @@ RSpec.describe 'Pages' do
       get dashboard_path
       expect(response).to have_http_status(:success)
     end
+
+    it 'renders charts' do
+      get dashboard_path
+      expect(response.body).to include('chart')
+    end
   end
 end
