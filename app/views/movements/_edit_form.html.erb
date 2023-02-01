@@ -1,0 +1,64 @@
+<%= form_with(model: movement, class: 'contents') do |form| %>
+  <div class="w-1/12 flex justify-center items-center content-center px-4">
+    <%#= render CheckboxComponent.new(id: movement.id, name: 'movement_ids[]', options: { value: movement.id }) %>
+  </div>
+  <div class="w-9/12 flex justify-center text-black text-center font-semibold ">
+    <div class="w-[12.5%] flex justify-start  items-center px-4 text-left">
+      <%= form.text_field :code, class: 'w-full', required: true %>
+    </div>
+    <div class="w-[12.5%] flex justify-start  items-center px-4 text-left">
+      <div class="flex flex-col justify-center items-start gap-4 relative">
+        <%= form.text_field :date,
+                            data: { 
+                              controller: "flatpickr",
+                              flatpickr_target: "calendar" 
+                            },
+                            autocomplete: "off",
+                            required: true,
+                            class: 'w-full mx-auto block py-2 px-2 w-full text-lg text-left text-slate-700 bg-transparent border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer' %>
+        <div class="absolute bottom-[15%] right-2">
+          <%= inline_svg_tag('icons/calendar.svg', class: 'w-6 h-6 stroke-gray-600')%>
+        </div>
+      </div>
+    </div>
+    <div class="w-1/4 flex justify-start  items-center px-4 text-left">
+      <%= form.select :rate_id, 
+                      options_for_select(
+                        Rate.where(kind: movement.rate_kind).map { |rate| ["#{rate.kind} - #{rate.customer_name} [#{rate.price}€]", rate.id] }, 
+                        selected: movement.rate_id
+                      ), 
+                      {}, 
+                      class: 'w-full mx-auto block py-2 px-2 w-full text-lg text-left text-slate-700 bg-transparent border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer' %>
+    </div>
+    <div class="w-[12.5%] flex flex-col justify-center items-center px-4 text-left">
+      <div class="w-full flex flex-col ">
+        <% movement.products.each do |product| %>
+          <span class="w-full border border-slate-400 p-2">
+            <%= product.code %>
+          </span>
+        <% end %>
+      </div>
+    </div>
+    <div class="w-[12.5%] flex justify-center items-center px-4 text-right">
+      <div class="w-full flex flex-col ">
+        <% movement.product_movements.each do |product| %>
+          <span class="w-full border border-slate-400 p-2">
+            <%= product.quantity %>
+          </span>
+        <% end %>
+      </div>
+    </div>
+      <div class="w-[12.5%] flex justify-end  items-center px-4 text-right">
+      <%= number_to_currency movement.rate.price, precision: 4 %>
+    </div>
+    <div class="w-[12.5%] flex justify-end  items-center px-4 text-right">
+      <%= number_to_currency movement.product_movements.sum(&:amount), precision: 4 %>
+    </div>
+  </div>
+  <div class="table-actions">
+    <div class="inline">
+      <%= form.submit t('.create'), class: 'button-success' %>
+      <%= link_to t('.back'), '', data: { action: 'modal#hideModal'}, class: 'button-default' %>
+    </div>
+  </div>
+<% end %>

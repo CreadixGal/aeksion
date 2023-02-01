@@ -56,8 +56,9 @@
           </div>
         </div>
         <div class="w-1/2 flex flex-col justify-between items-start border border-slate-200 rounded-lg shadow-md shadow-slate-200 p-4 gap-8 fill-">
+
           <h1 class="w-full text-xl text-center font-semibold text-red-700">
-            Año actual <%= Movement.filter_between_dates(Time.zone.now.beginning_of_year, Time.zone.now.end_of_day).count %>
+            Año actual <%= Movement.between_dates(Time.zone.now.beginning_of_year, Time.zone.now).count %>
           </h1>
           <div class="w-full flex">
             <div class="w-full flex-1 flex justify-center items-center p-4">
