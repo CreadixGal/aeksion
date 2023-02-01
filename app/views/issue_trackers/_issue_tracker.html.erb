@@ -1,0 +1,20 @@
+<li id="<%= dom_id issue_tracker %>" class="table-row-li">
+  <%= turbo_frame_tag dom_id(issue_tracker), class: 'w-full flex justify-between' do %>
+    <div class="w-3/12 flex justify-center items-center text-black text-center font-semibold border-x border-slate-100 py-2 px-4"> 
+      <%= link_to issue_tracker.title, issue_tracker %>
+    </div>
+    <div class="w-3/12 flex justify-center items-center text-black text-center font-semibold border-x border-slate-100 py-2 px-4">
+      <%= issue_tracker.description %>
+    </div>
+    <div class="w-3/12 flex justify-center items-center content-center px-4 gap-4">
+      <% if issue_tracker.images.attached? %>
+        <% issue_tracker.images.limit(4).each do |image| %>
+          <%= image_tag(image.variant(resize_to_limit: [100, 100])) %>
+        <% end %>
+      <% end %>
+    </div>
+    <div class="w-3/12 flex justify-center items-center text-black text-center font-semibold border-x border-slate-100 py-2 px-4">
+      <%= issue_tracker.created_at.strftime('[%H:%M] %d-%m-%Y') %>
+    </div>
+  <% end %>
+</li>

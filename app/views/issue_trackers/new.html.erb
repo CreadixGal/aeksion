@@ -1,1 +1,3 @@
-new page
+  <%= render ModalComponent.new(title: t('.new')) do %>
+    <%= render 'form', issue_tracker: @issue %>
+  <% end %>

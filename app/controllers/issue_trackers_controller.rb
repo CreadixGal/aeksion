@@ -1,9 +1,16 @@
 class IssueTrackersController < ApplicationController
   before_action :set_issue_tracker, only: %i[show]
 
-  def index; end
+  def index
+    @issues = IssueTracker.ordered
+    @pagy, @issues = pagy(@issues, items: 10)
+  end
+
   def show; end
-  def new; end
+
+  def new
+    @issue = IssueTracker.new
+  end
 
   def create
     @issue = IssueTracker.new(issue_tracker_params)
@@ -17,7 +24,7 @@ class IssueTrackersController < ApplicationController
   private
 
   def set_issue_tracker
-    @issue = IssueTracker.find(params[:id])
+    @issue = IssueTracker.ordered.find(params[:id])
   end
 
   def issue_tracker_params
