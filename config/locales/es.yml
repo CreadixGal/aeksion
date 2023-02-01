@@ -234,12 +234,16 @@ es:
       delete: Eliminar %{model}
     labels:
     placeholder:
-  
+
   movements:
     index:
       title: Movimientos
       delivery: Entregas
       pickup: Recogidas
+    new:
+      pickup: Añadir recogida
+      delivery: Añadir entrega
+      return: Añadir devolución
     create:
       success: Movimiento creado correctamente
       error: No se ha podido crear el movimiento
@@ -291,6 +295,18 @@ es:
       create: Guardar
       back: Volver
       cancel: Cancelar
+      add_item: Añadir Producto
+      code: Código
+      date: Fecha
+      customer: Cliente
+      rate: Tarifa
+    product_movement_fields:
+      product: Producto
+      quantity: Cantidad
+      remove_item: Eliminar
+    edit_form:
+      create: Guardar
+      back: Volver
   pages:
     dashboard:
       movements: Movimientos
