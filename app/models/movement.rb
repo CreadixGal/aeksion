@@ -24,7 +24,7 @@ class Movement < ApplicationRecord
 
   scope :filter_between_dates, ->(start_date, end_date) { where(date: start_date..end_date) }
 
-  enum state: { progress: 0, finished: 1 }
+  enum status: { progress: 0, finished: 1 }
 
   # ! pgsearch search in text fields
   # pg_search_scope :filter_by_rate, against: :rate_name

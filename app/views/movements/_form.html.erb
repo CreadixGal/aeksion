@@ -8,9 +8,9 @@
         <%= form.text_field :code, placeholder: 'Introduce nº de albarán', class:'w-1/2 mx-auto block py-2.5 px-0 w-full text-lg text-black bg-transparent border-0 border-b-2 border-slate-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'%>
 
         <% if movement.new_record? %>
-          <%= form.select :state, options_for_select(Movement.states.keys.to_a),  class: 'w-full border-none bg-transparent text-center' %>
+          <%= form.select :status, options_for_select(["Iniciado", "progress"], ["Finalizado", "finished"]),  class: 'w-full border-none bg-transparent text-center' %>
         <% else %>
-          <%= form.select :state, options_for_select([["Iniciado", "progress"], ["Finalizado", "finished"]], movement.state),  class: 'w-full border-none bg-transparent text-center' %>
+          <%= form.select :status, options_for_select([["Iniciado", "progress"], ["Finalizado", "finished"]], movement.status),  class: 'w-full border-none bg-transparent text-center' %>
         <% end %>
 
         <%= form.select :rate_id, options_for_select(Rate.all.map { |rate| ["#{rate.customer_name} - #{rate.kind} [#{rate.price}€]", rate.id] }, selected: movement.rate_id), {}, class: 'w-full border-none bg-transparent text-center' %>

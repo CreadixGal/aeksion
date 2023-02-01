@@ -118,7 +118,7 @@ class MovementsController < ApplicationController
   private
 
   def movement_params
-    params.require(:movement).permit(:state, :rate_id, :code, :date,
+    params.require(:movement).permit(:status, :rate_id, :code, :date,
                                      product_movements_attributes: %i[product_id quantity])
   end
 
