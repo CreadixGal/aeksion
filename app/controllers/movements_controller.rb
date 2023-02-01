@@ -112,6 +112,7 @@ class MovementsController < ApplicationController
 
   def movement_params
     params.require(:movement).permit(
+      :status,
       :rate_id,
       :code,
       :date,

@@ -8,4 +8,12 @@ module ApplicationHelper
     result /= total.to_f
     result
   end
+
+  def proccess_movement(movement)
+    if movement.progress?
+      'Iniciado'
+    elsif movement.finished?
+      'Finalizado'
+    end
+  end
 end

@@ -24,6 +24,8 @@ class Movement < ApplicationRecord
   scope :by_product_kind, ->(kind) { joins(:products).where(products: { kind: }) }
   scope :by_product_code, ->(code) { joins(:products).where(products: { code: }) }
 
+  enum status: { progress: 0, finished: 1 }
+
   # ! pgsearch search in text fields
   # pg_search_scope :filter_by_rate, against: :rate_name
   # pg_search_scope :filter_by_product, associated_against: {
