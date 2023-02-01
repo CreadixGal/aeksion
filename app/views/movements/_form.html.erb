@@ -7,9 +7,7 @@
       <div class="w-9/12 flex text-black text-center font-semibold border-x border-slate-100 py-2 px-0 relative z-0 group"> 
         <%= form.text_field :code, placeholder: 'Introduce nº de albarán', class:'w-1/2 mx-auto block py-2.5 px-0 w-full text-lg text-black bg-transparent border-0 border-b-2 border-slate-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'%>
 
-        <% if movement.new_record? %>
-          <%= form.select :status, options_for_select(["Iniciado", "progress"], ["Finalizado", "finished"]),  class: 'w-full border-none bg-transparent text-center' %>
-        <% else %>
+        <% unless movement.new_record? %>
           <%= form.select :status, options_for_select([["Iniciado", "progress"], ["Finalizado", "finished"]], movement.status),  class: 'w-full border-none bg-transparent text-center' %>
         <% end %>
 
