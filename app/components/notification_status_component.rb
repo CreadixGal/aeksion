@@ -22,7 +22,8 @@ class NotificationStatusComponent < ViewComponent::Base
   def span_badge
     return '' if count.zero?
 
-    content_tag :span, class: 'absolute w-6 h-6 top-2 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-red-500 rounded-full' do
+    content_tag :span,
+                class: 'notification-status-info' do
       count.to_s
     end
   end

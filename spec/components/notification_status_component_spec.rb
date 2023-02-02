@@ -26,6 +26,6 @@ RSpec.describe NotificationStatusComponent, type: :component do
   it 'renders pending circle red whit text white' do
     render_inline(described_class.new(status: 'pending', count: 3))
     expect(page).to have_text '3'
-    expect(page).to have_css 'span.absolute', class: 'bg-red-500'
+    expect(page).to have_css 'span.notification-status-info', class: 'notification-status-info'
   end
 end
