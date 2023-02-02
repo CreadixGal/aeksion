@@ -5,6 +5,6 @@ FactoryBot.define do
     phone     { Faker::PhoneNumber.cell_phone }
     email     { "test_#{Faker::Internet.email}" }
     password  { Faker::Internet.password }
-    role      { 'user' }
+    role      { 'superadmin' }
   end
 end
