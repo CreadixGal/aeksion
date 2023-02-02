@@ -66,7 +66,7 @@ class ZonesController < ApplicationController
   private
 
   def zone_params
-    params.require(:zone).permit(:name)
+    params.require(:zone).permit(:name, :delivery_price)
   end
 
   def set_zone
