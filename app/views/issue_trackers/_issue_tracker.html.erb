@@ -1,10 +1,16 @@
 <li id="<%= dom_id issue_tracker %>" class="table-row-li">
   <%= turbo_frame_tag dom_id(issue_tracker), class: 'w-full flex justify-between' do %>
-    <div class="w-3/12 flex justify-center items-center text-black text-center font-semibold border-x border-slate-100 py-2 px-4"> 
-      <%= link_to issue_tracker.title, issue_tracker %>
+    <div class="w-3/12 flex justify-center items-center text-black text-center font-semibold border-x border-slate-100 py-2 px-4">
+      
+      <% if current_user.superadmin? %>
+        <%= link_to issue_tracker.title, issue_tracker %>
+      <% else %>
+        <%= issue_tracker.title %>
+      <% end %>
+      
     </div>
     <div class="w-3/12 flex justify-center items-center text-black text-center font-semibold border-x border-slate-100 py-2 px-4">
-      <%= issue_tracker.description %>
+      <%= issue_tracker.description.truncate(50) %>
     </div>
     <div class="w-3/12 flex justify-center items-center content-center px-4 gap-4">
       <% if issue_tracker.images.attached? %>
@@ -13,8 +19,12 @@
         <% end %>
       <% end %>
     </div>
-    <div class="w-3/12 flex justify-center items-center text-black text-center font-semibold border-x border-slate-100 py-2 px-4">
-      <%= issue_tracker.created_at.strftime('[%H:%M] %d-%m-%Y') %>
+    <div class="w-2/12 flex justify-center items-center text-black text-center font-semibold border-x border-slate-100 py-2 px-4 relative">
+      <%= issue_tracker.created_at.strftime('[%H:%M] %d-%m-%Y') %> <%= issue_tracker.status %>
+    </div>
+    <div class="w-1/12 flex justify-center items-center text-black text-center font-semibold border-x border-slate-100 py-2 px-4 relative">
+      <%= time_ago_in_words issue_tracker.updated_at %>
+      <%= render NotificationStatusComponent.new(status: issue_tracker.status) %>
     </div>
   <% end %>
 </li>
