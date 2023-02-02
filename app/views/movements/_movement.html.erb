@@ -9,25 +9,37 @@
         <%= movement.code %>
       </div>
       <div class="w-[12.5%] flex justify-start  items-center px-4 text-left">
-        <%= rate.kind %>
+        <%= movement.date.strftime('%d-%m-%y') %>
       </div>
       <div class="w-[12.5%] flex justify-start  items-center px-4 text-left">
-        <%= movement.date.strftime('%d-%m-%y') %>
+        <%= rate.kind %>
       </div>
       <div class="w-[12.5%] flex justify-start  items-center px-4 text-left">
         <%= Customer.find(rate.customer_id).name %>
       </div>
-      <div class="w-[12.5%] flex justify-end  items-center px-4 text-left">
-        <%= movement.products.first&.code %>
+      <div class="w-[12.5%] flex flex-col justify-center items-center px-4 text-left">
+        <div class="w-full flex flex-col ">
+          <% movement.products.each do |product| %>
+            <span class="w-full border border-slate-400 p-2">
+              <%= product.code %>
+            </span>
+          <% end %>
+        </div>
       </div>
-      <div class="w-[12.5%] flex justify-end  items-center px-4 text-right">
-        <%= movement.product_movements.first&.quantity %>
+      <div class="w-[12.5%] flex justify-center items-center px-4 text-right">
+        <div class="w-full flex flex-col ">
+          <% movement.product_movements.each do |product| %>
+            <span class="w-full border border-slate-400 p-2">
+              <%= product.quantity %>
+            </span>
+          <% end %>
+        </div>
       </div>
        <div class="w-[12.5%] flex justify-end  items-center px-4 text-right">
-        <%= number_to_currency movement.rate.price, precision: 3 %>
+        <%= number_to_currency movement.rate.price, precision: 4 %>
       </div>
       <div class="w-[12.5%] flex justify-end  items-center px-4 text-right">
-        <%= number_to_currency movement.product_movements.first&.amount, precision: 3 %>
+        <%= number_to_currency movement.product_movements.sum(&:amount), precision: 4 %>
       </div>
     </div>
     <div class="table-actions">

@@ -1,0 +1,21 @@
+ 
+<div class="nested-fields w-full">
+  <div class="w-full flex justify-start items-center gap-8">
+    <div class="w-full flex gap-4">
+      <%= form.hidden_field :_destroy %>
+
+      <div class="w-full flex flex-col justify-center items-start gap-4">
+        <%= form.label t('.product'), class: 'text-lg text-gray-800'%>
+        <%= form.select :product_id, options_for_select(Product.all.map { |product| [product.name, product.id] }), {}, class: 'w-full mx-auto block py-2 px-2 w-full text-lg text-left text-slate-700 bg-transparent border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer' %> 
+      </div>
+      <div class="flex flex-col justify-center items-start gap-4">
+        <%= form.label t('.quantity'), class: 'text-lg text-gray-800'%>
+        <%= form.number_field :quantity, placeholder: 100, max: 9000, required: true, class: 'w-full mx-auto block py-2 px-2 w-full text-lg text-left text-slate-700 bg-transparent border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer' %>
+      </div>
+
+      <div class="flex justify-center items-end">
+        <%= link_to inline_svg_tag('icons/trash.svg', class: 'icon-button-default'), "#", class: 'wrapper-icon-button-default mb-[2.5px]',data: {action: "click->nested-form#remove_association"}%>
+      </div>
+    </div>
+  </div>
+</div>

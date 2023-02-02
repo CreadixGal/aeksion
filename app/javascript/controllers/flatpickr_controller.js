@@ -15,6 +15,7 @@ export default class extends Controller {
       enableTime: false,
       dateFormat: "d-m-Y",
       maxDate: "today",
+      allowInput: true,
       disable: [
         function(date) {
             return (date.getDay() === 0 || date.getDay() === 6);
