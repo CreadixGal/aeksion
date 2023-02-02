@@ -45,13 +45,14 @@ Customer.all.each do |customer|
   )
 end
 two_years_ago = 2.years.ago
-
+idx = 0
 while two_years_ago <= Time.zone.now
   two_years_ago += 1.day
   next if two_years_ago.saturday? || two_years_ago.sunday?
 
   puts amount = rand(6..22)
   amount.times do
+    idx += 1
     rate = Rate.all.sample
     product = Product.all.sample
     random = rand(0..300)
@@ -59,6 +60,7 @@ while two_years_ago <= Time.zone.now
     next if quantity.zero?
 
     mov = Movement.create!(
+      code: "ALB-#{idx.to_s.rjust(6, '0')}",
       rate_id: rate.id,
       date: two_years_ago,
       product_movements_attributes: [
