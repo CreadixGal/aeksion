@@ -49,14 +49,17 @@
                   icon: 'cog.svg'
                 }
               ) %>
-    <%= render MenuItemComponent.new(
-            item: 'issue',
-            path: issue_trackers_path,
-            options: {
-              text: 'Contacto',
-              icon: 'info-circle.svg'
-            }
-          ) %>
+    <div class="w-full relative">
+      <%= render MenuItemComponent.new(
+              item: 'issue',
+              path: issue_trackers_path,
+              options: {
+                text: 'Contacto',
+                icon: 'info-circle.svg',
+              }
+            ) %>
+      <%= render NotificationStatusComponent.new(status: 'pending') unless @pending_issues.zero? %>
+    </div>
   </div>
   <div class="w-full fixed top-2 right-[40%] flex justify-end md:hidden z-10" 
        data-toogle-target="button">
