@@ -17,6 +17,8 @@ class RatesController < ApplicationController
   def create
     @rate = Rate.new(rate_params)
 
+    @rate.price = @rate.customer.pickup_price if @rate.pickup?
+
     respond_to do |format|
       if @rate.save
         format.html { redirect_to rates_path, success: 'Tarifa creada correctamente' }
