@@ -6,7 +6,9 @@ class IssueTrackersController < ApplicationController
     @pagy, @issues = pagy(@issues, items: 10)
   end
 
-  def show; end
+  def show
+    @issue.viewed! if @issue.pending?
+  end
 
   def new
     @issue = IssueTracker.new
@@ -15,7 +17,7 @@ class IssueTrackersController < ApplicationController
   def create
     @issue = IssueTracker.new(issue_tracker_params)
     if @issue.save
-      redirect_to @issue, success: 'Issue tracker was successfully created.'
+      redirect_to issue_trackers_path, success: 'Issue tracker was successfully created.'
     else
       render :new
     end
