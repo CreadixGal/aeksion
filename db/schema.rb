@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_03_154741) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_03_210305) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -62,12 +62,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_03_154741) do
   end
 
   create_table "prices", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "cost_type", null: false
-    t.uuid "cost_id", null: false
+    t.string "priciable_type", null: false
+    t.uuid "priciable_id", null: false
+    t.decimal "quantity", precision: 8, scale: 4, default: "0.0"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.decimal "quantity", precision: 8, scale: 4, default: "0.0"
-    t.index ["cost_type", "cost_id"], name: "index_prices_on_cost"
+    t.index ["priciable_type", "priciable_id"], name: "index_prices_on_priciable"
   end
 
   create_table "product_movements", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

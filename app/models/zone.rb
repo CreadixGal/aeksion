@@ -13,5 +13,5 @@ class Zone < ApplicationRecord
 
   VALID_NAMES = %w[A_Coruña Lugo Ourense Pontevedra].freeze
 
-  has_many :prices, as: :cost
+  has_many :prices, as: :priciable
 end
