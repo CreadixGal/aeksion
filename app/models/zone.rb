@@ -1,7 +1,5 @@
 class Zone < ApplicationRecord
 
-  include Cost
-
   validates :name, presence: true
 
   has_many :rates
