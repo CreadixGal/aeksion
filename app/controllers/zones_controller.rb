@@ -17,6 +17,8 @@ class ZonesController < ApplicationController
   def create
     @zone = Zone.new(zone_params)
 
+    Price.create(priciable: @zone, quantity: params[:zone][:price])
+
     respond_to do |format|
       if @zone.save
         format.html { redirect_to zones_path, success: 'Zone was successfully created.' }

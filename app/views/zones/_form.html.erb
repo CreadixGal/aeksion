@@ -5,7 +5,8 @@
     </div>
     <%= form_with(model: zone, class: 'contents') do |form| %>
       <div class="w-9/12 text-black text-center font-semibold border-x border-slate-100 py-2 px-0 relative z-0 group"> 
-        <%= form.text_field :name, placeholder: 'Introduce nombre de zona', class:'w-1/2 mx-auto block py-2.5 px-0 w-full text-lg text-black bg-transparent border-0 border-b-2 border-slate-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'%>
+        <%= form.text_field :name, placeholder: 'Introduce nombre de zona', required: true, class:'w-1/2 mx-auto block py-2.5 px-0 w-full text-lg text-black bg-transparent border-0 border-b-2 border-slate-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'%>
+        <%= form.number_field :price, step: :any, placeholder: 'Introduce price delivery', required: true, class:'w-1/2 mx-auto block py-2.5 px-0 w-full text-lg text-black bg-transparent border-0 border-b-2 border-slate-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'%>
 
         <% if zone.errors.any? %>
           <div id="error_explanation" class="bg-red-50 text-red-500 border-b-8 border-b-red-600 px-3 py-2 font-medium rounded-lg mt-3">
