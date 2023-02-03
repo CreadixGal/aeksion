@@ -27,6 +27,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :prices
+
   resources :zones do
     collection do
       delete :multiple_delete
