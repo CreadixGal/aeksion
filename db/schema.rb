@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_01_200454) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_03_154741) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -47,6 +47,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_01_200454) do
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "pickup_price", precision: 8, scale: 4, default: "0.0", null: false
   end
 
   create_table "movements", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -58,6 +59,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_01_200454) do
     t.integer "status", default: 0
     t.index ["code"], name: "index_movements_on_code", unique: true
     t.index ["rate_id"], name: "index_movements_on_rate_id"
+  end
+
+  create_table "prices", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "cost_type", null: false
+    t.uuid "cost_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.decimal "quantity", precision: 8, scale: 4, default: "0.0"
+    t.index ["cost_type", "cost_id"], name: "index_prices_on_cost"
   end
 
   create_table "product_movements", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -117,6 +127,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_01_200454) do
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "delivery_price", precision: 8, scale: 4, default: "0.0", null: false
     t.index ["name"], name: "index_zones_on_name", unique: true
   end
 
