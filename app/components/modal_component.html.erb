@@ -1,7 +1,7 @@
 <%= turbo_frame_tag 'modal' do %>
   <div  data-controller="modal"
         data-launch-modal-target="modal"
-        data-action="turbo:submit-end->modal#submitEnd keyup@window->modal#closeWithKeyboard click@window->modal#closeBackground"
+        data-action="turbo:submit-end->modal#submitEnd keyup@window->modal#closeWithKeyboard"
         class="modal" >
     <div  aria-labelledby="modal-title" 
           role="dialog" 
