@@ -21,7 +21,7 @@
         <div class="w-full flex flex-col ">
           <% movement.products.each do |product| %>
             <span class="w-full border border-slate-400 p-2">
-              <%= product.code %>
+              <%= link_to product.code, product, data: { turbo_frame: 'modal' } %>
             </span>
           <% end %>
         </div>
@@ -39,12 +39,21 @@
         <%= number_to_currency movement.rate.price, precision: 4 %>
       </div>
       <div class="w-[12.5%] flex justify-end  items-center px-4 text-right">
-        <%= number_to_currency movement.product_movements.sum(&:amount), precision: 4 %>
+        <%= number_to_currency movement.amount, precision: 4 %>
       </div>
     </div>
     <div class="table-actions">
       <% if action_name != "show" && movement.id%>
         <%= link_to inline_svg_tag(
+              'icons/pencil-square.svg',
+              class: 'icon-button-default'
+            ),
+            edit_movement_path(movement),
+            data: {
+              turbo_frame: 'modal'
+            },
+            class: 'wrapper-icon-button-default' %>
+        <%#= link_to inline_svg_tag(
                       'icons/pencil-square.svg',
                       class: 'icon-button-default'
                     ),

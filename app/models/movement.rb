@@ -8,7 +8,7 @@ class Movement < ApplicationRecord
 
   has_one :customer, through: :rate
 
-  delegate :name, :price, :kind, to: :rate, prefix: :rate
+  delegate :name, :price, :kind, :delivery?, :pickup?, to: :rate, prefix: :rate
   delegate :name, to: :customer, prefix: :customer
   delegate :amount, to: :product_movements
   accepts_nested_attributes_for :product_movements
@@ -34,5 +34,12 @@ class Movement < ApplicationRecord
 
   def validate_code
     CodeGenerator.new(self).validate_code
+  end
+
+  def amount
+    product_movements.sum(&:amount)
+  rescue => e
+    puts "\n #{e.message} \n"
+    0
   end
 end

@@ -63,6 +63,7 @@ class MovementsController < ApplicationController
 
     respond_to do |format|
       if @movement.save
+        @movement.product_movements.each { |pm| StockControl.new(pm).new_amount }
         format.html { redirect_to movements_path(kind: @movement.rate_kind), success: t('.success') }
         format.turbo_stream { flash.now[:success] = t('.success') }
       else
@@ -75,16 +76,20 @@ class MovementsController < ApplicationController
   def update
     respond_to do |format|
       if @movement.update(movement_params)
+        @movement.product_movements.each { |pm| StockControl.new(pm).new_amount }
         format.html { redirect_to movements_path(kind: @movement.rate_kind), success: t('.success') }
         format.turbo_stream { flash.now[:success] = t('.success') }
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.turbo_stream { flash.now[:error] = t('.error') }
+        format.turbo_stream { flash.now[:error] = @movement.errors.full_messages.join(', ') }
       end
     end
   end
 
   def destroy
+    @movement.product_movements.each do |pm|
+      StockControl.new(pm).restore_stock
+    end
     @movement.destroy!
     respond_to do |format|
       format.html { redirect_to movements_path(kind: params[:kind]) }
@@ -94,8 +99,15 @@ class MovementsController < ApplicationController
 
   def multiple_delete
     if params[:movement_ids].present?
+      ids = params[:movement_ids]
+      ids.each do |id|
+        movement = Movement.find(id)
+        movement.product_movements.each do |pm|
+          StockControl.new(pm).restore_stock
+        end
+        movement.destroy!
+      end
 
-      Movement.where(id: params[:movement_ids].compact).destroy_all
       respond_to do |format|
         format.html { redirect_to movements_path(kind: params[:kind]), success: t('.success') }
         format.turbo_stream { flash.now[:success] = t('.success') }
@@ -112,11 +124,12 @@ class MovementsController < ApplicationController
 
   def movement_params
     params.require(:movement).permit(
+      :id,
       :status,
       :rate_id,
       :code,
       :date,
-      product_movements_attributes: %i[_destroy product_id quantity]
+      product_movements_attributes: %i[_destroy id product_id quantity]
     )
   end
 
