@@ -38,8 +38,7 @@ class Movement < ApplicationRecord
 
   def amount
     product_movements.sum(&:amount)
-  rescue => e
-    puts "\n #{e.message} \n"
+  rescue StandardError
     0
   end
 end
