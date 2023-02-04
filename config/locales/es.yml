@@ -192,6 +192,7 @@ es:
         present: "%{attribute} debe estar en blanco"
         required: "%{attribute} debe existir"
         taken: "%{attribute} ya está en uso"
+        insuffiecient_stock: el stock es insuficiente
         too_long:
           one: "%{attribute} es demasiado largo (1 carácter máximo)"
           other: "%{attribute} es demasiado largo (%{count} caracteres máximo)"
@@ -268,6 +269,11 @@ es:
       back: Volver
       add_item: Añadir producto
     edit_form:
+      code: Código
+      date: Fecha
+      customer: Cliente
+      rate: Tarifa
+      add_item: Añadir producto
       update: Actualizar
       create: Guardar
       back: Volver
@@ -312,7 +318,6 @@ es:
       back: Volver
       cancel: Cancelar
       add_item: Añadir Producto
-      code: Código
       date: Fecha
       customer: Cliente
       rate: Tarifa
