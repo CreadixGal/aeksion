@@ -27,6 +27,10 @@
       </div>
 
       <div class="flex justify-center items-end">
+          <%= link_to inline_svg_tag('icons/refresh.svg', class: 'icon-button-default'),
+              mark_as_return_path(product_movement_id: form.object.id),
+              class: 'wrapper-icon-button-default mb-[2.5px]' %>
+        
         <%= link_to inline_svg_tag('icons/trash.svg', class: 'icon-button-default'), "#",
             data: {
               action: "click->nested-form#remove_association"

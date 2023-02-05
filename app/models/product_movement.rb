@@ -8,6 +8,10 @@ class ProductMovement < ApplicationRecord
   after_create :calculate_stock
   after_update :recalculate_stock
 
+  def return!
+    update!(return: true) unless return?
+  end
+
   private
 
   def enough_stock
