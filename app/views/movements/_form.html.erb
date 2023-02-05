@@ -29,7 +29,7 @@
           options_for_select(
             Rate.where(
               kind: params[:kind]
-            ).map { |rate| ["#{rate.customer_name} - #{rate.kind} [#{rate.price}€]", rate.id] },
+            ).map { |rate| ["#{rate.customer_name} [#{rate.price}€]", rate.id] },
             selected: movement.rate_id
           ),
           {},
