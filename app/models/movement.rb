@@ -18,6 +18,7 @@ class Movement < ApplicationRecord
 
   scope :delivery, -> { includes(%i[rate product_movements]).where(rates: { kind: 'delivery' }).order(date: :desc) }
   scope :pickup, -> { includes(%i[rate product_movements]).where(rates: { kind: 'pickup' }).order(date: :desc) }
+  scope :return, -> { includes(%i[product_movements]).where(product_movements: { return: true }).order(date: :desc) }
   scope :sort_by_date, -> { order('date ASC') }
 
   scope :between_dates, ->(start_date, end_date) { where(date: start_date..end_date) }
@@ -31,6 +32,10 @@ class Movement < ApplicationRecord
   # pg_search_scope :filter_by_product, associated_against: {
   #  customer: %i[name]
   # }
+
+  def returned?
+    product_movements.any?(&:return)
+  end
 
   def validate_code
     CodeGenerator.new(self).validate_code
