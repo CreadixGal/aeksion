@@ -31,8 +31,13 @@ class MovementsController < ApplicationController
 
   def search
     text_fragment = params[:name]
+
     movements = movements(params[:kind])
-    movements = movements.joins(:customer).where('customers.name ILIKE ?', "%#{text_fragment}%") unless movements.empty?
+    unless movements.empty?
+      movements =  movements.joins(:customer)
+                            .where('customers.name ILIKE ?', "%#{text_fragment}%")
+                            .or(movements.where('movements.code ILIKE ?', "%#{text_fragment}%"))
+    end
     @filtered_movements = movements
 
     @pagy, @filtered_movements = pagy(movements)
@@ -101,7 +106,7 @@ class MovementsController < ApplicationController
     if params[:movement_ids].present?
       ids = params[:movement_ids]
       ids.each do |id|
-        movement = Movement.find(id)
+        movement = Movement.includes([:product_movements]).find(id)
         movement.product_movements.each do |pm|
           StockControl.new(pm).restore_stock
         end
