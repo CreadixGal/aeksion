@@ -12,7 +12,7 @@
         <%= movement.date.strftime('%d-%m-%y') %>
       </div>
       <div class="w-[12.5%] flex justify-start  items-center px-4 text-left">
-        <%= rate.kind %>
+        <%= t(".#{rate.kind}") %>
       </div>
       <div class="w-[12.5%] flex justify-start  items-center px-4 text-left">
         <%= Customer.find(rate.customer_id).name %>

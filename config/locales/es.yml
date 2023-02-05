@@ -237,6 +237,9 @@ es:
     placeholder:
 
   movements:
+    movement:
+      delivery: Salida
+      pickup: Entrada
     index:
       title: Movimientos
       delivery: Entregas
