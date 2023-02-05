@@ -26,10 +26,10 @@
             class: 'w-full mx-auto block py-2 px-2 w-full text-lg text-left text-slate-700 bg-transparent border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer' %>
       </div>
 
-      <div class="flex justify-center items-end">
+      <div class="flex justify-center items-end gap-2">
           <%= link_to inline_svg_tag('icons/refresh.svg', class: 'icon-button-default'),
               mark_as_return_path(product_movement_id: form.object.id),
-              class: 'wrapper-icon-button-default mb-[2.5px]' %>
+              class: 'wrapper-icon-button-default mb-[2.5px]' if action_name == 'edit' %>
         
         <%= link_to inline_svg_tag('icons/trash.svg', class: 'icon-button-default'), "#",
             data: {
