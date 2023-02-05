@@ -1,5 +1,5 @@
 class MovementsController < ApplicationController
-  before_action :set_movement, only: %i[show edit update destroy]
+  before_action :set_movement, only: %i[show edit update destroy update_status]
 
   def index
     @movements = filter(params)
@@ -106,7 +106,7 @@ class MovementsController < ApplicationController
     if params[:movement_ids].present?
       ids = params[:movement_ids]
       ids.each do |id|
-        movement = Movement.includes([:product_movements]).find(id)
+        movement = Movement.joins(:product_movements).find(id)
         movement.product_movements.each do |pm|
           StockControl.new(pm).restore_stock
         end
@@ -123,6 +123,12 @@ class MovementsController < ApplicationController
         format.turbo_stream { flash.now[:error] = t('.alert') }
       end
     end
+  end
+
+  def update_status
+    @movement.finished! if @movement.progress?
+    redirect_to movements_path(kind: @movement.rate_kind)
+    flash.now[:success] = t('.success')
   end
 
   private

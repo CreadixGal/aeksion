@@ -44,6 +44,20 @@
     </div>
     <div class="table-actions">
       <% if action_name != "show" && movement.id%>
+        <% if movement.progress? %>
+          <%= button_to inline_svg_tag(
+                'icons/truck.svg',
+                class: 'icon-button-default'
+              ),
+              update_status_movement_path(movement, kind: params[:kind]),
+              method: :patch,
+              class: 'wrapper-icon-button-default' %>
+        <% else %>
+          <div class="wrapper-icon-button-success">
+            <%= inline_svg_tag('icons/check-circle.svg', class: 'icon-button-success')%>
+          </div>
+        <% end %>
+
         <%= link_to inline_svg_tag(
               'icons/pencil-square.svg',
               class: 'icon-button-default'
@@ -53,12 +67,6 @@
               turbo_frame: 'modal'
             },
             class: 'wrapper-icon-button-default' %>
-        <%#= link_to inline_svg_tag(
-                      'icons/pencil-square.svg',
-                      class: 'icon-button-default'
-                    ),
-                    edit_movement_path(movement),
-                    class: 'wrapper-icon-button-default' %>
 
         <%= button_to movement,
                       method: :delete,
