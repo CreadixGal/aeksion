@@ -336,3 +336,21 @@ es:
       movements: Movimientos
       delivery: Entregas
       pickup: Recogidas
+  issue_trackers:
+    index:
+      main_title: Gestión de incidencias
+      new_issue: Nueva incidencia
+      title: Titulo
+      description: Descripción
+      images: Imágenes
+      created_at: Creado
+    new:
+      title: Nueva incidencia
+    form:
+      create: Enviar
+      back: Volver
+      title_placeholder: Título
+      description_placeholder: Descripción
+      title_label: Título
+      description_label: Descripción
+  

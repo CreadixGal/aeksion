@@ -46,13 +46,14 @@ Customer.all.each do |customer|
   )
 end
 two_years_ago = 2.years.ago
-
+idx = 0
 while two_years_ago <= Time.zone.now
   two_years_ago += 1.day
   next if two_years_ago.saturday? || two_years_ago.sunday?
 
   puts amount = rand(6..22)
   amount.times do
+    idx += 1
     rate = Rate.all.sample
     product = Product.all.sample
     random = rand(1..300)
