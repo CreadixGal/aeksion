@@ -15,6 +15,9 @@ Rails.application.routes.draw do
   end
 
   resources :movements do
+    member do
+      patch :update_status
+    end
     collection do
       post :search
       delete :multiple_delete
@@ -32,7 +35,7 @@ Rails.application.routes.draw do
       delete :multiple_delete
     end
   end
-
+  resources :issue_trackers, only: %i[index show new create]
   resources :products
 
   get 'dashboard',      to: 'pages#dashboard', as: :dashboard

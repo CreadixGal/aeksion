@@ -1,0 +1,40 @@
+<div id="<%= dom_id issue_tracker %>" class="w-full flex justify-center items-center mx-auto p-4">
+  <div class="w-full flex flex-col justify-between">
+    <%= form_with(model: issue_tracker, class: 'w-full') do |form| %>
+      <div class="w-full flex flex-col text-black text-center font-semibold border-x border-slate-100 py-2 px-0 relative z-0 group gap-6">
+        <div class="w-full flex flex-col justify-center items-start gap-4">
+          <%= form.label t('.title_label'), class: 'px-2' %>
+          <%= form.text_field :title, 
+                              placeholder: t('.title_placeholder'), 
+                              class:'w-full mx-auto block py-2.5 px-2 text-lg text-black bg-transparent border-0 border-b-2 border-slate-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'%>
+        </div>
+        <div class="w-full flex flex-col justify-center items-start gap-4">
+          <%= form.label t('.description_label'), class: 'px-2' %>
+          <%= form.text_area :description, 
+                             placeholder: t('.description_placeholder'),  
+                             class:'w-full h-64 mx-auto block py-2.5 px-2 text-lg text-black bg-transparent border-0 border-b-2 border-slate-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer' %>
+        </div>
+        <div class="w-full flex flex-col justify-center items-start gap-4">
+          <%= form.label :imagenes, class: 'px-2' %>
+          <%= form.file_field :images, 
+                              multiple: true, 
+                              class:'w-full mx-auto block py-2.5 px-2 text-lg text-black bg-transparent border-0 border-b-2 border-slate-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer' %>
+        </div>
+        <% if issue_tracker.errors.any? %>
+          <div id="error_explanation" class="bg-red-50 text-red-500 border-b-8 border-b-red-600 px-3 py-2 font-medium rounded-lg mt-3">
+            <h2><%= pluralize(issue_tracker.errors.count, 'error') %> prohibited this issue_tracker from being saved:</h2>
+
+            <ul>
+              <% issue_tracker.errors.each do |error| %>
+                <li><%= error.full_message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+      </div>
+      <div class="">
+        <%= form.submit t('.create'), class: 'w-auto button-success' %>
+      </div>
+    <% end %>
+  </div>
+</div>
