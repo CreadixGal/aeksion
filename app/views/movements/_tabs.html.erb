@@ -71,15 +71,14 @@
   </div>
   <div class="w-full md:w-1/3 px-4 my-2 flex flex-col">
     <h3 class="title font-semibold font-sm md:font-lg text-left">
-      <%= 'Destinatarios' if params[:kind].eql?('delivery')%>
-      <%= 'Remitente' if params[:kind].eql?('pickup')%>
+      Busca por código o cliente
     </h3>
     <div class="flex items-end">
       <%= render StringSearcherComponent.new(
         path: search_movements_path,
         attribute: :name,
         options: {
-          placeholder: 'search customer',
+          placeholder: 'Busca por código o cliente...',
           kind: params[:kind],
           regex: params[:name]
         }

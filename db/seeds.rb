@@ -5,6 +5,7 @@ file_path = Rails.root.join('spec', 'factories', 'images', file_name)
 Faker::Config.locale = :es
 
 User.create!(email: 'sadmin@test.com', password: 'test123', role: 'superadmin')
+User.create!(email: 'admin@test.com', password: 'test123', role: 'admin')
 
 8.times do
   Customer.create!(name: Faker::Company.name)
@@ -55,12 +56,12 @@ while two_years_ago <= Time.zone.now
     idx += 1
     rate = Rate.all.sample
     product = Product.all.sample
-    random = rand(0..300)
+    random = rand(1..300)
     quantity = (product.stock - random).positive? ? random : 0
     next if quantity.zero?
 
     mov = Movement.create!(
-      code: "ALB-#{idx.to_s.rjust(6, '0')}",
+      code: "ALB-#{Faker::Code.ean}",
       rate_id: rate.id,
       date: two_years_ago,
       product_movements_attributes: [

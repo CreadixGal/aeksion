@@ -8,12 +8,12 @@
             },
             class: link_style.to_s,
             id: item.to_s do %>
-  <div class="flex justify-center">
+  <div class="flex justify-center items-center gap-4">
+    <% if notification.present? %>
+      <span class="max-w-auto w-auto px-1.5 py-1 flex justify-center items-center rounded-xl bg-red-300 text-sm text-white"><%= notification %></span>
+    <% end %>
     <% if text.present? %>
       <span class="font-semibold mr-3"> <%= text %></span>
-    <% end %>
-    <% if notification.present? %>
-      <span class="w-6 h-6 flex justify-center items-center mx-3 rounded-full bg-red-300 text-sm text-white"><%= notification %></span>
     <% end %>
     <%= inline_svg_tag("icons/#{icon}", class: 'w-8 h-8 mx-5 hidden md:block') if icon.present? %>
   </div>
