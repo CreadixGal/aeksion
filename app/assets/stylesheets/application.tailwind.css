@@ -101,6 +101,11 @@
     @apply w-6 h-6 text-green-500;
   }
 
+  .icon-button-error {
+    @apply w-6 h-6 text-red-500;
+  }
+
+
   .wrapper-icon-button-default {
     @apply w-10 h-10 flex justify-center items-center rounded-lg bg-slate-100 hover:bg-slate-200 inline-block font-medium;
   }
@@ -108,7 +113,9 @@
   .wrapper-icon-button-success {
     @apply w-10 h-10 flex justify-center items-center rounded-lg bg-green-50 hover:bg-green-100 inline-block font-medium;
   }
-
+  .wrapper-icon-button-error {
+    @apply w-10 h-10 flex justify-center items-center rounded-lg bg-red-200 hover:bg-red-400 inline-block font-medium;
+  }
   .checkbox-label {
     @apply inline-block text-white cursor-pointer text-sm text-center whitespace-nowrap;
   }
