@@ -19,6 +19,16 @@
           link_style: 'tab-component'
         }
       ) %>
+  <%= render TabComponent.new(
+        item: 'Devoluciones',
+        path: movements_path(params: { kind: 'return' }),
+        options: {
+          icon: 'arrow-up-circle.svg',
+          text: 'Devoluciones',
+          notification: Movement.return.count,
+          link_style: 'tab-component'
+        }
+      ) %>
 </nav>
 
 <div class="w-full h-48 flex justify-between bg-gray-200 opacity-60 p-6">
