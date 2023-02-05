@@ -10,7 +10,8 @@ class Rate < ApplicationRecord
 
   enum kind: {
     delivery: 'delivery',
-    pickup: 'pickup'
+    pickup: 'pickup',
+    return: 'return'
   }, _default: 'delivery'
   validates :kind, presence: true
 
