@@ -15,8 +15,9 @@ class Movement < ApplicationRecord
 
   validates :date, presence: true
   before_create :validate_code
-
+  # rubocop:disable  Layout/LineLength
   scope :delivery, -> { includes(%i[rate product_movements]).where(rates: { kind: 'delivery' }, product_movements: { return: false }).order(date: :desc) }
+  # rubocop:enable  Layout/LineLength
   scope :pickup, -> { includes(%i[rate product_movements]).where(rates: { kind: 'pickup' }).order(date: :desc) }
   scope :return, -> { includes(%i[product_movements]).where(product_movements: { return: true }).order(date: :desc) }
   scope :sort_by_date, -> { order('date ASC') }
