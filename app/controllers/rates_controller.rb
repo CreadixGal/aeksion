@@ -65,7 +65,7 @@ class RatesController < ApplicationController
   private
 
   def rate_params
-    params.require(:rate).permit(:customer_id, :zone_id, :kind, :price)
+    params.require(:rate).permit(:customer_id, :zone_id, :kind)
   end
 
   def set_rate

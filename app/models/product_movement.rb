@@ -9,7 +9,12 @@ class ProductMovement < ApplicationRecord
   private
 
   def update_amount
-    update! amount: movement.rate.price * quantity
+    calculate_amount(movement.rate.customer.price.quantity) if movement.rate.pickup?
+    calculate_amount(movement.rate.zone.price.quantity) if movement.rate.delivery?
+  end
+
+  def calculate_amount(price)
+    update! amount: price * quantity
   end
 
   def enough_stock

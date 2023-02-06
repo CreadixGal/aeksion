@@ -36,7 +36,11 @@
         </div>
       </div>
        <div class="w-[12.5%] flex justify-end  items-center px-4 text-right">
-        <%= number_to_currency movement.rate.price, precision: 4 %>
+         <% if movement.rate.pickup? %>
+           <%= number_to_currency movement.rate.customer&.price&.quantity, precision: 4 %>
+         <% elsif movement.rate.delivery? %>
+           <%= number_to_currency movement.rate.zone&.price&.quantity, precision: 4 %>
+         <% end %>
       </div>
       <div class="w-[12.5%] flex justify-end  items-center px-4 text-right">
         <%= number_to_currency movement.product_movements.sum(&:amount), precision: 4 %>

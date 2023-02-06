@@ -1,5 +1,6 @@
 class ZonesController < ApplicationController
   before_action :set_zone, only: %i[show edit update destroy]
+  before_action :set_price, only: %i[create]
 
   def index
     @zones = Zone.ordered
@@ -17,7 +18,7 @@ class ZonesController < ApplicationController
   def create
     @zone = Zone.new(zone_params)
 
-    Price.create(priciable: @zone, quantity: params[:zone][:price])
+    Price.create(priciable: @zone, quantity: @price)
 
     respond_to do |format|
       if @zone.save
@@ -73,5 +74,9 @@ class ZonesController < ApplicationController
 
   def set_zone
     @zone = Zone.find(params[:id])
+  end
+
+  def set_price
+    @price = params[:zone][:price]
   end
 end
