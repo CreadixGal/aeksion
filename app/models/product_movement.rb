@@ -6,13 +6,10 @@ class ProductMovement < ApplicationRecord
 
   validate :enough_stock, on: %i[create update], if: -> { movement.rate.kind == 'delivery' }
   after_create :calculate_stock
-  after_update :recalculate_stock
 
   def return!
     update!(return: true) unless return?
   end
-
-  private
 
   def enough_stock
     return true if StockControl.new(self).enough_stock?

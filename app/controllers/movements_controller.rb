@@ -81,7 +81,6 @@ class MovementsController < ApplicationController
   def update
     respond_to do |format|
       if @movement.update(movement_params)
-        @movement.product_movements.each { |pm| StockControl.new(pm).new_amount }
         format.html { redirect_to movements_path(kind: @movement.rate_kind), success: t('.success') }
         format.turbo_stream { flash.now[:success] = t('.success') }
       else
@@ -134,12 +133,14 @@ class MovementsController < ApplicationController
   def mark_as_return
     product_movement = ProductMovement.find(params[:product_movement_id])
     product_movement.return!
+    product_movement.recalculate_stock
     flash.now[:success] = t('.success')
     redirect_to movements_path(kind: 'return')
   end
 
   def mark_all_return
     @movement.product_movements.each(&:return!)
+    @movement.product_movements.each(&:recalculate_stock)
     flash.now[:success] = t('.success')
     redirect_to movements_path(kind: 'return')
   end
