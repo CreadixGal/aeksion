@@ -2,14 +2,16 @@ class RatesController < ApplicationController
   before_action :set_rate, only: %i[show edit update destroy]
 
   def index
-    @rates = Rate.includes_all
+    @rates = Rate.delivery if params[:kind].eql?('delivery')
+    @rates = Rate.pickup if params[:kind].eql?('pickup')
+    @rates = Rate.return if params[:kind].eql?('return')
     @pagy, @rates = pagy(@rates)
   end
 
   def show; end
 
   def new
-    @rate = Rate.new
+    @rate = Rate.new(kind: params[:kind])
   end
 
   def edit; end
@@ -19,7 +21,7 @@ class RatesController < ApplicationController
 
     respond_to do |format|
       if @rate.save
-        format.html { redirect_to rates_path, success: 'Tarifa creada correctamente' }
+        format.html { redirect_to rates_path(kind: params[:kind]), success: 'Tarifa creada correctamente' }
         format.turbo_stream { flash.now[:success] = 'Tarifa creada correctamente' }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -30,7 +32,7 @@ class RatesController < ApplicationController
   def update
     respond_to do |format|
       if @rate.update(rate_params)
-        format.html { redirect_to rates_path, success: 'Tarifa actualizada correctamente' }
+        format.html { redirect_to rates_path(kind: params[:kind]), success: 'Tarifa actualizada correctamente' }
         format.turbo_stream { flash.now[:success] = 'Tarifa actualizada correctamente' }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -41,7 +43,7 @@ class RatesController < ApplicationController
   def destroy
     @rate.destroy!
     respond_to do |format|
-      format.html { redirect_to rates_path, alert: 'Tarifa eliminada correctamente' }
+      format.html { redirect_to rates_path(kind: params[:kind]), alert: 'Tarifa eliminada correctamente' }
       format.turbo_stream { flash.now[:alert] = 'Tarifa eliminada correctamente' }
     end
   end
@@ -51,12 +53,12 @@ class RatesController < ApplicationController
 
       Rate.where(id: params[:rate_ids].compact).destroy_all
       respond_to do |format|
-        format.html { redirect_to rates_path, success: t('.success') }
+        format.html { redirect_to rates_path(kind: params[:kind]), success: t('.success') }
         format.turbo_stream { flash.now[:success] = t('.success') }
       end
     else
       respond_to do |format|
-        format.html { redirect_to rates_path, error: t('.alert') }
+        format.html { redirect_to rates_path(kind: params[:kind]), error: t('.alert') }
         format.turbo_stream { flash.now[:error] = t('.alert') }
       end
     end

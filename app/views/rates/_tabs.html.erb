@@ -1,0 +1,31 @@
+<nav class="w-full sm:w-1/2 flex justify-start mt-3" data-controller="tab">
+  <%= render TabComponent.new(
+        item: 'Entradas',
+        path: rates_path(params: { kind: 'pickup' }),
+        options: {
+          icon: 'arrow-down-circle.svg',
+          text: 'Entradas',
+          link_style: "tab-component #{'bg-slate-200' if params[:kind] == 'pickup'}"
+        }
+      ) %>
+  <%= render TabComponent.new(
+        item: 'Salidas',
+        path: rates_path(params: { kind: 'delivery' }),
+        options: {
+          icon: 'arrow-up-circle.svg',
+          text: 'Salidas',
+          link_style: "tab-component #{'bg-slate-200' if params[:kind] == 'delivery'}"
+        }
+      ) %>
+  <%= render TabComponent.new(
+        item: 'Devoluciones',
+        path: rates_path(params: { kind: 'return' }),
+        options: {
+          icon: 'arrow-up-circle.svg',
+          text: 'Devoluciones',
+          link_style: "tab-component #{'bg-slate-200' if params[:kind] == 'return'}"
+        }
+      ) %>
+</nav>
+
+<div class="w-full h-12 flex justify-between bg-gray-200 opacity-60 p-6"></div>

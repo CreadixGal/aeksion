@@ -1,6 +1,6 @@
-  <div class="flex justify-between items-center my-8">
-    <h1 class="font-bold text-4xl">Tarifas</h1>
-  </div>
+<div class="w-full flex flex-col items">
+  <%= render 'rates/tabs' %>
+</div>
   <%= turbo_frame_tag :rates_index do %>
     <%= form_with(model: @rates, url: multiple_delete_rates_path, html: { class: 'w-full flex flex-col gap-8 mt-8 px-10', turbo: false }) do |form| %>
       <div class="min-w-full flex flex-col justify-center items-center mx-auto mb-5" data-controller="checkbox-select-all">
@@ -30,7 +30,7 @@
                         data: { 'turbo-confirm': 'Are you sure?' },
                         class: 'wrapper-icon-button-default'%>
           <%= link_to inline_svg_tag('icons/plus-circle.svg', class: 'icon-button-default'), 
-                      new_rate_path, 
+                      new_rate_path(kind: params[:kind]), 
                       data: { turbo_frame: dom_id(Rate.new) }, 
                       class: 'wrapper-icon-button-default' %>
           </div>
