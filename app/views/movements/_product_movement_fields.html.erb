@@ -7,8 +7,15 @@
       <div class="w-full flex flex-col justify-center items-start gap-4"
             data-controller="tomselect">
         <%= form.label t('.product'), class: 'text-lg text-gray-800'%>
+        <%
+            products = Product.all.map do |product| 
+                          product.zone_id.present? ? 
+                            [[product.code, product.zone_name].split(',').join(' -> '), product.id] : 
+                            [product.code, product.id]
+                        end
+        %>
         <%= form.select :product_id, 
-                Product.all.map { |product| [[product.name, product.code], product.id] },
+                products,
                 { include_blank: "" }, 
                 { 
                   prompt: 'Selecciona producto',
