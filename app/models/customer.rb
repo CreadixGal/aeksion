@@ -7,5 +7,5 @@ class Customer < ApplicationRecord
 
   scope :ordered, -> { order(updated_at: :desc) }
 
-  has_many :prices, as: :priciable
+  has_one :price, as: :priciable
 end

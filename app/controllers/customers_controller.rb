@@ -1,5 +1,6 @@
 class CustomersController < ApplicationController
   before_action :set_customer, only: %i[show edit update destroy]
+  before_action :set_price, only: %i[create]
 
   # GET /customers or /customers.json
   def index
@@ -40,6 +41,8 @@ class CustomersController < ApplicationController
   # POST /customers or /customers.json
   def create
     @customer = Customer.new(customer_params)
+
+    Price.create(priciable: @customer, quantity: @price)
 
     respond_to do |format|
       if @customer.save
@@ -93,6 +96,10 @@ class CustomersController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_customer
     @customer = Customer.find(params[:id])
+  end
+
+  def set_price
+    @price = params[:customer][:price]
   end
 
   # Only allow a list of trusted parameters through.
