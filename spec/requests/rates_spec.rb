@@ -27,17 +27,17 @@ RSpec.describe 'Rates' do
 
   describe 'GET /index' do
     it 'returns http success' do
-      get rates_path
+      get rates_path(kind: 'pickup')
       expect(response).to have_http_status(:success)
     end
 
     it 'renders a list of rates' do
-      get rates_path
+      get rates_path(kind: 'pickup')
       expect(response.body).to include('Tarifas')
     end
 
     it 'renders a turbo frame with id rates' do
-      get rates_path
+      get rates_path(kind: 'pickup')
       expect(response.body).to include('<turbo-frame class="w-full" id="rates">')
     end
   end
