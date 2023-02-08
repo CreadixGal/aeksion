@@ -27,17 +27,17 @@ RSpec.describe 'Rates' do
 
   describe 'GET /index' do
     it 'returns http success' do
-      get rates_path
+      get rates_path(kind: 'pickup')
       expect(response).to have_http_status(:success)
     end
 
     it 'renders a list of rates' do
-      get rates_path
+      get rates_path(kind: 'pickup')
       expect(response.body).to include('Tarifas')
     end
 
     it 'renders a turbo frame with id rates' do
-      get rates_path
+      get rates_path(kind: 'pickup')
       expect(response.body).to include('<turbo-frame class="w-full" id="rates">')
     end
   end
@@ -56,25 +56,25 @@ RSpec.describe 'Rates' do
 
   describe 'GET /new' do
     it 'returns http success' do
-      get new_rate_path
+      get new_rate_path(kind: 'pickup')
       expect(response).to have_http_status(:success)
     end
 
     it 'renders a new rate form' do
-      get new_rate_path
+      get new_rate_path(kind: 'pickup')
       expect(response.body).to include('form')
     end
 
     it 'renders a select with options for customer' do
       customer = create(:customer)
-      get new_rate_path
+      get new_rate_path(kind: 'pickup')
       expect(response.body).to include('id="rate_customer_id"')
       expect(response.body).to include("value=\"#{customer.id}\"")
     end
 
     it 'renders a select with options for zone' do
       zone = create(:zone)
-      get new_rate_path
+      get new_rate_path(kind: 'pickup')
       expect(response.body).to include('id="rate_zone_id"')
       expect(response.body).to include(zone.name)
       expect(response.body).to include("value=\"#{zone.id}\"")
@@ -97,17 +97,17 @@ RSpec.describe 'Rates' do
 
     context 'with invalid attributes' do
       it 'does not create a new Rate and responds with unprocessble entity' do
-        post rates_path, params: { rate: invalid_attributes }
+        post rates_path(kind: 'pickup'), params: { rate: invalid_attributes }
         expect(response).to have_http_status(:unprocessable_entity)
       end
 
       it 'renders a list of errors' do
-        post rates_path, params: { rate: invalid_attributes }
+        post rates_path(kind: 'pickup'), params: { rate: invalid_attributes }
         expect(response.body).to include('div id="error_explanation"')
       end
 
       it 'renders a error message for customer' do
-        post rates_path, params: { rate: invalid_attributes }
+        post rates_path(kind: 'pickup'), params: { rate: invalid_attributes }
         expect(response.body).to include('debe existir')
       end
     end
