@@ -28,14 +28,14 @@
             <div class="w-full flex-col justify-center items-start">
               <div class="w-full mr-4"><%= t('.name') %></div>
               <div class='w-full text-left  font-semibold'>
-                <%= form.text_field :name %>
+                <%= form.text_field :code %>
               </div>
             </div>
             
             <div class="w-full flex-col justify-center items-start">
-              <div class="w-full mr-4"><%= t('.code') %></div>
+              <div class="w-full mr-4"><%= t('.zone') %></div>
               <div class='w-full text-left  font-semibold'>
-                <%= form.text_field :code %>
+                <%= form.select :zone_id, options_for_select(Zone.all.pluck(:name, :id)), {}, { class: 'w-full' } %>
               </div>
             </div>
           </div>
@@ -47,7 +47,7 @@
             <div class="w-full flex-col justify-center items-start">
               <div class="w-full mr-4"><%= t('.price') %></div>
               <div class='w-full text-left  font-semibold'>
-                <%= form.number_field :price, placeholder: 'ex: 0,123', class: 'text-center font-semibold'%>
+                <%= form.number_field :price, step: 0.0001, min: 0.0000, placeholder: 'Introduce precio', class:'text-center font-semibold'%>
               </div>
             </div>
             <div class="w-full flex-col justify-center items-start">

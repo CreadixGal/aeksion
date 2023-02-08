@@ -35,7 +35,7 @@
               ) %>
     <%= render MenuItemComponent.new(
                 item: 'rate',
-                path: rates_path,
+                path: rates_path(kind: 'pickup'),
                 options: { 
                   text: 'Tarifas',
                   icon: 'info-circle.svg'

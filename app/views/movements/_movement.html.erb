@@ -59,7 +59,7 @@
         <% end %>
         <% unless params[:kind].eql?('return')%>
           <%= link_to inline_svg_tag(
-                'icons/refresh.svg',
+                'icons/arrow-uturn-down.svg',
                 class: "icon-button-#{movement.returned? ? 'error' : 'default'}"
               ),
               mark_all_return_path(id: movement),
