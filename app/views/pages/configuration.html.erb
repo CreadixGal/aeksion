@@ -20,14 +20,7 @@
         title: 'zonas',
         options: {
           icon: 'box.svg',
-          href1: zones_path
-        }
-      )%>
-  <%= render ConfigurationCardComponent.new(
-        title: 'tarifas',
-        options: {
-          icon: 'box.svg',
-          href1: rates_path
+          href1: zones_path(kind: 'pickup')
         }
       )%>
 </div>
