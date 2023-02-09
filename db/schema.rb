@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_07_221334) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_09_223812) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -74,7 +74,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_07_221334) do
     t.decimal "quantity", precision: 8, scale: 4, default: "0.0"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "product_id"
     t.index ["priciable_type", "priciable_id"], name: "index_prices_on_priciable"
+    t.index ["product_id"], name: "index_prices_on_product_id"
   end
 
   create_table "product_movements", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -140,6 +142,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_07_221334) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "movements", "rates"
+  add_foreign_key "prices", "products"
   add_foreign_key "product_movements", "movements"
   add_foreign_key "product_movements", "products"
   add_foreign_key "rates", "customers"
