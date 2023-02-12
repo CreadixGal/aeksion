@@ -10,7 +10,7 @@
       
     </div>
     <div class="w-3/12 flex justify-center items-center text-black text-center font-semibold border-x border-slate-100 py-2 px-4">
-      <%= issue_tracker.description.truncate(50) %>
+      <%= raw issue_tracker&.comments.first.body.truncate(50) %>
     </div>
     <div class="w-3/12 flex justify-center items-center content-center px-4 gap-4">
       <% if issue_tracker.images.attached? %>
