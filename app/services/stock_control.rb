@@ -8,7 +8,7 @@ class StockControl
   end
 
   def enough_stock?
-    return true if movement.rate_pickup?
+    return true if movement.rate_pickup? || resource.return?
 
     resource.quantity <= product.stock
   end
@@ -20,6 +20,7 @@ class StockControl
 
     product.increment(:stock, resource.quantity) if movement.rate_pickup?
     product.decrement(:stock, resource.quantity) if movement.rate_delivery?
+    new_amount
     product.save!
   end
 
@@ -29,13 +30,14 @@ class StockControl
   def restore_stock
     product.increment(:stock, resource.quantity) if movement.rate_delivery?
     product.decrement(:stock, resource.quantity) if movement.rate_pickup?
+    new_amount
     product.save!
   end
 
   # then update stock of product with the new value for quantity of product movement
   def update_stock!
     restore_stock
-    update_stock
+    update_stock unless resource.return?
   end
 
   # update amount of movement

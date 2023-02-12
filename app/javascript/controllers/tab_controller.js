@@ -13,7 +13,7 @@ export default class extends Controller {
 
   check_state() {
     this.optionTargets.forEach((option) => {
-      this.change_state(localStorage.getItem('option'), option, "bg-gray-200")
+      this.change_state(localStorage.getItem('option'), option, "")
     })
   }
 

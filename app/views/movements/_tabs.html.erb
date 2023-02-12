@@ -6,7 +6,7 @@
           icon: 'arrow-down-circle.svg',
           text: 'Entradas',
           notification: Movement.pickup.count,
-          link_style: 'tab-component'
+          link_style: "tab-component #{'bg-slate-200' if params[:kind] == 'pickup'}"
         }
       ) %>
   <%= render TabComponent.new(
@@ -16,7 +16,17 @@
           icon: 'arrow-up-circle.svg',
           text: 'Salidas',
           notification: Movement.delivery.count,
-          link_style: 'tab-component'
+          link_style: "tab-component #{'bg-slate-200' if params[:kind] == 'delivery'}"
+        }
+      ) %>
+  <%= render TabComponent.new(
+        item: 'Devoluciones',
+        path: movements_path(params: { kind: 'return' }),
+        options: {
+          icon: 'arrow-uturn-down.svg',
+          text: 'Devoluciones',
+          notification: Movement.return.count,
+          link_style: "tab-component #{'bg-slate-200' if params[:kind] == 'return'}"
         }
       ) %>
 </nav>

@@ -14,12 +14,12 @@
       <div class="w-full flex flex-col px-6 py-4 h-full gap-8 border-y border-y-slate-600 mt-3">
         <div class="w-full flex gap-8">
           <div class="w-full flex-col justify-center items-start">
-            <div class="w-full mr-4"><%= t('.name') %></div>
+            <div class="w-full mr-4"><%= t('.code') %></div>
             <div class='w-full text-left font-semibold whitespace-nowrap'><%= product.name %></div>
           </div>
           <div class="w-full flex-col justify-center items-start">
-            <div class="w-full mr-4"><%= t('.code') %></div>
-            <div class='w-full text-left  font-semibold'><%= product.code %></div>
+            <div class="w-full mr-4"><%= t('.zone') %></div>
+            <div class='w-full text-left  font-semibold'><%= product.zone_name if product.zone_id.present? %></div>
           </div>
         </div>
         <div class="w-full flex gap-8">

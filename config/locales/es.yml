@@ -353,4 +353,17 @@ es:
       description_placeholder: Descripción
       title_label: Título
       description_label: Descripción
-  
+  rates:
+    index:
+      rate: Tarifa
+      customer: Cliente
+      zone: Zona
+      kind: Tipo
+    rate:
+      pickup: Entrada
+      delivery: Salida
+      return: Devolución
+    form:
+      pickup: Entrada
+      delivery: Salida
+      return: Devolución

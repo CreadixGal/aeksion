@@ -1,5 +1,5 @@
 class MovementsController < ApplicationController
-  before_action :set_movement, only: %i[show edit update destroy update_status]
+  before_action :set_movement, only: %i[show edit update destroy update_status mark_all_return]
 
   def index
     @movements = filter(params)
@@ -7,7 +7,7 @@ class MovementsController < ApplicationController
   end
 
   def movements(kind)
-    allowed_methods = %w[delivery pickup]
+    allowed_methods = %w[delivery pickup return]
     Movement.includes(%i[products]).send(kind) if allowed_methods.include?(kind)
   end
 
@@ -81,7 +81,6 @@ class MovementsController < ApplicationController
   def update
     respond_to do |format|
       if @movement.update(movement_params)
-        @movement.product_movements.each { |pm| StockControl.new(pm).new_amount }
         format.html { redirect_to movements_path(kind: @movement.rate_kind), success: t('.success') }
         format.turbo_stream { flash.now[:success] = t('.success') }
       else
@@ -129,6 +128,21 @@ class MovementsController < ApplicationController
     @movement.finished! if @movement.progress?
     redirect_to movements_path(kind: @movement.rate_kind)
     flash.now[:success] = t('.success')
+  end
+
+  def mark_as_return
+    product_movement = ProductMovement.find(params[:product_movement_id])
+    product_movement.return!
+    product_movement.recalculate_stock
+    flash.now[:success] = t('.success')
+    redirect_to movements_path(kind: 'return')
+  end
+
+  def mark_all_return
+    @movement.product_movements.each(&:return!)
+    @movement.product_movements.each(&:recalculate_stock)
+    flash.now[:success] = t('.success')
+    redirect_to movements_path(kind: 'return')
   end
 
   private
