@@ -7,8 +7,15 @@
       <div class="w-full flex flex-col justify-center items-start gap-4"
             data-controller="tomselect">
         <%= form.label t('.product'), class: 'text-lg text-gray-800'%>
+        <%
+            products = Product.all.map do |product| 
+                          product.zone_id.present? ? 
+                            [[product.code, product.zone_name].split(',').join(' -> '), product.id] : 
+                            [product.code, product.id]
+                        end
+        %>
         <%= form.select :product_id, 
-                Product.all.map { |product| [[product.name, product.code], product.id] },
+                products,
                 { include_blank: "" }, 
                 { 
                   prompt: 'Selecciona producto',
@@ -26,7 +33,12 @@
             class: 'w-full mx-auto block py-2 px-2 w-full text-lg text-left text-slate-700 bg-transparent border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer' %>
       </div>
 
-      <div class="flex justify-center items-end">
+      <div class="flex justify-center items-end gap-2">
+        <% if action_name == 'edit' %>
+          <%= link_to inline_svg_tag('icons/refresh.svg', class: 'icon-button-default'),
+              mark_as_return_path(product_movement_id: form.object.id),
+              class: 'wrapper-icon-button-default mb-[2.5px]' unless ProductMovement.find(form.object.id).return? %>
+        <% end %>
         <%= link_to inline_svg_tag('icons/trash.svg', class: 'icon-button-default'), "#",
             data: {
               action: "click->nested-form#remove_association"

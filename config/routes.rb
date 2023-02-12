@@ -41,7 +41,9 @@ Rails.application.routes.draw do
   get 'dashboard',      to: 'pages#dashboard', as: :dashboard
   get 'configuration',  to: 'pages#configuration', as: :configuration
   get '/test-coverage', to: redirect('/coverage/index.html')
-  get '/product_searcher', to: 'movements#product_searcher', as: :product_searcher
+  get '/product-searcher', to: 'movements#product_searcher', as: :product_searcher
+  get '/mark-as-return', to: 'movements#mark_as_return', as: :mark_as_return
+  get '/mark-all-return', to: 'movements#mark_all_return', as: :mark_all_return
 
   # authentication
   devise_for  :users,

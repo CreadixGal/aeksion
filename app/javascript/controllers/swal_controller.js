@@ -9,7 +9,6 @@ export default class extends Controller {
 
   single(e) {
     e.preventDefault()
-    console.log(this.nameValue)
     Swal.fire({
       title: `Estás seguro de eliminar ${this.nameValue}?`,
       text: `Esta acción no se puede deshacer`,

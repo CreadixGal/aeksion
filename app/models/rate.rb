@@ -5,14 +5,19 @@ class Rate < ApplicationRecord
   has_many :movements, dependent: :destroy
 
   delegate :name, to: :customer, prefix: :customer
-
+  delegate :name, to: :zone, prefix: :zone
   validates :price, presence: true
 
   enum kind: {
     delivery: 'delivery',
-    pickup: 'pickup'
+    pickup: 'pickup',
+    return: 'return'
   }, _default: 'delivery'
   validates :kind, presence: true
+
+  scope :delivery, -> { includes(%i[zone]).where(kind: 'delivery').order(Arel.sql('zones.name ASC')) }
+  scope :pickup, -> { includes(%i[zone]).where(kind: 'pickup').order(Arel.sql('zones.name ASC')) }
+  scope :return, -> { includes(%i[zone]).where(kind: 'return').order(Arel.sql('zones.name ASC')) }
 
   def self.includes_all
     includes(%i[customer zone]).all

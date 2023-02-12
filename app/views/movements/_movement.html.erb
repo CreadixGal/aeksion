@@ -29,7 +29,7 @@
       <div class="w-[12.5%] flex justify-center items-center px-4 text-right">
         <div class="w-full flex flex-col ">
           <% movement.product_movements.each do |product| %>
-            <span class="w-full border border-slate-400 p-2">
+            <span class="w-full border border-slate-400 p-2 <%= 'bg-red-200' if product.return %> ">
               <%= product.quantity %>
             </span>
           <% end %>
@@ -57,7 +57,17 @@
             <%= inline_svg_tag('icons/check-circle.svg', class: 'icon-button-success')%>
           </div>
         <% end %>
-
+        <% unless params[:kind].eql?('return')%>
+          <%= link_to inline_svg_tag(
+                'icons/arrow-uturn-down.svg',
+                class: "icon-button-#{movement.returned? ? 'error' : 'default'}"
+              ),
+              mark_all_return_path(id: movement),
+              data: {
+                turbo_frame: 'modal'
+              },
+              class: "wrapper-icon-button-#{movement.returned? ? 'error' : 'default'}" if movement.rate_delivery? %>
+        <% end %>
         <%= link_to inline_svg_tag(
               'icons/pencil-square.svg',
               class: 'icon-button-default'

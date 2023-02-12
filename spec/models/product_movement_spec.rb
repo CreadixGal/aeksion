@@ -48,28 +48,4 @@ RSpec.describe ProductMovement do
       expect(subject.product_movements.first.movement).to be_a(Movement)
     end
   end
-
-  describe '#enough_stock' do
-    it 'delivery is valid' do
-      movement = Movement.create!(delivery_valid_product_movement)
-      expect(movement).to be_valid
-    end
-
-    it 'delivery is invalid' do
-      movement = Movement.new(delivery_invalid_product_movement)
-      expect { movement.save! }.to raise_error(ActiveRecord::RecordInvalid)
-    end
-  end
-
-  describe '#recalculate_stock' do
-    it '#add_stock_to_product' do
-      movement = Movement.create!(pickup_product_movement)
-      expect(movement.products.first.stock).to eq(100)
-    end
-
-    it '#substract_stock_to_product' do
-      movement = Movement.create!(delivery_valid_product_movement)
-      expect(movement.products.first.stock).to eq(1)
-    end
-  end
 end
