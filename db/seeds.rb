@@ -60,15 +60,19 @@ while two_years_ago <= Time.zone.now
     quantity = (product.stock - random).positive? ? random : 0
     next if quantity.zero?
 
-    mov = Movement.create!(
-      code: "ALB-#{Faker::Code.ean}",
-      rate_id: rate.id,
-      date: two_years_ago,
-      product_movements_attributes: [
-        product_id: product.id,
-        quantity:
-      ]
-    )
-    puts "#{two_years_ago}: #{mov.persisted?}"
+    begin
+      mov = Movement.create!(
+        code: "ALB-#{Faker::Code.ean}",
+        rate_id: rate.id,
+        date: two_years_ago,
+        product_movements_attributes: [
+          product_id: product.id,
+          quantity:
+        ]
+      )
+      puts "#{two_years_ago}: #{mov.persisted?}"
+    rescue => e
+      puts e.message
+    end
   end
 end
