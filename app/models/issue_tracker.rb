@@ -1,6 +1,8 @@
 class IssueTracker < ApplicationRecord
   has_many_attached :images
 
+  has_many :comments, as: :commentable, dependent: :destroy
+
   validates :title, :description, presence: true
   validates :title,
             length: {
