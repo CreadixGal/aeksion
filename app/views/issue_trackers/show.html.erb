@@ -44,5 +44,7 @@
   </div>
   <%= turbo_frame_tag "edit_#{@issue.id}" %>
   
-  <%= link_to "#{t '.add_item'}",edit_issue_tracker_path(@issue),class: 'button-success float-right' %>
+  <%= link_to t('.add_item'),
+        edit_issue_tracker_path(@issue),
+        class: 'button-success float-right' %>
 </div>
