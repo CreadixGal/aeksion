@@ -41,4 +41,18 @@ export default class extends Controller {
   save(e) {
     this.contentTarget.value = this.quill.root.innerHTML
   }
+
+  addEditor() {
+    const newEditorTarget = this.editorTargets[this.editorTargets.length - 1]
+    if (newEditorTarget) {
+      new Quill(newEditorTarget, {
+        modules: {
+          toolbar: this.toolbarOptions(),
+          "emoji-toolbar": true,
+          "emoji-shortname": true,
+        },
+        theme: 'snow'
+      })
+    }
+  }
 }
