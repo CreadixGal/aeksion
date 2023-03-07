@@ -8,4 +8,6 @@ class Product < ApplicationRecord
   validates :stock, numericality: { greater_than_or_equal_to: 0, message: 'El stock no puede ser negativo' }
 
   enum :kind, { pallet: 1, box: 2 }, field: { type: Integer, default: 1 }, map: :string, source: :kind
+
+  has_one :price, as: :priciable
 end

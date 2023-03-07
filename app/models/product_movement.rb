@@ -6,6 +6,8 @@ class ProductMovement < ApplicationRecord
 
   after_create :recalculate_stock, :update_amount
 
+  has_one :price, as: :priciable
+
   private
 
   def update_amount
