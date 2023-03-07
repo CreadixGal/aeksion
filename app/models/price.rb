@@ -1,6 +1,13 @@
 class Price < ApplicationRecord
   belongs_to :priciable, polymorphic: true
 
-  # when priciable is Zone -> delivery
-  # when priciable is Customer -> pickup
+  validates_uniqueness_of :product_id, scope: :priciable_id, if: :zone?
+
+  private
+
+  def zone?
+    return true if priciable_type == "Zone"
+    false
+  end
+
 end
