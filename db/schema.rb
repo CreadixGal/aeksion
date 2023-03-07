@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_09_223812) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_07_200502) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -104,7 +104,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_09_223812) do
     t.uuid "customer_id", null: false
     t.uuid "zone_id", null: false
     t.string "kind", default: "delivery", null: false
-    t.decimal "price", precision: 8, scale: 3, default: "0.0", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["customer_id"], name: "index_rates_on_customer_id"
