@@ -1,5 +1,5 @@
 class IssueTrackersController < ApplicationController
-  before_action :set_issue_tracker, only: %i[show]
+  before_action :set_issue_tracker, only: %i[show edit update]
 
   def index
     @issues = IssueTracker.ordered
@@ -14,22 +14,39 @@ class IssueTrackersController < ApplicationController
     @issue = IssueTracker.new
   end
 
+  
   def create
-    @issue = IssueTracker.new(issue_tracker_params)
+    @issue = current_user.issue_trackers.new(issue_tracker_params)
     if @issue.save
       redirect_to issue_trackers_path, success: 'Issue tracker was successfully created.'
     else
       render :new
     end
   end
+  
+  def edit; end
+
+  def update
+    @comment = @issue.comments.new(issue_tracker_params[:comment])
+    if @comment.save
+      redirect_to issue_trackers_path, success: 'Issue tracker was successfully updated.'
+    else
+      redirect_to @issue, danger: 'Comment was not created.'
+    end
+  end
 
   private
 
   def set_issue_tracker
-    @issue = IssueTracker.ordered.find(params[:id])
+    @issue = IssueTracker.find(params[:id])
   end
 
   def issue_tracker_params
-    params.require(:issue_tracker).permit(:title, :description, images: [])
+    params.require(:issue_tracker)
+          .permit(
+            :title,
+            images: [],
+            comment: %i[id body user_id _destroy]
+          )
   end
 end
