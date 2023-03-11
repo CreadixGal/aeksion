@@ -1,4 +1,6 @@
 class IssueTracker < ApplicationRecord
+  belongs_to :user
+
   has_many_attached :images
 
   has_many :comments, as: :commentable, dependent: :destroy
@@ -20,5 +22,5 @@ class IssueTracker < ApplicationRecord
   }, _default: 'pending'
 
   scope :ordered, -> { includes([images_attachments: [:blob]]).order(created_at: :desc) }
-  scope :pending_count, -> { where(status: :pending).count }
+  scope :pending_count, -> { includes([:user]).where(status: :pending).count }
 end
