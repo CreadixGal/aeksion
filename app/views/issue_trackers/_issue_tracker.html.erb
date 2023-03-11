@@ -2,7 +2,7 @@
   <%= turbo_frame_tag dom_id(issue_tracker), class: 'w-full flex justify-between' do %>
     <div class="w-3/12 flex justify-center items-center text-black text-center font-semibold border-x border-slate-100 py-2 px-4">
       
-      <% if current_user.superadmin? %>
+      <% if current_user.superadmin? ||current_user.admin? %>
         <%= link_to issue_tracker.title, issue_tracker %>
       <% else %>
         <%= issue_tracker.title %>
