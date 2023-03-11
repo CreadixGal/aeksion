@@ -1,0 +1,23 @@
+
+
+  <%= form_with(model: issue_tracker,
+                data: {
+                  controller: "quill nested-form", 
+                  action: "quill#save", 
+                  turbo: false,
+                },
+                class: 'w-full') do |form| %>
+    <div class="field">
+      <%= form.fields_for :comment do |ff| %>
+        <%= ff.hidden_field :user_id, value: current_user.id %>
+        <%= ff.hidden_field :body, class: 'hidden', data: {"quill-target": "content"}%>
+        <div data-quill-target="editor" class="w-full min-h-[120px]">
+          <%= raw('#') %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="actions">
+      <%= form.submit 'Add comment' %>
+    </div>
+  <% end %>

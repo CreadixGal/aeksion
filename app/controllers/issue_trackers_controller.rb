@@ -14,7 +14,6 @@ class IssueTrackersController < ApplicationController
     @issue = IssueTracker.new
   end
 
-  
   def create
     @issue = current_user.issue_trackers.new(issue_tracker_params)
     if @issue.save
@@ -23,7 +22,7 @@ class IssueTrackersController < ApplicationController
       render :new
     end
   end
-  
+
   def edit; end
 
   def update
