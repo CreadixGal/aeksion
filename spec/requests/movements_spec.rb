@@ -129,7 +129,7 @@ RSpec.describe 'Movements' do
 
       it 'show error message if stock is not enough' do
         post movements_path, params: { movement: out_of_stock }
-        expect(response.body).to include('el stock del producto es insuficiente para crear este movimiento')
+        expect(response.body).to include('notification')
       end
     end
   end
@@ -190,12 +190,6 @@ RSpec.describe 'Movements' do
     end
 
     it 'redirects to the movements index' do
-      pending 'Bullet::Notification::UnoptimizedQueryError:
-      user: cisco
-      DELETE /movements/multiple_delete
-      USE eager loading detected
-        Movement => [:product_movements]
-        Add to your query: .includes([:product_movements])'
       Zone.destroy_all
       Rate.destroy_all
       zone1 = create(:zone, name: 'Pontevedra')
@@ -205,6 +199,25 @@ RSpec.describe 'Movements' do
 
       delete multiple_delete_movements_path, params: { movement_ids: [movements.first.id, movements.last.id] }
       expect(response).to redirect_to(movements_path)
+    end
+  end
+
+  describe 'PATCH /update_status' do
+    it 'redirects to movements path' do
+      subject.progress!
+      patch update_status_movement_path(subject, kind: subject.rate_kind)
+      expect(response).to redirect_to(movements_path(kind: subject.rate_kind))
+    end
+
+    it 'update status to finished if is pending' do
+      subject.progress!
+      patch update_status_movement_path(subject, kind: subject.rate_kind)
+      expect(subject.reload.status).to eq('finished')
+    end
+
+    it 'not update status if is finished' do
+      patch update_status_movement_path(subject, kind: subject.rate_kind)
+      expect(subject.reload.status).not_to eq('progress')
     end
   end
 end

@@ -2,9 +2,8 @@ class ProductMovement < ApplicationRecord
   belongs_to :movement, inverse_of: :product_movements
   belongs_to :product, inverse_of: :product_movements
 
-  validate :enough_stock, on: %i[create update], if: -> { movement.rate.kind == 'delivery' }
+  validates :quantity, presence: true, numericality: { greater_than: 0 }
 
-  after_create :recalculate_stock, :update_amount
 
   has_one :price, as: :priciable
 
@@ -17,30 +16,25 @@ class ProductMovement < ApplicationRecord
 
   def calculate_amount(price)
     update! amount: price * quantity
+
+  validate :enough_stock, on: %i[create update], if: -> { movement.rate.kind == 'delivery' }
+  after_create :calculate_stock
+
+  def return!
+    update!(return: true) unless return?
   end
 
   def enough_stock
-    return unless product && quantity > product.stock
+    return true if StockControl.new(self).enough_stock?
 
-    errors.add(:quantity,
-               'el stock del producto es insuficiente para crear este movimiento')
+    errors.add(:quantity, 'no hay suficiente stock')
+  end
+
+  def calculate_stock
+    StockControl.new(self).update_stock
   end
 
   def recalculate_stock
-    kind = movement.rate.kind
-    add_stock_to_product if kind.eql?('pickup')
-    substract_stock_to_product if kind.eql?('delivery')
+    StockControl.new(self).update_stock!
   end
-
-  # rubocop:disable Rails/SkipsModelValidations
-  def add_stock_to_product
-    product = Product.find(product_id)
-    product.increment!(:stock, quantity)
-  end
-
-  def substract_stock_to_product
-    product = Product.find(product_id)
-    product.decrement!(:stock, quantity)
-  end
-  # rubocop:enable Rails/SkipsModelValidations
 end

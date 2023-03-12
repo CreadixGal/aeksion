@@ -12,7 +12,7 @@
         <%= movement.date.strftime('%d-%m-%y') %>
       </div>
       <div class="w-[12.5%] flex justify-start  items-center px-4 text-left">
-        <%= rate.kind %>
+        <%= t(".#{rate.kind}") %>
       </div>
       <div class="w-[12.5%] flex justify-start  items-center px-4 text-left">
         <%= Customer.find(rate.customer_id).name %>
@@ -21,7 +21,7 @@
         <div class="w-full flex flex-col ">
           <% movement.products.each do |product| %>
             <span class="w-full border border-slate-400 p-2">
-              <%= product.code %>
+              <%= link_to product.code, product, data: { turbo_frame: 'modal' } %>
             </span>
           <% end %>
         </div>
@@ -29,7 +29,7 @@
       <div class="w-[12.5%] flex justify-center items-center px-4 text-right">
         <div class="w-full flex flex-col ">
           <% movement.product_movements.each do |product| %>
-            <span class="w-full border border-slate-400 p-2">
+            <span class="w-full border border-slate-400 p-2 <%= 'bg-red-200' if product.return %> ">
               <%= product.quantity %>
             </span>
           <% end %>
@@ -43,17 +43,44 @@
          <% end %>
       </div>
       <div class="w-[12.5%] flex justify-end  items-center px-4 text-right">
-        <%= number_to_currency movement.product_movements.sum(&:amount), precision: 4 %>
+        <%= number_to_currency movement.amount, precision: 4 %>
       </div>
     </div>
     <div class="table-actions">
       <% if action_name != "show" && movement.id%>
+        <% if movement.progress? %>
+          <%= button_to inline_svg_tag(
+                'icons/truck.svg',
+                class: 'icon-button-default'
+              ),
+              update_status_movement_path(movement, kind: params[:kind]),
+              method: :patch,
+              class: 'wrapper-icon-button-default' %>
+        <% else %>
+          <div class="wrapper-icon-button-success">
+            <%= inline_svg_tag('icons/check-circle.svg', class: 'icon-button-success')%>
+          </div>
+        <% end %>
+        <% unless params[:kind].eql?('return')%>
+          <%= link_to inline_svg_tag(
+                'icons/arrow-uturn-down.svg',
+                class: "icon-button-#{movement.returned? ? 'error' : 'default'}"
+              ),
+              mark_all_return_path(id: movement),
+              data: {
+                turbo_frame: 'modal'
+              },
+              class: "wrapper-icon-button-#{movement.returned? ? 'error' : 'default'}" if movement.rate_delivery? %>
+        <% end %>
         <%= link_to inline_svg_tag(
-                      'icons/pencil-square.svg',
-                      class: 'icon-button-default'
-                    ),
-                    edit_movement_path(movement),
-                    class: 'wrapper-icon-button-default' %>
+              'icons/pencil-square.svg',
+              class: 'icon-button-default'
+            ),
+            edit_movement_path(movement),
+            data: {
+              turbo_frame: 'modal'
+            },
+            class: 'wrapper-icon-button-default' %>
 
         <%= button_to movement,
                       method: :delete,

@@ -15,6 +15,9 @@ Rails.application.routes.draw do
   end
 
   resources :movements do
+    member do
+      patch :update_status
+    end
     collection do
       post :search
       delete :multiple_delete
@@ -32,13 +35,15 @@ Rails.application.routes.draw do
       delete :multiple_delete
     end
   end
-
+  resources :issue_trackers, only: %i[index show new create]
   resources :products
 
   get 'dashboard',      to: 'pages#dashboard', as: :dashboard
   get 'configuration',  to: 'pages#configuration', as: :configuration
   get '/test-coverage', to: redirect('/coverage/index.html')
-  get '/product_searcher', to: 'movements#product_searcher', as: :product_searcher
+  get '/product-searcher', to: 'movements#product_searcher', as: :product_searcher
+  get '/mark-as-return', to: 'movements#mark_as_return', as: :mark_as_return
+  get '/mark-all-return', to: 'movements#mark_all_return', as: :mark_all_return
 
   # authentication
   devise_for  :users,

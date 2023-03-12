@@ -8,16 +8,18 @@ class Movement < ApplicationRecord
 
   has_one :customer, through: :rate
 
-  delegate :name, :price, :kind, to: :rate, prefix: :rate
+  delegate :name, :price, :kind, :delivery?, :pickup?, to: :rate, prefix: :rate
   delegate :name, to: :customer, prefix: :customer
   delegate :amount, to: :product_movements
   accepts_nested_attributes_for :product_movements
 
   validates :date, presence: true
   before_create :validate_code
-
-  scope :delivery, -> { includes(%i[rate product_movements]).where(rates: { kind: 'delivery' }).order(date: :desc) }
+  # rubocop:disable  Layout/LineLength
+  scope :delivery, -> { includes(%i[rate product_movements]).where(rates: { kind: 'delivery' }, product_movements: { return: false }).order(date: :desc) }
+  # rubocop:enable  Layout/LineLength
   scope :pickup, -> { includes(%i[rate product_movements]).where(rates: { kind: 'pickup' }).order(date: :desc) }
+  scope :return, -> { includes(%i[product_movements]).where(product_movements: { return: true }).order(date: :desc) }
   scope :sort_by_date, -> { order('date ASC') }
 
   scope :between_dates, ->(start_date, end_date) { where(date: start_date..end_date) }
@@ -32,7 +34,17 @@ class Movement < ApplicationRecord
   #  customer: %i[name]
   # }
 
+  def returned?
+    product_movements.any?(&:return)
+  end
+
   def validate_code
     CodeGenerator.new(self).validate_code
+  end
+
+  def amount
+    product_movements.sum(&:amount)
+  rescue StandardError
+    0
   end
 end

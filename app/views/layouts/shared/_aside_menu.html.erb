@@ -35,7 +35,7 @@
               ) %>
     <%= render MenuItemComponent.new(
                 item: 'rate',
-                path: rates_path,
+                path: rates_path(kind: 'pickup'),
                 options: { 
                   text: 'Tarifas',
                   icon: 'info-circle.svg'
@@ -49,6 +49,17 @@
                   icon: 'cog.svg'
                 }
               ) %>
+    <div class="w-full relative">
+      <%= render MenuItemComponent.new(
+              item: 'issue',
+              path: issue_trackers_path,
+              options: {
+                text: 'Contacto',
+                icon: 'info-circle.svg',
+              }
+            ) %>
+      <%= render NotificationStatusComponent.new(status: 'pending') unless @pending_issues.zero? %>
+    </div>
   </div>
   <div class="w-full fixed top-2 right-[40%] flex justify-end md:hidden z-10" 
        data-toogle-target="button">
