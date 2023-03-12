@@ -15,6 +15,8 @@ class IssueTrackersController < ApplicationController
     @issue = IssueTracker.new
   end
 
+  def edit; end
+
   def create
     comment_params = issue_tracker_params[:comment].compact_blank
     issue_params = issue_tracker_params.except(:comment)
@@ -28,8 +30,6 @@ class IssueTrackersController < ApplicationController
       render :new
     end
   end
-
-  def edit; end
 
   def update
     @comment = @issue.comments.new(issue_tracker_params[:comment])

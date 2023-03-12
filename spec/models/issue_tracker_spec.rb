@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe IssueTracker, type: :model do
+RSpec.describe IssueTracker do
   let(:issue) { build(:issue_tracker) }
 
   describe 'associations' do
@@ -22,7 +22,7 @@ RSpec.describe IssueTracker, type: :model do
 
       issue = described_class.new(title: nil)
       expect(issue).not_to be_valid
-      expect(issue.errors[:title].first).to include("no puede estar en blanco")
+      expect(issue.errors[:title].first).to include('no puede estar en blanco')
     end
 
     it { is_expected.to validate_presence_of(:comments) }
