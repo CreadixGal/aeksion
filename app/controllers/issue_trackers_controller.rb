@@ -16,7 +16,12 @@ class IssueTrackersController < ApplicationController
   end
 
   def create
-    @issue = current_user.issue_trackers.new(issue_tracker_params)
+    comment_params = issue_tracker_params[:comment].compact_blank
+    issue_params = issue_tracker_params.except(:comment)
+    # render plain: issue.inspect
+
+    @issue = current_user.issue_trackers.new(issue_params)
+    @issue.comments.build(comment_params)
     if @issue.save
       redirect_to issue_trackers_path, success: 'Issue tracker was successfully created.'
     else
