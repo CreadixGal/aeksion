@@ -42,7 +42,7 @@ class CustomersController < ApplicationController
   def create
     @customer = Customer.new(customer_params)
 
-    Price.create(priciable: @customer, quantity: @price)
+    Price.create!(priciable: @customer, quantity: @price)
 
     respond_to do |format|
       if @customer.save
