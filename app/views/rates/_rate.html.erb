@@ -11,7 +11,11 @@
         <%= link_to rate.zone_name, zone_path(rate.zone_id) %>
       </div>
       <div class="flex flex-1 items-center px-4">
-        <%= rate.price %>
+        <% if rate.pickup? %>
+          <%= rate.customer.price.quantity %>
+        <% elsif rate.delivery? %>
+          <%= rate.zone.price.quantity %>
+        <% end %>
       </div>
       <div class="flex flex-1 items-center px-4">
         <%= t(".#{rate.kind}") %>

@@ -4,6 +4,19 @@ class ProductMovement < ApplicationRecord
 
   validates :quantity, presence: true, numericality: { greater_than: 0 }
 
+
+  has_one :price, as: :priciable
+
+  private
+
+  def update_amount
+    calculate_amount(movement.rate.customer.price.quantity) if movement.rate.pickup?
+    calculate_amount(movement.rate.zone.price.quantity) if movement.rate.delivery?
+  end
+
+  def calculate_amount(price)
+    update! amount: price * quantity
+
   validate :enough_stock, on: %i[create update], if: -> { movement.rate.kind == 'delivery' }
   after_create :calculate_stock
 

@@ -10,10 +10,15 @@
         
           <%= form.select :zone_id, Zone.all.map { |z| [z.name, z.id] }, { include_blank: 'Selecciona zona' }, class: 'w-1/2 mx-auto block py-2.5 px-0 w-full text-lg text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer' %>
 
-          <%= form.text_field :kind, value: t(".#{rate.kind}"), readonly: true ,class: 'w-1/2 mx-auto block py-2.5 px-0 w-full text-lg text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:ring-0 focus:border-gray-300 border border-gray-300' %>
-          <%= form.hidden_field :kind, value: params[:kind] %>
 
-          <%= form.number_field :price, step: 0.0001, min: 0.0000, placeholder: 'Introduce precio', class:'w-1/2 mx-auto block py-2.5 px-0 w-full text-lg text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'%>
+          <%= form.select :kind, Rate.kinds.keys.map { |k| [k.humanize, k] }, { include_blank: 'Selecciona tipo' }, class: 'w-1/2 mx-auto block py-2.5 px-0 w-full text-lg text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer' %>
+          <% if 1 == 0 %>
+            <%# TODO: review and refactor selects !! %>
+            <%= form.text_field :kind, value: t(".#{rate.kind}"), readonly: true ,class: 'w-1/2 mx-auto block py-2.5 px-0 w-full text-lg text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:ring-0 focus:border-gray-300 border border-gray-300' %>
+            <%= form.hidden_field :kind, value: params[:kind] %>
+
+            <%= form.number_field :price, step: 0.0001, min: 0.0000, placeholder: 'Introduce precio', class:'w-1/2 mx-auto block py-2.5 px-0 w-full text-lg text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'%>
+          <% end %>
         </div>
 
 

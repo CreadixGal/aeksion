@@ -25,15 +25,20 @@
     </div>
     <div class="w-full flex flex-col justify-center items-start gap-4">
       <%= form.label t('.rate'), class: 'text-lg text-gray-800'%>
-      <%= form.select :rate_id,
-          options_for_select(
-            Rate.where(
-              kind: params[:kind]
-            ).map { |rate| ["#{rate.customer_name} [#{rate.price}€]", rate.id] },
-            selected: movement.rate_id
-          ),
-          {},
-          class: 'w-full mx-auto block py-2 px-2 w-full text-lg text-left text-slate-700 bg-transparent border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer' %>
+
+      <%= form.select :rate_id, options_for_select(Rate.where(kind: params[:kind]).map { |rate| ["#{rate.customer_name} - #{rate.kind} [#{rate.zone.price.quantity}€]", rate.id] }, selected: movement.rate_id), {}, class: 'w-full mx-auto block py-2 px-2 w-full text-lg text-left text-slate-700 bg-transparent border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer' %>
+      <% if 1 == 0 %>
+        <%# TODO: review and refactor selects!! %>
+        <%= form.select :rate_id,
+            options_for_select(
+              Rate.where(
+                kind: params[:kind]
+              ).map { |rate| ["#{rate.customer_name} [#{rate.price}€]", rate.id] },
+              selected: movement.rate_id
+            ),
+            {},
+            class: 'w-full mx-auto block py-2 px-2 w-full text-lg text-left text-slate-700 bg-transparent border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer' %>
+      <% end %>
     </div>
 
     <div class="w-full flex flex-col items-end gap-8">

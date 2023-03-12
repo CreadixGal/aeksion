@@ -12,11 +12,7 @@ class Product < ApplicationRecord
   delegate :name, to: :zone, prefix: :zone
 
   enum :kind, { pallet: 1, box: 2 }, field: { type: Integer, default: 1 }, map: :string, source: :kind
-  after_create :create_code
 
-  private
 
-  def create_code
-    update! name: code
-  end
+  has_one :price, as: :priciable
 end

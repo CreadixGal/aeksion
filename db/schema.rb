@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_01_200454) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_07_200502) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -49,6 +49,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_01_200454) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "issue_trackers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "title", null: false
+    t.string "description", null: false
+    t.string "status", default: "pending", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "movements", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "rate_id", null: false
     t.datetime "date"
@@ -58,6 +66,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_01_200454) do
     t.integer "status", default: 0
     t.index ["code"], name: "index_movements_on_code", unique: true
     t.index ["rate_id"], name: "index_movements_on_rate_id"
+  end
+
+  create_table "prices", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "priciable_type", null: false
+    t.uuid "priciable_id", null: false
+    t.decimal "quantity", precision: 8, scale: 4, default: "0.0"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.uuid "product_id"
+    t.index ["priciable_type", "priciable_id"], name: "index_prices_on_priciable"
+    t.index ["product_id"], name: "index_prices_on_product_id"
   end
 
   create_table "product_movements", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -85,7 +104,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_01_200454) do
     t.uuid "customer_id", null: false
     t.uuid "zone_id", null: false
     t.string "kind", default: "delivery", null: false
-    t.decimal "price", precision: 8, scale: 3, default: "0.0", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["customer_id"], name: "index_rates_on_customer_id"
@@ -123,6 +141,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_01_200454) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "movements", "rates"
+  add_foreign_key "prices", "products"
   add_foreign_key "product_movements", "movements"
   add_foreign_key "product_movements", "products"
   add_foreign_key "rates", "customers"
