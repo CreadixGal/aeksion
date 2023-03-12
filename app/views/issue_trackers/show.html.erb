@@ -14,27 +14,11 @@
   <h1 class="w-full text-center text-2xl font-bold text-white p-8 bg-slate-900">
     <%= @issue.title.capitalize %>
   </h1>
-    <% @issue.comments.each do |comment|%>
-      <div class="w-full flex flex-col <%= current_user.id == comment.user_id ? 'bg-gray-200' : 'bg-slate-800 text-white'%> px-4 py-6 mb-4">
-        <div class="w-2/3 mx-auto">
-          <div class="w-full flex <%= current_user.id == comment.user_id ? 'justify-start text-left' : 'justify-end text-right' %> items-center gap-4 px-4 py-4">
-            <div class="flex justify-end items-center">
-              <p class="text-xs font-semibold whitespace-nowrap">
-                <%= comment.user.email %>
-              </p>
-            </div>
-            <div class="flex justify-start items-center">
-              <p class="text-xs font-semibold whitespace-nowrap">
-                <%= comment.created_at.strftime('[%H:%M] %d-%m-%Y') %>
-              </p>
-            </div>
-          </div>
-          <div class="w-full flex justify-start items-center gap-4 px-4 py-4">
-              <%= raw comment.body %>
-          </div>
-        </div>
-      </div>
+    <%#= render @comments %>
+    <% @comments.each do |comment| %>
+      <%= render 'issue_trackers/comment', comment: comment %>
     <% end %>
+    
     <% if @issue.images.attached? %>
       <div class="flex flex-wrap justify-center gap-6 mt-4">
         <% @issue.images.each do |image| %>
@@ -44,13 +28,13 @@
     <% end %>
 
     <% unless @issue.comments.last.user_id == current_user.id %>
-        <%= form_with(model: @issue,
-                  data: {
-                    controller: "quill nested-form", 
-                    action: "quill#save", 
-                    turbo: false,
-                  },
-                  class: 'w-full') do |form| %>
+      <%= form_with(model: @issue,
+                    data: {
+                      controller: "quill nested-form", 
+                      action: "quill#save", 
+                      turbo: false,
+                    },
+                    class: 'w-full') do |form| %>
       <div class="field w-2/3 mx-auto gap-6">
         <%= form.fields_for :comment do |ff| %>
           <%= ff.hidden_field :user_id, value: current_user.id %>

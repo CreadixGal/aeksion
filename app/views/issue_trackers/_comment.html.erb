@@ -1,0 +1,21 @@
+
+
+  <div  id="<%= dom_id(comment) %>" class="w-full flex flex-col <%= current_user.id == comment.user_id ? 'bg-gray-200' : 'bg-slate-800 text-white'%> px-4 py-6 mb-4">
+    <div class="w-2/3 mx-auto">
+      <div class="w-full flex <%= current_user.id == comment.user_id ? 'justify-start text-left' : 'justify-end text-right' %> items-center gap-4 px-4 py-4">
+        <div class="flex justify-end items-center">
+          <p class="text-xs font-semibold whitespace-nowrap">
+            <%= comment.user.email %>
+          </p>
+        </div>
+        <div class="flex justify-start items-center">
+          <p class="text-xs font-semibold whitespace-nowrap">
+            <%= comment.created_at.strftime('[%H:%M] %d-%m-%Y') %>
+          </p>
+        </div>
+      </div>
+      <div class="w-full flex justify-start items-center gap-4 px-4 py-4">
+        <%= raw comment.body %>
+      </div>
+    </div>
+  </div>
