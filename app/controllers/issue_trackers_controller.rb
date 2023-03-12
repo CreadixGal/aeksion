@@ -8,6 +8,7 @@ class IssueTrackersController < ApplicationController
 
   def show
     @issue.viewed! if @issue.pending?
+    @comments = @issue.comments.includes(:user)
   end
 
   def new
