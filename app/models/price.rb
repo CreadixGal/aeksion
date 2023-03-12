@@ -1,7 +1,12 @@
 class Price < ApplicationRecord
   belongs_to :priciable, polymorphic: true
 
-  validates :product_id, uniqueness: { scope: :priciable_id, if: :zone? }
+  # rubocop:disable Rails/UniqueValidationWithoutIndex
+  validates :product_id,
+            uniqueness: {
+              scope: :priciable_id, if: :zone?
+            }
+  # rubocop:enable Rails/UniqueValidationWithoutIndex
 
   private
 
