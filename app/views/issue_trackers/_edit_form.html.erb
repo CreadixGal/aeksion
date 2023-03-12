@@ -12,7 +12,7 @@
         <%= ff.hidden_field :user_id, value: current_user.id %>
         <%= ff.hidden_field :body, class: 'hidden', data: {"quill-target": "content"}%>
         <div data-quill-target="editor" class="w-full min-h-[120px]">
-          <%= raw('#') %>
+          <%= raw('') %>
         </div>
       <% end %>
     </div>

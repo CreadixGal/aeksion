@@ -9,7 +9,7 @@
         <%= form.label t('.description_label'), class: 'text-lg text-gray-800'%>
         <%= form.hidden_field :body, class: 'hidden', data: {"quill-target": "content"}%>
         <div data-quill-target="editor" class="w-full min-h-[120px]">
-          <%= raw(form.object.body) %>
+          <%= raw('') %>
         </div>
       </div>
     </div>
