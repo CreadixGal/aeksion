@@ -13,6 +13,5 @@ class Product < ApplicationRecord
 
   enum :kind, { pallet: 1, box: 2 }, field: { type: Integer, default: 1 }, map: :string, source: :kind
 
-
   has_one :price, as: :priciable
 end

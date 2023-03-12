@@ -18,7 +18,7 @@ class ZonesController < ApplicationController
   def create
     @zone = Zone.new(zone_params)
 
-    Price.create(priciable: @zone, quantity: @price)
+    Price.create!(priciable: @zone, quantity: @price)
 
     respond_to do |format|
       if @zone.save
