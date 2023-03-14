@@ -29,7 +29,7 @@
           </div>
           <div class="w-full flex-col justify-center items-start">
             <div class="w-full mr-4"><%= t('.price') %></div>
-            <div class='w-full text-left  font-semibold'><%= number_to_currency product.price, precision: 3 %></div>
+            <div class='w-full text-left  font-semibold'><%= number_to_currency product.prices.first.quantity, precision: 3 %></div>
           </div>
           <div class="w-full flex-col justify-center items-end">
             <div class="w-full text-right"><%= t('.stock')%></div>
