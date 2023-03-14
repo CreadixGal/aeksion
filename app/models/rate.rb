@@ -6,7 +6,9 @@ class Rate < ApplicationRecord
 
   delegate :name, to: :customer, prefix: :customer
   delegate :name, to: :zone, prefix: :zone
-  validates :price, presence: true
+  # TODO: solo products debe tener has many prices, rate no tengo claro si tiene precio, hai que pensar el proceso.
+  has_many :prices, as: :priciable
+  # validates :price, presence: true
 
   enum kind: {
     delivery: 'delivery',
