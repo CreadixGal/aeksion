@@ -1,7 +1,13 @@
 class IssueTracker < ApplicationRecord
+  belongs_to :user
+
   has_many_attached :images
 
-  validates :title, :description, presence: true
+  has_many :comments, as: :commentable, dependent: :destroy
+  accepts_nested_attributes_for :comments
+
+  validates :comments, presence: true
+  validates :title, presence: true
   validates :title,
             length: {
               minimum: 10,

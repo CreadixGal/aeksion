@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   private
 
   def set_pending_issue_count
-    return 0 unless user_signed_in? && current_user.superadmin?
+    return 0 unless user_signed_in?
 
     @pending_issues = IssueTracker.pending_count
   end

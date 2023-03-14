@@ -1,8 +1,8 @@
 
-<div class="w-full flex flex-col mx-auto justify-center items-center">
+<div class="w-full flex flex-col mx-auto justify-center items-center" data-controller="nested-form">
 
   <div class="w-full flex justify-start items-end mt-4 gap-8 bg-slate-900 p-8">
-    <div class="w-2/3 mx-auto">
+    <div class="w-2/3 mx-auto flex justify-between">
       <p class="text-xs text-white font-semibold">Creado hace: <%= time_ago_in_words @issue.created_at %></p>
       
       <% if @issue.updated_at > @issue.created_at %>
@@ -14,11 +14,11 @@
   <h1 class="w-full text-center text-2xl font-bold text-white p-8 bg-slate-900">
     <%= @issue.title.capitalize %>
   </h1>
-  <div class="w-full flex flex-col bg-gray-200 rounded-lg shadow-md px-4 py-6">
-
-    <p class="w-2/3 mx-auto text-gray-700 mt-2 text-lg px-8">
-      <%= @issue.description %>
-    </p>
+    <%#= render @comments %>
+    <% @comments.each do |comment| %>
+      <%= render 'issue_trackers/comment', comment: comment %>
+    <% end %>
+    
     <% if @issue.images.attached? %>
       <div class="flex flex-wrap justify-center gap-6 mt-4">
         <% @issue.images.each do |image| %>
@@ -26,5 +26,26 @@
         <% end %>
       </div>
     <% end %>
-  </div>
+
+    <% unless @issue.comments.last.user_id == current_user.id %>
+      <%= form_with(model: @issue,
+                    data: {
+                      controller: "quill nested-form", 
+                      action: "quill#save", 
+                      turbo: false,
+                    },
+                    class: 'w-full') do |form| %>
+      <div class="field w-2/3 mx-auto gap-6">
+        <%= form.fields_for :comment do |ff| %>
+          <%= ff.hidden_field :user_id, value: current_user.id %>
+          <%= ff.hidden_field :body, class: 'hidden', data: {"quill-target": "content"}%>
+          <div data-quill-target="editor" class="w-full cursor-pointer py-8">
+            <%= raw('') %>
+          </div>
+        <% end %>
+        <%= form.submit 'Enviar', class: 'button-success flex items-center gap-4 mt-4' %>
+      </div>
+
+    <% end %>
+  <% end %>
 </div>
