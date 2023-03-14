@@ -42,7 +42,9 @@ class StockControl
 
   # update amount of movement
   def new_amount
-    resource.amount = movement.rate_price * resource.quantity
+    # price = movement.rate.prices.last.quantity
+    price = 0
+    resource.amount = price * resource.quantity
     resource.save!
   end
 end
