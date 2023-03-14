@@ -1,0 +1,17 @@
+ 
+<div class="nested-fields w-full">
+  <div class="w-full flex justify-start items-center gap-8">
+    <div class="w-full flex gap-4">
+      <%= form.hidden_field :_destroy %>
+      <%= form.hidden_field :user_id, value: current_user.id %>
+
+      <div class="w-full flex flex-col justify-center items-start gap-4">
+        <%= form.label t('.description_label'), class: 'text-lg text-gray-800'%>
+        <%= form.hidden_field :body, class: 'hidden', data: {"quill-target": "content"}%>
+        <div data-quill-target="editor" class="w-full min-h-[120px]">
+          <%= raw('') %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

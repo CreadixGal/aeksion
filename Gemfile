@@ -64,6 +64,7 @@ group :development, :test do
   gem 'rubocop-performance'
   gem 'rubocop-rails'
   gem 'rubocop-rspec'
+  gem 'shoulda-matchers'
   gem 'solargraph', require: false
   # testing gems & fake data
   gem 'coderay'
