@@ -8,7 +8,7 @@ class Movement < ApplicationRecord
 
   has_one :customer, through: :rate
 
-  delegate :name, :price, :kind, :delivery?, :pickup?, to: :rate, prefix: :rate
+  delegate :name, :kind, :delivery?, :pickup?, to: :rate, prefix: :rate
   delegate :name, to: :customer, prefix: :customer
   delegate :amount, to: :product_movements
   accepts_nested_attributes_for :product_movements
