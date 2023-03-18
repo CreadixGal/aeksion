@@ -1,7 +1,8 @@
 class Zone < ApplicationRecord
   has_one :price, as: :priciable
   has_many :rates
-  has_many :products
+  has_many :variants, dependent: :destroy, inverse_of: :zone
+  has_many :products, through: :variants
   has_many :customers, through: :rates, dependent: :destroy
 
   delegate :code, :name, to: :customer, prefix: :customer
