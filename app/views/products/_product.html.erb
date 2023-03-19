@@ -11,27 +11,21 @@
         </figure>
       <% end %>
       
-      <div class="w-full flex flex-col px-6 py-4 h-full gap-8 border-y border-y-slate-600 mt-3">
+      <div class="w-full flex justify-between px-6 py-4 h-full gap-8 border-y border-y-slate-600 mt-3">
         <div class="w-full flex gap-8">
           <div class="w-full flex-col justify-center items-start">
-            <div class="w-full mr-4"><%= t('.code') %></div>
+            <div class="w-full mr-4"><%= t('.name') %></div>
             <div class='w-full text-left font-semibold whitespace-nowrap'><%= product.name %></div>
-          </div>
-          <div class="w-full flex-col justify-center items-start">
-            <div class="w-full mr-4"><%= t('.zone') %></div>
-            <div class='w-full text-left  font-semibold'><%= product.zone_name if product.zone_id.present? %></div>
           </div>
         </div>
         <div class="w-full flex gap-8">
           <div class="w-full flex-col justify-center items-start">
-            <div class="w-full mr-4"><%= t('.kind') %></div>
-            <div class='w-full text-left  font-semibold'><%= product.kind %></div>
+            <div class="w-full mr-4 text-center"><%= t('.kind') %></div>
+            <div class='w-full text-center font-semibold'><%= product.kind %></div>
           </div>
-          <div class="w-full flex-col justify-center items-start">
-            <div class="w-full mr-4"><%= t('.price') %></div>
-            <div class='w-full text-left  font-semibold'><%= number_to_currency product.prices.first.quantity, precision: 3 %></div>
-          </div>
-          <div class="w-full flex-col justify-center items-end">
+        </div>
+        <div class="w-full flex gap-8">
+          <div class="w-full flex-col justify-center items-end gap-8">
             <div class="w-full text-right"><%= t('.stock')%></div>
             <div class='w-full text-right font-semibold'><%= product.stock %></div>
           </div>
@@ -47,12 +41,12 @@
             <span><%= t('.edit')%></span>
           <% end %>
           <!-- hardcode style of button_tag -->
-          <style>.button_to {display:flex;flex:1}</style>
+          <style>.button_to { display:flex;flex:1 }</style>
           <%= button_to product,
                         method: :delete,
                         data: { 
                           controller: "swal",
-                          swal_name_value: product.code,
+                          swal_name_value: product.name,
                           action: "click->swal#single"
                         },
                         class: 'flex-1 w-full flex justify-end items-center bg-gray-100 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4  inline-flex items-center gap-4' do %>
