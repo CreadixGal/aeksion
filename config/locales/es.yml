@@ -272,7 +272,7 @@ es:
       back: Volver
       add_item: Añadir producto
     edit_form:
-      code: Código
+      name: Nombre
       date: Fecha
       customer: Cliente
       rate: Tarifa
@@ -300,7 +300,6 @@ es:
       error: No se ha podido eliminar el producto
     product:
       name: Nombre
-      code: Código
       kind: Tipo
       pallet: Pallet
       box: Caja
