@@ -57,11 +57,10 @@ end
   puts "\n📦 Product #{product.name} created     📦\n"
   Zone.all.each do |zone|
     variant = product.variants.build(code: "PR#{code}-#{zone.name.downcase.tr('^a-z', '').slice(0,2)}", zone_id: zone.id)
-    variant.price = Price.new(quantity: rand(0.001..0.999))
+    variant.price = Price.new(quantity: rand(0.0001..0.9999))
     variant.save!
-    puts "📦 Variant: #{variant.code} with price #{variant.price.quantity} created     📦\n"
+    puts "📦 Variant: #{variant.code} with price #{variant.quantity} created     📦\n"
   end
-
 end
 
 two_years_ago = 1.year.ago
