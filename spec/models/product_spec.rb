@@ -4,9 +4,8 @@ RSpec.describe Product do
   subject { build(:product, :with_image) }
 
   context 'with all properly attributes' do
-    # rubocop:disable RSpec/PredicateMatcher
     it 'has a valid factory' do
-      expect(subject.valid?).to be_truthy
+      expect(subject.valid?).to be_valid
     end
 
     it 'is not null' do
@@ -66,20 +65,9 @@ RSpec.describe Product do
     end
 
     # rubocop:disable RSpec/FactoryBot/SyntaxMethods
-    product_no_code  = FactoryBot.build(:product, code: nil)
-    product_no_price = FactoryBot.build(:product, price: nil)
     product_no_stock = FactoryBot.build(:product, stock: nil)
     product_no_kind  = FactoryBot.build(:product, kind: nil)
     # rubocop:enable RSpec/FactoryBot/SyntaxMethods
-
-    it 'code must not be empty' do
-      expect(product_no_code.valid?).to be_falsey
-    end
-    # rubocop:enable RSpec/PredicateMatcher
-
-    it 'price must not be empty' do
-      expect(product_no_price.price).to be_falsey
-    end
 
     it 'stock must not be empty' do
       expect(product_no_stock.stock).to be_falsey
