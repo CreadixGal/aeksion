@@ -47,6 +47,26 @@
         </div>
       </div>
     </div>
+    <% Rails.logger.info product.variants.size %>
+    <div class="w-full flex flex-col justify-center items-start gap-4" data-controller="nested-form">
+      <%= form.label t('.variant'), class: 'px-2' %>
+      <div class="w-full flex flex-col items-end gap-8">
+        <template data-nested-form-target="template">
+          <%= form.fields_for :variants, product.variants.new, child_index: 'TEMPLATE_RECORD' do |variant|%>
+            <%= render 'variant_fields', form: variant %>
+          <% end %>
+        </template>
+
+        <%= form.fields_for :variants do |variant| %>
+          <%= render 'variant_fields', form: variant if variant.present? %>
+        <% end %>
+
+        <div data-nested-form-target="add_item" class="float-rigth">
+          <%= link_to "#{t '.add_item'}", "#",class: 'button-success', data: { action: "nested-form#add_association" } %>
+        </div>
+      </div>
+    </div>
+
     <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row justify-start items-center gap-4">
       <%= form.submit t('.create'), class: 'button-success'%>
       <%= button_tag "Cancelar", 
