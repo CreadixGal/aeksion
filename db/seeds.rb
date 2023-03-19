@@ -48,35 +48,20 @@ end
 5.times do
   code = rand(1000..9999)
   product = Product.new(
-    code: "PR#{code}",
     name: "PR#{code}",
     stock: rand(1350..9800),
     kind: [2, 1].sample
   )
-  product.prices.build quantity: rand(0.001..0.999)
   product.image.attach(io: File.open(file_path), filename: file_name, content_type: 'image/jpeg')
   product.save!
-
   puts "\n📦 Product #{product.name} created     📦\n"
-end
-
-# create products by zones
-Zone.all.each do |zone|
-  code = rand(1000..9999)
-  4.times do
-    code = rand(1000..9999)
-    product = zone.products.new(
-      code: "PR#{code}",
-      name: "PR#{code}",
-      stock: rand(1350..9800),
-      kind: [2, 1].sample
-    )
-    product.prices.build quantity: rand(0.001..0.999)
-    product.image.attach(io: File.open(file_path), filename: file_name, content_type: 'image/jpeg')
-    product.save!
-
-    puts "\n📦 Product #{product.name} created     📦\n"
+  Zone.all.each do |zone|
+    variant = product.variants.build(code: "PR#{code}-#{zone.name.downcase.tr('^a-z', '').slice(0,2)}", zone_id: zone.id)
+    variant.price = Price.new(quantity: rand(0.001..0.999))
+    variant.save!
+    puts "📦 Variant: #{variant.code} with price #{variant.price.quantity} created     📦\n"
   end
+
 end
 
 two_years_ago = 1.year.ago
