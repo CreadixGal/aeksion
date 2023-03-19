@@ -308,6 +308,7 @@ es:
       edit: Editar
       delete: Eliminar
     form:
+      variant: Variante
       name: Nombre
       code: Código
       price: Precio
@@ -323,6 +324,8 @@ es:
       date: Fecha
       customer: Cliente
       rate: Tarifa
+    variant_fields:
+      remove_item: Eliminar
     product_movement_fields:
       product: Producto
       quantity: Cantidad
