@@ -2,8 +2,8 @@ class ProductsController < ApplicationController
   before_action :set_product, only: %i[show edit update destroy]
 
   def index
-    @products = Product.includes(:zone, image_attachment: :blob)
-                       .references(:zone, :image_attachment).all
+    @products = Product.includes(image_attachment: :blob)
+                       .references(:image_attachment).all
                        .order(created_at: :desc)
 
     @pagy, @products = pagy(@products)
@@ -59,7 +59,7 @@ class ProductsController < ApplicationController
   private
 
   def product_params
-    params.require(:product).permit(:name, :code, :kind, :zone_id, :image, :price, :stock)
+    params.require(:product).permit(:name, :kind, :image, :stock)
   end
 
   def set_product
