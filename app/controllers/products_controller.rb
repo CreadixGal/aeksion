@@ -20,10 +20,11 @@ class ProductsController < ApplicationController
   end
 
   def create
-    @product = Product.new(product_params)
+    @product = Product.new(product_params.except(:variants_attributes))
 
     respond_to do |format|
       if @product.save
+        create_or_destroy_variant(product_params) if product_params[:variants_attributes].present?
         format.html { redirect_to products_path, success: 'Product was successfully created.' }
         format.turbo_stream { flash.now[:success] = 'Product was successfully created.' }
       else
@@ -33,20 +34,11 @@ class ProductsController < ApplicationController
   end
 
   def update
-    Rails.logger.info product_params
-    create_or_destroy_variant(@product, product_params) if product_params[:variants_attributes].present?
+    create_or_destroy_variant(product_params) if product_params[:variants_attributes].present?
 
     respond_to do |format|
-
-        format.html { redirect_to products_path, success: 'Product was successfully updated.' }
-        format.turbo_stream { flash.now[:success] = 'Product was successfully updated.' }
-      # else
-      #   format.html { redirect_to products_path, status: :unprocessable_entity }
-      #   format.turbo_stream { flash.now[:error] = @product.errors.full_messages.join(', ') }
-      # end
-    rescue ActiveRecord::RangeError
-      format.html { redirect_to products_path, status: :unprocessable_entity }
-      format.turbo_stream { flash.now[:error] = 'Error al guardar. El formato valido: hasta 5 enteros y 4 decimales' }
+      format.html { redirect_to products_path, success: 'Product was successfully updated.' }
+      format.turbo_stream { flash.now[:success] = 'Product was successfully updated.' }
     end
   end
 
@@ -71,33 +63,50 @@ class ProductsController < ApplicationController
     @product = Product.find(params[:id])
   end
 
-  def create_or_destroy_variant(product, product_params)
+  def create_or_destroy_variant(product_params)
     product_params[:variants_attributes].each do |_, variant|
       next if variant[:zone_id].blank? || variant[:price].blank?
 
       if variant[:_destroy].eql?('1')
-        delete_variant(product, variant[:id])
+        delete_variant(variant[:id])
+        message = 'Variant was successfully destroyed.'
+        type = :error
+      elsif variant[:id].present?
+        update_variant(variant)
+        message = 'Variant was successfully updated.'
+        type = :alert
       else
-        existing_variant = product.variants.find_by(id: variant[:id])
-        if existing_variant.present?
-          existing_variant.zone_id = variant[:zone_id]
-          existing_variant.price.quantity = variant[:price]
-          existing_variant.save!
-        else
-          new_variant = product.variants.create!(
-            code: "#{product.name}-#{rand(0..99)}",
-            zone_id: variant[:zone_id]
-          )
-          new_variant.price = Price.new quantity: variant[:price]
-          new_variant.save!
-        end
+        create_variant(variant)
+        message = 'Variant was successfully created.'
+        type = :success
       end
+
+      flash.now[type] = message
     end
   end
 
-  def delete_variant(product, id)
+  def create_variant(params)
+    zone = Zone.find_by(id: params[:zone_id])
+    variant = @product.variants.create!(
+      code: "#{@product.name}-#{zone.name.downcase.tr('^a-z', '').slice(0, 2)}",
+      zone_id: zone.id
+    )
+    variant.price = Price.new quantity: params[:price]
+    variant.save!
+  end
+
+  def update_variant(params)
+    variant = @product.variants.find_by(id: params[:id])
+    variant.zone_id = params[:zone_id]
+    price = Price.find(variant.price.id)
+    price.quantity = params[:price]
+    price.save!
+    variant.save!
+  end
+
+  def delete_variant(id)
     return if id.blank?
 
-    product.variants.find(id).destroy!
+    @product.variants.find_by(id:).destroy!
   end
 end
