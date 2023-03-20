@@ -355,6 +355,9 @@ es:
       description_placeholder: Descripción
       title_label: Título
       description_label: Descripción
+      add_item: Añadir comentario
+    comment_fields:
+      description_label: Descripción
   rates:
     index:
       rate: Tarifa
