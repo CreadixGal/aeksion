@@ -31,17 +31,17 @@ Customer.all.each do |customer|
     customer_id: customer.id,
     kind: 'delivery'
   )
-  del.prices.build(quantity: rand(0.001..0.999))
+  del.price = Price.new(quantity: rand(0.001..0.999))
   del.save!
-  puts "\n📦 Delivery rate created    #{del} 📦\n"
+  puts "\n📦 Delivery rate created    #{del} -> #{del.quantity}📦\n"
 
   pic = zone.rates.build(
     customer_id: customer.id,
     kind: 'pickup'
   )
-  pic.prices.build(quantity: rand(0.001..0.999))
+  pic.price = Price.new(quantity: rand(0.001..0.999))
   pic.save!
-  puts "\n📦 Pickup rate created      #{pic} 📦\n"
+  puts "\n📦 Pickup rate created  #{pic} -> #{pic.quantity} 📦\n"
 end
 
 # create isolate single products
