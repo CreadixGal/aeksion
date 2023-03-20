@@ -272,6 +272,7 @@ es:
       back: Volver
       add_item: Añadir producto
     edit_form:
+      code: Código
       name: Nombre
       date: Fecha
       customer: Cliente
@@ -284,6 +285,11 @@ es:
       product: Producto
       quantity: Cantidad
       delete: Eliminar
+  customers:
+    index:
+      title: Clientes
+      name: Nombre
+      price_pickup: Precio recogida
   products:
     index:
       new_product: Nuevo producto
@@ -325,12 +331,15 @@ es:
       customer: Cliente
       rate: Tarifa
     variant_fields:
+      zone: Zona
+      price: Precio
       remove_item: Eliminar
     product_movement_fields:
       product: Producto
       quantity: Cantidad
       remove_item: Eliminar
     edit_form:
+      code: Código
       create: Guardar
       back: Volver
   pages:
