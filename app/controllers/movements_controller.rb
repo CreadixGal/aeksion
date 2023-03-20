@@ -8,7 +8,7 @@ class MovementsController < ApplicationController
 
   def movements(kind)
     allowed_methods = %w[delivery pickup return]
-    Movement.includes(%i[products]).send(kind) if allowed_methods.include?(kind)
+    Movement.includes(%i[rate product_movements products]).send(kind) if allowed_methods.include?(kind)
   end
 
   def filter(params)
@@ -68,7 +68,8 @@ class MovementsController < ApplicationController
 
     respond_to do |format|
       if @movement.save
-        @movement.product_movements.each { |pm| StockControl.new(pm).new_amount }
+        # @movement.product_movements.each { |pm| StockControl.new(pm).new_amount }
+        @movement.reload
         format.html { redirect_to movements_path(kind: @movement.rate_kind), success: t('.success') }
         format.turbo_stream { flash.now[:success] = t('.success') }
       else
@@ -154,7 +155,7 @@ class MovementsController < ApplicationController
       :rate_id,
       :code,
       :date,
-      product_movements_attributes: %i[_destroy id product_id quantity]
+      product_movements_attributes: %i[_destroy id product_id variant_id quantity]
     )
   end
 

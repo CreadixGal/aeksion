@@ -8,9 +8,9 @@
             data-controller="tomselect">
         <%= form.label t('.product'), class: 'text-lg text-gray-800'%>
         <%
-            products = Product.all.map do |product| 
-                          product.zone_id.present? ? 
-                            [[product.code, product.zone_name].split(',').join(' -> '), product.id] : 
+            products = Variant.all.map do |variant| 
+                          variant.zone_id.present? ? 
+                            [[variant.code, variant.zone_name].split(',').join(' -> '), variant.product.id] : 
                             [product.code, product.id]
                         end
         %>
