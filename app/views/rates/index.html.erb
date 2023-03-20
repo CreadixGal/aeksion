@@ -29,6 +29,7 @@
                         method: :delete,
                         data: { 'turbo-confirm': 'Are you sure?' },
                         class: 'wrapper-icon-button-default'%>
+                        <%= params[:kind] %>
           <%= link_to inline_svg_tag('icons/plus-circle.svg', class: 'icon-button-default'), 
                       new_rate_path(kind: params[:kind]), 
                       data: { turbo_frame: dom_id(Rate.new) }, 

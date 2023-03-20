@@ -2,6 +2,7 @@ class RatesController < ApplicationController
   before_action :set_rate, only: %i[show edit update destroy]
 
   def index
+    # @rates = Rate.all
     @rates = Rate.delivery if params[:kind].eql?('delivery')
     @rates = Rate.pickup if params[:kind].eql?('pickup')
     @rates = Rate.return if params[:kind].eql?('return')
@@ -11,12 +12,15 @@ class RatesController < ApplicationController
   def show; end
 
   def new
+    Rails.logger.info "params[:kind]: #{params[:kind]}"
     @rate = Rate.new(kind: params[:kind])
   end
 
   def edit; end
 
   def create
+    Rails.logger.info "params -> #{params.inspect}"
+    # render plain: params.inspect
     @rate = Rate.new(rate_params)
 
     respond_to do |format|

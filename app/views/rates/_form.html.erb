@@ -6,19 +6,21 @@
     <%= form_with(model: rate, class: 'contents') do |form| %>
       <div class="w-9/12 text-black text-center font-semibold border-x border-slate-100 py-2 px-4 relative z-0 group"> 
         <div class="w-full flex justify-evenly gap-8">
-          <%= form.select :customer_id, Customer.all.map { |c| [c.name, c.id] }, { include_blank: 'Selecciona cliente' }, class: 'w-1/2 mx-auto block py-2.5 px-0 w-full text-lg text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer' %>
+          <%= form.select :customer_id, Customer.all.map { |c| [c.name, c.id] }, { include_blank: 'Selecciona cliente' }, class: 'w-1/4 mx-auto block py-2.5 px-0 w-full text-lg text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer' %>
         
-          <%= form.select :zone_id, Zone.all.map { |z| [z.name, z.id] }, { include_blank: 'Selecciona zona' }, class: 'w-1/2 mx-auto block py-2.5 px-0 w-full text-lg text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer' %>
+          <%= form.select :zone_id, Zone.all.map { |z| [z.name, z.id] }, { include_blank: 'Selecciona zona' }, class: 'w-1/4 mx-auto block py-2.5 px-0 w-full text-lg text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer' %>
+
+          <div class="w-1/4 mx-auto block py-2.5 px-0 text-lg text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer invisible">
+            Obtener precios del select
+          </div>
+
+          <%= form.text_field :kind, value: rate.kind,  class: 'w-1/4 mx-auto block py-2.5 px-0 w-full text-lg text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer cursor-not-allowed', readonly: true %>
+          <%#= form.select :kind, [params[:kind], selected_kind], { include_blank: 'Selecciona tipo' }, selected: selected_kind, class: 'w-1/4 mx-auto block py-2.5 px-0 w-full text-lg text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer readonly', disabled: true %>
 
 
-          <%= form.select :kind, Rate.kinds.keys.map { |k| [k.humanize, k] }, { include_blank: 'Selecciona tipo' }, class: 'w-1/2 mx-auto block py-2.5 px-0 w-full text-lg text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer' %>
-          <% if 1 == 0 %>
-            <%# TODO: review and refactor selects !! %>
-            <%= form.text_field :kind, value: t(".#{rate.kind}"), readonly: true ,class: 'w-1/2 mx-auto block py-2.5 px-0 w-full text-lg text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:ring-0 focus:border-gray-300 border border-gray-300' %>
-            <%= form.hidden_field :kind, value: params[:kind] %>
 
-            <%= form.number_field :price, step: 0.0001, min: 0.0000, placeholder: 'Introduce precio', class:'w-1/2 mx-auto block py-2.5 px-0 w-full text-lg text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'%>
-          <% end %>
+          <%#= form.select :kind, Rate.kinds.keys.map { |k| [k, k] }, { include_blank: 'Selecciona tipo' }, class: 'w-1/4 mx-auto block py-2.5 px-0 w-full text-lg text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer readonly', disabled: true %>
+
         </div>
 
 
@@ -36,7 +38,7 @@
       </div>
       <div class="table-actions">
         <%= form.submit '✔️', class: 'wrapper-icon-button-default text-black' %>
-        <%= link_to rates_path(kind: params[:kind]), class: 'wrapper-icon-button-default' do %>
+        <%= link_to rates_path(kind: params[:kind].presence || 'pickup'), class: 'wrapper-icon-button-default' do %>
           <%= inline_svg_tag('icons/x-circle.svg', class: 'icon-button-default') %>
         <% end %>
       </div>

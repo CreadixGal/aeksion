@@ -3,12 +3,11 @@ class Rate < ApplicationRecord
   belongs_to :zone, inverse_of: :rates
 
   has_many :movements, dependent: :destroy
+  has_one :price, as: :priciable
 
   delegate :name, to: :customer, prefix: :customer
   delegate :name, to: :zone, prefix: :zone
-  # TODO: solo products debe tener has many prices, rate no tengo claro si tiene precio, hai que pensar el proceso.
-  has_many :prices, as: :priciable
-  # validates :price, presence: true
+  delegate :quantity, to: :price
 
   enum kind: {
     delivery: 'delivery',
@@ -17,9 +16,9 @@ class Rate < ApplicationRecord
   }, _default: 'delivery'
   validates :kind, presence: true
 
-  scope :delivery, -> { includes(%i[zone]).where(kind: 'delivery').order(Arel.sql('zones.name ASC')) }
-  scope :pickup, -> { includes(%i[zone]).where(kind: 'pickup').order(Arel.sql('zones.name ASC')) }
-  scope :return, -> { includes(%i[zone]).where(kind: 'return').order(Arel.sql('zones.name ASC')) }
+  scope :delivery, -> { includes(zone: :price).where(kind: 'delivery').order(Arel.sql('zones.name ASC')) }
+  scope :pickup, -> { includes(zone: :price).where(kind: 'pickup').order(Arel.sql('zones.name ASC')) }
+  scope :return, -> { includes(zone: :price).where(kind: 'return').order(Arel.sql('zones.name ASC')) }
 
   def self.includes_all
     includes(%i[customer zone]).all

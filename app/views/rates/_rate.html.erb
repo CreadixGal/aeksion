@@ -12,9 +12,9 @@
       </div>
       <div class="flex flex-1 items-center px-4">
         <% if rate.pickup? %>
-          <%= rate.customer.price.quantity %>
+          <%= rate.customer&.price_quantity %>
         <% elsif rate.delivery? %>
-          <%= rate.zone.price.quantity %>
+          <%= rate.zone&.quantity %>
         <% end %>
       </div>
       <div class="flex flex-1 items-center px-4">
