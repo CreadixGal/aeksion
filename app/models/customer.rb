@@ -3,8 +3,9 @@ class Customer < ApplicationRecord
 
   has_many :rates
   has_many :zones, through: :rates, dependent: :destroy
-
-  scope :ordered, -> { order(updated_at: :desc) }
-
   has_one :price, as: :priciable
+
+  delegate :quantity, to: :price, prefix: :price
+
+  scope :ordered, -> { includes(:price).order(updated_at: :desc) }
 end

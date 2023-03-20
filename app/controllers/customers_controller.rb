@@ -40,9 +40,9 @@ class CustomersController < ApplicationController
 
   # POST /customers or /customers.json
   def create
-    @customer = Customer.new(customer_params)
+    @customer = Customer.new(customer_params.except(:price))
 
-    Price.create!(priciable: @customer, quantity: @price)
+    @customer.price = Price.new(quantity: customer_params[:price])
 
     respond_to do |format|
       if @customer.save
@@ -56,8 +56,11 @@ class CustomersController < ApplicationController
 
   # PATCH/PUT /customers/1 or /customers/1.json
   def update
+    price = @customer.price.presence || Price.new(quantity: customer_params[:price])
+    price.quantity = customer_params[:price]
+    @customer.price = price
     respond_to do |format|
-      if @customer.update(customer_params)
+      if @customer.update(customer_params.except(:price))
         format.html { redirect_to customers_path, success: 'Customer was successfully updated.' }
         format.turbo_stream { flash.now[:success] = 'Customer was successfully updated.' }
       else
@@ -104,6 +107,6 @@ class CustomersController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def customer_params
-    params.require(:customer).permit(:name)
+    params.require(:customer).permit(:name, :price)
   end
 end
