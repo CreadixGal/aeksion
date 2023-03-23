@@ -1,18 +1,38 @@
 FactoryBot.define do
   factory :product do
-    name { "PR#{rand(0..999)}" }
-    kind { 1 }
-    stock { rand(190..800) }
+    name { "PR#{rand(1..9999)}" }
+    kind { 'pallet' }
+    stock { 10 }
 
-    after(:create) do |product|
-      create(:variant, product:)
+    # after(:build) do |product|
+    #   product.image
+    #          .attach(
+    #            io: Rails.root.join(
+    #              'spec/fixtures/files/pale.jpg'
+    #            ).open, filename: 'pale.jpg', content_type: 'image/jpeg'
+    #          )
+    # end
+
+    trait :with_variants do
+      transient do
+        variants_count { 2 }
+      end
+
+      after(:create) do |product, evaluator|
+        create_list(:variant, evaluator.variants_count, product:, zone: Zone.first)
+      end
     end
 
-    trait :with_image do
-      after :build do |product|
-        file_name = 'pale.jpg'
-        file_path = Rails.root.join('spec', 'factories', 'images', file_name)
-        product.image.attach(io: File.open(file_path), filename: file_name, content_type: 'image/jpeg')
+    trait :with_movements do
+      transient do
+        movements_count { 2 }
+      end
+
+      after(:create) do |product, evaluator|
+        evaluator.movements_count.times do
+          movement = create(:movement)
+          create(:product_movement, product:, movement:)
+        end
       end
     end
   end

@@ -16,9 +16,9 @@ class Rate < ApplicationRecord
   }, _default: 'delivery'
   validates :kind, presence: true
 
-  scope :delivery, -> { includes(zone: :price).where(kind: 'delivery').order(Arel.sql('zones.name ASC')) }
-  scope :pickup, -> { includes(zone: :price).where(kind: 'pickup').order(Arel.sql('zones.name ASC')) }
-  scope :return, -> { includes(zone: :price).where(kind: 'return').order(Arel.sql('zones.name ASC')) }
+  scope :delivery, -> { includes(zone: :price).where(kind: 'delivery') }
+  scope :pickup, -> { includes(:zone).where(kind: 'pickup') }
+  scope :return, -> { where(kind: 'return') }
 
   def self.includes_all
     includes(%i[customer zone]).all

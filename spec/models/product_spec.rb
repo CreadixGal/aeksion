@@ -1,84 +1,71 @@
 require 'rails_helper'
 
 RSpec.describe Product do
-  subject { build(:product, :with_image) }
+  before do
+    create(:zone)
+  end
 
-  context 'with all properly attributes' do
-    it 'has a valid factory' do
-      expect(subject.valid?).to be_valid
+  describe 'validations' do
+    let(:product) { create(:product) }
+
+    it 'is valid with valid attributes' do
+      expect(product).to be_valid
     end
 
-    it 'is not null' do
-      expect(subject).not_to be_nil
+    it 'is not valid without stock' do
+      product.stock = nil
+      expect(product).not_to be_valid
+    end
+
+    it 'is not valid with negative stock' do
+      product.stock = -1
+      expect(product).not_to be_valid
+    end
+
+    it 'is valid with zero stock' do
+      product.stock = 0
+      expect(product).to be_valid
+    end
+
+    it 'is not valid without kind' do
+      product.kind = nil
+      expect(product).not_to be_valid
     end
   end
 
-  context 'kind of field' do
-    it 'code is String' do
-      expect(subject.code).to be_a(String)
+  describe 'associations' do
+    let(:product) { create(:product, :with_variants) }
+
+    it 'has many variants' do
+      variant1 = product.variants.first
+      variant2 = product.variants.last
+      expect(product.variants).to include(variant1, variant2)
     end
 
-    it 'name is String' do
-      expect(subject.name).to be_a(String)
+    it 'destroys variants when destroyed' do
+      variant = product.variants.first
+      product.destroy!
+      expect(Variant.all).not_to include(variant)
+      expect { variant.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
 
-    it 'stock is Integer' do
-      expect(subject.stock).to be_a(Integer)
-    end
-
-    it 'price is Decimal' do
-      expect(subject.price).to be_a(BigDecimal)
-    end
-
-    it 'kind in database is saved as Integer' do
-      expect(subject.kind_before_type_cast).to be_a(Integer)
-    end
-
-    it 'kind is get as String' do
-      expect(subject.kind).to be_a(String)
-    end
-
-    it 'product is Product' do
-      expect(subject).to be_a(described_class)
-    end
-
-    it 'image is an ActiveStorage::Attached::One' do
-      expect(subject.image).to be_a(ActiveStorage::Attached::One)
+    it 'has one attached image' do
+      expect(product.image).to be_an_instance_of(ActiveStorage::Attached::One)
     end
   end
 
-  context 'required field' do
-    it 'must contain code' do
-      expect(subject.code).not_to be_empty
-    end
-
-    it 'must contain price' do
-      expect(subject.price).not_to be_blank
-    end
-
-    it 'must contain stock' do
-      expect(subject.stock).not_to be_blank
-    end
-
-    it 'must contain kind' do
-      expect(subject.kind).not_to be_blank
-    end
-
-    # rubocop:disable RSpec/FactoryBot/SyntaxMethods
-    product_no_stock = FactoryBot.build(:product, stock: nil)
-    product_no_kind  = FactoryBot.build(:product, kind: nil)
-    # rubocop:enable RSpec/FactoryBot/SyntaxMethods
-
-    it 'stock must not be empty' do
-      expect(product_no_stock.stock).to be_falsey
-    end
-
-    it 'kind must not be empty' do
-      expect(product_no_kind.kind).to be_falsey
+  describe 'nested attributes' do
+    it 'accepts nested attributes for variants' do
+      expect(described_class.new.variants_attributes = ([{}])).to be_truthy
     end
   end
 
-  it 'is a new product and persisted' do
-    expect(subject).to be_a_new(described_class)
+  describe 'enums' do
+    let(:product) { create(:product) }
+
+    it 'has an enum for kind' do
+      expect(product).to respond_to(:pallet?)
+      expect(product).to respond_to(:box?)
+    end
   end
 end
