@@ -35,8 +35,10 @@ Rails.application.routes.draw do
       delete :multiple_delete
     end
   end
+
   resources :issue_trackers
   resources :products
+  resources :variants
 
   get 'dashboard',      to: 'pages#dashboard', as: :dashboard
   get 'configuration',  to: 'pages#configuration', as: :configuration
