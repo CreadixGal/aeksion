@@ -4,27 +4,19 @@
     <div class="w-full flex gap-4">
       <%= form.hidden_field :_destroy %>
 
-      <div class="w-full flex flex-col justify-center items-start gap-4"
-            data-controller="tomselect">
-        <%= form.label t('.product'), class: 'text-lg text-gray-800'%>
-        <%
-            products = Variant.all.map do |variant| 
-                          variant.zone_id.present? ? 
-                            [[variant.code, variant.zone_name].split(',').join(' -> '), variant.product.id] : 
-                            [product.code, product.id]
-                        end
-        %>
-        <%= form.select :product_id, 
-                products,
-                { include_blank: "" }, 
-                { 
-                  prompt: 'Selecciona producto',
-                  id: 'select-product',
-                  data: {
-                    "tomselect-target": 'product'
-                  },
-                  class: 'w-full mx-auto block py-2 px-2 w-full text-lg text-left text-slate-700 bg-transparent border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'
-                } %>
+      <div class="w-full flex flex-col justify-center items-start gap-4">
+        <%= form.label t('.product'), class: 'text-lg text-gray-800' %>
+        <%= form.select :product_id, [],
+                        { include_blank: "" },
+                        {
+                          id: 'select-variant',
+                          prompt: 'Selecciona variante',
+                          data: {
+                            "tomselect-target": 'secondaryselect',
+                          },
+                          class: 'w-full mx-auto block py-2 px-2 w-full text-lg text-left text-slate-700 bg-transparent border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+                        } %>
+
       </div>
       <div class="flex flex-col justify-center items-start gap-4">
         <%= form.label t('.quantity'), class: 'text-lg text-gray-800'%>
@@ -32,7 +24,6 @@
             placeholder: 'Introduce cantidad',
             class: 'w-full mx-auto block py-2 px-2 w-full text-lg text-left text-slate-700 bg-transparent border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer' %>
       </div>
-
       <div class="flex justify-center items-end gap-2">
         <% if action_name == 'edit' %>
           <%= link_to inline_svg_tag('icons/refresh.svg', class: 'icon-button-default'),
