@@ -3,18 +3,18 @@ class Movement < ApplicationRecord
 
   belongs_to :rate, inverse_of: :movements
 
-  has_many :product_movements, inverse_of: :movement, dependent: :destroy
+  has_many :product_movements, dependent: :destroy
   has_many :products, through: :product_movements, dependent: :destroy
 
   has_one :customer, through: :rate
 
-  delegate :name, :kind, :delivery?, :pickup?, to: :rate, prefix: :rate
+  # delegate :name, :kind, :delivery?, :pickup?, to: :rate, prefix: :rate
   delegate :name, to: :customer, prefix: :customer
   delegate :amount, to: :product_movements
   accepts_nested_attributes_for :product_movements
 
   validates :date, presence: true
-  before_create :validate_code
+  # before_create :validate_code
   # rubocop:disable  Layout/LineLength
   scope :delivery, -> { includes(%i[rate product_movements]).where(rates: { kind: 'delivery' }, product_movements: { return: false }).order(date: :desc) }
   # rubocop:enable  Layout/LineLength

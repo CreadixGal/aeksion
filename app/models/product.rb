@@ -1,6 +1,6 @@
 class Product < ApplicationRecord
   has_one_attached :image
-  has_many :variants, inverse_of: :product, dependent: :destroy
+  has_many :variants, dependent: :destroy
   accepts_nested_attributes_for :variants, allow_destroy: true
 
   # has_many :product_movements, inverse_of: :product, dependent: :destroy

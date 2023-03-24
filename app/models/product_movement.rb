@@ -1,6 +1,6 @@
 class ProductMovement < ApplicationRecord
-  belongs_to :movement, inverse_of: :product_movements
-  belongs_to :product, inverse_of: :product_movements
+  belongs_to :movement
+  belongs_to :product
 
   validates :quantity, presence: true, numericality: { greater_than: 0 }
 
@@ -17,7 +17,7 @@ class ProductMovement < ApplicationRecord
     update! amount: price * quantity
   end
 
-  validate :enough_stock, on: %i[create update], if: -> { movement.rate.kind == 'delivery' }
+  # validate :enough_stock, on: %i[create update], if: -> { movement.rate.kind == 'delivery' }
   after_create :calculate_stock
 
   def return!
