@@ -8,7 +8,7 @@ class MovementsController < ApplicationController
 
   def movements(kind)
     allowed_methods = %w[delivery pickup return]
-    Movement.includes(%i[rate product_movements products]).send(kind) if allowed_methods.include?(kind)
+    Movement.includes(%i[product_movements products]).send(kind) if allowed_methods.include?(kind)
   end
 
   def filter(params)
@@ -59,20 +59,29 @@ class MovementsController < ApplicationController
 
   def new
     @movement = Movement.new
+    @zones = Zone.all
+    @variants_by_zone = Variant.all
   end
 
   def edit; end
 
   def create
-    @movement = Movement.new(movement_params)
+    # TODO: create doesnt work
+    Rails.logger.info movement_params
+    rate = Rate.find_by(customer_id: movement_params[:customer_id])
+    movement_params[:rate_id] = rate.id
+    @movement = Movement.new(movement_params.except(:customer_id, :zone_id))
 
     respond_to do |format|
       if @movement.save
         # @movement.product_movements.each { |pm| StockControl.new(pm).new_amount }
         @movement.reload
+        Rails.logger.info(@movement.errors.full_messages)
+        # TODO: ["Rate Rate debe existir", "Product movements product Product debe existir", "Product movements quantity Quantity no puede estar en blanco", "Product movements quantity Quantity no es un número"]
         format.html { redirect_to movements_path(kind: @movement.rate_kind), success: t('.success') }
         format.turbo_stream { flash.now[:success] = t('.success') }
       else
+        Rails.logger.info(@movement.errors.full_messages)
         format.html { render :new, status: :unprocessable_entity }
         format.turbo_stream { flash.now[:error] = t('.error') }
       end
@@ -153,6 +162,8 @@ class MovementsController < ApplicationController
       :id,
       :status,
       :rate_id,
+      :customer_id,
+      :zone_id,
       :code,
       :date,
       product_movements_attributes: %i[_destroy id product_id variant_id quantity]
