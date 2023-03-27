@@ -25,6 +25,9 @@ Rails.application.routes.draw do
   end
 
   resources :rates do
+    member do
+      patch :enable
+    end
     collection do
       delete :multiple_delete
     end
