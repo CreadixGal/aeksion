@@ -6,6 +6,7 @@
     <%= form_with(model: rate, class: 'contents') do |form| %>
       <div class="w-9/12 text-black text-center font-semibold border-x border-slate-100 py-2 px-4 relative z-0 group"> 
         <div class="w-full flex justify-evenly gap-8">
+          <%= form.text_field :name, class: 'w-1/4 mx-auto block py-2.5 px-0 w-full text-lg text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer cursor-not-allowed' %>
           <%= form.select :customer_id, Customer.all.map { |c| [c.name, c.id] }, { include_blank: 'Selecciona cliente' }, class: 'w-1/4 mx-auto block py-2.5 px-0 w-full text-lg text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer' %>
         
           <%= form.select :zone_id, Zone.all.map { |z| [z.name, z.id] }, { include_blank: 'Selecciona zona' }, class: 'w-1/4 mx-auto block py-2.5 px-0 w-full text-lg text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer' %>

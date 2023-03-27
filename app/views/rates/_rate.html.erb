@@ -3,25 +3,35 @@
     <div class="w-1/12 flex justify-center items-center content-center px-4">
       <%= render CheckboxComponent.new(id: rate.id, name: 'rate_ids[]', options: { value: rate.id }) %>
     </div>
-    <div class="w-9/12 flex justify-center items-center text-center font-semibold border-x border-slate-100 py-2 px-4">
-      <div class="flex flex-1 items-center px-2 justify-start text-left">
+    <div class="w-full flex justify-between items-center text-center font-semibold border-x border-slate-100 py-2 px-4">
+      <div class="w-4/5 flex justify-start items-center px-2 justify-start text-left whitespace-nowrap" >
+        <%= rate.name %>
+      </div>
+      <div class="w-4/5 flex justify-start items-center px-2 justify-start text-left whitespace-nowrap">
         <%= link_to rate.customer_name, customer_path(rate.customer_id) %>
       </div>
-      <div class="flex flex-1 items-center px-4">
+      <div class="w-2/5 flex justify-start items-center px-4 text-left">
         <%= link_to rate.zone_name, zone_path(rate.zone_id) %>
       </div>
-      <div class="flex flex-1 items-center px-4">
+      <div class="w-1/5 flex justify-end items-center px-4 text-right">
         <% if rate.pickup? %>
-          <%= rate.customer&.price_quantity %>
+          <%= number_to_currency rate.customer&.price_quantity, precision: 4 %>
         <% elsif rate.delivery? %>
-          <%= rate.zone&.quantity %>
+          <%= number_to_currency rate.zone&.quantity, precision: 4 %>
         <% end %>
       </div>
-      <div class="flex flex-1 items-center px-4">
+      <div class="w-1/5 flex justify-end items-center px-4 text-right">
         <%= t(".#{rate.kind}") %>
       </div>
     </div>
     <div class="table-actions">
+    <%= button_to inline_svg_tag(
+                  "icons/#{rate.enable? ? 'check-circle' : 'lock-cancel'}.svg",
+                  class: "icon-button-#{rate.enable? ? 'success' : 'error'}"
+                ),
+                enable_rate_path(rate),
+                method: :patch,
+                class: "wrapper-icon-button-#{rate.enable? ? 'success' : 'error'}" %>
       <% if action_name != "show" %>
         <%= link_to inline_svg_tag('icons/pencil-square.svg', class: 'icon-button-default'), edit_rate_path(rate), class: 'wrapper-icon-button-default' %>
         <%= button_to rate, method: :delete,
