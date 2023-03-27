@@ -1,5 +1,5 @@
 class RatesController < ApplicationController
-  before_action :set_rate, only: %i[show edit update destroy]
+  before_action :set_rate, except: %i[index new create multiple_delete]
 
   def index
     # @rates = Rate.all
@@ -68,10 +68,21 @@ class RatesController < ApplicationController
     end
   end
 
+  def enable
+    respond_to do |format|
+      if @rate.update(enable: !@rate.enable)
+        format.html { redirect_to rates_path(kind: params[:kind]), success: 'Tarifa actualizada correctamente' }
+        format.turbo_stream { flash.now[:success] = 'Tarifa actualizada correctamente' }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+      end
+    end
+  end
+
   private
 
   def rate_params
-    params.require(:rate).permit(:customer_id, :zone_id, :kind)
+    params.require(:rate).permit(:customer_id, :zone_id, :kind, :name, :enable)
   end
 
   def set_rate

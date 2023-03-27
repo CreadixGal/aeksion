@@ -16,11 +16,19 @@ class Rate < ApplicationRecord
   }, _default: 'delivery'
   validates :kind, presence: true
 
-  scope :delivery, -> { includes(zone: :price).where(kind: 'delivery') }
-  scope :pickup, -> { includes(:zone).where(kind: 'pickup') }
-  scope :return, -> { where(kind: 'return') }
+  scope :delivery, -> { includes(zone: :price).where(kind: 'delivery').order(created_at: :desc) }
+  scope :pickup, -> { includes(:zone).where(kind: 'pickup').order(created_at: :desc) }
+  scope :return, -> { where(kind: 'return').order(created_at: :desc) }
+
+  after_save :update_name
 
   def self.includes_all
     includes(%i[customer zone]).all
+  end
+
+  private
+
+  def update_name
+    update!(name: "#{customer.name}-#{zone.name.downcase.tr('^a-z', '').slice(0, 2)}") if name.blank?
   end
 end
