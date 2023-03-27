@@ -1,7 +1,8 @@
 require 'faker'
 
 file_name = 'pale.jpg'
-file_path = Rails.root.join('spec', 'factories', 'images', file_name)
+file_path = Rails.root.join("spec/fixtures/files/#{file_name}")
+
 Faker::Config.locale = :es
 
 # create users (superadmin and admin)
@@ -56,12 +57,27 @@ end
   product.save!
   puts "\n📦 Product #{product.name} created     📦\n"
   Zone.all.each do |zone|
-    variant = product.variants.build(code: "PR#{code}-#{zone.name.downcase.tr('^a-z', '').slice(0,2)}", zone_id: zone.id)
+    variant = product.variants.build(
+      code: "PR#{code}-#{zone.name.downcase.tr('^a-z', '').slice(0, 2)}",
+      zone_id: zone.id
+    )
+
     variant.price = Price.new(quantity: rand(0.0001..0.9999))
     variant.save!
     puts "📦 Variant: #{variant.code} with price #{variant.quantity} created     📦\n"
   end
 end
+
+# create 2 rates for each customer for uniq zone
+Customer.all.each do |customer|
+  2.times do |i|
+    customer.rates.create!(
+      zone_id: Zone.all.sample.id,
+      kind: i.even? ? 'delivery' : 'pickup'
+    )
+  end
+end
+
 
 two_years_ago = 1.year.ago
 idx = 0
