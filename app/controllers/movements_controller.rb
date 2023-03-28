@@ -8,7 +8,7 @@ class MovementsController < ApplicationController
 
   def movements(kind)
     allowed_methods = %w[delivery pickup return]
-    Movement.includes(%i[product_movements products]).send(kind) if allowed_methods.include?(kind)
+    Movement.includes([:products, { product_movements: :product }]).send(kind) if allowed_methods.include?(kind)
   end
 
   def filter(params)
@@ -68,8 +68,7 @@ class MovementsController < ApplicationController
   def create
     # TODO: create doesnt work
     Rails.logger.info movement_params
-    rate = Rate.find_by(customer_id: movement_params[:customer_id])
-    movement_params[:rate_id] = rate.id
+    movement_params[:rate_id] = lookup_customer_rate(movement_params[:customer_id])
     @movement = Movement.new(movement_params.except(:customer_id, :zone_id))
 
     respond_to do |format|
@@ -172,5 +171,21 @@ class MovementsController < ApplicationController
 
   def set_movement
     @movement = Movement.find(params[:id])
+  end
+
+  def lookup_customer_rate(customer_id)
+    rate = nil
+    if params[:pickup]
+      zone = Zone.find_by(customer_id:, name: 'Product')
+      rate = Rate.find_by(customer_id:, zone_id: zone.id)
+    else
+      rate = Rate.find_by(customer_id:, zone_id: movement_params[:zone_id])
+    end
+    rate
+  end
+
+  def lookup_for_variant(id, zone_id)
+    variant = Variant.find_by(id:, zone_id:)
+    variant.product_id
   end
 end
