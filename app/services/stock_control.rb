@@ -20,7 +20,7 @@ class StockControl
 
     product.increment(:stock, resource.quantity) if movement.rate_pickup?
     product.decrement(:stock, resource.quantity) if movement.rate_delivery?
-    new_amount
+    new_amount(movement.rate_kind)
     product.save!
   end
 
@@ -30,7 +30,7 @@ class StockControl
   def restore_stock
     product.increment(:stock, resource.quantity) if movement.rate_delivery?
     product.decrement(:stock, resource.quantity) if movement.rate_pickup?
-    new_amount
+    new_amount(movement.rate_kind)
     product.save!
   end
 
@@ -41,9 +41,10 @@ class StockControl
   end
 
   # update amount of movement
-  def new_amount
-    # price = movement.rate.prices.last.quantity
-    price = 0
+  def new_amount(kind)
+    price = @product.variants.find_by(zone_id: @movement.rate.zone_id).quantity if kind.eql?('pickup')
+    price = @movement.rate.zone.quantity if kind.eql?('delivery')
+
     resource.amount = price * resource.quantity
     resource.save!
   end
