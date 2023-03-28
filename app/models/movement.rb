@@ -14,7 +14,7 @@ class Movement < ApplicationRecord
   accepts_nested_attributes_for :product_movements
 
   validates :date, presence: true
-  # before_create :validate_code
+
   # rubocop:disable  Layout/LineLength
   scope :delivery, -> { includes(%i[rate product_movements]).where(rates: { kind: 'delivery' }, product_movements: { return: false }).order(date: :desc) }
   # rubocop:enable  Layout/LineLength
@@ -38,13 +38,18 @@ class Movement < ApplicationRecord
     product_movements.any?(&:return)
   end
 
-  def validate_code
-    CodeGenerator.new(self).validate_code
-  end
-
   def amount
     product_movements.sum(&:amount)
   rescue StandardError
     0
+  end
+
+  private
+
+  def set_rate
+    rate = Rate.where(customer_id: custormer.id, zone_id: zone.id)
+    return if rate.nil?
+
+    update!(rate:)
   end
 end
