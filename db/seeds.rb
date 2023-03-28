@@ -3,31 +3,37 @@ require 'faker'
 file_name = 'pale.jpg'
 file_path = Rails.root.join("spec/fixtures/files/#{file_name}")
 
-Faker::Config.locale = :es
+Faker::Config.locale = :en
 
 # create users (superadmin and admin)
 User.create!(email: 'sadmin@test.com', password: 'test123', role: 'superadmin')
 User.create!(email: 'admin@test.com', password: 'test123', role: 'admin')
+
+
+# create 4 zones
+co = Zone.create!(name: 'A Coruña')
+lu = Zone.create!(name: 'Lugo')
+ou = Zone.create!(name: 'Ourense')
+po = Zone.create!(name: 'Pontevedra')
+# create product zone
+pr = Zone.create!(name: 'Product')
+pr.price = Price.new(quantity: 0)
+pr.save!
+
+# add price to zones
+[co, lu, ou, po].each do |zone|
+  zone.price = Price.new(quantity: rand(0.001..0.999))
+  zone.save!
+end
 
 # create 8 customers
 8.times do
   Customer.create!(name: Faker::Company.name)
 end
 
-# crete 4 zones
-co = Zone.create!(name: 'A Coruña')
-lu = Zone.create!(name: 'Lugo')
-ou = Zone.create!(name: 'Ourense')
-po = Zone.create!(name: 'Pontevedra')
-
-[co, lu, ou, po].each do |zone|
-  zone.price = Price.new(quantity: rand(0.001..0.999))
-  zone.save!
-end
-
 # create rates
 Customer.all.each do |customer|
-  zone = Zone.all.sample
+  zone = Zone.except(customer.zones).sample
   del = zone.rates.build(
     customer_id: customer.id,
     kind: 'delivery'
@@ -35,14 +41,6 @@ Customer.all.each do |customer|
   del.price = Price.new(quantity: rand(0.001..0.999))
   del.save!
   puts "\n📦 Delivery rate created    #{del} -> #{del.quantity}📦\n"
-
-  pic = zone.rates.build(
-    customer_id: customer.id,
-    kind: 'pickup'
-  )
-  pic.price = Price.new(quantity: rand(0.001..0.999))
-  pic.save!
-  puts "\n📦 Pickup rate created  #{pic} -> #{pic.quantity} 📦\n"
 end
 
 # create isolate single products
@@ -68,42 +66,40 @@ end
   end
 end
 
-# create 2 rates for each customer for uniq zone
-Customer.all.each do |customer|
-  2.times do |i|
-    customer.rates.create!(
-      zone_id: Zone.all.sample.id,
-      kind: i.even? ? 'delivery' : 'pickup'
-    )
-  end
-end
-
-
 two_years_ago = 1.year.ago
 idx = 0
 while two_years_ago <= Time.zone.now
   two_years_ago += 1.day
   next if two_years_ago.saturday? || two_years_ago.sunday?
 
-  puts amount = rand(6..22)
-
-  amount.times do
+  rand(6..22).times do
     idx += 1
     rate = Rate.all.sample
-    product = Product.all.sample
-    random = rand(1..300)
-    quantity = (product.stock - random).positive? ? random : 0
-    next if quantity.zero?
 
-    mov = Movement.create!(
-      code: "ALB-#{Faker::Code.ean}",
+    product_movements = []
+    3.times do
+      variant  = rate.zone.variants.sample
+      product  = variant.product
+      quantity = rand(1..400)
+
+      if (product.stock - quantity) > 5
+        puts "🐛 #{product.name} stock: #{product.stock} - #{quantity} = #{product.stock - quantity} 🐛\n"
+        product_movement = { product_id: product.id, quantity: }
+        product_movements << product_movement
+      end
+      puts "📦 product movements: #{product_movements.size} 📦\n"
+    end
+    mov = Movement.new(
+      code: "ALB-#{idx.to_s.rjust(4, '0')}",
       rate_id: rate.id,
       date: two_years_ago,
-      product_movements_attributes: [
-        product_id: product.id,
-        quantity:
-      ]
+      product_movements_attributes: product_movements
     )
-    puts "📆 #{idx}: #{two_years_ago}: #{mov.persisted?}\n"
+
+    if mov.save
+      puts "📆 #{idx}: #{two_years_ago}: #{mov.persisted?}\n"
+    else
+      puts "⚠️⚠️⚠️\n\nErrors: #{mov.errors.inspect}\n\n⚠️⚠️⚠️"
+    end
   end
 end
