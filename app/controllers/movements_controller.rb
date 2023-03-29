@@ -66,23 +66,22 @@ class MovementsController < ApplicationController
   def edit; end
 
   def create
-    # TODO: create doesnt work
-    Rails.logger.info movement_params
-    movement_params[:rate_id] = lookup_customer_rate(movement_params[:customer_id])
-    @movement = Movement.new(movement_params.except(:customer_id, :zone_id))
+    rate = lookup_customer_rate(movement_params[:customer_id], movement_params[:zone_id])
+    product_movements = lookup_for_variants(movement_params[:product_movements_attributes], movement_params[:zone_id])
+    valid_params = movement_params.except(:customer_id, :zone_id, :product_movements_attributes)
+    valid_params[:product_movements_attributes] = product_movements
 
+    @movement = Movement.new(valid_params)
+    @movement.rate_id = rate.id
     respond_to do |format|
       if @movement.save
-        # @movement.product_movements.each { |pm| StockControl.new(pm).new_amount }
+        @movement.product_movements.each { |pm| StockControl.new(pm).new_amount(params[:kind]) }
         @movement.reload
-        Rails.logger.info(@movement.errors.full_messages)
-        # TODO: ["Rate Rate debe existir", "Product movements product Product debe existir", "Product movements quantity Quantity no puede estar en blanco", "Product movements quantity Quantity no es un número"]
-        format.html { redirect_to movements_path(kind: @movement.rate_kind), success: t('.success') }
+        format.html { redirect_to movements_path(kind: 'pickup'), success: t('.success') }
         format.turbo_stream { flash.now[:success] = t('.success') }
       else
-        Rails.logger.info(@movement.errors.full_messages)
         format.html { render :new, status: :unprocessable_entity }
-        format.turbo_stream { flash.now[:error] = t('.error') }
+        format.turbo_stream { flash.now[:error] = "#{t('.error')}" }
       end
     end
   end
@@ -173,19 +172,25 @@ class MovementsController < ApplicationController
     @movement = Movement.find(params[:id])
   end
 
-  def lookup_customer_rate(customer_id)
+  def lookup_customer_rate(customer_id, zone_id)
     rate = nil
     if params[:pickup]
       zone = Zone.find_by(customer_id:, name: 'Product')
       rate = Rate.find_by(customer_id:, zone_id: zone.id)
     else
-      rate = Rate.find_by(customer_id:, zone_id: movement_params[:zone_id])
+      rate = Rate.find_by(customer_id:, zone_id:)
     end
     rate
   end
 
-  def lookup_for_variant(id, zone_id)
-    variant = Variant.find_by(id:, zone_id:)
-    variant.product_id
+  def lookup_for_variants(product_movements_attributes, zone_id)
+    params = []
+    product_movements_attributes.each do |_, pm|
+      next if pm[:product_id].blank? || pm[:_delete] == '1'
+      variant = Variant.find_by(id: pm[:product_id], zone_id:)
+      product_id = variant.product_id
+      params << { product_id: product_id, quantity: pm[:quantity] }
+    end
+    params
   end
 end

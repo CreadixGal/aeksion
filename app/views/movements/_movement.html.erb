@@ -12,7 +12,7 @@
         <%= movement.date.strftime('%d-%m-%y') %>
       </div>
       <div class="w-[12.5%] flex justify-start  items-center px-4 text-left">
-        <%= t(".#{movement.rate_kind}") %>
+        <%= t(".#{movement.rate.zone_name}") %>
       </div>
       <div class="w-[12.5%] flex justify-start  items-center px-4 text-left">
         <%= movement.rate.customer_name %>
@@ -39,9 +39,15 @@
          <% if movement.rate.pickup? %>
           <div class="w-full flex flex-col ">
             <% movement.products.each do |product| %>
-              <span class="w-full border border-slate-400 p-2">
-                <%= number_to_currency product.variants.find_by(zone_id: movement.rate.zone_id).quantity, precision: 4 %>
-              </span>
+              <% if product.variants.find_by(zone_id: movement.rate.zone_id).present? %>
+                <span class="w-full border border-slate-400 p-2">
+                  <%= number_to_currency(product.variants.find_by(zone_id: movement.rate.zone_id).quantity, precision: 4)  %>
+                </span>
+              <% else %>
+                <span class="w-full border border-red-500 whitespace-nowrap p-2">
+                  <%= number_to_currency(0, precision: 4)  %> <br> Variant missed
+                </span>
+              <% end %>
             <% end %>
           </div>
          <% elsif movement.rate.delivery? %>
