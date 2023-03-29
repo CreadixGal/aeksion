@@ -44,7 +44,8 @@ class StockControl
   def new_amount(kind)
     price = @product.variants.find_by(zone_id: @movement.rate.zone_id).quantity if kind.eql?('pickup')
     price = @movement.rate.zone.quantity if kind.eql?('delivery')
-
+    # TODO: hacia los calculos pero rompia, al ponerlo a 0 no rompe pero los calculos son 0
+    price = 0 if price.nil?
     resource.amount = price * resource.quantity
     resource.save!
   end
