@@ -4,6 +4,9 @@ class Movement < ApplicationRecord
   belongs_to :rate, inverse_of: :movements
 
   has_many :product_movements, dependent: :destroy
+  accepts_nested_attributes_for :product_movements,
+                                allow_destroy: true,
+                                reject_if: proc { |attr| attr['product_id'].blank? }
   has_many :products, through: :product_movements, dependent: :destroy
 
   has_one :customer, through: :rate
@@ -11,7 +14,6 @@ class Movement < ApplicationRecord
   delegate :name, :kind, :delivery?, :pickup?, to: :rate, prefix: :rate
   delegate :name, to: :customer, prefix: :customer
   delegate :amount, to: :product_movements
-  accepts_nested_attributes_for :product_movements
 
   validates :date, presence: true
 
@@ -51,5 +53,9 @@ class Movement < ApplicationRecord
     return if rate.nil?
 
     update!(rate:)
+  end
+
+  def any_blank(attributes)
+    attributes['product_id'].blank? || attributes['quantity'].blank?
   end
 end
