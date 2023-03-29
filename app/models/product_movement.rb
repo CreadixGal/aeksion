@@ -17,27 +17,8 @@ class ProductMovement < ApplicationRecord
   after_create :calculate_stock
   after_create :update_amount
 
-  private
-
-  def update_amount
-    calculate_amount(product.variants.find_by(zone_id: movement.rate.zone_id).quantity) if movement.rate.pickup?
-    calculate_amount(movement.rate.zone.quantity) if movement.rate.delivery?
-  end
-
-  def calculate_amount(price)
-    update! amount: (price * self.quantity)
-  end
-
   def return!
     update!(return: true) unless return?
-  end
-
-  def enough_stock
-    return true if movement.rate_kind.eql?('pickup')
-    return true if StockControl.new(self).enough_stock?
-
-    errors.add(:quantity, 'no hay suficiente stock')
-    false
   end
 
   def calculate_stock
@@ -46,5 +27,24 @@ class ProductMovement < ApplicationRecord
 
   def recalculate_stock
     StockControl.new(self).update_stock!
+  end
+
+  private
+
+  def update_amount
+    calculate_amount(product.variants.find_by(zone_id: movement.rate.zone_id).quantity) if movement.rate.pickup?
+    calculate_amount(movement.rate.zone.quantity) if movement.rate.delivery?
+  end
+
+  def calculate_amount(price)
+    update! amount: (price * quantity)
+  end
+
+  def enough_stock
+    return true if movement.rate_kind.eql?('pickup')
+    return true if StockControl.new(self).enough_stock?
+
+    errors.add(:quantity, 'no hay suficiente stock')
+    false
   end
 end
