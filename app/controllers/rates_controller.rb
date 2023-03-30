@@ -1,5 +1,5 @@
 class RatesController < ApplicationController
-  before_action :set_rate, except: %i[index new create multiple_delete]
+  before_action :set_rate, except: %i[index new create multiple_delete fetch_form]
 
   def index
     # @rates = Rate.all
@@ -76,6 +76,16 @@ class RatesController < ApplicationController
       else
         format.html { render :edit, status: :unprocessable_entity }
       end
+    end
+  end
+
+  def fetch_form
+    @rates = []
+    @rates = Rate.where(kind: 'pickup') if params[:kind].eql?('pickup')
+    @rates = Rate.where(zone_id: params[:id], kind: 'delivery') if params[:kind].eql?('delivery')
+
+    respond_to do |format|
+      format.turbo_stream {}
     end
   end
 

@@ -29,6 +29,7 @@ Rails.application.routes.draw do
       patch :enable
     end
     collection do
+      get :fetch_form
       delete :multiple_delete
     end
   end
