@@ -1,4 +1,0 @@
-<%= turbo_stream.update params[:select] do %>
-  <%= options_for_select @rates.pluck(:name, :id),
-                         selected: params[:selected] %>
-<% end %>

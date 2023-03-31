@@ -79,16 +79,6 @@ class RatesController < ApplicationController
     end
   end
 
-  def fetch_form
-    @rates = []
-    @rates = Rate.where(kind: 'pickup') if params[:kind].eql?('pickup')
-    @rates = Rate.where(zone_id: params[:id], kind: 'delivery') if params[:kind].eql?('delivery')
-
-    respond_to do |format|
-      format.turbo_stream {}
-    end
-  end
-
   private
 
   def rate_params
