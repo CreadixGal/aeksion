@@ -19,6 +19,7 @@ Rails.application.routes.draw do
       patch :update_status
     end
     collection do
+      get :fetch_form
       post :search
       delete :multiple_delete
     end
@@ -29,7 +30,6 @@ Rails.application.routes.draw do
       patch :enable
     end
     collection do
-      get :fetch_form
       delete :multiple_delete
     end
   end

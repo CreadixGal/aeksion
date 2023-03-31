@@ -66,13 +66,8 @@ class MovementsController < ApplicationController
   def edit; end
 
   def create
-    rate = lookup_customer_rate(movement_params[:customer_id], movement_params[:zone_id])
-    product_movements = lookup_for_variants(movement_params[:product_movements_attributes], movement_params[:zone_id])
-    valid_params = movement_params.except(:customer_id, :zone_id, :product_movements_attributes)
-    valid_params[:product_movements_attributes] = product_movements
+    @movement = Movement.new(movement_params.except(:customer_id, :zone_id))
 
-    @movement = Movement.new(valid_params)
-    @movement.rate_id = rate.id
     respond_to do |format|
       if @movement.save
         @movement.product_movements.each { |pm| StockControl.new(pm).new_amount(params[:kind]) }
@@ -81,7 +76,7 @@ class MovementsController < ApplicationController
         format.turbo_stream { flash.now[:success] = t('.success') }
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.turbo_stream { flash.now[:error] = "#{t('.error')}" }
+        format.turbo_stream { flash.now[:error] = t('.error') }
       end
     end
   end
@@ -153,6 +148,19 @@ class MovementsController < ApplicationController
     redirect_to movements_path(kind: 'return')
   end
 
+  def fetch_form
+    @rates = []
+    @rates = Rate.where(kind: 'pickup') if params[:kind].eql?('pickup')
+    @rates = Rate.where(zone_id: params[:id], kind: 'delivery') if params[:kind].eql?('delivery')
+    @products = Variant.where(zone_id: params[:id])
+    rates_options = view_context.options_from_collection_for_select(@rates, :id, :name, params[:selected])
+    products_options = view_context.options_from_collection_for_select(@products, :product_id, :code)
+
+    respond_to do |format|
+      format.json { render json: { rates: rates_options, products: products_options } }
+    end
+  end
+
   private
 
   def movement_params
@@ -160,7 +168,6 @@ class MovementsController < ApplicationController
       :id,
       :status,
       :rate_id,
-      :customer_id,
       :zone_id,
       :code,
       :date,
@@ -170,27 +177,5 @@ class MovementsController < ApplicationController
 
   def set_movement
     @movement = Movement.find(params[:id])
-  end
-
-  def lookup_customer_rate(customer_id, zone_id)
-    rate = nil
-    if params[:pickup]
-      zone = Zone.find_by(customer_id:, name: 'Product')
-      rate = Rate.find_by(customer_id:, zone_id: zone.id)
-    else
-      rate = Rate.find_by(customer_id:, zone_id:)
-    end
-    rate
-  end
-
-  def lookup_for_variants(product_movements_attributes, zone_id)
-    params = []
-    product_movements_attributes.each do |_, pm|
-      next if pm[:product_id].blank? || pm[:_delete] == '1'
-      variant = Variant.find_by(id: pm[:product_id], zone_id:)
-      product_id = variant.product_id
-      params << { product_id: product_id, quantity: pm[:quantity] }
-    end
-    params
   end
 end
