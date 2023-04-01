@@ -22,7 +22,7 @@ class StockControl
     product.increment(:stock, resource.quantity) if movement.rate_pickup?
     product.decrement(:stock, resource.quantity) if movement.rate_delivery?
     new_amount
-    # product.save!
+    product.save!
   end
 
   # for update action
@@ -32,7 +32,7 @@ class StockControl
     product.increment(:stock, resource.quantity) if movement.rate_delivery?
     product.decrement(:stock, resource.quantity) if movement.rate_pickup?
     new_amount
-    # product.save!
+    product.save!
   end
 
   # then update stock of product with the new value for quantity of product movement
@@ -47,6 +47,6 @@ class StockControl
     price = movement.rate.zone.quantity if movement.rate_delivery?
 
     resource.amount = price * resource.quantity
-    # resource.save!
+    resource.save!
   end
 end
