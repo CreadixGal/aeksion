@@ -11,6 +11,8 @@ class Movement < ApplicationRecord
 
   has_one :customer, through: :rate
 
+  before_create :validate_code
+
   delegate :name, :kind, :delivery?, :pickup?, to: :rate, prefix: :rate
   delegate :name, to: :customer, prefix: :customer
   delegate :amount, to: :product_movements
@@ -57,5 +59,9 @@ class Movement < ApplicationRecord
 
   def any_blank(attributes)
     attributes['product_id'].blank? || attributes['quantity'].blank?
+  end
+
+  def validate_code
+    CodeGenerator.new(self).validate_code
   end
 end

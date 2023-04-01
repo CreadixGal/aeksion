@@ -6,8 +6,8 @@ class CodeGenerator
 
   def validate_code
     duplicate = @resource.class.find_by(code: @resource.code).presence || false
-    @resource.errors.add(:code, 'is already taken') if duplicate
     @resource.code = "#{@code}-dup" if duplicate
+    @resource.errors.add(:code, 'is already taken') if duplicate
   end
 
   def run_code
