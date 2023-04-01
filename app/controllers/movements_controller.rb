@@ -7,8 +7,11 @@ class MovementsController < ApplicationController
   end
 
   def movements(kind)
-    allowed_methods = %w[delivery pickup return]
-    Movement.includes([{variants: [:product, :price]}, { product_movements: :variant }]).send(kind) if allowed_methods.include?(kind)
+    if kind.eql?('pickup')
+      Movement.preload([{ variants: %i[product price] }, { product_movements: :variant }]).send(kind)
+    else
+      Movement.preload([{ variants: [:product] }, { product_movements: :variant }]).send(kind)
+    end
   end
 
   def filter(params)
@@ -67,8 +70,8 @@ class MovementsController < ApplicationController
 
   def create
     @movement = Movement.new(movement_params.except(:customer_id, :zone_id))
-    # @movement.product_movements.each { |pm| StockControl.new(pm).new_amount }
-    
+    @movement.product_movements.each { |pm| StockControl.new(pm).new_amount }
+
     respond_to do |format|
       if @movement.save
         @movement.reload
