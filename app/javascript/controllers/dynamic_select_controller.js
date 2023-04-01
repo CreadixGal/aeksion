@@ -62,7 +62,7 @@ export default class extends Controller {
     this.nestedFormTargets.forEach(nestedForm => {
       console.log(nestedForm)
       nestedForm.classList.add('border', 'border-blue-500', 'p-4', 'rounded-md')
-      const productSelect = nestedForm.querySelector('select[name*="product_id"]')
+      const productSelect = nestedForm.querySelector('select[name*="variant_id"]')
       if (productSelect) {
         productSelect.innerHTML = products;
       }
