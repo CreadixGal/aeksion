@@ -8,7 +8,7 @@ class MovementsController < ApplicationController
 
   def movements(kind)
     allowed_methods = %w[delivery pickup return]
-    Movement.includes([:products, { product_movements: :product }]).send(kind) if allowed_methods.include?(kind)
+    Movement.includes([{variants: [:product, :price]}, { product_movements: :variant }]).send(kind) if allowed_methods.include?(kind)
   end
 
   def filter(params)
@@ -67,10 +67,10 @@ class MovementsController < ApplicationController
 
   def create
     @movement = Movement.new(movement_params.except(:customer_id, :zone_id))
-
+    # @movement.product_movements.each { |pm| StockControl.new(pm).new_amount }
+    
     respond_to do |format|
       if @movement.save
-        @movement.product_movements.each { |pm| StockControl.new(pm).new_amount(params[:kind]) }
         @movement.reload
         format.html { redirect_to movements_path(kind: 'pickup'), success: t('.success') }
         format.turbo_stream { flash.now[:success] = t('.success') }
@@ -154,7 +154,7 @@ class MovementsController < ApplicationController
     @rates = Rate.where(zone_id: params[:id], kind: 'delivery') if params[:kind].eql?('delivery')
     @products = Variant.where(zone_id: params[:id])
     rates_options = view_context.options_from_collection_for_select(@rates, :id, :name, params[:selected])
-    products_options = view_context.options_from_collection_for_select(@products, :product_id, :code)
+    products_options = view_context.options_from_collection_for_select(@products, :id, :code)
 
     respond_to do |format|
       format.json { render json: { rates: rates_options, products: products_options } }
@@ -171,7 +171,7 @@ class MovementsController < ApplicationController
       :zone_id,
       :code,
       :date,
-      product_movements_attributes: %i[_destroy id product_id variant_id quantity]
+      product_movements_attributes: %i[_destroy id product_id variant_id zone_id quantity]
     )
   end
 
