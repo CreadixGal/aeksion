@@ -6,8 +6,8 @@ class Movement < ApplicationRecord
   has_many :product_movements, dependent: :destroy
   accepts_nested_attributes_for :product_movements,
                                 allow_destroy: true,
-                                reject_if: proc { |attr| attr['product_id'].blank? }
-  has_many :products, through: :product_movements, dependent: :destroy
+                                reject_if: proc { |attr| attr['variant_id'].blank? }
+  has_many :variants, through: :product_movements, dependent: :destroy
 
   has_one :customer, through: :rate
 
