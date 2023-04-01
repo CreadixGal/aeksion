@@ -1,6 +1,6 @@
 class ProductMovement < ApplicationRecord
   belongs_to :movement
-  belongs_to :product
+  belongs_to :variant
 
   validates :quantity,
             presence: {
@@ -32,8 +32,13 @@ class ProductMovement < ApplicationRecord
   private
 
   def update_amount
-    calculate_amount(product.variants.find_by(zone_id: movement.rate.zone_id).quantity) if movement.rate.pickup?
-    calculate_amount(movement.rate.zone.quantity) if movement.rate.delivery?
+    if movement.rate.pickup?
+      calculate_amount(variant.quantity)
+    elsif movement.rate_delivery?
+      calculate_amount(movement.rate.zone.quantity) if movement.rate.delivery?
+    else
+      update! amount: 0
+    end
   end
 
   def calculate_amount(price)
@@ -41,7 +46,7 @@ class ProductMovement < ApplicationRecord
   end
 
   def enough_stock
-    return true if movement.rate_kind.eql?('pickup')
+    return true if movement.rate_pickup?
     return true if StockControl.new(self).enough_stock?
 
     errors.add(:quantity, 'no hay suficiente stock')
