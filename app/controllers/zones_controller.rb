@@ -53,7 +53,10 @@ class ZonesController < ApplicationController
   def multiple_delete
     if params[:zone_ids].present?
 
-      Zone.where(id: params[:zone_ids].compact).destroy_all
+      Zone.includes(%i[variants rates customers])
+          .where(id: params[:zone_ids].compact)
+          .destroy_all
+
       respond_to do |format|
         format.html { redirect_to zones_path, success: t('.success') }
         format.turbo_stream { flash.now[:success] = t('.success') }

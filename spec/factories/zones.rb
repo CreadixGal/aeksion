@@ -1,5 +1,8 @@
 FactoryBot.define do
   factory :zone do
-    name { Zone::VALID_NAMES.sample }
+    name { |n| "Zone-#{n}" }
+    after(:create) do |zone|
+      create(:price, priciable: zone)
+    end
   end
 end
