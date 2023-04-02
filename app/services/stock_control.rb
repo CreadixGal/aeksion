@@ -43,10 +43,14 @@ class StockControl
 
   # update amount of movement
   def new_amount
-    price = variant.quantity if movement.rate_pickup?
-    price = movement.rate.zone.quantity if movement.rate_delivery?
+    if movement.rate_pickup?
+      price = variant.quantity
+      result = price * resource.quantity
+    else
+      result = movement.rate.zone.quantity
+    end
 
-    resource.amount = price * resource.quantity
+    resource.amount = result
     resource.save!
   end
 end

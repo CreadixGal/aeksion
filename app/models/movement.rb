@@ -44,7 +44,9 @@ class Movement < ApplicationRecord
   end
 
   def amount
-    product_movements.sum(&:amount)
+    result = product_movements.sum(&:amount) if rate_pickup?
+    result = rate.zone.quantity if rate_delivery?
+    result
   rescue StandardError
     0
   end
