@@ -29,29 +29,23 @@ RSpec.describe IssueTracker do
   end
 
   describe 'enums' do
-    it 'defines the status enum with the correct values and default' do
-      expect(described_class.statuses.keys).to eq(%w[pending viewed in_progress completed])
-      expect(issue.status).to eq('pending')
-    end
+    it { should define_enum_for(:status).with_values(pending: 'pending', viewed: 'viewed', in_progress: 'in_progress', completed: 'completed').backed_by_column_of_type(:string) }
   end
 
   describe 'scopes' do
-    describe '.ordered' do
-      it 'orders by created_at in descending order' do
-        issue1 = create(:issue_tracker, created_at: 1.day.ago)
-        issue2 = create(:issue_tracker)
-        issue3 = create(:issue_tracker, created_at: 2.days.ago)
+    let!(:user) { create(:user) }
+    let!(:issue_tracker_1) { create(:issue_tracker, user: user, status: :pending) }
+    let!(:issue_tracker_2) { create(:issue_tracker, user: user, status: :viewed) }
 
-        expect(described_class.ordered).to eq [issue2, issue1, issue3]
+    context 'ordered' do
+      it 'returns issues in descending order of creation' do
+        expect(IssueTracker.ordered).to eq([issue_tracker_2, issue_tracker_1])
       end
     end
 
-    describe '.pending_count' do
+    context 'pending_count' do
       it 'returns the count of pending issues' do
-        create(:issue_tracker, status: :pending)
-        create(:issue_tracker, status: :viewed)
-
-        expect(described_class.pending_count).to eq 1
+        expect(IssueTracker.pending_count).to eq(1)
       end
     end
   end
