@@ -3,7 +3,7 @@ class Rate < ApplicationRecord
   belongs_to :zone, inverse_of: :rates
 
   has_many :movements, dependent: :destroy
-  has_one :price, as: :priciable
+  has_one :price, as: :priciable, dependent: :destroy
 
   delegate :name, to: :customer, prefix: :customer
   delegate :name, to: :zone, prefix: :zone

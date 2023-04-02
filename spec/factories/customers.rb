@@ -1,5 +1,6 @@
 FactoryBot.define do
   factory :customer do
-    name { "test #{Faker::Company.name}" }
+    name { Faker::Name.name }
+    association :price, factory: :price, strategy: :build
   end
 end
