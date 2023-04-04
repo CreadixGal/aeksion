@@ -19,12 +19,16 @@ Rails.application.routes.draw do
       patch :update_status
     end
     collection do
+      get :fetch_form
       post :search
       delete :multiple_delete
     end
   end
 
   resources :rates do
+    member do
+      patch :enable
+    end
     collection do
       delete :multiple_delete
     end
@@ -35,8 +39,10 @@ Rails.application.routes.draw do
       delete :multiple_delete
     end
   end
-  resources :issue_trackers, only: %i[index show new create]
+
+  resources :issue_trackers
   resources :products
+  resources :variants
 
   get 'dashboard',      to: 'pages#dashboard', as: :dashboard
   get 'configuration',  to: 'pages#configuration', as: :configuration

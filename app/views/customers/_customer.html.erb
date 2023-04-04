@@ -3,8 +3,15 @@
     <div class="w-1/12 flex justify-center items-center content-center px-4">
       <%= render CheckboxComponent.new(id: customer.id, name: 'customer_ids[]', options: { value: customer.id }) %>
     </div>
-    <div class="w-9/12 flex justify-center items-center text-black text-center font-semibold border-x border-slate-100 py-2 px-4"> 
+    <div class="w-5/12 flex justify-center items-center text-black text-center font-semibold border-x border-slate-100 py-2 px-4">
       <%= customer.name %> 
+    </div>
+    <div class="w-4/12 flex justify-center items-center text-black text-center font-semibold border-x border-slate-100 py-2 px-4">
+      
+      <% if customer.price.present? %>
+        <%= number_to_currency(customer&.price_quantity, precision: 4) %>
+      <% end %>
+      
     </div>
     <div class="table-actions" data-controller="swal">
       <% if action_name != "show" %>

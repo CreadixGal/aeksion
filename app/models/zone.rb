@@ -1,14 +1,16 @@
 class Zone < ApplicationRecord
-  validates :name, presence: true
-
+  has_one :price, as: :priciable
   has_many :rates
+  has_many :variants, dependent: :destroy, inverse_of: :zone
+  has_many :products, through: :variants
   has_many :customers, through: :rates, dependent: :destroy
 
-  delegate :code, :name, :price, to: :customer, prefix: :customer
+  delegate :code, :name, to: :customer, prefix: :customer
+  delegate :quantity, to: :price
 
-  validates :name, uniqueness: true
+  validates :name, uniqueness: true, presence: true
 
-  scope :ordered, -> { order(name: :desc) }
+  scope :ordered, -> { includes(:price).order(name: :desc) }
 
   VALID_NAMES = %w[A_Coruña Lugo Ourense Pontevedra].freeze
 end

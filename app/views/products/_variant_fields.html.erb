@@ -1,0 +1,47 @@
+ 
+<div class="nested-fields w-full">
+  <div class="w-full flex justify-start items-center gap-8">
+    <div class="w-full flex gap-4">
+      <%= form.hidden_field :_destroy %>
+      <%= form.hidden_field :id, value: form.object.id if form.object.id.present? %>
+
+      <div class="w-full flex px-6 py-4 h-full gap-8 border-y border-y-slate-600">
+        <div class="w-full flex gap-8">
+          <div class="w-full flex-col justify-center items-start" data-controller="tomselect" data-tomselect-action="action: nestedZones">
+            <div class="w-full mr-4"><%= t('.zone') %></div>
+            <div class='w-full text-left  font-semibold'>
+              <%= form.select :zone_id,
+                              Zone.all.pluck(:name, :id),
+                              {include_blank: "" },
+                              {
+                                prompt: "selecciona zona",
+                                id: 'select-zone',
+                                data: { 
+                                  "tomselect-target": 'zone',
+                                },
+                                class: 'w-full mx-auto block py-2 px-2 w-full text-lg text-left text-slate-700 bg-transparent border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+                              } %>
+            </div>
+          </div>
+          <div class="w-full flex-col justify-center items-start">
+            <div class="w-full mr-4"><%= t('.price') %></div>
+            <div class='w-full text-center  font-semibold'>
+              <% price = Price.find_by(priciable_id: form.object.id)&.quantity %>
+              <%= form.number_field :price,
+                                    value: price.presence || 0,
+                                    min: 0.0000,
+                                    max: 0.9999,
+                                    step: 0.0001,
+                                    placeholder: number_to_currency(price, precision: 4).presence || 0,
+                                    class: 'w-full text-center font-semibold'%>
+            </div>
+          </div>
+          <div class="flex flex-col justify-center items-center">
+            <div class="invisible">Eliminar</div>
+            <%= link_to 'x', "#", class: 'h-6 w-6 flex justify-center items-center text-red-500 border border-red-500 rounded-full hover:bg-red-500 hover:text-white p-4' ,data: {action: "click->nested-form#remove_association"} %>
+          </div>      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

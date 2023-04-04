@@ -1,5 +1,9 @@
 <%= form_with(model: movement, class: '', data: { controller: "nested-form" }) do |form| %>
-  <div class="w-full flex flex-col items-start justify-start text-black text-center font-semibold py-2 px-0 relative z-0 group gap-8">
+    <div data-controller="dynamic-select"
+         data-dynamic-select-url-value="<%= fetch_form_movements_path %>"
+         data-dynamic-select-selected-value="<%= movement.rate_id %>"
+         data-dynamic-select-kind-value="<%= params[:kind] %>"
+      class="w-full flex flex-col items-start justify-start text-black text-center font-semibold py-2 px-0 relative z-0 group gap-8">
     <div class="w-full flex justify-between items-center gap-8">
     
       <div class="flex flex-col justify-center items-start gap-4">
@@ -8,7 +12,7 @@
                             required: true,
                             class: 'w-full mx-auto block py-2 px-2 w-full text-lg text-left text-slate-700 bg-transparent border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer' %>
       </div>
-      <div class="flex flex-col justify-center items-start gap-4 relative">
+      <div class="flex flex-col justify-center items-start gap-4 relative" >
         <%= form.label t('.date'), class: 'text-lg text-gray-800'%>
         <%= form.text_field :date,
                             data: {
@@ -23,16 +27,44 @@
         </div>
       </div>
     </div>
-    <div class="w-full flex flex-col justify-center items-start gap-4">
-      <%= form.label t('.rate'), class: 'text-lg text-gray-800'%>
-      <%= form.select :rate_id, options_for_select(Rate.where(kind: movement.rate_kind).map { |rate| ["#{rate.customer_name} - #{rate.kind} [#{rate.price}€]", rate.id] }, selected: movement.rate_id), {}, class: 'w-full mx-auto block py-2 px-2 w-full text-lg text-left text-slate-700 bg-transparent border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer' %>
+    <div 
+         class="w-full flex justify-center items-start gap-4">
+      <div class="flex-1 w-full flex flex-col justify-between items-center gap-8">
+        <%= form.label t('.zone'), class: 'text-lg text-gray-800' %>
+        <%#= form.select :zone_id,
+                          Zone.excluding(Zone.where(name: 'Product')).pluck(:name, :id),
+                         { include_blank: true },
+                         { 
+                          "data-action": "change->dynamic-select#change",
+                          "data-dynamic-select-target": "zoneSelect",
+                          class: 'w-full mx-auto block py-2 px-2 w-full text-lg text-left text-slate-700 bg-transparent border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+                         } %>
+      </div>
+      <div class="flex-1 w-full flex flex-col justify-between items-center gap-8">
+        <%= form.label t('.customer'), class: 'text-lg text-gray-800' %>
+        <%= form.select :rate_id,
+        Rate.where(customer_id: movement.rate.customer_id, zone_id: movement.rate.zone_id),
+        { include_blank: true },
+        {
+          "data-dynamic-select-target": "rateSelect",
+          class: 'w-full mx-auto block py-2 px-2 w-full text-lg text-left text-slate-700 bg-transparent border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+        } %>
+      </div>
     </div>
 
     <div class="w-full flex flex-col items-end gap-8">
       <%= form.fields_for :product_movements do |product_movement| %> 
-        <%= render 'product_movement_fields', form: product_movement if product_movement.present? %>
+        <%#= render 'product_movement_fields', form: product_movement if product_movement.present? %>
+        <% pm = ProductMovement.find(product_movement.object.id) %>
+        
+        <%= pm.variant.code %>
+        <%= pm.quantity %>
+          
       <% end %>
     </div>
+    
+  </div>
+
 
     <% if movement.errors.any? %>
       <div id="error_explanation" class="bg-red-50 text-red-500 border-b-8 border-b-red-600 px-3 py-2 font-medium rounded-lg mt-3">
@@ -48,6 +80,5 @@
   <div class="inline">
     <%= form.submit t('.create'), class: 'button-success cursor-pointer' %>
     <%#= link_to t('.back'), '', data: { action: 'modal#hideModal'}, class: 'button-default' %>
-    <%#= link_to "#{t '.add_item'}", "#",class: 'button-success float-right', data: { action: "nested-form#add_association" } %>
   </div>
 <% end %>

@@ -4,10 +4,20 @@
       <%= render CheckboxComponent.new(id: customer.id, name: 'customer_ids[]', options: { value: customer.id }) %>
     </div>
     <%= form_with(model: customer, class: 'contents') do |form| %>
-      <div class="w-9/12 text-indigo-600 text-center font-semibold border-x border-indigo-400 py-2 px-4 relative z-0 group"> 
-        <%= form.text_field :name, placeholder: 'Introduce nombre de cliente', class:'w-1/2 mx-auto block py-2.5 px-0 w-full text-lg text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'%>
+      <div class="w-9/12 flex flex-col justify-center items-center">
+        <div class="w-full flex text-indigo-600 text-center font-semibold border-x border-indigo-400 py-2 px-4 relative z-0 group gap-8"> 
+          <%= form.text_field :name,
+                              placeholder: 'Introduce nombre de cliente',
+                              class:'w-5/12 mx-auto block py-2.5 px-0 w-full text-lg text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'%>
+          <% price = Price.find_by(priciable_id: form.object.id)&.quantity %>
+          <%= form.number_field :price,
+                                placeholder: number_to_currency(price || 0, precision: 4),
+                                value: price.presence || 0,
+                                step: :any,
+                                class:'w-4/12 mx-auto block py-2.5 px-0 w-full text-lg text-black bg-transparent border-0 border-b-2 border-slate-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'%>
+        </div>
         <% if customer.errors.any? %>
-          <div id="error_explanation" class="bg-red-50 text-red-500 border-b-8 border-b-red-600 px-3 py-2 font-medium rounded-lg mt-3">
+          <div id="error_explanation" class="w-full bg-red-50 text-red-500 border-b-8 border-b-red-600 px-3 py-2 font-medium rounded-lg mt-3">
             <h2><%= pluralize(customer.errors.count, 'error') %> prohibited this customer from being saved:</h2>
 
             <ul>

@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  has_many :issue_trackers
+  has_many :comments, as: :commentable
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,

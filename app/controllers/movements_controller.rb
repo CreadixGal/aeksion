@@ -7,8 +7,11 @@ class MovementsController < ApplicationController
   end
 
   def movements(kind)
-    allowed_methods = %w[delivery pickup return]
-    Movement.includes(%i[products]).send(kind) if allowed_methods.include?(kind)
+    if kind.eql?('pickup')
+      Movement.preload([{ variants: %i[product price] }, { product_movements: :variant }]).send(kind)
+    else
+      Movement.preload([{ variants: [:product] }, { product_movements: :variant }]).send(kind)
+    end
   end
 
   def filter(params)
@@ -59,17 +62,20 @@ class MovementsController < ApplicationController
 
   def new
     @movement = Movement.new
+    @zones = Zone.all
+    @variants_by_zone = Variant.all
   end
 
   def edit; end
 
   def create
-    @movement = Movement.new(movement_params)
+    @movement = Movement.new(movement_params.except(:customer_id, :zone_id))
+    @movement.product_movements.each { |pm| StockControl.new(pm).new_amount }
 
     respond_to do |format|
       if @movement.save
-        @movement.product_movements.each { |pm| StockControl.new(pm).new_amount }
-        format.html { redirect_to movements_path(kind: @movement.rate_kind), success: t('.success') }
+        @movement.reload
+        format.html { redirect_to movements_path(kind: 'pickup'), success: t('.success') }
         format.turbo_stream { flash.now[:success] = t('.success') }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -145,6 +151,19 @@ class MovementsController < ApplicationController
     redirect_to movements_path(kind: 'return')
   end
 
+  def fetch_form
+    @rates = []
+    @rates = Rate.where(kind: 'pickup') if params[:kind].eql?('pickup')
+    @rates = Rate.where(zone_id: params[:id], kind: 'delivery') if params[:kind].eql?('delivery')
+    @products = Variant.where(zone_id: params[:id])
+    rates_options = view_context.options_from_collection_for_select(@rates, :id, :name, params[:selected])
+    products_options = view_context.options_from_collection_for_select(@products, :id, :code)
+
+    respond_to do |format|
+      format.json { render json: { rates: rates_options, products: products_options } }
+    end
+  end
+
   private
 
   def movement_params
@@ -152,9 +171,10 @@ class MovementsController < ApplicationController
       :id,
       :status,
       :rate_id,
+      :zone_id,
       :code,
       :date,
-      product_movements_attributes: %i[_destroy id product_id quantity]
+      product_movements_attributes: %i[_destroy id product_id variant_id zone_id quantity]
     )
   end
 

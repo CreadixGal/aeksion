@@ -7,7 +7,7 @@
         <% @customer.rates.where(kind: 'delivery').each do |rate| %>
           <div class="w-full flex justify-between border-b border-b-slate-400 py-2">
             <span class="w-1/2 text-left"><%= rate.zone.name %></span>
-            <span class="w-1/2 text-right"><%= number_to_currency rate.price %></span>
+            <span class="w-1/2 text-right"><%#= number_to_currency rate.price %></span>
           </div>
         <% end %>
       </div>
@@ -16,7 +16,7 @@
         <% @customer.rates.where(kind: 'pickup').each do |rate| %>
           <div class="w-full flex justify-between border-b border-b-slate-400 py-2">
             <span class="w-1/2 text-left"><%= rate.zone.name %></span>
-            <span class="w-1/2 text-right"><%= number_to_currency rate.price %></span>
+            <span class="w-1/2 text-right"><%#= number_to_currency rate.price %></span>
           </div>
         <% end %>
       </div>
