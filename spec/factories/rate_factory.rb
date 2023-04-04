@@ -1,8 +1,10 @@
 FactoryBot.define do
   factory :rate do
+    kind { nil }
     association :customer, factory: :customer
     association :zone, factory: :zone
-    kind { %w[delivery pickup].sample }
-    price { 0.09 }
+    after(:create) do |rate|
+      rate.create_price(quantity: 1)
+    end
   end
 end

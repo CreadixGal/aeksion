@@ -23,19 +23,12 @@
           </label>
         </div>
         
-        <div class="w-full flex flex-col px-6 py-4 h-full gap-8 border-y border-y-slate-600">
+        <div class="w-full flex px-6 py-4 h-full gap-8 border-y border-y-slate-600">
           <div class="w-full flex items-center justify-between">
             <div class="w-full flex-col justify-center items-start">
               <div class="w-full mr-4"><%= t('.name') %></div>
               <div class='w-full text-left  font-semibold'>
-                <%= form.text_field :code %>
-              </div>
-            </div>
-            
-            <div class="w-full flex-col justify-center items-start">
-              <div class="w-full mr-4"><%= t('.zone') %></div>
-              <div class='w-full text-left  font-semibold'>
-                <%= form.select :zone_id, options_for_select(Zone.all.pluck(:name, :id)), {}, { class: 'w-full' } %>
+                <%= form.text_field :name %>
               </div>
             </div>
           </div>
@@ -43,12 +36,6 @@
             <div class="w-full flex-col justify-center items-start">
               <div class="w-full mr-4"><%= t('.kind') %></div>
               <div class='w-full text-left  font-semibold'><%= form.select :kind, options_for_select([[t('.pallet'), 'pallet'], [t('.box'), 'box']]), {}, { class: '' } %></div>
-            </div>
-            <div class="w-full flex-col justify-center items-start">
-              <div class="w-full mr-4"><%= t('.price') %></div>
-              <div class='w-full text-left  font-semibold'>
-                <%= form.number_field :price, step: 0.0001, min: 0.0000, placeholder: 'Introduce precio', class:'text-center font-semibold'%>
-              </div>
             </div>
             <div class="w-full flex-col justify-center items-start">
               <div class="w-full mr-4"><%= t('.stock') %></div>
@@ -60,6 +47,26 @@
         </div>
       </div>
     </div>
+
+    <div class="w-full flex flex-col justify-center items-start gap-4" data-controller="nested-form">
+      <%= form.label t('.variant'), class: 'px-2' %>
+      <div class="w-full flex flex-col items-end gap-8">
+        <template data-nested-form-target="template">
+          <%= form.fields_for :variants, product.variants.new, child_index: 'TEMPLATE_RECORD' do |variant|%>
+            <%= render 'variant_fields', form: variant %>
+          <% end %>
+        </template>
+
+        <%= form.fields_for :variants do |variant| %>
+          <%= render 'variant_fields', form: variant if variant.present? %>
+        <% end %>
+
+        <div data-nested-form-target="add_item" class="float-rigth">
+          <%= link_to "#{t '.add_item'}", "#",class: 'button-success', data: { action: "nested-form#add_association" } %>
+        </div>
+      </div>
+    </div>
+
     <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row justify-start items-center gap-4">
       <%= form.submit t('.create'), class: 'button-success'%>
       <%= button_tag "Cancelar", 

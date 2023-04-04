@@ -273,6 +273,7 @@ es:
       add_item: Añadir producto
     edit_form:
       code: Código
+      name: Nombre
       date: Fecha
       customer: Cliente
       rate: Tarifa
@@ -284,6 +285,11 @@ es:
       product: Producto
       quantity: Cantidad
       delete: Eliminar
+  customers:
+    index:
+      title: Clientes
+      name: Nombre
+      price_pickup: Precio recogida
   products:
     index:
       new_product: Nuevo producto
@@ -300,7 +306,6 @@ es:
       error: No se ha podido eliminar el producto
     product:
       name: Nombre
-      code: Código
       kind: Tipo
       pallet: Pallet
       box: Caja
@@ -309,6 +314,7 @@ es:
       edit: Editar
       delete: Eliminar
     form:
+      variant: Variante
       name: Nombre
       code: Código
       price: Precio
@@ -324,11 +330,16 @@ es:
       date: Fecha
       customer: Cliente
       rate: Tarifa
+    variant_fields:
+      zone: Zona
+      price: Precio
+      remove_item: Eliminar
     product_movement_fields:
       product: Producto
       quantity: Cantidad
       remove_item: Eliminar
     edit_form:
+      code: Código
       create: Guardar
       back: Volver
   pages:
@@ -352,6 +363,9 @@ es:
       title_placeholder: Título
       description_placeholder: Descripción
       title_label: Título
+      description_label: Descripción
+      add_item: Añadir comentario
+    comment_fields:
       description_label: Descripción
   rates:
     index:

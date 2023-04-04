@@ -5,7 +5,7 @@ FactoryBot.define do
     status { 'pending' }
     after(:build) do |issue|
       file_name = 'issue.jpg'
-      file_path = Rails.root.join('spec', 'factories', 'images', file_name)
+      file_path = Rails.root.join('spec', 'fixtures', 'files', file_name)
       issue.images.attach(io: File.open(file_path),
                           filename: file_name, content_type: 'image/png')
     end

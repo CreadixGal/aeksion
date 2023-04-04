@@ -1,6 +1,5 @@
 class ZonesController < ApplicationController
   before_action :set_zone, only: %i[show edit update destroy]
-  before_action :set_price, only: %i[create]
 
   def index
     @zones = Zone.ordered
@@ -16,9 +15,9 @@ class ZonesController < ApplicationController
   def edit; end
 
   def create
-    @zone = Zone.new(zone_params)
+    @zone = Zone.new(name: zone_params[:name])
 
-    Price.create!(priciable: @zone, quantity: @price)
+    @zone.price = Price.new(quantity: zone_params[:price])
 
     respond_to do |format|
       if @zone.save
@@ -32,7 +31,8 @@ class ZonesController < ApplicationController
 
   def update
     respond_to do |format|
-      if @zone.update(zone_params)
+      price = Price.find(@zone.price.id)
+      if @zone.update(name: zone_params[:name]) && price.update(quantity: zone_params[:price])
         format.html { redirect_to zones_path, success: 'Zone was successfully updated.' }
         format.turbo_stream { flash.now[:success] = 'Zone was successfully updated.' }
       else
@@ -53,7 +53,10 @@ class ZonesController < ApplicationController
   def multiple_delete
     if params[:zone_ids].present?
 
-      Zone.where(id: params[:zone_ids].compact).destroy_all
+      Zone.includes(%i[variants rates customers])
+          .where(id: params[:zone_ids].compact)
+          .destroy_all
+
       respond_to do |format|
         format.html { redirect_to zones_path, success: t('.success') }
         format.turbo_stream { flash.now[:success] = t('.success') }
@@ -69,14 +72,10 @@ class ZonesController < ApplicationController
   private
 
   def zone_params
-    params.require(:zone).permit(:name)
+    params.require(:zone).permit(:name, :price)
   end
 
   def set_zone
     @zone = Zone.find(params[:id])
-  end
-
-  def set_price
-    @price = params[:zone][:price]
   end
 end

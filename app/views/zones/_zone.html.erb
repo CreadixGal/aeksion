@@ -3,8 +3,12 @@
     <div class="w-1/12 flex justify-center items-center content-center px-4">
       <%= render CheckboxComponent.new(id: zone.id, name: 'zone_ids[]', options: { value: zone.id }) %>
     </div>
-    <div class="w-5/12 flex justify-center items-center text-black text-center font-semibold border-x border-slate-100 py-2 px-4"> <%= zone.name %> </div>
-    <div class="w-4/12 flex justify-center items-center text-black text-center font-semibold border-x border-slate-100 py-2 px-4"><%= zone.price&.quantity %></div>
+    <div class="w-5/12 flex justify-center items-center text-black text-center font-semibold border-x border-slate-100 py-2 px-4">
+      <%= zone.name %>
+    </div>
+    <div class="w-4/12 flex justify-center items-center text-black text-center font-semibold border-x border-slate-100 py-2 px-4">
+      <%= number_to_currency(zone.quantity, precision:4) %>
+    </div>
     <div class="table-actions">
       <% if action_name != "show" %>
         <%= link_to inline_svg_tag('icons/pencil-square.svg', class: 'icon-button-default'), edit_zone_path(zone), class: 'wrapper-icon-button-default' %>

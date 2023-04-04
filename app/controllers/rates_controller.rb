@@ -1,7 +1,8 @@
 class RatesController < ApplicationController
-  before_action :set_rate, only: %i[show edit update destroy]
+  before_action :set_rate, except: %i[index new create multiple_delete fetch_form]
 
   def index
+    # @rates = Rate.all
     @rates = Rate.delivery if params[:kind].eql?('delivery')
     @rates = Rate.pickup if params[:kind].eql?('pickup')
     @rates = Rate.return if params[:kind].eql?('return')
@@ -11,12 +12,15 @@ class RatesController < ApplicationController
   def show; end
 
   def new
+    Rails.logger.info "params[:kind]: #{params[:kind]}"
     @rate = Rate.new(kind: params[:kind])
   end
 
   def edit; end
 
   def create
+    Rails.logger.info "params -> #{params.inspect}"
+    # render plain: params.inspect
     @rate = Rate.new(rate_params)
 
     respond_to do |format|
@@ -64,10 +68,21 @@ class RatesController < ApplicationController
     end
   end
 
+  def enable
+    respond_to do |format|
+      if @rate.update(enable: !@rate.enable)
+        format.html { redirect_to rates_path(kind: params[:kind]), success: 'Tarifa actualizada correctamente' }
+        format.turbo_stream { flash.now[:success] = 'Tarifa actualizada correctamente' }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+      end
+    end
+  end
+
   private
 
   def rate_params
-    params.require(:rate).permit(:customer_id, :zone_id, :kind)
+    params.require(:rate).permit(:customer_id, :zone_id, :kind, :name, :enable)
   end
 
   def set_rate

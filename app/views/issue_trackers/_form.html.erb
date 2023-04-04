@@ -9,15 +9,15 @@
                   class: 'w-full') do |form| %>
       <div class="w-full flex flex-col text-black text-center font-semibold border-x border-slate-100 py-2 px-0 relative z-0 group gap-6">
         <% if action_name.eql?'new' %>
-        <div class="w-full flex flex-col justify-center items-start gap-4 <%= 'hidden' if action_name.eql?'edit' %>">
-          <%= form.label t('.title_label'), class: 'px-2' %>
-          <%= form.text_field :title,
-                              placeholder: t('.title_placeholder'), 
-                              class:'w-full mx-auto block py-2.5 px-2 text-lg text-black bg-transparent border-0 border-b-2 border-slate-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'%>
-        </div>
+          <div class="w-full flex flex-col justify-center items-start gap-4 <%= 'hidden' if action_name.eql?'edit' %>">
+            <%= form.label t('.title_label'), class: 'px-2' %>
+            <%= form.text_field :title,
+                                placeholder: t('.title_placeholder'), 
+                                class:'w-full mx-auto block py-2.5 px-2 text-lg text-black bg-transparent border-0 border-b-2 border-slate-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'%>
+          </div>
         <% end %>
         <div class="w-full flex flex-col justify-center items-start gap-4 h-">
-          <%= form.label t('.description_label'), class: 'px-2' %>
+          <%#= form.label t('.description_label'), class: 'px-2' %>
           <div class="w-full flex flex-col items-end gap-8">
             <template data-nested-form-target="template">
               <%= form.fields_for :comment,
@@ -57,7 +57,7 @@
       </div>
       <div class="">
         <%= form.submit t('.create'), class: 'w-auto button-success' %>
-        <%= link_to "#{t '.add_item'}", "#",class: 'button-success float-right', data: { action: "nested-form#add_association" } %>
+        <%= link_to "#{t '.add_item'}", "#",class: 'button-success float-right', data: { action: "nested-form#add_association" } unless action_name.eql?('new')%>
       </div>
     <% end %>
   </div>

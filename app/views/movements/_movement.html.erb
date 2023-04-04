@@ -3,7 +3,7 @@
     <div class="w-1/12 flex justify-center items-center content-center px-4">
       <%= render CheckboxComponent.new(id: movement.id, name: 'movement_ids[]', options: { value: movement.id }) %>
     </div>
-    <% rate = Rate.find(movement.rate_id) %>
+
     <div class="w-9/12 flex justify-center text-black text-center font-semibold ">
       <div class="w-[12.5%] flex justify-start  items-center px-4 text-left">
         <%= movement.code %>
@@ -12,34 +12,42 @@
         <%= movement.date.strftime('%d-%m-%y') %>
       </div>
       <div class="w-[12.5%] flex justify-start  items-center px-4 text-left">
-        <%= t(".#{rate.kind}") %>
+        <%= t(".#{movement.rate.zone_name}") %>
       </div>
       <div class="w-[12.5%] flex justify-start  items-center px-4 text-left">
-        <%= Customer.find(rate.customer_id).name %>
+        <%= movement.rate.customer_name %>
       </div>
       <div class="w-[12.5%] flex flex-col justify-center items-center px-4 text-left">
         <div class="w-full flex flex-col ">
-          <% movement.products.each do |product| %>
+          <% movement.variants.each do |variant| %>
             <span class="w-full border border-slate-400 p-2">
-              <%= link_to product.code, product, data: { turbo_frame: 'modal' } %>
+              <%= link_to variant.product.name, variant.product, data: { turbo_frame: 'modal' } %>
             </span>
           <% end %>
         </div>
       </div>
       <div class="w-[12.5%] flex justify-center items-center px-4 text-right">
         <div class="w-full flex flex-col ">
-          <% movement.product_movements.each do |product| %>
-            <span class="w-full border border-slate-400 p-2 <%= 'bg-red-200' if product.return %> ">
-              <%= product.quantity %>
+          <% movement.product_movements.each do |pm| %>
+            <span class="w-full border border-slate-400 p-2 <%= 'bg-red-200' if pm.return %> ">
+              <%= pm.quantity %>
             </span>
           <% end %>
         </div>
       </div>
        <div class="w-[12.5%] flex justify-end  items-center px-4 text-right">
          <% if movement.rate.pickup? %>
-           <%= number_to_currency movement.rate.customer&.price&.quantity, precision: 4 %>
+          <div class="w-full flex flex-col ">
+            <% movement.variants.each do |variant| %>
+                <span class="w-full border border-slate-400 p-2">
+                  <%= number_to_currency(variant.quantity, precision: 4)  %>
+                </span>
+            <% end %>
+          </div>
          <% elsif movement.rate.delivery? %>
-           <%= number_to_currency movement.rate.zone&.price&.quantity, precision: 4 %>
+            <span class="w-full border border-slate-400 p-2">
+              <%= number_to_currency movement.rate.zone&.quantity, precision: 4 %>
+            </span>
          <% end %>
       </div>
       <div class="w-[12.5%] flex justify-end  items-center px-4 text-right">
@@ -72,7 +80,8 @@
               },
               class: "wrapper-icon-button-#{movement.returned? ? 'error' : 'default'}" if movement.rate_delivery? %>
         <% end %>
-        <%= link_to inline_svg_tag(
+
+        <%#= link_to inline_svg_tag(
               'icons/pencil-square.svg',
               class: 'icon-button-default'
             ),
@@ -81,7 +90,7 @@
               turbo_frame: 'modal'
             },
             class: 'wrapper-icon-button-default' %>
-
+        
         <%= button_to movement,
                       method: :delete,
                       data: { 

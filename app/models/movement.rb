@@ -3,20 +3,25 @@ class Movement < ApplicationRecord
 
   belongs_to :rate, inverse_of: :movements
 
-  has_many :product_movements, inverse_of: :movement, dependent: :destroy
-  has_many :products, through: :product_movements, dependent: :destroy
+  has_many :product_movements, dependent: :destroy
+  accepts_nested_attributes_for :product_movements,
+                                allow_destroy: true,
+                                reject_if: proc { |attr| attr['variant_id'].blank? }
+  has_many :variants, through: :product_movements, dependent: :destroy
 
   has_one :customer, through: :rate
 
-  delegate :name, :price, :kind, :delivery?, :pickup?, to: :rate, prefix: :rate
+  before_create :validate_code
+
+  delegate :name, :kind, :delivery?, :pickup?, to: :rate, prefix: :rate
   delegate :name, to: :customer, prefix: :customer
   delegate :amount, to: :product_movements
-  accepts_nested_attributes_for :product_movements
 
   validates :date, presence: true
-  before_create :validate_code
+
   # rubocop:disable  Layout/LineLength
-  scope :delivery, -> { includes(%i[rate product_movements]).where(rates: { kind: 'delivery' }, product_movements: { return: false }).order(date: :desc) }
+  scope :delivery, -> { where(rates: { kind: 'delivery' }, product_movements: { return: false }).order(date: :desc).joins(:rate, :product_movements) }
+
   # rubocop:enable  Layout/LineLength
   scope :pickup, -> { includes(%i[rate product_movements]).where(rates: { kind: 'pickup' }).order(date: :desc) }
   scope :return, -> { includes(%i[product_movements]).where(product_movements: { return: true }).order(date: :desc) }
@@ -38,13 +43,28 @@ class Movement < ApplicationRecord
     product_movements.any?(&:return)
   end
 
-  def validate_code
-    CodeGenerator.new(self).validate_code
-  end
-
   def amount
-    product_movements.sum(&:amount)
+    result = product_movements.sum(&:amount) if rate_pickup?
+    result = rate.zone.quantity if rate_delivery?
+    result
   rescue StandardError
     0
+  end
+
+  private
+
+  def set_rate
+    rate = Rate.where(customer_id: custormer.id, zone_id: zone.id)
+    return if rate.nil?
+
+    update!(rate:)
+  end
+
+  def any_blank(attributes)
+    attributes['product_id'].blank? || attributes['quantity'].blank?
+  end
+
+  def validate_code
+    CodeGenerator.new(self).validate_code
   end
 end

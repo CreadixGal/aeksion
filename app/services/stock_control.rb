@@ -1,9 +1,10 @@
 class StockControl
-  attr_reader :resource, :product, :movement
+  attr_reader :resource, :product, :movement, :variant
 
   def initialize(product_movement)
     @resource = product_movement
-    @product  = product_movement.product
+    @product  = product_movement.variant.product
+    @variant  = product_movement.variant
     @movement = product_movement.movement
   end
 
@@ -42,7 +43,14 @@ class StockControl
 
   # update amount of movement
   def new_amount
-    resource.amount = movement.rate_price * resource.quantity
+    if movement.rate_pickup?
+      price = variant.quantity
+      result = price * resource.quantity
+    else
+      result = movement.rate.zone.quantity
+    end
+
+    resource.amount = result
     resource.save!
   end
 end
