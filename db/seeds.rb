@@ -8,6 +8,8 @@ Faker::Config.locale = :en
 # create users (superadmin and admin)
 User.create!(email: 'sadmin@test.com', password: 'test123', role: 'superadmin')
 User.create!(email: 'admin@test.com', password: 'test123', role: 'admin')
+User.create!(email: 'creadix@creadix.es', password: 'test123', role: 'superadmin')
+User.create!(email: 'admin@orpal.es', password: 'orpal123', role: 'admin')
 
 # create 4 zones
 co = Zone.create!(name: 'A Coruña')

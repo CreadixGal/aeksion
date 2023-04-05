@@ -21,10 +21,12 @@ class RatesController < ApplicationController
   def create
     Rails.logger.info "params -> #{params.inspect}"
     # render plain: params.inspect
-    @rate = Rate.new(rate_params)
+    @rate = Rate.new(rate_params.except(:price))
+    @rate.price = Price.new(quantity: rate_params[:price])
 
     respond_to do |format|
       if @rate.save
+        Rails.logger.info "\n\n #{@rate.price.quantity}"
         format.html { redirect_to rates_path(kind: params[:kind]), success: 'Tarifa creada correctamente' }
         format.turbo_stream { flash.now[:success] = 'Tarifa creada correctamente' }
       else
@@ -34,8 +36,9 @@ class RatesController < ApplicationController
   end
 
   def update
+    @rate.price = Price.new(quantity: rate_params[:price]) if @rate.price.blank?
     respond_to do |format|
-      if @rate.update(rate_params)
+      if @rate.update(rate_params.except(:price))
         format.html { redirect_to rates_path(kind: params[:kind]), success: 'Tarifa actualizada correctamente' }
         format.turbo_stream { flash.now[:success] = 'Tarifa actualizada correctamente' }
       else
@@ -70,9 +73,11 @@ class RatesController < ApplicationController
 
   def enable
     respond_to do |format|
-      if @rate.update(enable: !@rate.enable)
+      if @rate.update!(enable: !@rate.enable)
         format.html { redirect_to rates_path(kind: params[:kind]), success: 'Tarifa actualizada correctamente' }
-        format.turbo_stream { flash.now[:success] = 'Tarifa actualizada correctamente' }
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace(@rate, partial: 'rates/rate', locals: { rate: @rate })
+        end
       else
         format.html { render :edit, status: :unprocessable_entity }
       end
@@ -82,7 +87,7 @@ class RatesController < ApplicationController
   private
 
   def rate_params
-    params.require(:rate).permit(:customer_id, :zone_id, :kind, :name, :enable)
+    params.require(:rate).permit(:customer_id, :zone_id, :kind, :name, :enable, :price)
   end
 
   def set_rate

@@ -17,7 +17,7 @@ class Rate < ApplicationRecord
   validates :kind, presence: true
 
   scope :delivery, -> { includes(zone: :price).where(kind: 'delivery').order(created_at: :desc) }
-  scope :pickup, -> { includes(:zone).where(kind: 'pickup').order(created_at: :desc) }
+  scope :pickup, -> { includes([:zone, :price]).where(kind: 'pickup').order(created_at: :desc) }
   scope :return, -> { where(kind: 'return').order(created_at: :desc) }
 
   after_save :update_name
