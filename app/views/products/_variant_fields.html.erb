@@ -30,7 +30,7 @@
               <%= form.number_field :price,
                                     value: price.presence || 0,
                                     min: 0.0000,
-                                    max: 0.9999,
+                                    max: 999.9999,
                                     step: 0.0001,
                                     placeholder: number_to_currency(price, precision: 4).presence || 0,
                                     class: 'w-full text-center font-semibold'%>
