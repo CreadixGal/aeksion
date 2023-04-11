@@ -7,7 +7,7 @@
       <%= zone.name %>
     </div>
     <div class="w-4/12 flex justify-center items-center text-black text-center font-semibold border-x border-slate-100 py-2 px-4">
-      <%= number_to_currency(zone.quantity, precision:4) %>
+      <%= number_to_currency(zone.quantity, precision:4) if zone.price.present? %>
     </div>
     <div class="table-actions">
       <% if action_name != "show" %>
