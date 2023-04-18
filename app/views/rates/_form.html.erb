@@ -1,6 +1,6 @@
 <li id="<%= dom_id rate %>" class="table-row-li">
   <div class="w-full flex justify-between">
-    <div class="w-1/12 flex justify-center items-center content-center px-4">
+    <div class="w-2/12 flex justify-center items-center content-center px-4">
       <%= render CheckboxComponent.new(id: rate.id, name: 'rate_ids[]', options: { value: rate.id }) %>
     </div>
     <%= form_with(model: rate, class: 'contents') do |form| %>

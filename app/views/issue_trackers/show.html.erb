@@ -20,7 +20,7 @@
     <% end %>
     
     <% if @issue.images.attached? %>
-      <div class="flex flex-column flex-wrap justify-center items-center gap-6 mt-4">
+      <div class="w-4/5 flex flex-column flex-wrap justify-center items-center gap-6 mt-4 mx-auto">
         <% @issue.images.each do |image| %>
           <%= image_tag image, class: 'w-full' %>
         <% end %>

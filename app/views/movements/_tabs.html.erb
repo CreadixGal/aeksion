@@ -4,7 +4,7 @@
         path: movements_path(params: { kind: 'pickup' }),
         options: {
           icon: 'arrow-down-circle.svg',
-          text: 'Entradas',
+          text: 'Recogidas',
           notification: Movement.pickup.count,
           link_style: "tab-component #{'bg-slate-200' if params[:kind] == 'pickup'}"
         }
@@ -14,7 +14,7 @@
         path: movements_path(params: { kind: 'delivery' }),
         options: {
           icon: 'arrow-up-circle.svg',
-          text: 'Salidas',
+          text: 'Entregas',
           notification: Movement.delivery.count,
           link_style: "tab-component #{'bg-slate-200' if params[:kind] == 'delivery'}"
         }
