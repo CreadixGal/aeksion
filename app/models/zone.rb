@@ -10,7 +10,7 @@ class Zone < ApplicationRecord
 
   validates :name, uniqueness: true, presence: true
 
-  scope :ordered, -> { includes(:price).order(name: :desc) }
+  scope :ordered, -> { includes(:price).where.not(name: 'Product').order(name: :desc) }
 
   VALID_NAMES = %w[A_Coruña Lugo Ourense Pontevedra].freeze
 end

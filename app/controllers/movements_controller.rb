@@ -153,7 +153,7 @@ class MovementsController < ApplicationController
 
   def fetch_form
     @rates = []
-    @rates = Rate.where(kind: 'pickup') if params[:kind].eql?('pickup')
+    @rates = Rate.joins(:zone).where(zones: {name: 'Product'}, kind: 'pickup') if params[:kind].eql?('pickup')
     @rates = Rate.where(zone_id: params[:id], kind: 'delivery') if params[:kind].eql?('delivery')
     @products = Variant.where(zone_id: params[:id])
     rates_options = view_context.options_from_collection_for_select(@rates, :id, :name, params[:selected])

@@ -16,11 +16,12 @@ class Rate < ApplicationRecord
   }, _default: 'delivery'
   validates :kind, presence: true
 
-  scope :delivery, -> { includes(zone: :price).where(kind: 'delivery').order(created_at: :desc) }
-  scope :pickup, -> { includes([:zone, :price]).where(kind: 'pickup').order(created_at: :desc) }
+  scope :delivery, -> { includes([:price]).where(kind: 'delivery').order(created_at: :desc) }
+  scope :pickup, -> { where(kind: 'pickup').order(created_at: :desc) }
   scope :return, -> { where(kind: 'return').order(created_at: :desc) }
 
-  after_save :update_name
+  before_save :validate_uniqueness_rate
+  before_save :update_name
 
   def self.includes_all
     includes(%i[customer zone]).all
@@ -29,6 +30,14 @@ class Rate < ApplicationRecord
   private
 
   def update_name
-    update!(name: "#{customer.name}-#{zone.name.downcase.tr('^a-z', '').slice(0, 2)}") if name.blank?
+    customer_name = customer.name
+    zone_name = zone.name.downcase.tr('^a-z', '').slice(0, 2)
+    self.name = "#{customer_name}-#{zone_name}"
+  end
+
+  def validate_uniqueness_rate
+    return unless Rate.where(customer: customer, zone: zone, kind: kind).exists?
+
+    errors.add(:base, 'Ya existe una tarifa con estos datos')
   end
 end

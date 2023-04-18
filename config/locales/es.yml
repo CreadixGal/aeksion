@@ -238,8 +238,8 @@ es:
 
   movements:
     movement:
-      delivery: Salida
-      pickup: Entrada
+      delivery: Entregas
+      pickup: Recogidas
     index:
       title: Movimientos
       delivery: Entregas
@@ -290,6 +290,9 @@ es:
       title: Clientes
       name: Nombre
       price_pickup: Precio recogida
+    multiple_delete:
+      success: Todos los elementos seleccionados han sido eliminados.
+      alert: Marca almenos un cliente.
   products:
     index:
       new_product: Nuevo producto
@@ -374,10 +377,13 @@ es:
       zone: Zona
       kind: Tipo
     rate:
-      pickup: Entrada
-      delivery: Salida
+      pickup: Recogida
+      delivery: Entrega
       return: Devolución
     form:
-      pickup: Entrada
-      delivery: Salida
+      pickup: Recogida
+      delivery: Entrega
       return: Devolución
+    multiple_delete:
+      success: Todos los elementos seleccionados han sido eliminados.
+      alert: Marca almenos una tarifa.
