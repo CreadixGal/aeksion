@@ -19,14 +19,12 @@ class RatesController < ApplicationController
   def edit; end
 
   def create
-    Rails.logger.info "params -> #{params.inspect}"
-    # render plain: params.inspect
     @rate = Rate.new(rate_params.except(:price))
     @rate.price = Price.new(quantity: rate_params[:price])
-
+    @rate.customer.price = Price.update!(quantity: rate_params[:price]) if params[:kind].eql?('pickup')
+    @rate.zone.price = Price.create!(quantity: rate_params[:price]) if params[:kind].eql?('delivery')
     respond_to do |format|
       if @rate.save
-        Rails.logger.info "\n\n #{@rate.price.quantity}"
         format.html { redirect_to rates_path(kind: params[:kind]), success: 'Tarifa creada correctamente' }
         format.turbo_stream { flash.now[:success] = 'Tarifa creada correctamente' }
       else
@@ -38,6 +36,8 @@ class RatesController < ApplicationController
   def update
     respond_to do |format|
       if @rate.update(rate_params.except(:price))
+        @rate.customer.price.update!(quantity: rate_params[:price]) if @rate.pickup?
+        @rate.zone.price.update!(quantity: rate_params[:price]) if @rate.delivery?
         @rate.price.update!(quantity: rate_params[:price])
         format.html { redirect_to rates_path(kind: params[:kind]), success: 'Tarifa actualizada correctamente' }
         format.turbo_stream { flash.now[:success] = 'Tarifa actualizada correctamente' }
