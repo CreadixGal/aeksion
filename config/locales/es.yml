@@ -384,3 +384,6 @@ es:
       pickup: Recogida
       delivery: Entrega
       return: Devolución
+    multiple_delete:
+      success: Todos los elementos seleccionados han sido eliminados.
+      alert: Marca almenos una tarifa.
