@@ -57,7 +57,7 @@
       </div>
       <div class="">
         <%= form.submit t('.create'), class: 'w-auto button-success' %>
-        <%= link_to "#{t '.add_item'}", "#",class: 'button-success float-right', data: { action: "nested-form#add_association" } unless action_name.eql?('new')%>
+        <%= link_to "#{t '.add_item'}", :back,class: 'button-success float-right', data: { action: "nested-form#add_association" } unless action_name.eql?('new')%>
       </div>
     <% end %>
   </div>

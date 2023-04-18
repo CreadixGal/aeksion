@@ -44,7 +44,7 @@
       </div>
       <div class="table-actions">
         <%= form.submit '✔️', class: 'wrapper-icon-button-default text-black' %>
-        <%= link_to rates_path(kind: params[:kind].presence || 'pickup'), class: 'wrapper-icon-button-default' do %>
+        <%= link_to :back, class: 'wrapper-icon-button-default' do %>
           <%= inline_svg_tag('icons/x-circle.svg', class: 'icon-button-default') %>
         <% end %>
       </div>
