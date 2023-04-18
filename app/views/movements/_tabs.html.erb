@@ -1,6 +1,6 @@
 <nav class="w-full sm:w-1/2 flex justify-start mt-3" data-controller="">
   <%= render TabComponent.new(
-        item: 'Entradas',
+        item: 'Recogidas',
         path: movements_path(params: { kind: 'pickup' }),
         options: {
           icon: 'arrow-down-circle.svg',
@@ -10,7 +10,7 @@
         }
       ) %>
   <%= render TabComponent.new(
-        item: 'Salidas',
+        item: 'Entregas',
         path: movements_path(params: { kind: 'delivery' }),
         options: {
           icon: 'arrow-up-circle.svg',

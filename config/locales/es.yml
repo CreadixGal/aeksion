@@ -290,6 +290,9 @@ es:
       title: Clientes
       name: Nombre
       price_pickup: Precio recogida
+    multiple_delete:
+      success: Todos los elementos seleccionados han sido eliminados.
+      alert: Marca almenos un cliente.
   products:
     index:
       new_product: Nuevo producto
