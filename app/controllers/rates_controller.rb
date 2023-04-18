@@ -21,8 +21,8 @@ class RatesController < ApplicationController
   def create
     @rate = Rate.new(rate_params.except(:price))
     @rate.price = Price.new(quantity: rate_params[:price])
-    @rate.customer.price = Price.update!(quantity: rate_params[:price]) if params[:kind].eql?('pickup')
-    @rate.zone.price = Price.create!(quantity: rate_params[:price]) if params[:kind].eql?('delivery')
+    @rate.customer.price = Price.update!(quantity: rate_params[:price]) if params[:kind].eql?('delivery')
+    @rate.zone.price = Price.create!(quantity: rate_params[:price]) if params[:kind].eql?('pickup')
     respond_to do |format|
       if @rate.save
         format.html { redirect_to rates_path(kind: params[:kind]), success: 'Tarifa creada correctamente' }
@@ -36,8 +36,8 @@ class RatesController < ApplicationController
   def update
     respond_to do |format|
       if @rate.update(rate_params.except(:price))
-        @rate.customer.price.update!(quantity: rate_params[:price]) if @rate.pickup?
-        if @rate.delivery? && @rate.zone.present?
+        @rate.customer.price.update!(quantity: rate_params[:price]) if @rate.delivery?
+        if @rate.pickup? && @rate.zone.present?
           zone = @rate.zone
           zone.price.update!(quantity: rate_params[:price], priciable: zone) if @rate.zone.price.present?
           zone.price = Price.create!(quantity: rate_params[:price], priciable: zone) unless @rate.zone.price.present?
