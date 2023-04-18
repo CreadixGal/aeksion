@@ -37,7 +37,11 @@ class RatesController < ApplicationController
     respond_to do |format|
       if @rate.update(rate_params.except(:price))
         @rate.customer.price.update!(quantity: rate_params[:price]) if @rate.pickup?
-        @rate.zone.price.update!(quantity: rate_params[:price]) if @rate.delivery?
+        if @rate.delivery? && @rate.zone.present?
+          zone = @rate.zone
+          zone.price.update!(quantity: rate_params[:price], priciable: zone) if @rate.zone.price.present?
+          zone.price = Price.create!(quantity: rate_params[:price], priciable: zone) unless @rate.zone.price.present?
+        end
         @rate.price.update!(quantity: rate_params[:price])
         format.html { redirect_to rates_path(kind: params[:kind]), success: 'Tarifa actualizada correctamente' }
         format.turbo_stream { flash.now[:success] = 'Tarifa actualizada correctamente' }
