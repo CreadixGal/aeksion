@@ -34,6 +34,7 @@
                 class: "wrapper-icon-button-#{rate.enable? ? 'success' : 'error'}" %>
       <% if action_name != "show" %>
         <%= link_to inline_svg_tag('icons/pencil-square.svg', class: 'icon-button-default'), edit_rate_path(rate), class: 'wrapper-icon-button-default' %>
+
         <%= button_to rate, method: :delete,
                                 data: { 
                                   controller: "swal",
