@@ -36,9 +36,9 @@ class RatesController < ApplicationController
   end
 
   def update
-    @rate.price = Price.new(quantity: rate_params[:price]) if @rate.price.blank?
     respond_to do |format|
       if @rate.update(rate_params.except(:price))
+        @rate.price.update!(quantity: rate_params[:price])
         format.html { redirect_to rates_path(kind: params[:kind]), success: 'Tarifa actualizada correctamente' }
         format.turbo_stream { flash.now[:success] = 'Tarifa actualizada correctamente' }
       else
