@@ -16,7 +16,7 @@ RSpec.describe Customer do
   describe 'callbacks' do
     it 'sets the product rate before creation' do
       pending 'TODO: Fix this test'
-      product_zone = Zone.find_by(name: 'Product')
+      product_zone = Zone.find_by(name: 'DEFAULT')
       expect(customer.rates.find_by(zone: product_zone, kind: 'pickup')).to be_present
     end
 

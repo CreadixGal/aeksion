@@ -19,6 +19,6 @@ class Customer < ApplicationRecord
   end
 
   def set_product_rate
-    rates.build(zone: Zone.find_by(name: 'Product'), kind: 'pickup')
+    rates.build(zone: Zone.find_by(name: 'DEFAULT'), kind: 'pickup')
   end
 end
