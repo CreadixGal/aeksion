@@ -17,7 +17,7 @@ lu = Zone.create!(name: 'Lugo')
 ou = Zone.create!(name: 'Ourense')
 po = Zone.create!(name: 'Pontevedra')
 # create product zone
-pr = Zone.create!(name: 'Product')
+pr = Zone.create!(name: 'DEFAULT')
 pr.price = Price.new(quantity: 0)
 pr.save!
 
@@ -57,7 +57,7 @@ end
   product.image.attach(io: File.open(file_path), filename: file_name, content_type: 'image/jpeg')
   product.save!
   puts "\n📦 Product #{product.name} created     📦\n"
-  Zone.where.not(name: 'Product').each do |zone|
+  Zone.where.not(name: 'DEFAULT').each do |zone|
     variant = product.variants.build(
       code: "PR#{code}-#{zone.name.downcase.tr('^a-z', '').slice(0, 2)}",
       zone_id: zone.id
