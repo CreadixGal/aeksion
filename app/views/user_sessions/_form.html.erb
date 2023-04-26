@@ -24,14 +24,16 @@
             </div>
           </div>
           <%= f.password_field :password,
-          data: { 
-            'view-password-target': 'password',
-            'validation-form-target': 'password',
-            action: 'validation-form#passwordValidation'
-          },
-          class: "shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker mb-3 leading-tight focus:outline-none focus:shadow-outline focus:border-transparent focus:ring-0" %>
-          <%= f.label :remember_me, class: "block text-grey-darker text-sm font-bold mb-2" %>
-          <%= f.check_box :remember_me %>
+            data: { 
+              'view-password-target': 'password',
+              'validation-form-target': 'password',
+              action: 'validation-form#passwordValidation'
+            },
+            class: "shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker mb-3 leading-tight focus:outline-none focus:shadow-outline focus:border-transparent focus:ring-0" %>
+            <div class="flex items-center">
+              <%= f.check_box :remember_me, class: 'w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600' %>
+              <%= f.label :remember_me, class:"ml-2 text-sm font-medium text-gray-900 dark:text-gray-300" %>
+            </div>
         </div>
       </div>
       <div class='flex flex-wrap mx-3 mb-6'>
