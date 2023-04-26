@@ -20,10 +20,9 @@ class Movement < ApplicationRecord
   validates :date, presence: true
 
   # rubocop:disable  Layout/LineLength
-  scope :delivery, -> { where(rates: { kind: 'delivery' }, product_movements: { return: false }).order(date: :desc).joins(:rate, :product_movements) }
-
+  scope :delivery, -> { where(rates: { kind: 'delivery' }).order(date: :desc).joins(:rate) }
+  scope :pickup, -> { where(rates: { kind: 'pickup' }).order(date: :desc).joins(:rate) }
   # rubocop:enable  Layout/LineLength
-  scope :pickup, -> { includes(%i[product_movements]).order(date: :desc) }
   scope :return, -> { includes(%i[product_movements]).where(product_movements: { return: true }).order(date: :desc) }
   scope :sort_by_date, -> { order('date ASC') }
 
@@ -45,7 +44,7 @@ class Movement < ApplicationRecord
 
   def amount
     result = product_movements.sum(&:amount) if rate_pickup?
-    result = rate.zone.quantity if rate_delivery?
+    result = rate.quantity if rate_delivery?
     result
   rescue StandardError
     0
