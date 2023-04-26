@@ -29,16 +29,18 @@
     </div>
     <div 
          class="w-full flex justify-center items-start gap-4">
-      <div class="flex-1 w-full flex flex-col justify-between items-center gap-8">
+      <div class="flex-1 w-full flex flex-col justify-between items-center gap-8 <%= params[:kind].eql?('pickup') ? 'hidden' : '' %>">
         <%= form.label t('.zone'), class: 'text-lg text-gray-800' %>
+        <% zones = Zone.where(name: 'DEFAULT').pluck(:name, :id) if params[:kind].eql?('pickup') %>
+        <% zones = Zone.where.not(name: 'DEFAULT').pluck(:name, :id) if params[:kind].eql?('delivery') %>
         <%= form.select :zone_id,
-                          Zone.excluding(Zone.where(name: 'DEFUALT')).pluck(:name, :id),
-                         { include_blank: true },
-                         { 
+                        zones,
+                        { include_blank: true, selected: zones.first },
+                        { 
                           "data-action": "change->dynamic-select#change",
                           "data-dynamic-select-target": "zoneSelect",
-                          class: 'w-full mx-auto block py-2 px-2 w-full text-lg text-left text-slate-700 bg-transparent border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'
-                         } %>
+                          class: "w-full mx-auto block py-2 px-2 w-full text-lg text-left text-slate-700 bg-transparent border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer "
+                        } %>
       </div>
       <div class="flex-1 w-full flex flex-col justify-between items-center gap-8">
         <%= form.label t('.customer'), class: 'text-lg text-gray-800' %>
