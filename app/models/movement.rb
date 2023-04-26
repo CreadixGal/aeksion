@@ -20,7 +20,7 @@ class Movement < ApplicationRecord
   validates :date, presence: true
 
   # rubocop:disable  Layout/LineLength
-  scope :delivery, -> { where(rates: { kind: 'delivery' }).order(date: :desc).joins(:rate) }
+  scope :delivery, -> { includes(:product_movements).where(rates: { kind: 'delivery' }).where(product_movements: { return: false }).order(date: :desc).joins(:rate) }
   scope :pickup, -> { where(rates: { kind: 'pickup' }).order(date: :desc).joins(:rate) }
   # rubocop:enable  Layout/LineLength
   scope :return, -> { includes(%i[product_movements]).where(product_movements: { return: true }).order(date: :desc) }
