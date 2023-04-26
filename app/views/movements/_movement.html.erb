@@ -46,7 +46,7 @@
           </div>
          <% elsif movement.rate.delivery? %>
             <span class="w-full border border-slate-400 p-2">
-              <%= number_to_currency movement.rate.zone&.quantity, precision: 4 %>
+              <%= number_to_currency movement.rate&.quantity, precision: 4 %>
             </span>
          <% end %>
       </div>
