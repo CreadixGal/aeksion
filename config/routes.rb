@@ -17,6 +17,8 @@ Rails.application.routes.draw do
   resources :movements do
     member do
       patch :update_status
+      get :mark_as_return, as: :mark_as_return
+      get :mark_all_return
     end
     collection do
       get :fetch_form
@@ -48,8 +50,6 @@ Rails.application.routes.draw do
   get 'configuration',  to: 'pages#configuration', as: :configuration
   get '/test-coverage', to: redirect('/coverage/index.html')
   get '/product-searcher', to: 'movements#product_searcher', as: :product_searcher
-  get '/mark-as-return', to: 'movements#mark_as_return', as: :mark_as_return
-  get '/mark-all-return', to: 'movements#mark_all_return', as: :mark_all_return
 
   # authentication
   devise_for  :users,
