@@ -110,8 +110,10 @@ class MovementsController < ApplicationController
   def multiple_delete
     if params[:movement_ids].present?
       ids = params[:movement_ids]
-      ids.each do |id|
-        movement = Movement.joins(:product_movements).find(id)
+      ids.compact_blank!.each do |id|
+        movement = Movement.joins(:product_movements).find_by(id:)
+        next if movement.blank?
+
         movement.product_movements.each do |pm|
           StockControl.new(pm).restore_stock
         end
