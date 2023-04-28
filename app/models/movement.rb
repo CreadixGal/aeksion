@@ -27,8 +27,8 @@ class Movement < ApplicationRecord
   scope :sort_by_date, -> { order('date ASC') }
 
   scope :between_dates, ->(start_date, end_date) { where(date: start_date..end_date) }
-  scope :by_product_kind, ->(kind) { joins(:products).where(products: { kind: }) }
-  scope :by_product_code, ->(code) { joins(:products).where(products: { code: }) }
+  scope :by_product_kind, ->(kind) { joins(variants: :product).where(products: { kind: }) }
+  scope :by_product_code, ->(code) { joins(variants: :product).where(products: { code: }) }
 
   enum status: { progress: 0, finished: 1 }
 
