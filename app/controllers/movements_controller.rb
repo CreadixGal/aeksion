@@ -17,7 +17,7 @@ class MovementsController < ApplicationController
       @movements = @movements.between_dates(start_date.beginning_of_day, end_date.end_of_day)
     end
     @movements = @movements.by_product_kind(params[:product_kind]) if params[:product_kind].present?
-    @movements = @movements.by_product_code(params[:product_ids]) if params[:product_ids].present?
+    @movements = @movements.by_product_name(params[:product_ids]) if params[:product_ids].present?
     @movements
   end
 

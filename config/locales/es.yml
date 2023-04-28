@@ -244,6 +244,7 @@ es:
       title: Movimientos
       delivery: Entregas
       pickup: Recogidas
+      return: Devoluciones
     new:
       pickup: Añadir recogida
       delivery: Añadir entrega
