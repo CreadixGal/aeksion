@@ -6,7 +6,13 @@
           href1: customers_path
         }
       )%>
-
+  <%= render ConfigurationCardComponent.new(
+        title: 'riders',
+        options: {
+          icon: 'user-group.svg.svg',
+          href1: delivery_riders_path,
+        }
+      )%>
   <%= render ConfigurationCardComponent.new(
         title: 'productos',
         options: {

@@ -1,0 +1,38 @@
+<div class="mx-auto md:w-2/3 w-full flex">
+  <div class="mx-auto w-full flex flex-col gap-8">
+    <h1 class="text-3xl font-semibold">Tarifas</h1>
+    <div class="w-full flex gap-4">
+      <div class="w-1/2 border border-slate-400 rounded-lg shadow-slate-300 shadow-md p-4 gap-4">
+        <h2 class="w-full text-xl mb-5">Delivery</h2>
+        <% @delivery_rider.rates.where(kind: 'delivery').each do |rate| %>
+          <div class="w-full flex justify-between border-b border-b-slate-400 py-2">
+            <span class="w-1/2 text-left"><%#= rate.zone.name %></span>
+            <span class="w-1/2 text-right"><%#= number_to_currency rate.price %></span>
+          </div>
+        <% end %>
+      </div>
+      <div class="w-1/2 border border-slate-400 rounded-lg shadow-slate-300 shadow-md p-4 gap-4">
+        <h2 class="w-full text-xl mb-5">Pickup</h2>
+        <% @delivery_rider.rates.where(kind: 'pickup').each do |rate| %>
+          <div class="w-full flex justify-between border-b border-b-slate-400 py-2">
+            <span class="w-1/2 text-left"><%= rate.zone.name %></span>
+            <span class="w-1/2 text-right"><%#= number_to_currency rate.price %></span>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <h1 class="text-3xl font-semibold">Movimientos</h1>
+    <div class="w-full flex gap-4">
+      <div class="w-1/2 border border-slate-400 rounded-lg shadow-slate-300 shadow-md p-4 gap-4">
+        <h2 class="w-full text-xl mb-5">Delivery</h2>
+      </div>
+      <div class="w-1/2 border border-slate-400 rounded-lg shadow-slate-300 shadow-md p-4 gap-4">
+        <h2 class="w-full text-xl mb-5">Pickup</h2>
+        <span class="border rounded-full w-6 h-6 flex justify-center items-center bg-red-500 text-white text-lg p-4">
+          <%= @delivery_rider.rates.sum(&:movements).count %>
+        </span>
+        
+      </div>
+    </div>
+  </div>
+</div>

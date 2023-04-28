@@ -14,6 +14,13 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :delivery_riders do
+    collection do
+      post :search
+      delete :multiple_delete
+    end
+  end
+
   resources :movements do
     member do
       patch :update_status
