@@ -236,6 +236,58 @@ es:
     labels:
     placeholder:
 
+  customers:
+    index:
+      title: Clientes
+      breadcrumb: Clientes
+      name: Nombre
+      price: Precio
+    show:
+      title: Cliente
+      breadcrumb: Clientes
+      name: Nombre
+      price: Precio
+      delivery: Entregas
+      pickup: Recogidas
+    multiple_delete:
+      success: Todos los elementos seleccionados han sido eliminados.
+      alert: Marca almenos un cliente.
+  delivery_riders:
+    index:
+      title: Repartidores
+      breadcrumb: Repartidores
+      name: Nombre
+      price: Precio
+    show:
+      title: Repartidor
+      breadcrumb: Repartidor
+      name: Nombre
+      price: Precio
+      delivery: Entregas
+      pickup: Recogidas
+    multiple_delete:
+      success: Todos los elementos seleccionados han sido eliminados.
+      alert: Marca almenos un repartidor.
+  issue_trackers:
+    index:
+      main_title: Gestión de incidencias
+      new_issue: Nueva incidencia
+      title: Titulo
+      description: Descripción
+      images: Imágenes
+      created_at: Creado
+    new:
+      title: Nueva incidencia
+    form:
+      create: Enviar
+      back: Volver
+      title_placeholder: Título
+      description_placeholder: Descripción
+      title_label: Título
+      description_label: Descripción
+      add_item: Añadir comentario
+    comment_fields:
+      description_label: Descripción
   movements:
     movement:
       delivery: Entregas
@@ -286,14 +338,11 @@ es:
       product: Producto
       quantity: Cantidad
       delete: Eliminar
-  customers:
-    index:
-      title: Clientes
-      name: Nombre
-      price_pickup: Precio recogida
-    multiple_delete:
-      success: Todos los elementos seleccionados han sido eliminados.
-      alert: Marca almenos un cliente.
+  pages:
+    dashboard:
+      movements: Movimientos
+      delivery: Entregas
+      pickup: Recogidas
   products:
     index:
       new_product: Nuevo producto
@@ -346,31 +395,6 @@ es:
       code: Código
       create: Guardar
       back: Volver
-  pages:
-    dashboard:
-      movements: Movimientos
-      delivery: Entregas
-      pickup: Recogidas
-  issue_trackers:
-    index:
-      main_title: Gestión de incidencias
-      new_issue: Nueva incidencia
-      title: Titulo
-      description: Descripción
-      images: Imágenes
-      created_at: Creado
-    new:
-      title: Nueva incidencia
-    form:
-      create: Enviar
-      back: Volver
-      title_placeholder: Título
-      description_placeholder: Descripción
-      title_label: Título
-      description_label: Descripción
-      add_item: Añadir comentario
-    comment_fields:
-      description_label: Descripción
   rates:
     index:
       rate: Tarifa

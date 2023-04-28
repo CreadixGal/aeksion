@@ -1,10 +1,10 @@
 class DeliveryRidersController < ApplicationController
   before_action :set_delivery_rider, only: %i[show edit update destroy]
   before_action :set_price, only: %i[create]
-  add_breadcrumb 'DeliveryRiders', ''
 
   # GET /delivery_riders or /delivery_riders.json
   def index
+    add_breadcrumb t('.breadcrumb'), ''
     @delivery_riders = DeliveryRider.ordered
     @pagy, @delivery_riders = pagy(@delivery_riders)
   end
@@ -28,6 +28,7 @@ class DeliveryRidersController < ApplicationController
 
   # GET /delivery_riders/1 or /delivery_riders/1.json
   def show
+    add_breadcrumb t('.breadcrumb'), delivery_riders_path
     add_breadcrumb @delivery_rider.name, delivery_rider_path(@delivery_rider)
   end
 
@@ -46,7 +47,6 @@ class DeliveryRidersController < ApplicationController
     respond_to do |format|
       if @delivery_rider.save
         Price.find(@delivery_rider.price.id).update!(quantity: delivery_rider_params[:price])
-        @delivery_rider.rates.first.update!(price: Price.new(quantity: delivery_rider_params[:price]))
         @delivery_rider.reload
         format.html { redirect_to delivery_riders_path, success: 'DeliveryRider was successfully created.' }
         format.turbo_stream { flash.now[:success] = 'DeliveryRider was successfully created.' }

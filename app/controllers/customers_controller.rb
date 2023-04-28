@@ -1,10 +1,10 @@
 class CustomersController < ApplicationController
   before_action :set_customer, only: %i[show edit update destroy]
   before_action :set_price, only: %i[create]
-  add_breadcrumb 'Customers', ''
 
   # GET /customers or /customers.json
   def index
+    add_breadcrumb t('.breadcrumb'), ''
     @customers = Customer.ordered
     @pagy, @customers = pagy(@customers)
   end
@@ -28,7 +28,9 @@ class CustomersController < ApplicationController
 
   # GET /customers/1 or /customers/1.json
   def show
-    add_breadcrumb @customer.name, customer_path(@customer)
+    add_breadcrumb t('.breadcrumb'), customers_path
+    add_breadcrumb @customer.name.capitalize, customer_path(@customer)
+    @total_movements = @customer.rates.sum { |rate| rate.movements.count }
   end
 
   # GET /customers/new
