@@ -10,7 +10,7 @@
             id: item.to_s do %>
   <div class="flex justify-center items-center gap-4">
     <% if notification.present? %>
-      <span class="max-w-12 w-6 max-h-6 p-4 flex justify-center items-center rounded-full bg-red-300 text-sm text-white"><%= notification %></span>
+      <span id="<%= @id_notification %>" class="max-w-12 w-6 max-h-6 p-4 flex justify-center items-center rounded-full bg-red-300 text-sm text-white"><%= notification %></span>
     <% end %>
     <% if text.present? %>
       <span class="font-semibold mr-3"> <%= text %></span>
