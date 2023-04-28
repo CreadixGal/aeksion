@@ -1,6 +1,7 @@
 class CustomersController < ApplicationController
   before_action :set_customer, only: %i[show edit update destroy]
   before_action :set_price, only: %i[create]
+  add_breadcrumb 'Customers', ''
 
   # GET /customers or /customers.json
   def index
@@ -27,6 +28,7 @@ class CustomersController < ApplicationController
 
   # GET /customers/1 or /customers/1.json
   def show
+    add_breadcrumb @customer.name, customer_path(@customer)
   end
 
   # GET /customers/new
@@ -35,8 +37,7 @@ class CustomersController < ApplicationController
   end
 
   # GET /customers/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /customers or /customers.json
   def create
