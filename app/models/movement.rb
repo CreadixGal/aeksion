@@ -50,6 +50,14 @@ class Movement < ApplicationRecord
     0
   end
 
+  def self.by_kind(kind)
+    if kind.eql?('pickup')
+      preload([{ variants: %i[product price] }, { product_movements: :variant }]).send(kind)
+    else
+      preload([{ variants: [:product] }, { product_movements: :variant }]).send(kind)
+    end
+  end
+
   private
 
   def set_rate

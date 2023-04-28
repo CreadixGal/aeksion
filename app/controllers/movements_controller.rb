@@ -7,16 +7,8 @@ class MovementsController < ApplicationController
     @pagy, @movements = pagy(@movements)
   end
 
-  def movements(kind)
-    if kind.eql?('pickup')
-      Movement.preload([{ variants: %i[product price] }, { product_movements: :variant }]).send(kind)
-    else
-      Movement.preload([{ variants: [:product] }, { product_movements: :variant }]).send(kind)
-    end
-  end
-
   def filter(params)
-    @movements = movements(params[:kind])
+    @movements = Movement.by_kind(params[:kind])
 
     if params[:range].present?
       range = params[:range].include?('a') ? params[:range].split('a') : [params[:range], params[:range]]
@@ -36,7 +28,7 @@ class MovementsController < ApplicationController
   def search
     text_fragment = params[:name]
 
-    movements = movements(params[:kind])
+    movements = Movement.by_kind(params[:kind])
     unless movements.empty?
       movements =  movements.joins(:customer)
                             .where('customers.name ILIKE ?', "%#{text_fragment}%")
@@ -103,8 +95,8 @@ class MovementsController < ApplicationController
     end
     @movement.destroy!
     respond_to do |format|
-      format.html { redirect_to movements_path(kind: params[:kind]) }
-      format.turbo_stream { flash.now[:success] = t('.success') }
+      format.html { redirect_to movements_path(kind: params[:kind]), success: t('.success') }
+      format.turbo_stream
     end
   end
 
