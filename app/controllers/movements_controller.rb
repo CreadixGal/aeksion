@@ -3,6 +3,7 @@ class MovementsController < ApplicationController
   add_breadcrumb 'Flujos', ''
 
   def index
+    add_breadcrumb t(".#{params[:kind]}") if params[:kind].present?
     @movements = filter(params)
     @pagy, @movements = pagy(@movements)
   end
@@ -16,7 +17,7 @@ class MovementsController < ApplicationController
       @movements = @movements.between_dates(start_date.beginning_of_day, end_date.end_of_day)
     end
     @movements = @movements.by_product_kind(params[:product_kind]) if params[:product_kind].present?
-    @movements = @movements.by_product_code(params[:product_ids]) if params[:product_ids].present?
+    @movements = @movements.by_product_name(params[:product_ids]) if params[:product_ids].present?
     @movements
   end
 
@@ -30,9 +31,9 @@ class MovementsController < ApplicationController
 
     movements = Movement.by_kind(params[:kind])
     unless movements.empty?
-      movements =  movements.joins(:customer)
-                            .where('customers.name ILIKE ?', "%#{text_fragment}%")
-                            .or(movements.where('movements.code ILIKE ?', "%#{text_fragment}%"))
+      movements = movements.joins(:customer)
+                           .where('customers.name ILIKE ?', "%#{text_fragment}%")
+                           .or(movements.joins(:customer).where('movements.code ILIKE ?', "%#{text_fragment}%"))
     end
     @filtered_movements = movements
 
