@@ -1,5 +1,6 @@
 class ProductsController < ApplicationController
   before_action :set_product, only: %i[show edit update destroy]
+  add_breadcrumb 'Productos', ''
 
   def index
     @products = Product.includes(image_attachment: :blob)

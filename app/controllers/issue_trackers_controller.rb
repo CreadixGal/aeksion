@@ -1,12 +1,13 @@
 class IssueTrackersController < ApplicationController
   before_action :set_issue_tracker, only: %i[show edit update]
-
+  add_breadcrumb 'Tickets', ''
   def index
     @issues = IssueTracker.ordered
     @pagy, @issues = pagy(@issues, items: 10)
   end
 
   def show
+    add_breadcrumb @issue.id, issue_tracker_path(@issue)
     @issue.viewed! if @issue.pending?
     @comments = @issue.comments.includes(:user)
   end

@@ -1,5 +1,6 @@
 class RatesController < ApplicationController
   before_action :set_rate, except: %i[index new create multiple_delete fetch_form]
+  add_breadcrumb 'Tarifas', ''
 
   def index
     # @rates = Rate.all
