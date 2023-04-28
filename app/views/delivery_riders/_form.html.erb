@@ -1,22 +1,39 @@
-<%= form_with(model: delivery_rider, class: "contents") do |form| %>
-  <% if delivery_rider.errors.any? %>
-    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
-      <h2><%= pluralize(delivery_rider.errors.count, "error") %> prohibited this delivery_rider from being saved:</h2>
-
-      <ul>
-        <% delivery_rider.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+<li id="<%= dom_id delivery_rider %>" class="table-row-li">
+  <div class="w-full flex justify-between">
+    <div class="w-1/12 flex justify-center items-center content-center px-4">
+      <%= render CheckboxComponent.new(id: delivery_rider.id, name: 'delivery_rider_ids[]', options: { value: delivery_rider.id }) %>
     </div>
-  <% end %>
+    <%= form_with(model: delivery_rider, class: 'contents') do |form| %>
+      <div class="w-9/12 flex flex-col justify-center items-center">
+        <div class="w-full flex text-indigo-600 text-center font-semibold border-x border-indigo-400 py-2 px-4 relative z-0 group gap-8"> 
+          <%= form.text_field :name,
+                              placeholder: 'Introduce nombre de repartidor',
+                              class:'w-5/12 mx-auto block py-2.5 px-0 w-full text-lg text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'%>
+          <% price = Price.find_by(priciable_id: form.object.id)&.quantity %>
+          <%= form.number_field :price,
+                                placeholder: number_to_currency(price || 0, precision: 4),
+                                value: price.presence || 0,
+                                step: :any,
+                                class:'w-4/12 mx-auto block py-2.5 px-0 w-full text-lg text-black bg-transparent border-0 border-b-2 border-slate-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'%>
+        </div>
+        <% if delivery_rider.errors.any? %>
+          <div id="error_explanation" class="w-full bg-red-50 text-red-500 border-b-8 border-b-red-600 px-3 py-2 font-medium rounded-lg mt-3">
+            <h2><%= pluralize(delivery_rider.errors.count, 'error') %> prohibited this delivery_rider from being saved:</h2>
 
-  <div class="my-5">
-    <%= form.label :name %>
-    <%= form.text_field :name, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+            <ul>
+              <% delivery_rider.errors.each do |error| %>
+                <li><%= error.full_message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+      </div>
+      <div class="table-actions">
+        <%= form.submit '✔️', class: 'wrapper-icon-button-default' %>
+        <%= link_to :back, class: 'wrapper-icon-button-default' do %>
+          <%= inline_svg_tag('icons/x-circle.svg', class: 'icon-button-default') %>
+        <% end %>
+      </div>
+    <% end %>
   </div>
-
-  <div class="inline">
-    <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
-  </div>
-<% end %>
+</li>

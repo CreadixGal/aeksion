@@ -4,7 +4,7 @@
       <%= render CheckboxComponent.new(id: customer.id, name: 'customer_ids[]', options: { value: customer.id }) %>
     </div>
     <div class="w-5/12 flex justify-center items-center text-black text-center font-semibold border-x border-slate-100 py-2 px-4">
-      <%= customer.name %> 
+      <%= link_to customer.name, customer %> 
     </div>
     <div class="w-4/12 flex justify-center items-center text-black text-center font-semibold border-x border-slate-100 py-2 px-4">
       
