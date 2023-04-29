@@ -1,6 +1,6 @@
 <div id="<%= dom_id product %>" class="w-full py-2 px-4">
   <% border = product.errors.any? ? 'border-t-red-600' : 'border-t-indigo-400' %>
-  <%= form_with(model: product, class: '') do |form| %>
+  <%= form_with model: product, html: { data: {controller: 'image-preview'}, class: ''} do |form| %>
     <% if product.errors.any? %>
       <div id="error_explanation" class="w-full bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
         <h2><%= pluralize(product.errors.count, 'error') %> prohibited this customer from being saved:</h2>
@@ -15,14 +15,21 @@
     
     <div class="w-full lg:flex rounded mx-auto">
       <div class="w-full rounded overflow-hidden shadow-lg m-10 relative flex flex-col">
-        <div class="w-full flex justify-center items-center bg-slate-50">
-          <label class="flex flex-col justify-center items-center tracking-wide uppercase cursor-pointer">
-            <%= inline_svg_tag('icons/image.svg', class:'w-64 h-64 text-slate-300')%>
-            <span class="mt-2 text-lg text-slate-500 "><%= t('.add_image') %></span>
-            <%= form.file_field :image, class: 'hidden' %>
-          </label>
-        </div>
-        
+      <div class="w-full flex justify-center items-center bg-slate-50">
+        <label class="flex flex-col justify-center items-center tracking-wide uppercase cursor-pointer">
+          <% if form.object.image.attached? %>
+            <!-- for edir form when image is attached to a product -->
+            <%= image_tag(form.object.image, class: 'w-64 h-64 object-cover', data: { 'image-preview-target': 'preview' }) %>
+            <%= inline_svg_tag('icons/image.svg', data: { 'image-preview-target': 'svg'}, class:'w-64 h-64 text-slate-300 hidden') %>
+          <% else %>
+            <!-- for new form when image is not attached to a product -->
+            <%= image_tag('icons/image.svg', class: 'w-64 h-64 object-cover hidden', data: { 'image-preview-target': 'preview' }) %>
+            <%= inline_svg_tag('icons/image.svg', data: { 'image-preview-target': 'svg'}, class:'w-64 h-64 text-slate-300') %>
+          <% end %>
+          <span class="mt-2 text-lg text-slate-500 "><%= t('.add_image') %></span>
+          <%= form.file_field :image, class: 'hidden', data: { 'image-preview-target': 'input', action: 'change->image-preview#previewImage' } %>
+        </label>
+      </div>
         <div class="w-full flex px-6 py-4 h-full gap-8 border-y border-y-slate-600">
           <div class="w-full flex items-center justify-between">
             <div class="w-full flex-col justify-center items-start">
