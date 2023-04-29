@@ -38,8 +38,13 @@ class ProductsController < ApplicationController
     create_or_destroy_variant(product_params) if product_params[:variants_attributes].present?
 
     respond_to do |format|
-      format.html { redirect_to products_path, success: 'Product was successfully updated.' }
-      format.turbo_stream { flash.now[:success] = 'Product was successfully updated.' }
+      if @product.update(product_params.except(:variants_attributes))
+        format.html { redirect_to products_path, success: 'Product was successfully updated.' }
+        format.turbo_stream { flash.now[:success] = 'Product was successfully updated.' }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+        format.turbo_stream { render :edit, status: :unprocessable_entity }
+      end
     end
   end
 
