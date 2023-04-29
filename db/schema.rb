@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_28_172919) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_29_143804) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -116,14 +116,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_28_172919) do
   end
 
   create_table "rates", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "customer_id", null: false
+    t.uuid "customer_id"
     t.uuid "zone_id", null: false
     t.string "kind", default: "delivery", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "enable", default: false, null: false
     t.string "name"
+    t.uuid "delivery_rider_id"
     t.index ["customer_id"], name: "index_rates_on_customer_id"
+    t.index ["delivery_rider_id"], name: "index_rates_on_delivery_rider_id"
     t.index ["zone_id"], name: "index_rates_on_zone_id"
   end
 
@@ -173,6 +175,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_28_172919) do
   add_foreign_key "product_movements", "movements"
   add_foreign_key "product_movements", "variants"
   add_foreign_key "rates", "customers"
+  add_foreign_key "rates", "delivery_riders"
   add_foreign_key "rates", "zones"
   add_foreign_key "variants", "products"
   add_foreign_key "variants", "zones"
