@@ -74,17 +74,11 @@ class ProductsController < ApplicationController
       next if variant[:zone_id].blank? || variant[:price].blank?
 
       if variant[:_destroy].eql?('1')
-        delete_variant(variant[:id])
-        message = 'Variant was successfully destroyed.'
-        type = :error
+        type, message = delete_variant(variant[:id])
       elsif variant[:id].present?
-        update_variant(variant)
-        message = 'Variant was successfully updated.'
-        type = :alert
+        type, message = update_variant(variant)
       else
-        create_variant(variant)
-        message = 'Variant was successfully created.'
-        type = :success
+        type, message = create_variant(variant)
       end
 
       flash.now[type] = message
@@ -99,6 +93,9 @@ class ProductsController < ApplicationController
     )
     variant.price = Price.new quantity: params[:price]
     variant.save!
+    [:success, 'Variant was successfully created.']
+  rescue ActiveRecord::RecordInvalid
+    [:error, 'Variant was not created.']
   end
 
   def update_variant(params)
@@ -108,11 +105,15 @@ class ProductsController < ApplicationController
     price.quantity = params[:price]
     price.save!
     variant.save!
+    [:success, 'Variant was successfully updated.']
+  rescue ActiveRecord::RecordInvalid
+    [:error, 'Variant was not updated.']
   end
 
   def delete_variant(id)
     return if id.blank?
 
     @product.variants.find_by(id:).destroy!
+    [:success, 'Variant was successfully destroyed.']
   end
 end

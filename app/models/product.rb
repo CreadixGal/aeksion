@@ -14,11 +14,12 @@ class Product < ApplicationRecord
 
   def create_default_variant
     zone = Zone.find_by(name: 'DEFAULT')
-    variant = variants.create!(
+    variant = variants.build(
       code: name,
-      zone_id: zone.id
+      zone:,
+      price: Price.new(quantity: 0)
     )
-    variant.price = Price.new quantity: 0
+    Rails.logger.info "Variant: #{variant.inspect}"
     variant.save!
   end
 end
