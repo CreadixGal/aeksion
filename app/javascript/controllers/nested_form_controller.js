@@ -12,30 +12,48 @@ export default class extends Controller {
   }
 
   handleFormAdded(event) {
-    // Actualizar el select de product_id aquí
-    // Puedes acceder al select recién agregado mediante event.detail.variantSelect
+    this.updateProductSelects(event.detail.products)
   }
 
   add_association(event) {
-    event.preventDefault()
+    event.preventDefault();
     var content = this.templateTarget.innerHTML.replace(/TEMPLATE_RECORD/g, new Date().valueOf())
-    this.add_itemTarget.insertAdjacentHTML('beforebegin', content)
-
+    this.add_itemTarget.insertAdjacentHTML("beforebegin", content)
+  
     const newSelect = this.element.querySelector(
       "#select-variant:not([data-dynamic-select-initialized])"
     );
     if (newSelect) {
-      console.log("newSelect", newSelect)
-      newSelect.setAttribute("data-dynamic-select-initialized", "true");
-      const customEvent = new CustomEvent("nested-form:added", {
-        detail: { variantSelect: newSelect },
-      });
-      console.log('coas añadida')
-      document.dispatchEvent(customEvent);
+      console.log("newSelect", newSelect);
+      newSelect.setAttribute("data-dynamic-select-initialized", "true")
+      const dynamicSelectController = this.application.controllers.find((controller) => controller.identifier === "dynamic-select")
+  
+      if (dynamicSelectController) {
+        const currentProducts = dynamicSelectController.getCurrentProducts();
+        currentProducts.forEach((product) => {
+          const option = document.createElement('option')
+          option.value = product.value
+          option.text = product.text
+          newSelect.add(option)
+        });
+  
+        const customEvent = new CustomEvent("nested-form:added", {
+          detail: {
+            variantSelect: newSelect,
+            products: currentProducts,
+          },
+        });
+        newSelect.dispatchEvent(customEvent)
+  
+      } else {
+        console.log("No se encontró el controlador de select dinámicos")
+      }
+  
     } else {
-      console.log("No new select found");
+      console.log("No new select found")
     }
   }
+  
 
   remove_association(event) {
     event.preventDefault()
