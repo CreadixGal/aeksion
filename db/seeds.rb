@@ -63,9 +63,8 @@ end
   product.image.attach(io: File.open(file_path), filename: file_name, content_type: 'image/jpeg')
   product.save!
   puts "\n📦 Product #{product.name} created 📦\n"
-  Zone.all.each do |zone|
-    variant_code = "PR#{code}"
-    variant_code += "-#{zone.name.downcase.tr('^a-z', '').slice(0, 2)}" unless zone.name.eql?('DEFAULT')
+  Zone.where.not(name: 'DEFAULT').each do |zone|
+    variant_code = "PR#{code}-#{zone.name.downcase.tr('^a-z', '').slice(0, 2)}"
     variant = product.variants.build(
       code: variant_code,
       zone_id: zone.id
