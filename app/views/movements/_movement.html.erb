@@ -15,7 +15,8 @@
         <%= t(".#{movement.rate.zone_name}") %>
       </div>
       <div class="w-[12.5%] flex justify-start  items-center px-4 text-left">
-        <%= movement.rate.customer_name %>
+        <%= movement.rate.customer_name if movement.rate.delivery? %>
+        <%= movement.rate.delivery_rider_name if movement.rate_pickup? %>
       </div>
       <div class="w-[12.5%] flex flex-col justify-center items-center px-4 text-left">
         <div class="w-full flex flex-col ">
