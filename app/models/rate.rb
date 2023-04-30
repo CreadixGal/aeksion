@@ -40,9 +40,7 @@ class Rate < ApplicationRecord
   end
 
   def validate_uniqueness_rate
-    return if Rate.exists?(customer:, zone:, kind:)
-
-    errors.add(:base, 'Ya existe una tarifa con estos datos')
+    errors.add(:base, 'Ya existe una tarifa con estos datos') if Rate.exists?(customer:, delivery_rider:, zone:, kind:)
   end
 
   def validate_customer_or_delivery_rider
