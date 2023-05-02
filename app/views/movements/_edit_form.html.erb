@@ -32,7 +32,7 @@
       <div class="flex-1 w-full flex flex-col justify-between items-center gap-8">
         <%= form.label t('.zone'), class: 'text-lg text-gray-800' %>
         <%#= form.select :zone_id,
-                          Zone.excluding(Zone.where(name: 'Product')).pluck(:name, :id),
+                          Zone.excluding(Zone.where(name: 'DEFAULT')).pluck(:name, :id),
                          { include_blank: true },
                          { 
                           "data-action": "change->dynamic-select#change",

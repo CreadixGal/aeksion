@@ -1,5 +1,6 @@
 class ProductsController < ApplicationController
   before_action :set_product, only: %i[show edit update destroy]
+  add_breadcrumb 'Productos', ''
 
   def index
     @products = Product.includes(image_attachment: :blob)
@@ -37,8 +38,13 @@ class ProductsController < ApplicationController
     create_or_destroy_variant(product_params) if product_params[:variants_attributes].present?
 
     respond_to do |format|
-      format.html { redirect_to products_path, success: 'Product was successfully updated.' }
-      format.turbo_stream { flash.now[:success] = 'Product was successfully updated.' }
+      if @product.update(product_params.except(:variants_attributes))
+        format.html { redirect_to products_path, success: 'Product was successfully updated.' }
+        format.turbo_stream { flash.now[:success] = 'Product was successfully updated.' }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+        format.turbo_stream { render :edit, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -68,17 +74,11 @@ class ProductsController < ApplicationController
       next if variant[:zone_id].blank? || variant[:price].blank?
 
       if variant[:_destroy].eql?('1')
-        delete_variant(variant[:id])
-        message = 'Variant was successfully destroyed.'
-        type = :error
+        type, message = delete_variant(variant[:id])
       elsif variant[:id].present?
-        update_variant(variant)
-        message = 'Variant was successfully updated.'
-        type = :alert
+        type, message = update_variant(variant)
       else
-        create_variant(variant)
-        message = 'Variant was successfully created.'
-        type = :success
+        type, message = create_variant(variant)
       end
 
       flash.now[type] = message
@@ -93,6 +93,9 @@ class ProductsController < ApplicationController
     )
     variant.price = Price.new quantity: params[:price]
     variant.save!
+    [:success, 'Variant was successfully created.']
+  rescue ActiveRecord::RecordInvalid
+    [:error, 'Variant was not created.']
   end
 
   def update_variant(params)
@@ -102,11 +105,15 @@ class ProductsController < ApplicationController
     price.quantity = params[:price]
     price.save!
     variant.save!
+    [:success, 'Variant was successfully updated.']
+  rescue ActiveRecord::RecordInvalid
+    [:error, 'Variant was not updated.']
   end
 
   def delete_variant(id)
     return if id.blank?
 
     @product.variants.find_by(id:).destroy!
+    [:success, 'Variant was successfully destroyed.']
   end
 end

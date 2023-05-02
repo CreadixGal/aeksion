@@ -1,19 +1,19 @@
 <nav class="w-full sm:w-1/2 flex justify-start mt-3" data-controller="tab">
   <%= render TabComponent.new(
-        item: 'Entradas',
+        item: 'Recogidas',
         path: rates_path(params: { kind: 'pickup' }),
         options: {
           icon: 'arrow-down-circle.svg',
-          text: 'Entradas',
+          text: 'Recogidas',
           link_style: "tab-component #{'bg-slate-200' if params[:kind] == 'pickup'}"
         }
       ) %>
   <%= render TabComponent.new(
-        item: 'Salidas',
+        item: 'Entregas',
         path: rates_path(params: { kind: 'delivery' }),
         options: {
           icon: 'arrow-up-circle.svg',
-          text: 'Salidas',
+          text: 'Entregas',
           link_style: "tab-component #{'bg-slate-200' if params[:kind] == 'delivery'}"
         }
       ) %>

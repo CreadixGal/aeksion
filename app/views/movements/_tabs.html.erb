@@ -1,21 +1,21 @@
 <nav class="w-full sm:w-1/2 flex justify-start mt-3" data-controller="">
   <%= render TabComponent.new(
-        item: 'Entradas',
+        item: 'Recogidas',
         path: movements_path(params: { kind: 'pickup' }),
         options: {
           icon: 'arrow-down-circle.svg',
-          text: 'Entradas',
-          notification: Movement.pickup.count,
+          text: 'Recogidas',
+          notification: { id: 'pickup_count', count: Movement.pickup.count },
           link_style: "tab-component #{'bg-slate-200' if params[:kind] == 'pickup'}"
         }
       ) %>
   <%= render TabComponent.new(
-        item: 'Salidas',
+        item: 'Entregas',
         path: movements_path(params: { kind: 'delivery' }),
         options: {
           icon: 'arrow-up-circle.svg',
-          text: 'Salidas',
-          notification: Movement.delivery.count,
+          text: 'Entregas',
+          notification: { id: 'delivery_count', count: Movement.delivery.count },
           link_style: "tab-component #{'bg-slate-200' if params[:kind] == 'delivery'}"
         }
       ) %>
@@ -25,7 +25,7 @@
         options: {
           icon: 'arrow-uturn-down.svg',
           text: 'Devoluciones',
-          notification: Movement.return.count,
+          notification: { id: 'return_count', count: Movement.return.count },
           link_style: "tab-component #{'bg-slate-200' if params[:kind] == 'return'}"
         }
       ) %>

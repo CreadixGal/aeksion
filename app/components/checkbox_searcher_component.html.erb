@@ -1,10 +1,10 @@
 <div class="flex items-center justify-center cursor-pointer">
-  <input  id="<%= @item.code %>"
+  <input  id="<%= @item.name %>"
           type="checkbox"
           name="<%= "#{@item.class.to_s.downcase}_ids[]" %>"
-          value="<%= @item.code %>"
+          value="<%= @item.name %>"
           data-checkbox-select-all-target="child"
           data-action="click->checkbox-select-all#checkParent"
           class="w-6 h-6 text-green-500 bg-white border-green-300 rounded focus:ring-green-500 focus:ring-2 cursor-pointer">
-  <label for="<%= @item.code %>" class="ml-2 text-lg font-medium text-gray-400 cursor-pointer"><%= @item.code %></label>
+  <label for="<%= @item.name %>" class="ml-2 text-lg font-medium text-gray-400 cursor-pointer"><%= @item.name %></label>
 </div>

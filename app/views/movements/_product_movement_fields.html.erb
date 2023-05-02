@@ -1,14 +1,15 @@
  
-<div class="nested-fields w-full"  data-dynamic-select-target="nestedForm">
+<div class="nested-fields w-full"  data-dynamic-select-target="nestedForm" data-nested-form-target="nestedForm">
   <div class="w-full flex justify-start items-center gap-8">
     <div class="w-full flex gap-4">
       <%= form.hidden_field :_destroy %>
 
       <div class="w-full flex flex-col justify-center items-start gap-4">
         <%= form.label t('.product'), class: 'text-lg text-gray-800' %>
- <%= form.select :variant_id, [],
+        <%= form.select :variant_id, [],
                 { include_blank: "" },
                 {
+                  id: "select-variant",
                   class: 'w-full mx-auto block py-2 px-2 w-full text-lg text-left text-slate-700 bg-transparent border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'
                 } %>
 

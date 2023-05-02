@@ -5,7 +5,7 @@
     <%= form_with(model: @rates, url: multiple_delete_rates_path, html: { class: 'w-full flex flex-col gap-8 mt-8 px-10', turbo: false }) do |form| %>
       <div class="min-w-full flex flex-col justify-center items-center mx-auto mb-5" data-controller="checkbox-select-all">
         <div id="" class="table-header">
-          <div class="w-1/12 flex justify-center items-center content-center px-4 border-r">
+          <div class="w-2/12 flex justify-center items-center content-center px-4 border-r">
             <%= render CheckboxComponent.new(
                   id: 'select-all',
                   name: 'rate_ids[]',
@@ -17,14 +17,13 @@
                   }
                 ) %>
           </div>
-          <div class="w-full flex justify-between items-center py-2 px-4">
-            <div class="w-4/5 flex justify-start items-center px-2"><%= t('.name')%></div>
-            <div class="w-4/5 flex justify-start items-center px-2"><%= t('.customer')%></div>
-            <div class="w-2/5 flex justify-start items-center px-2 text-left"><%= t('.zone')%></div>
-            <div class="w-1/5 flex justify-end items-center px-2"><%= t('.rate')%></div>
-            <div class="w-1/5 flex justify-end items-center px-2"><%= t('.kind')%></div>
+          <div class="w-full flex justify-between items-center py-2 px-4 grid grid-cols-5">
+            <div class="w-full flex justify-start items-center px-2"><%= t('.name')%></div>
+            <div class="w-full flex justify-start items-center px-2"><%= t('.customer')%></div>
+            <div class="hidden w-full lg:flex justify-start items-center px-2 text-left"><%= t('.zone')%></div>
+            <div class="w-full flex justify-end items-center px-2"><%= t('.rate')%></div>
           </div>
-          <div class="table-actions">
+          <div class="w-3/12 table-actions">
           <%= button_to inline_svg_tag('icons/trash.svg', class: 'icon-button-default'),
                         { action: :multiple_delete },
                         method: :delete,

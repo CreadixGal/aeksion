@@ -1,21 +1,15 @@
 class MovementsController < ApplicationController
   before_action :set_movement, only: %i[show edit update destroy update_status mark_all_return]
+  add_breadcrumb 'Flujos', ''
 
   def index
+    add_breadcrumb t(".#{params[:kind]}") if params[:kind].present?
     @movements = filter(params)
     @pagy, @movements = pagy(@movements)
   end
 
-  def movements(kind)
-    if kind.eql?('pickup')
-      Movement.preload([{ variants: %i[product price] }, { product_movements: :variant }]).send(kind)
-    else
-      Movement.preload([{ variants: [:product] }, { product_movements: :variant }]).send(kind)
-    end
-  end
-
   def filter(params)
-    @movements = movements(params[:kind])
+    @movements = Movement.by_kind(params[:kind])
 
     if params[:range].present?
       range = params[:range].include?('a') ? params[:range].split('a') : [params[:range], params[:range]]
@@ -23,7 +17,7 @@ class MovementsController < ApplicationController
       @movements = @movements.between_dates(start_date.beginning_of_day, end_date.end_of_day)
     end
     @movements = @movements.by_product_kind(params[:product_kind]) if params[:product_kind].present?
-    @movements = @movements.by_product_code(params[:product_ids]) if params[:product_ids].present?
+    @movements = @movements.by_product_name(params[:product_ids]) if params[:product_ids].present?
     @movements
   end
 
@@ -35,11 +29,11 @@ class MovementsController < ApplicationController
   def search
     text_fragment = params[:name]
 
-    movements = movements(params[:kind])
+    movements = Movement.by_kind(params[:kind])
     unless movements.empty?
-      movements =  movements.joins(:customer)
-                            .where('customers.name ILIKE ?', "%#{text_fragment}%")
-                            .or(movements.where('movements.code ILIKE ?', "%#{text_fragment}%"))
+      movements = movements.joins(:customer)
+                           .where('customers.name ILIKE ?', "%#{text_fragment}%")
+                           .or(movements.joins(:customer).where('movements.code ILIKE ?', "%#{text_fragment}%"))
     end
     @filtered_movements = movements
 
@@ -102,16 +96,18 @@ class MovementsController < ApplicationController
     end
     @movement.destroy!
     respond_to do |format|
-      format.html { redirect_to movements_path(kind: params[:kind]) }
-      format.turbo_stream { flash.now[:success] = t('.success') }
+      format.html { redirect_to movements_path(kind: params[:kind]), success: t('.success') }
+      format.turbo_stream
     end
   end
 
   def multiple_delete
     if params[:movement_ids].present?
       ids = params[:movement_ids]
-      ids.each do |id|
-        movement = Movement.joins(:product_movements).find(id)
+      ids.compact_blank!.each do |id|
+        movement = Movement.joins(:product_movements).find_by(id:)
+        next if movement.blank?
+
         movement.product_movements.each do |pm|
           StockControl.new(pm).restore_stock
         end
@@ -153,7 +149,7 @@ class MovementsController < ApplicationController
 
   def fetch_form
     @rates = []
-    @rates = Rate.where(kind: 'pickup') if params[:kind].eql?('pickup')
+    @rates = Rate.joins(:zone).where(zones: { name: 'DEFAULT' }, kind: 'pickup') if params[:kind].eql?('pickup')
     @rates = Rate.where(zone_id: params[:id], kind: 'delivery') if params[:kind].eql?('delivery')
     @products = Variant.where(zone_id: params[:id])
     rates_options = view_context.options_from_collection_for_select(@rates, :id, :name, params[:selected])

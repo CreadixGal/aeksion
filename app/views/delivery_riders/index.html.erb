@@ -1,0 +1,67 @@
+<div class="w-full px-8">
+  <div class="flex justify-between items-center my-8">
+    <h1 class="w-full text-left font-bold text-4xl"><%= t('.title')%></h1>
+    <%= render 'delivery_riders/shared/search_form' %>
+  </div>
+  <div class="w-full flex justify-end items-center">
+    <div class="w-full"></div>
+    <div id="search_results" class="w-full flex justify-end"></div>
+  </div>
+  <%= turbo_frame_tag :delivery_riders_index do %>
+    <%= form_with(model: @delivery_riders, url: multiple_delete_delivery_riders_path, html: { class: 'w-full flex flex-col gap-8 mt-8 px-10', turbo: false }) do |form| %>
+      <div class="min-w-full flex flex-col justify-center items-center mx-auto mb-5 border rounded-lg" data-controller="checkbox-select-all">
+        <div id="" class="table-header">
+          <div class="w-1/12 flex justify-center items-center content-center px-4 border-r">
+            <%= render CheckboxComponent.new(
+                  id: 'select-all',
+                  name: 'delivery_rider_ids[]',
+                  options: {
+                    display_label: true,
+                    value: '',
+                    action: 'checkAll',
+                    target: 'parent'
+                  }
+                ) %>
+          </div>
+          <div class="w-5/12 flex justify-center items-center text-white text-center">
+            <div class="flex flex-1 justify-center items center">
+              <%= t('.name')%>
+            </div>
+          </div>
+          <div class="w-4/12 flex justify-center items-center text-white text-center">
+            <div class="flex flex-1 justify-center items center">
+              <%= t('.price')%>
+            </div>
+          </div>
+          <div class="table-actions">
+            <%= button_to inline_svg_tag('icons/trash.svg', class: 'icon-button-default'),
+                        { action: :multiple_delete },
+                        method: :delete,
+                        data: { 
+                          'turbo-confirm': 'Are you sure?' 
+                        },
+                        class: 'wrapper-icon-button-default' %>
+            <%= link_to inline_svg_tag(
+                          'icons/plus-circle.svg',
+                          class: 'icon-button-default'
+                        ),
+                        new_delivery_rider_path,
+                        data: {
+                          turbo_frame: dom_id(DeliveryRider.new)
+                        },
+                        class: 'wrapper-icon-button-default' %>
+          </div>
+        </div>
+        <%= turbo_frame_tag DeliveryRider.new, class: 'w-full' %>
+        <%= turbo_frame_tag :delivery_riders, class:'w-full' do %>
+          <ul class="divide-y divide-slate-200" role="list">
+            <%= render @delivery_riders %>
+          </ul>
+        <% end %>
+      </div>
+      <div class="w-full flex gap-8 my-3 px-10">
+        <%== pagy_nav(@pagy) if @delivery_riders.present? %>
+      </div>
+    <% end %>
+  <% end %>
+</div>

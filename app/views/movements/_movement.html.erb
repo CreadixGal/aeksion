@@ -15,7 +15,8 @@
         <%= t(".#{movement.rate.zone_name}") %>
       </div>
       <div class="w-[12.5%] flex justify-start  items-center px-4 text-left">
-        <%= movement.rate.customer_name %>
+        <%= movement.rate.customer_name if movement.rate.delivery? %>
+        <%= movement.rate.delivery_rider_name if movement.rate_pickup? %>
       </div>
       <div class="w-[12.5%] flex flex-col justify-center items-center px-4 text-left">
         <div class="w-full flex flex-col ">
@@ -46,7 +47,7 @@
           </div>
          <% elsif movement.rate.delivery? %>
             <span class="w-full border border-slate-400 p-2">
-              <%= number_to_currency movement.rate.zone&.quantity, precision: 4 %>
+              <%= number_to_currency movement.rate&.quantity, precision: 4 %>
             </span>
          <% end %>
       </div>
@@ -74,7 +75,7 @@
                 'icons/arrow-uturn-down.svg',
                 class: "icon-button-#{movement.returned? ? 'error' : 'default'}"
               ),
-              mark_all_return_path(id: movement),
+              mark_all_return_movement_path(id: movement),
               data: {
                 turbo_frame: 'modal'
               },
