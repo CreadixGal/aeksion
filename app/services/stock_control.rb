@@ -56,6 +56,10 @@ class StockControl
     result = movement.rate.quantity if movement.rate_delivery?
 
     resource.amount = result
-    resource.save!
+    if resource.save
+      resource.reload
+    else
+      resource.errors.full_messages.join(', ')
+    end
   end
 end
