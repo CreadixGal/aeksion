@@ -4,6 +4,11 @@ class MovementsController < ApplicationController
   def index
     @movements = filter(params)
     @pagy, @movements = pagy(@movements)
+    respond_to do |format|
+      format.html
+      format.json
+      format.pdf {render template: 'movements/reporte', pdf: 'Reporte'}
+    end
   end
 
   def movements(kind)

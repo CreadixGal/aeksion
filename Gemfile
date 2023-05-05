@@ -51,6 +51,10 @@ gem 'bootsnap', require: false
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 gem 'image_processing', '~> 1.2'
 
+# Exports pdf
+gem 'wicked_pdf', '~> 2.6', '>= 2.6.3'
+gem 'wkhtmltopdf-binary', '~> 0.12.6.6'
+
 group :development, :test do
   gem 'bullet'
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
