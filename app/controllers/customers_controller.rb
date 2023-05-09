@@ -48,7 +48,7 @@ class CustomersController < ApplicationController
     respond_to do |format|
       if @customer.save
         Price.find(@customer.price.id).update!(quantity: customer_params[:price])
-        @customer.rates.first.update!(price: Price.new(quantity: customer_params[:price]))
+        # @customer.rates.first.update!(price: Price.new(quantity: customer_params[:price]))
         @customer.reload
         format.html { redirect_to customers_path, success: 'Customer was successfully created.' }
         format.turbo_stream { flash.now[:success] = 'Customer was successfully created.' }
