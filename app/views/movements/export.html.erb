@@ -1,0 +1,10 @@
+<%= form_with url: send_data_pdf_movements_path, method: :get, data:{turbo:false} do |form| %>
+  <%= form.hidden_field :kind, value: params[:kind] %>
+  Cliente
+  <%= form.select :client_id, Customer.all.map { |customer| [customer.name, customer.id]}, {} %><br>
+  Fecha 1
+  <%= form.date_select :first_date %><br>
+  Fecha 2
+  <%= form.date_select :second_date %><br>
+  <%= form.submit 'Guardar' %>
+<% end %>

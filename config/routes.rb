@@ -22,8 +22,12 @@ Rails.application.routes.draw do
       get :fetch_form
       post :search
       delete :multiple_delete
+      get :export
+      get :send_data_pdf
     end
   end
+
+  #get "/send-data", to: "movements#send_data_pdf", as: :send_data_pdf
 
   resources :rates do
     member do

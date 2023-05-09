@@ -1,6 +1,13 @@
 class MovementsController < ApplicationController
   before_action :set_movement, only: %i[show edit update destroy update_status mark_all_return]
 
+  def export; end
+
+  def send_data_pdf
+    kind = params[:kind]
+    client = Client.find(params[:client_id])
+  end
+
   def index
     @movements = filter(params)
     @pagy, @movements = pagy(@movements)
