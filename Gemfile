@@ -113,3 +113,5 @@ gem 'sidekiq-cron'
 
 # postgres
 gem 'pg_search'
+
+gem 'tty-prompt'
