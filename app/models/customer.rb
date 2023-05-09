@@ -7,7 +7,7 @@ class Customer < ApplicationRecord
 
   # TODO: remove code if not needed
   # before_create :set_product_rate
-  # after_create :default_price
+  after_create :default_price
 
   delegate :quantity, to: :price, prefix: :price
 
@@ -16,9 +16,9 @@ class Customer < ApplicationRecord
   private
 
   # TODO: remove code if not needed
-  # def default_price
-  #   Price.create! quantity: 0, priciable: self
-  # end
+  def default_price
+    Price.create! quantity: 0, priciable: self
+  end
 
   # def set_product_rate
   #   rates.build(zone: Zone.find_by(name: 'DEFAULT'), kind: 'pickup')
