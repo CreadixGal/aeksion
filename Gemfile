@@ -115,3 +115,5 @@ gem 'sidekiq-cron'
 gem 'pg_search'
 
 gem 'tty-prompt'
+
+gem "dockerfile-rails", ">= 1.2", :group => :development
