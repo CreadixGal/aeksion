@@ -73,15 +73,20 @@ RUN bundle install &&  rm -rf vendor/bundle/ruby/*/cache
 
 FROM base
 
-ARG DEPLOY_PACKAGES="postgresql-client file vim curl gzip libsqlite3-0 libvips"
+ARG DEPLOY_PACKAGES="file vim curl gzip libsqlite3-0 libvips"
 ENV DEPLOY_PACKAGES=${DEPLOY_PACKAGES}
 
 RUN --mount=type=cache,id=prod-apt-cache,sharing=locked,target=/var/cache/apt \
     --mount=type=cache,id=prod-apt-lib,sharing=locked,target=/var/lib/apt \
     apt-get update -qq && \
     apt-get install --no-install-recommends -y \
-    ${DEPLOY_PACKAGES} \
+    ${DEPLOY_PACKAGES} wget lsb-release \
     && rm -rf /var/lib/apt/lists /var/cache/apt/archives
+
+# Update PostgreSQL client to match server version
+RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
+RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" | tee  /etc/apt/sources.list.d/pgdg.list
+RUN apt-get update && apt-get -y -q install postgresql-client-15
 
 # copy installed gems
 COPY --from=gems /app /app

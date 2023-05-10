@@ -1,46 +1,32 @@
 namespace :db do
-  desc 'create a database backup in sql file format, and delete old backups (conserve last 3 backups more recents)'
+  desc 'Backup the database'
   task backup: :environment do
     config = ActiveRecord::Base.configurations.configs_for(env_name: Rails.env).first.configuration_hash
-    puts config
-    filename = Rails.root.join("data/db_backup/#{config[:database]}_backup_#{Time.zone.now.strftime('%Y%m%d')}.sql")
+
+    backup_directory = Pathname.new(Figaro.env.backup_directory)
+    FileUtils.mkdir_p(backup_directory) unless File.directory?(backup_directory)
+    filename = backup_directory.join("#{config[:database]}_backup_#{Time.zone.now.strftime('%Y%m%d%H%M%S')}.sql")
 
     command = 'pg_dump '
-    # -U especifica el nombre de usuario de la base de datos
-    command += "-U #{config[:user]} " if config[:user]
-    # -h especifica el host de la base de datos
-    command += "-h #{config[:host]} " if config[:host]
-    # -p especifica el puerto de la base de datos
+    command += "-U #{Figaro.env.user_db} " if Figaro.env.user_db?
+    command += "-h #{Figaro.env.host_db} " if Figaro.env.host_db?
     command += "-p #{config[:port] || 5432} "
-    # -F c selecciona el formato de archivo personalizado para la salida
-    # -b incluye blobs
-    # -v habilita el modo detallado (verbose)
-    command += "-F c -b -v -f #{filename} #{config[:database]}"
-
-    puts "Command: #{command}"
+    command += "-F c -b -v --no-owner --no-acl -f #{filename} #{config[:database]}"
 
     if Figaro.env.password_db?
       ENV['PGPASSWORD'] = Figaro.env.password_db
-      puts "Creating backup of #{config[:database]} at #{filename}..."
+      puts "Command: #{command}"
       system(command)
+      puts "Creating backup of #{config[:database]} at #{filename}..."
       ENV['PGPASSWORD'] = nil
     else
       puts 'Error: no database password provided.'
     end
 
-    delete_old_backups
+    backup_files = Dir.glob(backup_directory.join('*.sql'))
+    files_to_delete = backup_files.sort_by { |file| File.mtime(file) }[0...-3]
+    files_to_delete.each { |file| File.delete(file) }
 
     puts 'Backup completed!'
   end
-end
-
-def delete_old_backups
-  backup_files = Dir[Rails.root.join('data/db_backup/*.sql')].sort_by { |f| File.ctime(f) }
-  return unless backup_files.length > 3
-
-  files_to_delete = backup_files[0...-3]
-  files_to_delete.each do |file|
-    File.delete(file)
-  end
-  puts "Deleted #{files_to_delete.length} old backup(s)"
 end
