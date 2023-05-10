@@ -1,1 +1,8 @@
-<h1>Hello world</h1>
+<!-- add .pdf in url -->
+<% movements = local_assigns[:movements] %>
+<% movements.each do |movement| %>
+  <%= movement.rate.customer.name %><br>
+  <%= movement.rate.zone.name %><br>
+  <%= movement.rate.kind %><br>
+  <hr>
+<% end %>

@@ -6,20 +6,24 @@ class MovementsController < ApplicationController
   def send_data_pdf
     kind = params[:kind]
     client_id = params[:client_id]
-    first_date = Date.new(params["first_date(1i)"].to_i,params["first_date(2i)"].to_i,params["first_date(3i)"].to_i).strftime('%d/%m/%Y').beginning_of_day
-    second_date = Date.new(params["second_date(1i)"].to_i,params["second_date(2i)"].to_i,params["second_date(3i)"].to_i).strftime('%d/%m/%Y').end_of_day
+    first_date = Date.new(params["first_date(1i)"].to_i,params["first_date(2i)"].to_i,params["first_date(3i)"].to_i).strftime('%d/%m/%Y')#.beginning_of_day
+    second_date = Date.new(params["second_date(1i)"].to_i,params["second_date(2i)"].to_i,params["second_date(3i)"].to_i).strftime('%d/%m/%Y')#.end_of_day
     movements = Movement.where('movements.created_at >= (?) and movements.created_at <= (?)', first_date, second_date).joins(:rate).where(rates: { customer_id: client_id, kind: kind })
-    render plain: movements.count
+    respond_to do |format|
+      format.html
+      format.json
+      format.pdf { render template: 'movements/reporte', pdf: 'Reporte', locals: {movements: movements} }
+    end
   end
 
   def index
     @movements = filter(params)
     @pagy, @movements = pagy(@movements)
-    respond_to do |format|
-      format.html
-      format.json
-      format.pdf {render template: 'movements/reporte', pdf: 'Reporte'}
-    end
+    #respond_to do |format|
+    #  format.html
+    #  format.json
+    #  format.pdf {render template: 'movements/reporte', pdf: 'Reporte'}
+    #end
   end
 
   def movements(kind)
