@@ -69,9 +69,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_29_143804) do
   create_table "issue_trackers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "title", null: false
     t.string "status", default: "pending", null: false
+    t.uuid "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.uuid "user_id", null: false
     t.index ["user_id"], name: "index_issue_trackers_on_user_id"
   end
 
@@ -79,9 +79,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_29_143804) do
     t.uuid "rate_id", null: false
     t.datetime "date"
     t.string "code", null: false
+    t.integer "status", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "status", default: 0, null: false
     t.index ["code"], name: "index_movements_on_code", unique: true
     t.index ["rate_id"], name: "index_movements_on_rate_id"
   end
@@ -97,12 +97,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_29_143804) do
 
   create_table "product_movements", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "movement_id", null: false
+    t.uuid "variant_id", null: false
     t.integer "quantity"
     t.decimal "amount"
+    t.boolean "return", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "return", default: false, null: false
-    t.uuid "variant_id", null: false
     t.index ["movement_id"], name: "index_product_movements_on_movement_id"
     t.index ["variant_id"], name: "index_product_movements_on_variant_id"
   end
