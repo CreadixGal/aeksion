@@ -1,5 +1,12 @@
 # commands used to deploy a Rails application
 namespace :fly do
+  # RESTORE db step
+  #  - changes to the filesystem made here DO get deployed
+  #  - full access to secrets, databases
+  #  - failures here prevent deployment
+  #  - this task is run after build task and only if it is the necessary
+  task restoredb: 'db:reset'
+
   # BUILD step:
   #  - changes to the filesystem made here DO get deployed
   #  - NO access to secrets, volumes, databases
