@@ -116,3 +116,4 @@ gem 'pg_search'
 
 # pdf
 gem 'prawn', '~> 2.4'
+gem 'prawn-table', '~> 0.2.2'

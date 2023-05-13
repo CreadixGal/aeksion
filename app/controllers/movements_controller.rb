@@ -167,7 +167,6 @@ class MovementsController < ApplicationController
   def export_pdf; end
 
   def download
-
     kind = params[:kind]
     client_id = params[:client_id]
     first_date = Date.new(params["first_date(1i)"].to_i,params["first_date(2i)"].to_i,params["first_date(3i)"].to_i).strftime('%d/%m/%Y')#.beginning_of_day
@@ -175,11 +174,13 @@ class MovementsController < ApplicationController
     movements = Movement.where('movements.created_at >= (?) and movements.created_at <= (?)', first_date, second_date).joins(:rate).where(rates: { customer_id: client_id, kind: kind })
 
     pdf = Prawn::Document.new
-    pdf.text 'Hello world'
-    pdf.text movements.count.to_s
-    send_data(pdf.render,
-              filename: 'hello.pdf',
-              type: 'application/pdf')
+    table_data = Array.new
+    table_data << ["Código"]
+    movements.each do |movement|
+      table_data << [movement.code]
+    end
+    pdf.table(table_data, :width => 500, :cell_style => { inline_format: true })
+    send_data pdf.render, filename: 'test.pdf', type: 'application/pdf', disposition: 'inline'
   end
 
   private

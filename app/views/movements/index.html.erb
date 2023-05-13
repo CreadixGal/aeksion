@@ -2,7 +2,7 @@
   <%= render 'movements/tabs' %>
 </div>
 
-<%= link_to "EXPORT PDF", export_pdf_movements_path %>
+<%= link_to "EXPORT PDF", export_pdf_movements_path(kind: params[:kind]) %>
 
   <%= turbo_frame_tag :movements_index do %>
     <%= form_with(model: @movements, url: multiple_delete_movements_path, html: { class: 'w-full flex flex-col gap-8 mt-8 px-10', turbo: false }) do |form| %>
