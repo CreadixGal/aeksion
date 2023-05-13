@@ -164,6 +164,24 @@ class MovementsController < ApplicationController
     end
   end
 
+  def export_pdf; end
+
+  def download
+
+    kind = params[:kind]
+    client_id = params[:client_id]
+    first_date = Date.new(params["first_date(1i)"].to_i,params["first_date(2i)"].to_i,params["first_date(3i)"].to_i).strftime('%d/%m/%Y')#.beginning_of_day
+    second_date = Date.new(params["second_date(1i)"].to_i,params["second_date(2i)"].to_i,params["second_date(3i)"].to_i).strftime('%d/%m/%Y')#.end_of_day
+    movements = Movement.where('movements.created_at >= (?) and movements.created_at <= (?)', first_date, second_date).joins(:rate).where(rates: { customer_id: client_id, kind: kind })
+
+    pdf = Prawn::Document.new
+    pdf.text 'Hello world'
+    pdf.text movements.count.to_s
+    send_data(pdf.render,
+              filename: 'hello.pdf',
+              type: 'application/pdf')
+  end
+
   private
 
   def movement_params

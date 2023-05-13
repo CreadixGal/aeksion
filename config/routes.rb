@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   # WEB
   root 'pages#index'
 
+  get 'download', to: 'movements#download'
+
   resources :customers do
     collection do
       post :search
@@ -22,6 +24,7 @@ Rails.application.routes.draw do
       get :fetch_form
       post :search
       delete :multiple_delete
+      get :export_pdf
     end
   end
 
