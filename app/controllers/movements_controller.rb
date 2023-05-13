@@ -175,9 +175,10 @@ class MovementsController < ApplicationController
 
     pdf = Prawn::Document.new
     table_data = Array.new
-    table_data << ["Código"]
+    table_data << ["Código", "Fecha", "Zona", "Cliente", "Total"]
+
     movements.each do |movement|
-      table_data << [movement.code]
+      table_data << [movement.code, movement.date.strftime('%d/%m/%Y').to_s, movement.rate.zone.name, movement.rate.customer.name, movement.amount]
     end
     pdf.table(table_data, :width => 500, :cell_style => { inline_format: true })
     send_data pdf.render, filename: 'test.pdf', type: 'application/pdf', disposition: 'inline'
