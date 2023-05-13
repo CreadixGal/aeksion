@@ -113,3 +113,6 @@ gem 'sidekiq-cron'
 
 # postgres
 gem 'pg_search'
+
+# pdf
+gem 'prawn', '~> 2.4'
