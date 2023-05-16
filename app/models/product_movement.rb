@@ -15,7 +15,7 @@ class ProductMovement < ApplicationRecord
 
   validate :enough_stock, on: %i[create update]
   after_create :calculate_stock
-  after_create :update_amount
+  after_create :calculate_amount
 
   def return!
     update!(return: true) unless return?
@@ -31,18 +31,20 @@ class ProductMovement < ApplicationRecord
 
   private
 
-  def update_amount
-    if movement.rate.pickup?
-      calculate_amount(variant.quantity)
-    elsif movement.rate_delivery?
-      calculate_amount(movement.rate.zone.quantity) if movement.rate.delivery?
-    else
-      update! amount: 0
+  def calculate_amount
+    result = 0
+    # ! -> pickup must be multiplied by the (price)quantity of the variant(by zone)
+    # ! -> f.e if the variant price is 0.013 and the quantity(stock/units) is 100 the amount will be 1.3
+    if movement.rate_pickup?
+      price = variant.quantity
+      result = price * quantity
     end
-  end
+    # ! -> delivery must calculate over the (price)quantity of the customer(by zone) independent of the stock/units
+    # ! -> f.e if the price of the customer is 500 and the quantity(stock/units) is 100 the amount will be 500
+    # ! -> in this case ignore the stock/units of the product movement
+    result = movement.rate.quantity if movement.rate_delivery?
 
-  def calculate_amount(price)
-    update! amount: (price * quantity)
+    update! amount: result
   end
 
   def enough_stock

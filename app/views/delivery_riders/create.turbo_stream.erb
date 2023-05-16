@@ -1,0 +1,3 @@
+<%= turbo_stream.update DeliveryRider.new, "" %>
+<%= turbo_stream.prepend :delivery_riders, partial: "delivery_riders/delivery_rider", locals: { delivery_rider: @delivery_rider } %>
+<%= turbo_stream.prepend "notification", partial: "layouts/shared/notification" %>

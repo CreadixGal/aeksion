@@ -1,30 +1,29 @@
 <div id="<%= dom_id rate %>" class="table-row-li">
   <%= turbo_frame_tag dom_id(rate), class: 'w-full flex justify-between' do %>
-    <div class="w-2/12 flex justify-center items-center content-center px-4">
+    <div class="w-2/12 flex flex-col justify-center items-center content-center px-4">
+      <div class="w-full invisible">seleccionar todos</div>
       <%= render CheckboxComponent.new(id: rate.id, name: 'rate_ids[]', options: { value: rate.id }) %>
     </div>
-    <div class="w-full flex justify-between items-center text-center font-semibold border-x border-slate-100 py-2 px-4">
-      <div class="w-4/5 flex justify-start items-center px-2 text-left whitespace-nowrap" >
+    <div class="w-full justify-between items-center text-center font-semibold border-x border-slate-100 py-2 px-4 grid grid-cols-5 gap-4">
+      <div class="w-full flex justify-start items-center px-2 text-left whitespace-nowrap truncate" >
         <%= rate.name %>
       </div>
-      <div class="w-4/5 flex justify-start items-center px-2 text-left whitespace-nowrap">
-        <%= link_to rate.customer_name, customer_path(rate.customer_id) %>
+      <div class="w-full flex justify-start items-center px-2 text-left whitespace-nowrap truncate">
+        <%= link_to rate.customer_name, customer_path(rate.customer_id) if rate.delivery? && rate.customer_id.present? %>
+        <%= link_to rate.delivery_rider_name, delivery_rider_path(rate.delivery_rider_id) if rate.pickup? && rate.delivery_rider_id.present? %>
       </div>
-      <div class="w-2/5 flex justify-start items-center px-4 text-left">
+      <div class="hidden w-full lg:flex justify-start items-center px-4 text-left truncate">
         <%= link_to rate.zone_name, zone_path(rate.zone_id) %>
       </div>
-      <div class="w-1/5 flex justify-end items-center px-4 text-right whitespace-nowrap">
-        <% if rate.pickup? %>
-          <%= number_to_currency rate&.customer.price.quantity, precision: 4 %>
+      <div class="w-full flex justify-end items-center px-4 text-right whitespace-nowrap truncate">
+        <% if rate.pickup? && rate.delivery_rider_id.present? %>
+          <%= number_to_currency rate&.delivery_rider.price.quantity, precision: 4 %>
         <% elsif rate.delivery? %>
           <%= number_to_currency rate.quantity, precision: 4 %>
         <% end %>
       </div>
-      <div class="w-1/5 flex justify-end items-center px-4 text-right">
-        <%= t(".#{rate.kind}") %>
-      </div>
     </div>
-    <div class="w-2/12 table-actions">
+    <div class="w-3/12 table-actions">
     <%= button_to inline_svg_tag(
                   "icons/#{rate.enable? ? 'check-circle' : 'lock-cancel'}.svg",
                   class: "icon-button-#{rate.enable? ? 'success' : 'error'}"
@@ -38,7 +37,7 @@
         <%= button_to rate, method: :delete,
                                 data: { 
                                   controller: "swal",
-                                  swal_name_value: "#{rate.customer.name} - #{rate.zone.name}: #{rate.kind}",
+                                  swal_name_value: "#{rate.name}",
                                   action: "click->swal#single"
                                 },
                                 class: 'wrapper-icon-button-default' do %>

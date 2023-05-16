@@ -80,16 +80,16 @@
         <!-- TABLE HEADER -->
         <%= turbo_frame_tag Movement.new, class: 'w-full' %>
         <!--- TABLE ROWS -->
-        <% if @movements.present? %>
-          <%= turbo_frame_tag :movements, class:'w-full' do %>
+        <%= turbo_frame_tag :movements, class:'w-full' do %>
+          <% if @movements.present? %>
             <div id="search_results">
               <ul class="divide-y divide-slate-200" role="list">
-                <%= render @movements if params[:name].blank?%>
+                <%= render @movements if params[:name].blank? %>
               </ul>
             </div> 
+          <% else %>
+            <div class="w-full p-4 text-lg text-center"><%= t('.no_data')%></div>
           <% end %>
-        <% else %>
-          <span class="p-4">no data provided</span>          
         <% end %>
         <!-- TABLE ROWS -->
         <!-- TABLE FOOTER -->

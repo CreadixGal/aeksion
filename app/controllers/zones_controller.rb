@@ -1,5 +1,6 @@
 class ZonesController < ApplicationController
   before_action :set_zone, only: %i[show edit update destroy]
+  add_breadcrumb 'Zonas', ''
 
   def index
     @zones = Zone.ordered

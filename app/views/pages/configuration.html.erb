@@ -1,14 +1,20 @@
 <div class="w-11/12 flex flex-wrap mx-auto my-3">
   <%= render ConfigurationCardComponent.new(
-        title: 'clientes', 
+        title: 'Clientes', 
         options: {
           icon: 'user-group.svg',
           href1: customers_path
         }
       )%>
-
   <%= render ConfigurationCardComponent.new(
-        title: 'productos',
+        title: 'Repartidores',
+        options: {
+          icon: 'truck.svg',
+          href1: delivery_riders_path,
+        }
+      )%>
+  <%= render ConfigurationCardComponent.new(
+        title: 'Productos',
         options: {
           icon: 'box.svg',
           href1: products_path,
@@ -17,9 +23,9 @@
       )%>
 
   <%= render ConfigurationCardComponent.new(
-        title: 'zonas',
+        title: 'Zonas',
         options: {
-          icon: 'box.svg',
+          icon: 'map-pin-cog.svg',
           href1: zones_path(kind: 'pickup')
         }
       )%>

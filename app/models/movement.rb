@@ -20,16 +20,15 @@ class Movement < ApplicationRecord
   validates :date, presence: true
 
   # rubocop:disable  Layout/LineLength
-  scope :delivery, -> { where(rates: { kind: 'delivery' }, product_movements: { return: false }).order(date: :desc).joins(:rate, :product_movements) }
-
+  scope :delivery, -> { includes(:product_movements).where(rates: { kind: 'delivery' }).where(product_movements: { return: false }).order(date: :desc).joins(:rate) }
+  scope :pickup, -> { where(rates: { kind: 'pickup' }).order(date: :desc).joins(:rate) }
   # rubocop:enable  Layout/LineLength
-  scope :pickup, -> { includes(%i[product_movements]).order(date: :desc) }
   scope :return, -> { includes(%i[product_movements]).where(product_movements: { return: true }).order(date: :desc) }
   scope :sort_by_date, -> { order('date ASC') }
 
   scope :between_dates, ->(start_date, end_date) { where(date: start_date..end_date) }
-  scope :by_product_kind, ->(kind) { joins(:products).where(products: { kind: }) }
-  scope :by_product_code, ->(code) { joins(:products).where(products: { code: }) }
+  scope :by_product_kind, ->(kind) { joins(variants: :product).where(products: { kind: }) }
+  scope :by_product_name, ->(name) { joins(variants: :product).where(products: { name: }) }
 
   enum status: { progress: 0, finished: 1 }
 
@@ -45,10 +44,18 @@ class Movement < ApplicationRecord
 
   def amount
     result = product_movements.sum(&:amount) if rate_pickup?
-    result = rate.zone.quantity if rate_delivery?
+    result = rate.quantity if rate_delivery?
     result
   rescue StandardError
     0
+  end
+
+  def self.by_kind(kind)
+    if kind.eql?('pickup')
+      preload([{ variants: %i[product price] }, { product_movements: :variant }]).send(kind)
+    else
+      preload([{ variants: [:product] }, { product_movements: :variant }]).send(kind)
+    end
   end
 
   private

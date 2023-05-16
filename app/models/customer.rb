@@ -5,7 +5,8 @@ class Customer < ApplicationRecord
   has_many :zones, through: :rates, dependent: :destroy
   has_one :price, as: :priciable, dependent: :destroy
 
-  before_create :set_product_rate
+  # TODO: remove code if not needed
+  # before_create :set_product_rate
   after_create :default_price
 
   delegate :quantity, to: :price, prefix: :price
@@ -14,11 +15,12 @@ class Customer < ApplicationRecord
 
   private
 
+  # TODO: remove code if not needed
   def default_price
     Price.create! quantity: 0, priciable: self
   end
 
-  def set_product_rate
-    rates.build(zone: Zone.find_by(name: 'Product'), kind: 'pickup')
-  end
+  # def set_product_rate
+  #   rates.build(zone: Zone.find_by(name: 'DEFAULT'), kind: 'pickup')
+  # end
 end

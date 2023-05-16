@@ -40,3 +40,8 @@
 /config/database.yml
 
 /.idea/*
+/data/*
+
+/config/storage.yml
+/config/application.yml
+/tmp/storage/*

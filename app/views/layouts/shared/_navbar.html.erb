@@ -1,5 +1,5 @@
 <nav class="w-full h-16 flex justify-between bg-indigo-50">
-  <div class="w-2/6 flex justify-start items-center content-center">
+  <div class="w-1/6 flex justify-start items-center content-center">
     <button class="w-10 ml-5 group focus:outline-none" data-action="click->toogle#hide">
       <div class="rounded-xl bg-black h-1 w-8 my-1 group-hover:relative group-hover:top-2 group-hover:rotate-45 duration-500"></div>
       <div class="rounded-xl bg-black h-1 w-8 my-1 group-hover:bg-transparent group-hover:duration-150"></div>
@@ -7,7 +7,11 @@
     </button>
   </div>
 
-  <div class="w-2/6"></div>
+  <div class="w-full flex items-center">
+    <div class="flex-1 flex justify-start items-center gap-1 font-semibold text-lg text-slate-900">
+      <%= render_breadcrumbs separator: ' -> ' %>
+    </div>
+  </div>
   <div class="w-2/6 flex justify-end items-center relative">
     
     <% if user_signed_in? %>

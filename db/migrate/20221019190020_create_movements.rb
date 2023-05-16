@@ -4,7 +4,7 @@ class CreateMovements < ActiveRecord::Migration[7.0]
       t.references :rate, null: false, foreign_key: true, type: :uuid
       t.datetime :date
       t.string :code, null: false, index: { unique: true }
-
+      t.integer :status, null: false, default: 0
       t.timestamps
     end
   end

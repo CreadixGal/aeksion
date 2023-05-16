@@ -1,0 +1,31 @@
+<li id="<%= dom_id delivery_rider %>" class="table-row-li">
+  <%= turbo_frame_tag dom_id(delivery_rider), class: 'w-full flex justify-between' do %>
+    <div class="w-1/12 flex justify-center items-center content-center px-4">
+      <%= render CheckboxComponent.new(id: delivery_rider.id, name: 'delivery_rider_ids[]', options: { value: delivery_rider.id }) %>
+    </div>
+    <div class="w-5/12 flex justify-center items-center text-black text-center font-semibold border-x border-slate-100 py-2 px-4">
+      <%= delivery_rider.name %> 
+    </div>
+    <div class="w-4/12 flex justify-center items-center text-black text-center font-semibold border-x border-slate-100 py-2 px-4">
+      
+      <% if delivery_rider.price.present? %>
+        <%= number_to_currency(delivery_rider&.price_quantity, precision: 4) %>
+      <% end %>
+      
+    </div>
+    <div class="table-actions" data-controller="swal">
+      <% if action_name != "show" %>
+        <%= link_to inline_svg_tag('icons/pencil-square.svg', class: 'icon-button-default'), edit_delivery_rider_path(delivery_rider), class: 'wrapper-icon-button-default' %>
+        <%= button_to delivery_rider, method: :delete,
+                                data: { 
+                                  controller: "swal",
+                                  swal_name_value: delivery_rider.name,
+                                  action: "click->swal#single"
+                                },
+                                class: 'wrapper-icon-button-default' do %>
+          <%= inline_svg_tag('icons/trash.svg', class: 'icon-button-default') %>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+</li>

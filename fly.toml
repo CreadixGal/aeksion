@@ -1,8 +1,9 @@
-# fly.toml file generated for aeksion on 2022-11-01T20:38:45+01:00
+# fly.toml file generated for aeksion on 2023-05-10T07:15:30+02:00
 
 app = "aeksion"
 kill_signal = "SIGINT"
 kill_timeout = 5
+primary_region = "mad"
 processes = []
 
 [build]
@@ -14,7 +15,7 @@ processes = []
   release_command = "bin/rails fly:release"
 
 [env]
-  PORT = "8080"
+  PORT = "3000"
 
 [experimental]
   allowed_public_ports = []
@@ -22,7 +23,7 @@ processes = []
 
 [[services]]
   http_checks = []
-  internal_port = 8080
+  internal_port = 3000
   processes = ["app"]
   protocol = "tcp"
   script_checks = []
@@ -51,5 +52,5 @@ processes = []
   url_prefix = "/"
 
 [[mounts]]
-  source = "aeksion"
+  source = "aeksion_data"
   destination = "/data"

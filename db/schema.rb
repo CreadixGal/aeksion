@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_01_122541) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_29_143804) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -60,12 +60,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_01_122541) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "delivery_riders", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "issue_trackers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "title", null: false
     t.string "status", default: "pending", null: false
+    t.uuid "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.uuid "user_id", null: false
     t.index ["user_id"], name: "index_issue_trackers_on_user_id"
   end
 
@@ -73,9 +79,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_01_122541) do
     t.uuid "rate_id", null: false
     t.datetime "date"
     t.string "code", null: false
+    t.integer "status", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "status", default: 0, null: false
     t.index ["code"], name: "index_movements_on_code", unique: true
     t.index ["rate_id"], name: "index_movements_on_rate_id"
   end
@@ -91,12 +97,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_01_122541) do
 
   create_table "product_movements", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "movement_id", null: false
+    t.uuid "variant_id", null: false
     t.integer "quantity"
     t.decimal "amount"
+    t.boolean "return", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "return", default: false, null: false
-    t.uuid "variant_id", null: false
     t.index ["movement_id"], name: "index_product_movements_on_movement_id"
     t.index ["variant_id"], name: "index_product_movements_on_variant_id"
   end
@@ -110,14 +116,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_01_122541) do
   end
 
   create_table "rates", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "customer_id", null: false
+    t.uuid "customer_id"
     t.uuid "zone_id", null: false
     t.string "kind", default: "delivery", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "enable", default: false, null: false
     t.string "name"
+    t.uuid "delivery_rider_id"
     t.index ["customer_id"], name: "index_rates_on_customer_id"
+    t.index ["delivery_rider_id"], name: "index_rates_on_delivery_rider_id"
     t.index ["zone_id"], name: "index_rates_on_zone_id"
   end
 
@@ -167,6 +175,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_01_122541) do
   add_foreign_key "product_movements", "movements"
   add_foreign_key "product_movements", "variants"
   add_foreign_key "rates", "customers"
+  add_foreign_key "rates", "delivery_riders"
   add_foreign_key "rates", "zones"
   add_foreign_key "variants", "products"
   add_foreign_key "variants", "zones"

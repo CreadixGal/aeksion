@@ -4,6 +4,7 @@ class CustomersController < ApplicationController
 
   # GET /customers or /customers.json
   def index
+    add_breadcrumb t('.breadcrumb'), ''
     @customers = Customer.ordered
     @pagy, @customers = pagy(@customers)
   end
@@ -27,6 +28,9 @@ class CustomersController < ApplicationController
 
   # GET /customers/1 or /customers/1.json
   def show
+    add_breadcrumb t('.breadcrumb'), customers_path
+    add_breadcrumb @customer.name.capitalize, customer_path(@customer)
+    @total_movements = @customer.rates.sum { |rate| rate.movements.count }
   end
 
   # GET /customers/new
@@ -35,8 +39,7 @@ class CustomersController < ApplicationController
   end
 
   # GET /customers/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /customers or /customers.json
   def create
@@ -45,7 +48,7 @@ class CustomersController < ApplicationController
     respond_to do |format|
       if @customer.save
         Price.find(@customer.price.id).update!(quantity: customer_params[:price])
-        @customer.rates.first.update!(price: Price.new(quantity: customer_params[:price]))
+        # @customer.rates.first.update!(price: Price.new(quantity: customer_params[:price]))
         @customer.reload
         format.html { redirect_to customers_path, success: 'Customer was successfully created.' }
         format.turbo_stream { flash.now[:success] = 'Customer was successfully created.' }

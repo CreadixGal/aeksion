@@ -17,7 +17,7 @@ lu = Zone.create!(name: 'Lugo')
 ou = Zone.create!(name: 'Ourense')
 po = Zone.create!(name: 'Pontevedra')
 # create product zone
-pr = Zone.create!(name: 'Product')
+pr = Zone.create!(name: 'DEFAULT')
 pr.price = Price.new(quantity: 0)
 pr.save!
 
@@ -25,6 +25,12 @@ pr.save!
 [co, lu, ou, po].each do |zone|
   zone.price = Price.new(quantity: rand(0.001..0.999))
   zone.save!
+end
+
+# create 8 delivery riders
+8.times do
+  dr = DeliveryRider.create!(name: Faker::Name.name)
+  puts "\n🚚 Delivery rider  #{dr.name} created 🚚\n"
 end
 
 # create 8 customers
@@ -51,15 +57,16 @@ end
   code = rand(1000..9999)
   product = Product.new(
     name: "PR#{code}",
-    stock: rand(55350..99800),
+    stock: rand(55_350..99_800),
     kind: [2, 1].sample
   )
   product.image.attach(io: File.open(file_path), filename: file_name, content_type: 'image/jpeg')
   product.save!
-  puts "\n📦 Product #{product.name} created     📦\n"
-  Zone.where.not(name: 'Product').each do |zone|
+  puts "\n📦 Product #{product.name} created 📦\n"
+  Zone.where.not(name: 'DEFAULT').each do |zone|
+    variant_code = "PR#{code}-#{zone.name.downcase.tr('^a-z', '').slice(0, 2)}"
     variant = product.variants.build(
-      code: "PR#{code}-#{zone.name.downcase.tr('^a-z', '').slice(0, 2)}",
+      code: variant_code,
       zone_id: zone.id
     )
 

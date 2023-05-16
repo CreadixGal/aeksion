@@ -1,5 +1,6 @@
 class RatesController < ApplicationController
   before_action :set_rate, except: %i[index new create multiple_delete fetch_form]
+  add_breadcrumb 'Tarifas', ''
 
   def index
     # @rates = Rate.all
@@ -40,7 +41,7 @@ class RatesController < ApplicationController
         if @rate.pickup? && @rate.zone.present?
           zone = @rate.zone
           zone.price.update!(quantity: rate_params[:price], priciable: zone) if @rate.zone.price.present?
-          zone.price = Price.create!(quantity: rate_params[:price], priciable: zone) unless @rate.zone.price.present?
+          zone.price = Price.create!(quantity: rate_params[:price], priciable: zone) if @rate.zone.price.blank?
         end
         @rate.price.update!(quantity: rate_params[:price])
         format.html { redirect_to rates_path(kind: params[:kind]), success: 'Tarifa actualizada correctamente' }
@@ -91,7 +92,7 @@ class RatesController < ApplicationController
   private
 
   def rate_params
-    params.require(:rate).permit(:customer_id, :zone_id, :kind, :name, :enable, :price)
+    params.require(:rate).permit(:customer_id, :delivery_rider_id, :zone_id, :kind, :name, :enable, :price)
   end
 
   def set_rate

@@ -43,14 +43,23 @@ class StockControl
 
   # update amount of movement
   def new_amount
+    result = 0
+    # ! -> pickup must be multiplied by the (price)quantity of the variant(by zone)
+    # ! -> f.e if the variant price is 0.013 and the quantity(stock/units) is 100 the amount will be 1.3
     if movement.rate_pickup?
       price = variant.quantity
       result = price * resource.quantity
-    else
-      result = movement.rate.zone.quantity
     end
+    # ! -> delivery must calculate over the (price)quantity of the customer(by zone) independent of the stock/units
+    # ! -> f.e if the price of the customer is 500 and the quantity(stock/units) is 100 the amount will be 500
+    # ! -> in this case ignore the stock/units of the product movement
+    result = movement.rate.quantity if movement.rate_delivery?
 
     resource.amount = result
-    resource.save!
+    if resource.save
+      resource.reload
+    else
+      resource.errors.full_messages.join(', ')
+    end
   end
 end

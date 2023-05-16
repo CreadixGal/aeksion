@@ -14,15 +14,21 @@ export default class extends Controller {
     if (this.selectValue().length > 0) {
       this.fetch()
     }
-    document.addEventListener("nested-form:added", this.handleFormAdded.bind(this));
+    this.element.addEventListener("nested-form:added", this.handleFormAdded.bind(this))
+    // document.addEventListener("nested-form:added", this.handleFormAdded.bind(this))
   }
 
   disconnect() {
-    document.removeEventListener("nested-form:added", this.handleFormAdded.bind(this));
+    document.removeEventListener("nested-form:added", this.handleFormAdded.bind(this))
   }
 
   handleFormAdded(event) {
-    this.updateProductSelects(event.detail.products);
+    const { variantSelect, products } = event.detail
+    const previousSelectedValue = products
+      .map((productSelect) => productSelect.value)
+      .find((value) => value !== "")
+    variantSelect.innerHTML = products[0]
+    variantSelect.value = previousSelectedValue
   }
 
   change() {
@@ -46,6 +52,11 @@ export default class extends Controller {
     })
   }
 
+  getCurrentProducts() {
+    console.log(this.fetch())
+    return this.fetch()
+  }
+
   params() {
     let params = new URLSearchParams()
     params.append('id', this.selectValue())
@@ -59,13 +70,15 @@ export default class extends Controller {
   }
 
   updateProductSelects(products) {
-    this.nestedFormTargets.forEach(nestedForm => {
+    this.nestedFormTargets.forEach((nestedForm) => {
       console.log(nestedForm)
-      nestedForm.classList.add('border', 'border-blue-500', 'p-4', 'rounded-md')
+      nestedForm.classList.add("border", "border-blue-500", "p-4", "rounded-md")
       const productSelect = nestedForm.querySelector('select[name*="variant_id"]')
       if (productSelect) {
-        productSelect.innerHTML = products;
+        const previousSelectedValue = productSelect.value
+        productSelect.innerHTML = products
+        productSelect.value = previousSelectedValue
       }
-    })
+    });
   }
 }
