@@ -18,8 +18,8 @@ class Rate < ApplicationRecord
   }, _default: 'delivery'
   validates :kind, presence: true
 
-  scope :delivery, -> { includes([:price]).where(kind: 'delivery').order(created_at: :desc) }
-  scope :pickup, -> { where(kind: 'pickup').order(created_at: :desc) }
+  scope :delivery, -> { where(kind: 'delivery').order(created_at: :desc) }
+  scope :pickup, -> { includes([:price]).where(kind: 'pickup').order(created_at: :desc) }
   scope :return, -> { where(kind: 'return').order(created_at: :desc) }
 
   validate :validate_customer_or_delivery_rider

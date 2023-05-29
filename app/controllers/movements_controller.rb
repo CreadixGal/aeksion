@@ -69,7 +69,7 @@ class MovementsController < ApplicationController
     respond_to do |format|
       if @movement.save
         @movement.reload
-        format.html { redirect_to movements_path(kind: 'pickup'), success: t('.success') }
+        format.html { redirect_to movements_path(kind: params[:kind]), success: t('.success') }
         format.turbo_stream { flash.now[:success] = t('.success') }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -149,8 +149,8 @@ class MovementsController < ApplicationController
 
   def fetch_form
     @rates = []
-    @rates = Rate.joins(:zone).where(zones: { name: 'DEFAULT' }, kind: 'pickup') if params[:kind].eql?('pickup')
-    @rates = Rate.where(zone_id: params[:id], kind: 'delivery') if params[:kind].eql?('delivery')
+    @rates = Rate.joins(:zone).where(zones: { name: [Zone.pluck(:name)] }, kind: 'delivery') if params[:kind].eql?('delivery')
+    @rates = Rate.where(zone_id: params[:id], kind: 'pickup') if params[:kind].eql?('pickup')
     @products = Variant.where(zone_id: params[:id])
     rates_options = view_context.options_from_collection_for_select(@rates, :id, :name, params[:selected])
     products_options = view_context.options_from_collection_for_select(@products, :id, :code)
