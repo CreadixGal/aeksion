@@ -30,11 +30,21 @@ class MovementsController < ApplicationController
     text_fragment = params[:name]
 
     movements = Movement.by_kind(params[:kind])
+
     unless movements.empty?
-      movements = movements.joins(:customer)
-                           .where('customers.name ILIKE ?', "%#{text_fragment}%")
-                           .or(movements.joins(:customer).where('movements.code ILIKE ?', "%#{text_fragment}%"))
+      if params[:kind].eql?('delivery')
+        movements = movements.joins(:customer)
+                             .where('customers.name ILIKE ?', "%#{text_fragment}%")
+                             .or(movements.joins(:customer).where('movements.code ILIKE ?', "%#{text_fragment}%"))
+      end
+
+      if params[:kind].eql?('pickup')
+        movements = movements.joins(rate: :delivery_rider)
+                             .where('delivery_riders.name ILIKE ?', "%#{text_fragment}%")
+                             .or(movements.joins(rate: :delivery_rider).where('movements.code ILIKE ?', "%#{text_fragment}%"))
+      end
     end
+
     @filtered_movements = movements
 
     @pagy, @filtered_movements = pagy(movements)
