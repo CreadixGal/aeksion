@@ -16,10 +16,12 @@
         <%= link_to rate.zone_name, zone_path(rate.zone_id) %>
       </div>
       <div class="w-full flex justify-end items-center px-4 text-right whitespace-nowrap truncate">
-        <% if rate.pickup? && rate.delivery_rider_id.present? %>
-          <%= number_to_currency rate&.delivery_rider.price.quantity, precision: 4 %>
-        <% elsif rate.delivery? %>
-          <%= number_to_currency rate.quantity, precision: 4 %>
+        <% if rate.delivery? && rate.customer_id.present? %>
+          <%= number_to_currency rate&.customer.price_quantity, precision: 4 %>
+        <% elsif rate.pickup? %>
+          <span class="hidden">
+            <%= number_to_currency rate.quantity, precision: 4 %>
+          </span>
         <% end %>
       </div>
     </div>

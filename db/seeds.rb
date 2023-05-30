@@ -27,22 +27,19 @@ pr.save!
   zone.save!
 end
 
-# create 8 delivery riders
+# create 3 customers
 8.times do
+  c = Customer.create!(name: Faker::Company.name)
+  puts "\n🚚 Delivery rider  #{c.name} created 🚚\n"
   dr = DeliveryRider.create!(name: Faker::Name.name)
   puts "\n🚚 Delivery rider  #{dr.name} created 🚚\n"
 end
 
-# create 8 customers
-8.times do
-  Customer.create!(name: Faker::Company.name)
-end
-
 # create rates
-Customer.all.each do |customer|
+DeliveryRider.all.each do |dr|
   [co, lu, ou, po].each do |zone|
     del = zone.rates.build(
-      customer_id: customer.id,
+      delivery_rider_id: dr.id,
       kind: 'delivery'
     )
 

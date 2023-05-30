@@ -10,30 +10,29 @@
 
           <%= form.hidden_field :kind, value: rate.kind.presence || params[:kind] %>
 
-          <% unless params[:kind].eql?('delivery') %>
-            <%= form.select :delivery_rider_id, 
-                            DeliveryRider.all.map { |r| [r.name, r.id] },
-                            { include_blank: 'Selecciona repartidor' },
+          <% if params[:kind].eql?('delivery') %>
+            <%= form.select :customer_id, 
+                            Customer.all.map { |c| [c.name, c.id] },
+                            { include_blank: 'Selecciona cliente' },
                             class: 'w-2/3 mx-auto block py-2.5 px-0 w-full text-lg text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer' %>
             <%= form.select :zone_id, 
                 Zone.where(name: 'DEFAULT').map { |z| [z.name, z.id] },
                 { selected: 'DEFAULT' },
                 class: 'w-2/3 mx-auto block py-2.5 px-0 w-full text-lg text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer hidden', readonly: true %>
           <% else %>
-            <%= form.select :customer_id, 
-                            Customer.all.map { |c| [c.name, c.id] },
-                            { include_blank: 'Selecciona cliente' },
-                            class: 'w-2/3 mx-auto block py-2.5 px-0 w-full text-lg text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer' %>
-        
+            <%= form.select :delivery_rider_id, 
+                    DeliveryRider.all.map { |r| [r.name, r.id] },
+                    { include_blank: 'Selecciona repartidor' },
+                    class: 'w-2/3 mx-auto block py-2.5 px-0 w-full text-lg text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer' %>
             <%= form.select :zone_id, 
                             Zone.all.map { |z| [z.name, z.id] },
                             { include_blank: 'Selecciona zona' },
                             class: 'w-2/3 mx-auto block py-2.5 px-0 w-full text-lg text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer' %>
           <% end %>
 
-          <div class="w-1/4 mx-auto block py-2.5 px-0 text-lg text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer">
+          <div class="w-1/4 mx-auto block py-2.5 px-0 text-lg text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer hidden">
               <% price = Price.find_by(priciable_id: form.object.id)&.quantity %>
-              <%= form.number_field :price,
+              <%#= form.number_field :price,
                                     placeholder: number_to_currency(price.presence || 0, precision: 4),
                                     step: :any,
                                     required: true,
