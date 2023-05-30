@@ -1,5 +1,7 @@
 class MovementsController < ApplicationController
   before_action :set_movement, only: %i[show edit update destroy update_status mark_all_return]
+  before_action :set_kind_person, only: :export_pdf
+  before_action :set_movements, only: :export_pdf
   add_breadcrumb 'Flujos', ''
 
   def index
@@ -161,28 +163,11 @@ class MovementsController < ApplicationController
   end
 
   def export_pdf
-
-    kind = params[:kind]
-    # delivery -> cliente
-    # pickup -> delivery rider
-    if kind == "delivery"
-      res = "Cliente"
-    elsif kind == "pickup"
-      res = "Repartidor"
-    end
-
     pdf = Prawn::Document.new
     table_data = Array.new
-    table_data << ["Código", "Fecha", "Zona", res, "Total"]
-
-    if params[:movements].nil?
-      movements = []
-    else
-      movements = params[:movements].map { |id| Movement.find(id) }
-    end
-
-    movements.each do |movement|
-      table_data << [movement.code, movement.date.strftime('%d/%m/%Y').to_s, movement.rate&.zone&.name, res == "Cliente" ? movement.rate&.customer&.name : movement.rate&.delivery_rider&.name, movement.amount]
+    table_data << ["Código", "Fecha", "Zona", @kind, "Total"]
+    @movements.each do |movement|
+      table_data << [movement.code, movement.date.strftime('%d/%m/%Y').to_s, movement.rate&.zone&.name, @kind == "Cliente" ? movement.rate&.customer&.name : movement.rate&.delivery_rider&.name, movement.amount]
     end
     pdf.table(table_data, :width => 500, :cell_style => { inline_format: true })
     send_data pdf.render, filename: 'test.pdf', type: 'application/pdf', disposition: 'inline'
@@ -204,5 +189,13 @@ class MovementsController < ApplicationController
 
   def set_movement
     @movement = Movement.find(params[:id])
+  end
+
+  def set_kind_person
+    @kind = params[:kind] == "delivery" ? "Cliente" : "Repartidor"
+  end
+
+  def set_movements
+    @movements = params[:movements].nil? ? [] : params[:movements].map { |id| Movement.find(id) }
   end
 end
