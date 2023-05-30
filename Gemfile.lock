@@ -420,6 +420,7 @@ DEPENDENCIES
   importmap-rails
   inline_svg
   jbuilder
+  matrix
   pagy
   pg (~> 1.1)
   pg_search

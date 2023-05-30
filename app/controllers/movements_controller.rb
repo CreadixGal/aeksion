@@ -171,13 +171,28 @@ class MovementsController < ApplicationController
   end
 
   def export_pdf
+
+    kind = params[:kind]
+    # delivery -> cliente
+    # pickup -> delivery rider
+    if kind == "delivery"
+      res = "Cliente"
+    elsif kind == "pickup"
+      res = "Repartidor"
+    end
+
     pdf = Prawn::Document.new
     table_data = Array.new
-    table_data << ["Código", "Fecha", "Zona", "Cliente", "Total"]
-    @movements = Movement.all
+    table_data << ["Código", "Fecha", "Zona", res, "Total"]
 
-    @movements.each do |movement|
-      table_data << [movement.code, movement.date.strftime('%d/%m/%Y').to_s, movement.rate&.zone&.name, movement.rate&.customer&.name, movement.amount]
+    if params[:movements].nil?
+      movements = []
+    else
+      movements = params[:movements].map { |id| Movement.find(id) }
+    end
+
+    movements.each do |movement|
+      table_data << [movement.code, movement.date.strftime('%d/%m/%Y').to_s, movement.rate&.zone&.name, res == "Cliente" ? movement.rate&.customer&.name : movement.rate&.delivery_rider&.name, movement.amount]
     end
     pdf.table(table_data, :width => 500, :cell_style => { inline_format: true })
     send_data pdf.render, filename: 'test.pdf', type: 'application/pdf', disposition: 'inline'
