@@ -160,21 +160,14 @@ class MovementsController < ApplicationController
     end
   end
 
-  def export_pdf; end
-
-  def download
-    kind = params[:kind]
-    client_id = params[:client_id]
-    first_date = Date.new(params["first_date(1i)"].to_i,params["first_date(2i)"].to_i,params["first_date(3i)"].to_i).strftime('%d/%m/%Y')#.beginning_of_day
-    second_date = Date.new(params["second_date(1i)"].to_i,params["second_date(2i)"].to_i,params["second_date(3i)"].to_i).strftime('%d/%m/%Y')#.end_of_day
-    movements = Movement.where('movements.created_at >= (?) and movements.created_at <= (?)', first_date, second_date).joins(:rate).where(rates: { customer_id: client_id, kind: kind })
-
+  def export_pdf
     pdf = Prawn::Document.new
     table_data = Array.new
     table_data << ["Código", "Fecha", "Zona", "Cliente", "Total"]
+    @movements = Movement.all
 
-    movements.each do |movement|
-      table_data << [movement.code, movement.date.strftime('%d/%m/%Y').to_s, movement.rate.zone.name, movement.rate.customer.name, movement.amount]
+    @movements.each do |movement|
+      table_data << [movement.code, movement.date.strftime('%d/%m/%Y').to_s, movement.rate&.zone&.name, movement.rate&.customer&.name, movement.amount]
     end
     pdf.table(table_data, :width => 500, :cell_style => { inline_format: true })
     send_data pdf.render, filename: 'test.pdf', type: 'application/pdf', disposition: 'inline'

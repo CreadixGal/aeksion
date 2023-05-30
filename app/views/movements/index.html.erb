@@ -2,8 +2,6 @@
   <%= render 'movements/tabs' %>
 </div>
 
-<%= link_to "EXPORT PDF", export_pdf_movements_path(kind: params[:kind]) %>
-
   <%= turbo_frame_tag :movements_index do %>
     <%= form_with(model: @movements, url: multiple_delete_movements_path, html: { class: 'w-full flex flex-col gap-8 mt-8 px-10', turbo: false }) do |form| %>
       <%= form.hidden_field :kind, value: params[:kind] %>
@@ -49,6 +47,7 @@
             </div>
           </div>
           <div class="table-actions">
+            <%= link_to inline_svg_tag('icons/icon_pdf.svg', class: 'icon-button-default'), export_pdf_movements_path, target: "_blank", class: 'wrapper-icon-button-default' %>
             <%= button_to inline_svg_tag(
                             'icons/trash.svg',
                             class: 'icon-button-default'

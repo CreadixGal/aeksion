@@ -7,8 +7,6 @@ Rails.application.routes.draw do
   # WEB
   root 'pages#index'
 
-  get 'download', to: 'movements#download'
-
   resources :customers do
     collection do
       post :search
