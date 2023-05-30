@@ -53,7 +53,7 @@ class StockControl
     # ! -> delivery must calculate over the (price)quantity of the customer(by zone) independent of the stock/units
     # ! -> f.e if the price of the customer is 500 and the quantity(stock/units) is 100 the amount will be 500
     # ! -> in this case ignore the stock/units of the product movement
-    result = movement.rate.quantity if movement.rate_delivery?
+    result = movement.rate.customer.price_quantity if movement.rate_delivery?
 
     resource.amount = result
     if resource.save

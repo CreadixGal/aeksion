@@ -19,7 +19,9 @@
         <% if rate.delivery? && rate.customer_id.present? %>
           <%= number_to_currency rate&.customer.price_quantity, precision: 4 %>
         <% elsif rate.pickup? %>
-          <%= number_to_currency rate.quantity, precision: 4 %>
+          <span class="hidden">
+            <%= number_to_currency rate.quantity, precision: 4 %>
+          </span>
         <% end %>
       </div>
     </div>
