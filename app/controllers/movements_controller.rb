@@ -30,11 +30,21 @@ class MovementsController < ApplicationController
     text_fragment = params[:name]
 
     movements = Movement.by_kind(params[:kind])
+
     unless movements.empty?
-      movements = movements.joins(:customer)
-                           .where('customers.name ILIKE ?', "%#{text_fragment}%")
-                           .or(movements.joins(:customer).where('movements.code ILIKE ?', "%#{text_fragment}%"))
+      if params[:kind].eql?('delivery')
+        movements = movements.joins(:customer)
+                             .where('customers.name ILIKE ?', "%#{text_fragment}%")
+                             .or(movements.joins(:customer).where('movements.code ILIKE ?', "%#{text_fragment}%"))
+      end
+
+      if params[:kind].eql?('pickup')
+        movements = movements.joins(rate: :delivery_rider)
+                             .where('delivery_riders.name ILIKE ?', "%#{text_fragment}%")
+                             .or(movements.joins(rate: :delivery_rider).where('movements.code ILIKE ?', "%#{text_fragment}%"))
+      end
     end
+
     @filtered_movements = movements
 
     @pagy, @filtered_movements = pagy(movements)
@@ -158,6 +168,19 @@ class MovementsController < ApplicationController
     respond_to do |format|
       format.json { render json: { rates: rates_options, products: products_options } }
     end
+  end
+
+  def export_pdf
+    pdf = Prawn::Document.new
+    table_data = Array.new
+    table_data << ["Código", "Fecha", "Zona", "Cliente", "Total"]
+    @movements = Movement.all
+
+    @movements.each do |movement|
+      table_data << [movement.code, movement.date.strftime('%d/%m/%Y').to_s, movement.rate&.zone&.name, movement.rate&.customer&.name, movement.amount]
+    end
+    pdf.table(table_data, :width => 500, :cell_style => { inline_format: true })
+    send_data pdf.render, filename: 'test.pdf', type: 'application/pdf', disposition: 'inline'
   end
 
   private

@@ -117,3 +117,7 @@ gem 'pg_search'
 gem 'tty-prompt'
 
 gem "dockerfile-rails", ">= 1.2", :group => :development
+
+# pdf
+gem 'prawn', '~> 2.4'
+gem 'prawn-table', '~> 0.2.2'

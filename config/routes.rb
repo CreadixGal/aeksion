@@ -31,6 +31,7 @@ Rails.application.routes.draw do
       get :fetch_form
       post :search
       delete :multiple_delete
+      get :export_pdf
     end
   end
 

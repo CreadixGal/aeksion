@@ -15,6 +15,7 @@ class Movement < ApplicationRecord
 
   delegate :name, :kind, :delivery?, :pickup?, to: :rate, prefix: :rate
   delegate :name, to: :customer, prefix: :customer
+  delegate :name, to: :delivery_rider, prefix: :delivery_rider
   delegate :amount, to: :product_movements
 
   validates :date, presence: true
