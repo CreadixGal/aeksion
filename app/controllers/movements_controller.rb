@@ -1,7 +1,6 @@
 class MovementsController < ApplicationController
   before_action :set_movement, only: %i[show edit update destroy update_status mark_all_return]
-  before_action :set_kind_person, only: :export_pdf
-  before_action :set_movements, only: :export_pdf
+  before_action :set_kind_person, :set_movements, only: :export_pdf
   add_breadcrumb 'Flujos', ''
 
   def index
