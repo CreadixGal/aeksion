@@ -14,12 +14,11 @@ export default class extends Controller {
     calendar.config = {
       enableTime: false,
       dateFormat: "d-m-Y",
-      maxDate: "today",
+      maxDate: new Date().fp_incr(3),
       allowInput: true,
       disable: [
         function(date) {
-            return (date.getDay() === 0 || date.getDay() === 6);
-
+            return (date.getDay() === 0);
         }
       ],
       locale: {
