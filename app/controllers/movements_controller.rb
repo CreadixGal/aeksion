@@ -178,7 +178,23 @@ class MovementsController < ApplicationController
     @movements.each do |movement|
       table_data << [movement.code, movement.date.strftime('%d/%m/%Y').to_s, movement.rate&.zone&.name, @kind == "Cliente" ? movement.rate&.customer&.name : movement.rate&.delivery_rider&.name, movement.amount]
     end
-    pdf.table(table_data, :width => 500, :cell_style => { inline_format: true })
+
+    pdf.table(table_data) do |table|
+
+      table.column(0).align = :center
+      table.column(1).align = :center
+      table.column(2).align = :center
+      table.column(3).align = :center
+      table.column(4).align = :center
+
+      table.row(0).font_style = :bold
+      table.row(0).background_color = 'DDDDDD'
+
+      table.cells.border_width = 0.5
+
+      table.cells.width = 100
+    end
+
     send_data pdf.render, filename: 'test.pdf', type: 'application/pdf', disposition: 'inline'
   end
 
