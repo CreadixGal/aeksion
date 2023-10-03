@@ -47,7 +47,7 @@
             </div>
           </div>
           <div class="table-actions">
-            <%= link_to inline_svg_tag('icons/icon_pdf.svg', class: 'icon-button-default'), export_pdf_movements_path(movements: @movements.pluck(:id), kind: params[:kind]), target: "_blank", class: 'wrapper-icon-button-default' %>
+            <%= link_to inline_svg_tag('icons/icon_pdf.svg', class: 'icon-button-default'), export_pdf_movements_path(kind: params[:kind]), target: "_blank", class: 'wrapper-icon-button-default' %>
             <%= button_to inline_svg_tag(
                             'icons/trash.svg',
                             class: 'icon-button-default'
@@ -79,7 +79,7 @@
         <!-- TABLE HEADER -->
         <%= turbo_frame_tag Movement.new, class: 'w-full' %>
         <!--- TABLE ROWS -->
-        <%= turbo_frame_tag :movements, class:'w-full' do %>
+        <%= turbo_frame_tag :movements, class: 'w-full' do %>
           <% if @movements.present? %>
             <div id="search_results">
               <ul class="divide-y divide-slate-200" role="list">

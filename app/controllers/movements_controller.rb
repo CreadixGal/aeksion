@@ -1,6 +1,6 @@
 class MovementsController < ApplicationController
   before_action :set_movement, only: %i[show edit update destroy update_status mark_all_return]
-  before_action :set_kind_person, :set_movements, only: :export_pdf
+  before_action :set_kind_person, only: :export_pdf
   add_breadcrumb 'Flujos', ''
 
   def index
@@ -172,10 +172,12 @@ class MovementsController < ApplicationController
   end
 
   def export_pdf
+    @all_movements = filter(params)
     pdf = Prawn::Document.new
     table_data = Array.new
+    table_data << ["Sumatorio: XXX"]
     table_data << ["Código", "Fecha", "Zona", @kind, "Total"]
-    @movements.each do |movement|
+    @all_movements.each do |movement|
       table_data << [movement.code, movement.date.strftime('%d/%m/%Y').to_s, movement.rate&.zone&.name, @kind == "Cliente" ? movement.rate&.customer&.name : movement.rate&.delivery_rider&.name, movement.amount]
     end
 
@@ -187,8 +189,11 @@ class MovementsController < ApplicationController
       table.column(3).align = :center
       table.column(4).align = :center
 
-      table.row(0).font_style = :bold
-      table.row(0).background_color = 'DDDDDD'
+      #table.row(0).font_style = :bold
+      #table.row(0).background_color = 'DDDDDD'
+      table.row(0).width = 100
+      table.row(1).font_style = :bold
+      table.row(1).background_color = 'DDDDDD'
 
       table.cells.border_width = 0.5
 
@@ -218,9 +223,5 @@ class MovementsController < ApplicationController
 
   def set_kind_person
     @kind = params[:kind] == "delivery" ? "Cliente" : "Repartidor"
-  end
-
-  def set_movements
-    @movements = params[:movements].nil? ? [] : params[:movements].map { |id| Movement.find(id) }
   end
 end
