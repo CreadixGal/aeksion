@@ -47,7 +47,7 @@
             </div>
           </div>
           <div class="table-actions">
-            <%= link_to inline_svg_tag('icons/icon_pdf.svg', class: 'icon-button-default'), export_pdf_movements_path(kind: params[:kind]), target: "_blank", class: 'wrapper-icon-button-default' %>
+            <%= link_to inline_svg_tag('icons/icon_pdf.svg', class: 'icon-button-default'), export_pdf_movements_path(kind: params[:kind], range: params[:range], product_kind: params[:product_kind]), target: "_blank", class: 'wrapper-icon-button-default' %>
             <%= button_to inline_svg_tag(
                             'icons/trash.svg',
                             class: 'icon-button-default'
