@@ -175,7 +175,7 @@ class MovementsController < ApplicationController
     @all_movements = filter(params)
     pdf = Prawn::Document.new
     table_data = Array.new
-    table_data << ["Sumatorio: XXX"]
+    table_data << ["Sumatorio: #{@all_movements.map(&:amount).sum}"]
     table_data << ["Código", "Fecha", "Zona", @kind, "Total"]
     @all_movements.each do |movement|
       table_data << [movement.code, movement.date.strftime('%d/%m/%Y').to_s, movement.rate&.zone&.name, @kind == "Cliente" ? movement.rate&.customer&.name : movement.rate&.delivery_rider&.name, movement.amount]
