@@ -175,8 +175,8 @@ class MovementsController < ApplicationController
     @all_movements = filter(params)
     pdf = Prawn::Document.new
     table_data = Array.new
-    table_data << ["Sumatorio: #{@all_movements.map(&:amount).sum}"]
-    table_data << ["Código", "Fecha", "Zona", @kind, "Total"]
+    table_data << ["Código", "Fecha", "Zona", @kind, "Total \n (#{@all_movements.map(&:amount).sum})"]
+
     @all_movements.each do |movement|
       table_data << [movement.code, movement.date.strftime('%d/%m/%Y').to_s, movement.rate&.zone&.name, @kind == "Cliente" ? movement.rate&.customer&.name : movement.rate&.delivery_rider&.name, movement.amount]
     end
@@ -189,11 +189,10 @@ class MovementsController < ApplicationController
       table.column(3).align = :center
       table.column(4).align = :center
 
-      #table.row(0).font_style = :bold
-      #table.row(0).background_color = 'DDDDDD'
       table.row(0).width = 100
-      table.row(1).font_style = :bold
-      table.row(1).background_color = 'DDDDDD'
+      table.row(0).font_style = :bold
+      table.row(0).background_color = 'DDDDDD'
+      table.row(0).valign = :center
 
       table.cells.border_width = 0.5
 
