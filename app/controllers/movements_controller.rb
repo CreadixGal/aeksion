@@ -5,62 +5,47 @@ class MovementsController < ApplicationController
 
   def index
     add_breadcrumb t(".#{params[:kind]}") if params[:kind].present?
-    @movements = filter(params)
-    @pagy, @movements = pagy(@movements)
+    @filtered_movemets = filter(params)
+
+    @pagy, @movements = pagy(@filtered_movemets)
+
+    respond_to do |format|
+      format.turbo_stream
+      format.html
+      format.pdf { export_pdf }
+    end
   end
 
   def filter(params)
-    @movements = Movement.by_kind(params[:kind])
+    @movements = Movement.by_kind(params[:kind]) unless request.format.pdf?
+    @movements = Movement.includes([:product_movements]).all if request.format.pdf?
+    @movements = @movements.by_product_kind(params[:product_kind]) if params[:product_kind].present?
+    @movements = @movements.by_product_name(params[:product_ids]) if params[:product_ids].present?
+
+    if params[:kind].eql?('delivery') && params[:name].present?
+      @movements = @movements.joins(:customer)
+                             .where('customers.name ILIKE ?', "%#{params[:name]}%")
+                             .or(@movements.joins(:customer).where('movements.code ILIKE ?', "%#{params[:name]}%"))
+    end
+
+    if params[:kind].eql?('pickup') && params[:name].present?
+      @movements = @movements.joins(rate: :delivery_rider)
+                              .where('delivery_riders.name ILIKE ?', "%#{params[:name]}%")
+                              .or(@movements.joins(rate: :delivery_rider).where('movements.code ILIKE ?', "%#{params[:name]}%"))
+    end
 
     if params[:range].present?
       range = params[:range].include?('a') ? params[:range].split('a') : [params[:range], params[:range]]
       start_date, end_date = range.map(&:to_date)
       @movements = @movements.between_dates(start_date.beginning_of_day, end_date.end_of_day)
     end
-    @movements = @movements.by_product_kind(params[:product_kind]) if params[:product_kind].present?
-    @movements = @movements.by_product_name(params[:product_ids]) if params[:product_ids].present?
+
     @movements
   end
 
   def product_searcher
     @items = Product.where(kind: 'box')
     @items = Product.where(kind: 'pallet') if params[:product_kind] == 'pallet'
-  end
-
-  def search
-    text_fragment = params[:name]
-
-    movements = Movement.by_kind(params[:kind])
-
-    unless movements.empty?
-      if params[:kind].eql?('delivery')
-        movements = movements.joins(:customer)
-                             .where('customers.name ILIKE ?', "%#{text_fragment}%")
-                             .or(movements.joins(:customer).where('movements.code ILIKE ?', "%#{text_fragment}%"))
-      end
-
-      if params[:kind].eql?('pickup')
-        movements = movements.joins(rate: :delivery_rider)
-                             .where('delivery_riders.name ILIKE ?', "%#{text_fragment}%")
-                             .or(movements.joins(rate: :delivery_rider).where('movements.code ILIKE ?', "%#{text_fragment}%"))
-      end
-    end
-
-    @filtered_movements = movements
-
-    @pagy, @filtered_movements = pagy(movements)
-
-    respond_to do |format|
-      format.turbo_stream do
-        render turbo_stream: [
-          turbo_stream.update(
-            'search_results',
-            partial: 'movements/shared/search_results',
-            locals: { movements: @filtered_movements.presence || [] }
-          )
-        ]
-      end
-    end
   end
 
   def show; end
@@ -172,12 +157,11 @@ class MovementsController < ApplicationController
   end
 
   def export_pdf
-    @all_movements = filter(params)
     pdf = Prawn::Document.new
     table_data = Array.new
-    table_data << ["Código", "Fecha", "Zona", @kind, "Total \n (#{@all_movements.map(&:amount).sum})"]
+    table_data << ["Código", "Fecha", "Zona", @kind, "Total \n (#{@movements.map(&:amount).sum})"]
 
-    @all_movements.each do |movement|
+    @movements.each do |movement|
       table_data << [movement.code, movement.date.strftime('%d/%m/%Y').to_s, movement.rate&.zone&.name, @kind == "Cliente" ? movement.rate&.customer&.name : movement.rate&.delivery_rider&.name, movement.amount]
     end
 
