@@ -5,25 +5,13 @@ class DeliveryRidersController < ApplicationController
   # GET /delivery_riders or /delivery_riders.json
   def index
     add_breadcrumb t('.breadcrumb'), ''
-    @delivery_riders = DeliveryRider.ordered
-    @pagy, @delivery_riders = pagy(@delivery_riders)
+    delivery_riders = DeliveryRider.ordered
+    delivery_riders = search(params[:name]) if params[:name].present?
+    @pagy, @delivery_riders = pagy(delivery_riders)
   end
 
-  def search
-    @delivery_riders = DeliveryRider.all
-    text_fragment = params[:name]
-    @filtered_delivery_riders = @delivery_riders.select { |e| e.name.upcase.include?(text_fragment.upcase) }
-    respond_to do |format|
-      format.turbo_stream do
-        render turbo_stream: [
-          turbo_stream.update(
-            'search_results',
-            partial: 'delivery_riders/shared/search_results',
-            locals: { delivery_riders: @filtered_delivery_riders }
-          )
-        ]
-      end
-    end
+  def search(name)
+    @delivery_riders = DeliveryRider.includes([:price]).where('name ILIKE ?', "%#{name}%")
   end
 
   # GET /delivery_riders/1 or /delivery_riders/1.json
