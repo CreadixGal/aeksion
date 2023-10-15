@@ -1,5 +1,5 @@
 <%= form_with url: path,
-              method: :post,
+              method: :get,
               autocomplete: 'disabled',
               class: 'w-full relative search-form-component focus:outline-none focus:shadow-outline',
               data: {
@@ -9,6 +9,7 @@
               }  do |form| %>
               
   <%= form.hidden_field :kind, value: kind if kind.present? %>
+  <%= form.hidden_field :range, value: range if range.present?  %>
   <div class="relative">
     <%= form.search_field attribute.to_sym,
                           value: regex,
