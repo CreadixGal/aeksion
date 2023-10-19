@@ -5,25 +5,13 @@ class CustomersController < ApplicationController
   # GET /customers or /customers.json
   def index
     add_breadcrumb t('.breadcrumb'), ''
-    @customers = Customer.ordered
-    @pagy, @customers = pagy(@customers)
+    customers = Customer.ordered
+    customers = search(params[:name]) if params[:name].present?
+    @pagy, @customers = pagy(customers)
   end
 
-  def search
-    @customers = Customer.all
-    text_fragment = params[:name]
-    @filtered_customers = @customers.select { |e| e.name.upcase.include?(text_fragment.upcase) }
-    respond_to do |format|
-      format.turbo_stream do
-        render turbo_stream: [
-          turbo_stream.update(
-            'search_results',
-            partial: 'customers/shared/search_results',
-            locals: { customers: @filtered_customers }
-          )
-        ]
-      end
-    end
+  def search(name)
+    @customers = Customer.includes([:price]).where('name ILIKE ?', "%#{name}%")
   end
 
   # GET /customers/1 or /customers/1.json
