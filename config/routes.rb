@@ -9,14 +9,12 @@ Rails.application.routes.draw do
 
   resources :customers do
     collection do
-      post :search
       delete :multiple_delete
     end
   end
 
   resources :delivery_riders do
     collection do
-      post :search
       delete :multiple_delete
     end
   end
@@ -29,9 +27,7 @@ Rails.application.routes.draw do
     end
     collection do
       get :fetch_form
-      post :search
       delete :multiple_delete
-      get :export_pdf
     end
   end
 

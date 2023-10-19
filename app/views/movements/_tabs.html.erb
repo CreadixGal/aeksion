@@ -39,7 +39,7 @@
         path: movements_path,
         attribute: :range,
         options: {
-          placeholder: 'Buscaar entre fechas...',
+          placeholder: 'Buscar entre fechas...',
           kind: params[:kind]
         }
       )%>
@@ -85,11 +85,12 @@
     </h3>
     <div class="flex items-end">
       <%= render StringSearcherComponent.new(
-        path: search_movements_path,
+        path: movements_path(params: {range: params[:range], products: params[:products]}),
         attribute: :name,
         options: {
           placeholder: 'Busca por código o cliente...',
           kind: params[:kind],
+          range: params[:range],
           regex: params[:name]
         }
       )%>
