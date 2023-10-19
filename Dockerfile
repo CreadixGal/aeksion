@@ -73,7 +73,7 @@ RUN bundle install &&  rm -rf vendor/bundle/ruby/*/cache
 
 FROM base
 
-ARG DEPLOY_PACKAGES="file vim curl gzip libsqlite3-0 libvips"
+ARG DEPLOY_PACKAGES="file vim curl gzip libsqlite3-0 libvips procps"
 ENV DEPLOY_PACKAGES=${DEPLOY_PACKAGES}
 
 RUN --mount=type=cache,id=prod-apt-cache,sharing=locked,target=/var/cache/apt \
@@ -82,6 +82,7 @@ RUN --mount=type=cache,id=prod-apt-cache,sharing=locked,target=/var/cache/apt \
     apt-get install --no-install-recommends -y \
     ${DEPLOY_PACKAGES} wget lsb-release \
     && rm -rf /var/lib/apt/lists /var/cache/apt/archives
+
 
 # Update PostgreSQL client to match server version
 RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
@@ -115,7 +116,7 @@ ARG BUILD_COMMAND="bin/rails fly:build"
 RUN ${BUILD_COMMAND}
 
 # Default server start instructions.  Generally Overridden by fly.toml.
-ENV PORT 8080
+ENV PORT 3000
 ARG SERVER_COMMAND="bin/rails fly:server"
 ENV SERVER_COMMAND ${SERVER_COMMAND}
 CMD ${SERVER_COMMAND}

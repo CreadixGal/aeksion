@@ -4,11 +4,15 @@ test:
 
 local:
   service: Disk
-  root: <%= Rails.root.join("/data") %>
-
-staging:
-  service: Disk
-  root: <%= Rails.root.join("/data") %>
+  root: <%= Rails.root.join("storage") %>
+  
+spaces:
+  service: S3
+  access_key_id: <%= Figaro.env.do_access_key_id %>
+  secret_access_key: <%= Figaro.env.do_secret_access_key %>
+  bucket: <%= Figaro.env.do_bucket %>
+  region: <%= Figaro.env.do_region %>
+  endpoint: <%= Figaro.env.do_endpoint %>
 # Use bin/rails credentials:edit to set the AWS secrets (as aws:access_key_id|secret_access_key)
 # amazon:
 #   service: S3

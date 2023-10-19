@@ -57,7 +57,7 @@ end
     stock: rand(55_350..99_800),
     kind: [2, 1].sample
   )
-  product.image.attach(io: File.open(file_path), filename: file_name, content_type: 'image/jpeg')
+
   product.save!
   puts "\n📦 Product #{product.name} created 📦\n"
   Zone.where.not(name: 'DEFAULT').each do |zone|
