@@ -160,7 +160,7 @@ class MovementsController < ApplicationController
   def export_pdf
     pdf = Prawn::Document.new
     table_data = Array.new
-    table_data << ["Código", "Fecha", "Zona", @kind, "Total"]
+    table_data << ["Código", "Fecha", "Zona", @kind, "Total \n (#{@filtered_movemets.map(&:amount).sum})"]
 
     @filtered_movemets.each do |movement|
       table_data << [movement.code, movement.date.strftime('%d/%m/%Y').to_s, movement.rate&.zone&.name, @kind == "Cliente" ? movement.rate&.customer&.name : movement.rate&.delivery_rider&.name, movement.amount]
