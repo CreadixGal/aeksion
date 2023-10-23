@@ -23,6 +23,12 @@ class MovementsController < ApplicationController
     @movements = @movements.by_product_kind(params[:product_kind]) if params[:product_kind].present?
     @movements = @movements.by_product_name(params[:product_ids]) if params[:product_ids].present?
 
+    if params[:product_zero].present? && params[:product_zero] == "false"
+      movements_filter = @movements.reject { |movement| movement.amount == 0.0 }
+      @movements = Movement.where(id: movements_filter.pluck(:id))
+    end
+
+
     if params[:kind].eql?('delivery') && params[:name].present?
       @movements = @movements.joins(:customer)
                              .where('customers.name ILIKE ?', "%#{params[:name]}%")
@@ -161,9 +167,10 @@ class MovementsController < ApplicationController
     pdf = Prawn::Document.new
     table_data = Array.new
     table_data << ["Código", "Fecha", "Zona", @kind, "Total \n (#{@filtered_movemets.map(&:amount).sum})"]
-
+    sum = 0
     @filtered_movemets.each do |movement|
-      table_data << [movement.code, movement.date.strftime('%d/%m/%Y').to_s, movement.rate&.zone&.name, @kind == "Cliente" ? movement.rate&.customer&.name : movement.rate&.delivery_rider&.name, movement.amount]
+      sum += 1
+      table_data << ["#{sum} - " + movement.code, movement.date.strftime('%d/%m/%Y').to_s, movement.rate&.zone&.name, @kind == "Cliente" ? movement.rate&.customer&.name : movement.rate&.delivery_rider&.name, movement.amount]
     end
 
     pdf.table(table_data) do |table|
