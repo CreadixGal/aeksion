@@ -16,7 +16,7 @@
 # Pagy::VARS[:page]   = 1                                  # default
 # Pagy::VARS[:items]  = 25                                 # default
 # Pagy::VARS[:outset] = 0                                  # default
-Pagy::DEFAULT[:items] = 50
+Pagy::DEFAULT[:items] = 100
 
 # Other Variables
 # See https://ddnexus.github.io/pagy/api/pagy#other-variables
