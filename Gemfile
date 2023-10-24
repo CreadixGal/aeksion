@@ -120,7 +120,7 @@ gem 'tty-prompt'
 
 gem 'dockerfile-rails', '>= 1.2', group: :development
 
-# pdf
+# export pdf
 gem 'matrix'
 gem 'prawn', '~> 2.4'
 gem 'prawn-table', '~> 0.2.2'

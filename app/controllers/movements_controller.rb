@@ -4,62 +4,54 @@ class MovementsController < ApplicationController
 
   def index
     add_breadcrumb t(".#{params[:kind]}") if params[:kind].present?
-    @movements = filter(params)
-    @pagy, @movements = pagy(@movements)
+    @filtered_movemets = filter(params)
+
+    @kind = params[:kind] == "delivery" ? "Cliente" : "Repartidor"
+
+    @pagy, @movements = pagy(@filtered_movemets)
+
+    respond_to do |format|
+      format.turbo_stream
+      format.html
+      format.pdf { export_pdf }
+    end
   end
 
   def filter(params)
-    @movements = Movement.by_kind(params[:kind])
+    @movements = Movement.by_kind(params[:kind]) unless request.format.pdf?
+    @movements = Movement.includes([:product_movements]).by_kind(params[:kind]) if request.format.pdf?
+    @movements = @movements.by_product_kind(params[:product_kind]) if params[:product_kind].present?
+    @movements = @movements.by_product_name(params[:product_ids]) if params[:product_ids].present?
+
+    if params[:product_zero].present? && params[:product_zero] == "false"
+      movements_filter = @movements.reject { |movement| movement.amount == 0.0 }
+      @movements = Movement.where(id: movements_filter.pluck(:id))
+    end
+
+    if params[:kind].eql?('delivery') && params[:name].present?
+      @movements = @movements.joins(:customer)
+                             .where('customers.name ILIKE ?', "%#{params[:name]}%")
+                             .or(@movements.joins(:customer).where('movements.code ILIKE ?', "%#{params[:name]}%"))
+    end
+
+    if params[:kind].eql?('pickup') && params[:name].present?
+      @movements = @movements.joins(rate: :delivery_rider)
+                              .where('delivery_riders.name ILIKE ?', "%#{params[:name]}%")
+                              .or(@movements.joins(rate: :delivery_rider).where('movements.code ILIKE ?', "%#{params[:name]}%"))
+    end
 
     if params[:range].present?
       range = params[:range].include?('a') ? params[:range].split('a') : [params[:range], params[:range]]
       start_date, end_date = range.map(&:to_date)
       @movements = @movements.between_dates(start_date.beginning_of_day, end_date.end_of_day)
     end
-    @movements = @movements.by_product_kind(params[:product_kind]) if params[:product_kind].present?
-    @movements = @movements.by_product_name(params[:product_ids]) if params[:product_ids].present?
+
     @movements
   end
 
   def product_searcher
     @items = Product.where(kind: 'box')
     @items = Product.where(kind: 'pallet') if params[:product_kind] == 'pallet'
-  end
-
-  def search
-    text_fragment = params[:name]
-
-    movements = Movement.by_kind(params[:kind])
-
-    unless movements.empty?
-      if params[:kind].eql?('delivery')
-        movements = movements.joins(:customer)
-                             .where('customers.name ILIKE ?', "%#{text_fragment}%")
-                             .or(movements.joins(:customer).where('movements.code ILIKE ?', "%#{text_fragment}%"))
-      end
-
-      if params[:kind].eql?('pickup')
-        movements = movements.joins(rate: :delivery_rider)
-                             .where('delivery_riders.name ILIKE ?', "%#{text_fragment}%")
-                             .or(movements.joins(rate: :delivery_rider).where('movements.code ILIKE ?', "%#{text_fragment}%"))
-      end
-    end
-
-    @filtered_movements = movements
-
-    @pagy, @filtered_movements = pagy(movements)
-
-    respond_to do |format|
-      format.turbo_stream do
-        render turbo_stream: [
-          turbo_stream.update(
-            'search_results',
-            partial: 'movements/shared/search_results',
-            locals: { movements: @filtered_movements.presence || [] }
-          )
-        ]
-      end
-    end
   end
 
   def show; end
@@ -171,30 +163,31 @@ class MovementsController < ApplicationController
   end
 
   def export_pdf
-
-    kind = params[:kind]
-    # delivery -> cliente
-    # pickup -> delivery rider
-    if kind == "delivery"
-      res = "Cliente"
-    elsif kind == "pickup"
-      res = "Repartidor"
-    end
-
     pdf = Prawn::Document.new
     table_data = Array.new
-    table_data << ["Código", "Fecha", "Zona", res, "Total"]
-
-    if params[:movements].nil?
-      movements = []
-    else
-      movements = params[:movements].map { |id| Movement.find(id) }
+    table_data << ["Código", "Fecha", "Zona", @kind, "Total \n (#{@filtered_movemets.map(&:amount).sum})"]
+    @filtered_movemets.each do |movement|
+      table_data << [movement.code, movement.date.strftime('%d/%m/%Y').to_s, movement.rate&.zone&.name, @kind == "Cliente" ? movement.rate&.customer&.name : movement.rate&.delivery_rider&.name, movement.amount]
     end
 
-    movements.each do |movement|
-      table_data << [movement.code, movement.date.strftime('%d/%m/%Y').to_s, movement.rate&.zone&.name, res == "Cliente" ? movement.rate&.customer&.name : movement.rate&.delivery_rider&.name, movement.amount]
+    pdf.table(table_data) do |table|
+
+      table.column(0).align = :center
+      table.column(1).align = :center
+      table.column(2).align = :center
+      table.column(3).align = :center
+      table.column(4).align = :center
+
+      table.row(0).width = 100
+      table.row(0).font_style = :bold
+      table.row(0).background_color = 'DDDDDD'
+      table.row(0).valign = :center
+
+      table.cells.border_width = 0.5
+
+      table.cells.width = 100
     end
-    pdf.table(table_data, :width => 500, :cell_style => { inline_format: true })
+
     send_data pdf.render, filename: 'test.pdf', type: 'application/pdf', disposition: 'inline'
   end
 

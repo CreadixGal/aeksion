@@ -53,10 +53,16 @@
           </div>
         </div>
         <%= turbo_frame_tag Customer.new, class: 'w-full' %>
-        <%= turbo_frame_tag :customers, class:'w-full' do %>
-          <ul class="divide-y divide-slate-200" role="list">
-            <%= render @customers %>
-          </ul>
+        <%= turbo_frame_tag :customers, class: 'w-full' do %>
+          <% if @customers.present? %>
+            <div id="search_results">
+              <ul class="divide-y divide-slate-200" role="list">
+                <%= render @customers %>
+              </ul>
+            </div>
+          <% else %>
+            <div class="w-full p-4 text-lg text-center"><%= t('.no_data')%></div>
+          <% end %>
         <% end %>
       </div>
       <div class="w-full flex gap-8 my-3 px-10">
