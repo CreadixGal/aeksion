@@ -19,7 +19,7 @@ class MovementsController < ApplicationController
 
   def filter(params)
     @movements = Movement.by_kind(params[:kind]) unless request.format.pdf?
-    @movements = Movement.includes([:product_movements]).all if request.format.pdf?
+    @movements = Movement.includes([:product_movements]).by_kind(params[:kind]) if request.format.pdf?
     @movements = @movements.by_product_kind(params[:product_kind]) if params[:product_kind].present?
     @movements = @movements.by_product_name(params[:product_ids]) if params[:product_ids].present?
 
@@ -166,10 +166,8 @@ class MovementsController < ApplicationController
     pdf = Prawn::Document.new
     table_data = Array.new
     table_data << ["Código", "Fecha", "Zona", @kind, "Total \n (#{@filtered_movemets.map(&:amount).sum})"]
-    sum = 0
     @filtered_movemets.each do |movement|
-      sum += 1
-      table_data << ["#{sum} - " + movement.code, movement.date.strftime('%d/%m/%Y').to_s, movement.rate&.zone&.name, @kind == "Cliente" ? movement.rate&.customer&.name : movement.rate&.delivery_rider&.name, movement.amount]
+      table_data << [movement.code, movement.date.strftime('%d/%m/%Y').to_s, movement.rate&.zone&.name, @kind == "Cliente" ? movement.rate&.customer&.name : movement.rate&.delivery_rider&.name, movement.amount]
     end
 
     pdf.table(table_data) do |table|
