@@ -28,7 +28,6 @@ class MovementsController < ApplicationController
       @movements = Movement.where(id: movements_filter.pluck(:id))
     end
 
-
     if params[:kind].eql?('delivery') && params[:name].present?
       @movements = @movements.joins(:customer)
                              .where('customers.name ILIKE ?', "%#{params[:name]}%")
