@@ -4,6 +4,8 @@ class ZonesController < ApplicationController
 
   def index
     @zones = Zone.ordered
+    @headers = %w[nombre precio]
+    @attrs = %i[name quantity]
     @pagy, @zones = pagy(@zones)
   end
 
