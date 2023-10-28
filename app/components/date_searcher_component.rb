@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class DateSearcherComponent < ViewComponent::Base
-  attr_reader :path, :placeholder, :kind, :regex, :attribute
+  attr_reader :path, :placeholder, :kind, :regex, :attribute, :zero, :name
 
   def initialize(path:, attribute:, options: {})
     super
@@ -9,5 +9,7 @@ class DateSearcherComponent < ViewComponent::Base
     @attribute    = attribute
     @placeholder  = options[:placeholder] || 'Search...'
     @kind         = options[:kind]        || nil
+    @zero         = options[:zero]        || nil
+    @name         = options[:name]        || nil
   end
 end

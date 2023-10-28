@@ -56,7 +56,8 @@
         attribute: :range,
         options: {
           placeholder: 'Buscar entre fechas...',
-          kind: params[:kind]
+          kind: params[:kind],
+          zero: params[:product_zero]
         }
       )%>
     </div>
@@ -66,6 +67,8 @@
       <h3 class="title font-semibold font-sm md:font-lg text-left">Tipo de Producto</h3>
       <%= form_with url: movements_path, method: :get, local: true do |form| %>
       <%= form.hidden_field :kind, value: params[:kind] %>
+      <%= form.hidden_field :range, value: params[:range] %>
+      <%= form.hidden_field :name, value: params[:name] %>
         <div class="flex flex-col justify-center items-center gap-6">
           <div class="w-full flex justify-center items-center gap-4">
             <div class="flex items-center gap-3">
@@ -106,6 +109,7 @@
         options: {
           placeholder: 'Busca por código o cliente...',
           kind: params[:kind],
+          zero: params[:product_zero],
           range: params[:range],
           regex: params[:name]
         }
