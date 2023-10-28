@@ -82,11 +82,11 @@
               class: "wrapper-icon-button-#{movement.returned? ? 'error' : 'default'}" if movement.rate_delivery? %>
         <% end %>
 
-        <%#= link_to inline_svg_tag(
-              'icons/pencil-square.svg',
+        <%= link_to inline_svg_tag(
+              'icons/eye.svg',
               class: 'icon-button-default'
             ),
-            edit_movement_path(movement),
+            movement_path(movement),
             data: {
               turbo_frame: 'modal'
             },

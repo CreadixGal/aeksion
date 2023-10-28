@@ -1,0 +1,71 @@
+<div class="w-full flex flex-col items-start justify-start text-black text-center font-semibold py-2 px-0 relative z-0 group gap-8">
+    <div class="w-full flex justify-between items-center gap-8">
+        <div class="flex flex-col justify-center items-start gap-4">
+            <div class="text-lg text-gray-800"><%= t('.code') %></div>
+            <div class="w-full mx-auto block py-2 px-2 w-full text-lg text-left text-slate-700 bg-transparent border-gray-300">
+                <%= movement.code %>
+            </div>
+        </div>
+        <div class="flex flex-col justify-center items-start gap-4 relative">
+            <div class="text-lg text-gray-800"><%= t('.date') %></div>
+            <div class="w-full mx-auto block py-2 px-2 w-full text-lg text-left text-slate-700 bg-transparent border-gray-300">
+                <%= movement.date.strftime('%d-%m-%y') %>
+            </div>
+        </div>
+    </div>
+    <div class="w-full flex justify-center items-start gap-4">
+        <div class="flex-1 w-full flex flex-col justify-between items-center gap-8">
+            <div class="text-lg text-gray-800"><%= t('.zone') %></div>
+            <div class="w-full mx-auto block py-2 px-2 w-full text-lg text-left text-slate-700 bg-transparent border-gray-300">
+                <%= movement.rate.zone_name %>
+            </div>
+        </div>
+        <% if movement.rate.delivery? %>
+            <div class="flex-1 w-full flex flex-col justify-between items-center gap-8">
+                <div class="text-lg text-gray-800"><%= t('.customer') %></div>
+                <div class="w-full mx-auto block py-2 px-2 w-full text-lg text-left text-slate-700 bg-transparent border-gray-300">
+                    <%= movement.rate.customer_name %>
+                </div>
+            </div>
+        <% elsif movement.rate.pickup? %>
+            <div class="flex-1 w-full flex flex-col justify-between items-center gap-8">
+                <div class="text-lg text-gray-800"><%= t('.delivery_rider') %></div>
+                <div class="w-full mx-auto block py-2 px-2 w-full text-lg text-left text-slate-700 bg-transparent border-gray-300">
+                    <%= movement.rate.delivery_rider_name %>
+                </div>
+            </div>
+        <% end %>
+    </div>
+    <div class="w-full flex flex-col items-end gap-8">
+        <h3 class="text-2xl font-semibold">Productos:</h3>
+        <div class="grid grid-cols-3 gap-4 w-full">
+            <div class="col-span-1">
+                <% movement.variants.each do |variant| %>
+                    <div class="border border-gray-300 p-2 my-2">
+                        <%= link_to variant.product.name, variant.product, data: { turbo_frame: 'modal' } %>
+                    </div>
+                <% end %>
+            </div>
+            <div class="col-span-1">
+                <% movement.product_movements.each do |pm| %>
+                    <div class="border border-gray-300 p-2 my-2 <%= 'bg-red-200' if pm.return %>">
+                        <%= pm.quantity %>
+                    </div>
+                <% end %>
+            </div>
+            <div class="col-span-1">
+                <% if movement.rate.pickup? %>
+                    <% movement.variants.each do |variant| %>
+                        <div class="border border-gray-300 p-2 my-2">
+                            <%= number_to_currency(variant.quantity, precision: 4) %>
+                        </div>
+                    <% end %>
+                <% elsif movement.rate.delivery? %>
+                    <div class="border border-gray-300 p-2">
+                        <%= number_to_currency movement.rate.customer.price_quantity, precision: 4 %>
+                    </div>
+                <% end %>
+            </div>
+        </div>
+    </div>
+</div>
