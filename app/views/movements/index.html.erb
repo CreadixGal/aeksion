@@ -5,10 +5,10 @@
   <%= turbo_frame_tag :movements_index do %>
     <%= form_with(model: @movements, url: multiple_delete_movements_path, html: { class: 'w-full flex flex-col gap-8 mt-8 px-10', turbo: false }) do |form| %>
       <%= form.hidden_field :kind, value: params[:kind] %>
-      <div class="min-w-full flex flex-col justify-center items-center mx-auto mb-5 border rounded-lg" data-controller="checkbox-select-all">
+      <section class="min-w-full flex flex-col justify-center items-center mx-auto mb-5 border rounded-lg" data-controller="checkbox-select-all">
         <!-- TABLE HEADER -->
-        <div id="" class="table-header">
-          <div class="w-1/12 flex justify-center items-center content-center px-4 border-r">
+        <header id="" class="w-full grid grid-cols-8 border rounded-t-lg border-black bg-black opacity-100 text-white">
+          <div class="col-span-1 flex justify-center items-center content-center px-4 border-r">
             <%= render CheckboxComponent.new(
                   id: 'select-all',
                   name: 'movement_ids[]',
@@ -20,33 +20,24 @@
                   }
                 ) %>
           </div>
-          <div class="w-9/12 flex justify-center items-center text-white text-center">
-            <div class="w-[12.5%] flex justify-start  items-center px-4">
+          <div class="col-span-5 grid grid-cols-5 text-white text-center px-4">
+            <div class="col-span-1 flex justify-start items-center">
               CÓDIGO
             </div>
-            <div class="w-[12.5%] flex justify-start  items-center px-4">
+            <div class="col-span-1 flex justify-start items-center">
               FECHA
             </div>
-            <div class="w-[12.5%] flex justify-start  items-center px-4">
+            <div class="col-span-1 flex justify-start items-center">
               TIPO
             </div>
-            <div class="w-[12.5%] flex justify-start  items-center px-4">
+            <div class="col-span-1 flex justify-start items-center">
               CLIENTE
             </div>
-            <div class="w-[12.5%] flex justify-end  items-center px-4">
-              PRODUCTO
-            </div>
-            <div class="w-[12.5%] flex justify-end  items-center px-4">
-              CANTIDAD
-            </div>
-            <div class="w-[12.5%] flex justify-end  items-center px-4">
-              TARIFA
-            </div>
-            <div class="w-[12.5%] flex justify-end  items-center px-4">
+            <div class="col-span-1 flex justify-end items-center">
               TOTAL
             </div>
           </div>
-          <div class="table-actions">
+          <div class="col-span-2 flex justify-end items-center border-l px-4 gap-8">
             <%= link_to inline_svg_tag(
                           'icons/icon_pdf.svg', 
                           class: 'icon-button-default'
@@ -86,7 +77,7 @@
                         data: { turbo: false },
                         class: 'wrapper-icon-button-default' %>
           </div>
-        </div>
+        </header>
         <!-- TABLE HEADER -->
         <%= turbo_frame_tag Movement.new, class: 'w-full' %>
         <!--- TABLE ROWS -->
@@ -103,9 +94,9 @@
         <% end %>
         <!-- TABLE ROWS -->
         <!-- TABLE FOOTER -->
-        <div id="" class="table-footer">
-          <div class="w-1/12"></div>
-          <div id="" class="w-9/12 flex justify-center text-indigo-600 text-center font-semibold">
+        <footer id="" class="w-full grid grid-cols-8 border rounded-b-lg border-black bg-black opacity-100 text-white">
+          <div class="col-span-1 "></div>
+          <div id="" class="col-span-5 flex justify-center text-indigo-600 text-center font-semibold">
             <% 7.times do %>
                 <%= content_tag(:div, content_tag(:p, ""), class: "w-full px-4") %>
             <% end %>
@@ -116,10 +107,10 @@
               </span>
             </div>
           </div>
-          <div class="w-2/12"></div>
-        </div>
+          <div class="col-span-2"></div>
+        </footer>
         <!-- TABLE FOOTER -->
-      </div>
+      </section>
       <div class="w-full flex gap-8 my-3 px-10">
         <%== pagy_nav(@pagy) if @pagy.present? %>
       </div>

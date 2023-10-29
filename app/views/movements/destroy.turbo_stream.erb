@@ -1,5 +1,5 @@
 <%= turbo_stream.update "#{@movement.rate_kind}_count", "<span id='#{@movement.rate_kind}_count' class='max-w-12 w-6 max-h-6 p-4 flex justify-center items-center rounded-full bg-red-300 text-sm text-white'>
-  #{(Movement.by_kind(@movement.rate_kind).count )}
+  #{Movement.send(@movement.rate_kind).count}
 </span>"%>
 <%= turbo_stream.remove "movement_#{@movement.id}" %>
 <%= turbo_stream.prepend "notification", partial: "layouts/shared/notification" %>

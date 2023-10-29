@@ -1,0 +1,30 @@
+<nav class="w-full flex justify-start mt-3 gap-4" data-controller="tab">
+  <div class="w-full flex-1 flex justify-start">
+    <%= render TabComponent.new(
+          item: 'Activos',
+          path: zones_path(params: { active: true }),
+          options: {
+            text: 'Activos',
+            icon: 'user-group.svg',
+            link_style: "tab-component #{'bg-black text-white' if params[:active].eql?('true')}"
+          }
+        ) %>
+    <%= render TabComponent.new(
+          item: 'Bajas',
+          path: zones_path(params: { active: false }),
+          options: {
+            text: 'Bajas',
+            icon: 'user-group.svg',
+            link_style: "tab-component #{'bg-black text-white' if params[:active].eql?('false')}"
+          }
+        ) %>
+  </div>
+
+  <div class="w-full flex-1 flex justify-end items-center pl-4 gap-8">
+    <%= link_to :back, class: 'btn-cancel w-auto max-w-min whitespace-nowrap gap-4 ' do %>
+      <%= inline_svg_tag('icons/arrow-back.svg', class: 'w-6 h-6 text-black stroke-2') %>
+      <span class=" text-black font-semibold">Atrás</span> 
+    <% end %>
+  </div>
+</nav>
+
