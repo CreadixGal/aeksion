@@ -86,7 +86,7 @@
   }
 
   .table-actions{
-    @apply w-2/12 flex justify-end items-center border-l px-4 py-2 gap-8;
+    @apply flex justify-end items-center border-l px-4 py-2 gap-8;
   }
 
   .table-cell-text {
