@@ -6,7 +6,7 @@ class MovementsController < ApplicationController
     add_breadcrumb t(".#{params[:kind]}") if params[:kind].present?
     @filtered_movemets = filter(params)
 
-    @kind = params[:kind] == "delivery" ? "Cliente" : "Repartidor"
+    @kind = params[:kind] == 'delivery' ? 'Cliente' : 'Repartidor'
 
     @pagy, @movements = pagy(@filtered_movemets)
 
@@ -17,13 +17,15 @@ class MovementsController < ApplicationController
     end
   end
 
+  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/PerceivedComplexity
+  # rubocop:disable Metrics/CyclomaticComplexity
   def filter(params)
-    @movements = Movement.by_kind(params[:kind]) unless request.format.pdf?
-    @movements = Movement.includes([:product_movements]).by_kind(params[:kind]) if request.format.pdf?
+    @movements = Movement.includes(:product_movements).send(params[:kind])
     @movements = @movements.by_product_kind(params[:product_kind]) if params[:product_kind].present?
     @movements = @movements.by_product_name(params[:product_ids]) if params[:product_ids].present?
 
-    if params[:product_zero].present? && params[:product_zero] == "false"
+    if params[:product_zero].present? && params[:product_zero] == 'false'
       movements_filter = @movements.reject { |movement| movement.amount == 0.0 }
       @movements = Movement.where(id: movements_filter.pluck(:id))
     end
@@ -31,13 +33,15 @@ class MovementsController < ApplicationController
     if params[:kind].eql?('delivery') && params[:name].present?
       @movements = @movements.joins(:customer)
                              .where('customers.name ILIKE ?', "%#{params[:name]}%")
-                             .or(@movements.joins(:customer).where('movements.code ILIKE ?', "%#{params[:name]}%"))
+                             .or(@movements.joins(:customer)
+                             .where('movements.code ILIKE ?', "%#{params[:name]}%"))
     end
 
     if params[:kind].eql?('pickup') && params[:name].present?
       @movements = @movements.joins(rate: :delivery_rider)
-                              .where('delivery_riders.name ILIKE ?', "%#{params[:name]}%")
-                              .or(@movements.joins(rate: :delivery_rider).where('movements.code ILIKE ?', "%#{params[:name]}%"))
+                             .where('delivery_riders.name ILIKE ?', "%#{params[:name]}%")
+                             .or(@movements.joins(rate: :delivery_rider)
+                             .where('movements.code ILIKE ?', "%#{params[:name]}%"))
     end
 
     if params[:range].present?
@@ -48,6 +52,9 @@ class MovementsController < ApplicationController
 
     @movements
   end
+  # rubocop:enable Metrics/CyclomaticComplexity
+  # rubocop:enable Metrics/PerceivedComplexity
+  # rubocop:enable Metrics/AbcSize
 
   def product_searcher
     @items = Product.where(kind: 'box')
@@ -151,7 +158,7 @@ class MovementsController < ApplicationController
 
   def fetch_form
     @rates = []
-    @rates = Rate.joins(:zone).where(zones: { name: [Zone.pluck(:name)] }, kind: 'delivery') if params[:kind].eql?('delivery')
+    @rates = Rate.joins(:zone).where(zones: { name: [Zone.select(:name)] }, kind: 'delivery') if params[:kind].eql?('delivery')
     @rates = Rate.where(zone_id: params[:id], kind: 'pickup') if params[:kind].eql?('pickup')
     @products = Variant.where(zone_id: params[:id])
     rates_options = view_context.options_from_collection_for_select(@rates, :id, :name, params[:selected])
@@ -162,16 +169,19 @@ class MovementsController < ApplicationController
     end
   end
 
+  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/PerceivedComplexity
+  # rubocop:disable Metrics/CyclomaticComplexity
+  # rubocop:disable Metrics/LineLength
   def export_pdf
     pdf = Prawn::Document.new
-    table_data = Array.new
-    table_data << ["Código", "Fecha", "Zona", @kind, "Total \n (#{@filtered_movemets.map(&:amount).sum})"]
+    table_data = []
+    table_data << ['Código', 'Fecha', 'Zona', @kind, "Total \n (#{@filtered_movemets.sum(&:amount)})"]
     @filtered_movemets.each do |movement|
-      table_data << [movement.code, movement.date.strftime('%d/%m/%Y').to_s, movement.rate&.zone&.name, @kind == "Cliente" ? movement.rate&.customer&.name : movement.rate&.delivery_rider&.name, movement.amount]
+      table_data << [movement.code, movement.date.strftime('%d/%m/%Y').to_s, movement.rate&.zone&.name, @kind == 'Cliente' ? movement.rate&.customer&.name : movement.rate&.delivery_rider&.name, movement.amount]
     end
 
     pdf.table(table_data) do |table|
-
       table.column(0).align = :center
       table.column(1).align = :center
       table.column(2).align = :center
@@ -188,8 +198,18 @@ class MovementsController < ApplicationController
       table.cells.width = 100
     end
 
-    send_data pdf.render, filename: 'test.pdf', type: 'application/pdf', disposition: 'inline'
+    filename = "#{@kind.eql?('Cliente') ? 'entregas' : 'recogidas'}#{Time.zone.now.strftime('%d%m%Y%H%M')}"
+    send_data(
+      pdf.render,
+      filename: "#{filename}.pdf",
+      type: 'application/pdf',
+      disposition: 'inline'
+    )
   end
+  # rubocop:enable Metrics/LineLength
+  # rubocop:enable Metrics/CyclomaticComplexity
+  # rubocop:enable Metrics/PerceivedComplexity
+  # rubocop:enable Metrics/AbcSize
 
   private
 

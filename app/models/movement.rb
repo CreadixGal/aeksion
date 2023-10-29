@@ -52,10 +52,11 @@ class Movement < ApplicationRecord
   end
 
   def self.by_kind(kind)
+    scope = includes(:product_movements)
     if kind.eql?('pickup')
-      preload([{ variants: %i[product price] }, { product_movements: :variant }]).send(kind)
+      scope.preload([{ variants: %i[product price] }, { product_movements: :variant }]).send(kind)
     else
-      preload([{ variants: [:product] }, { product_movements: :variant }]).send(kind)
+      scope.preload([{ variants: [:product] }, { product_movements: :variant }]).send(kind)
     end
   end
 
