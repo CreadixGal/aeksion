@@ -32,10 +32,18 @@ export default class extends Controller {
 
   search() {
     let search = this.searchTarget
+    let formElement = search.closest('form'); // Obtener el formulario relacionado
+
+
     search.config = {
       enableTime: false,
       dateFormat: "d-m-Y",
       mode: 'range',
+      onClose: function(selectedDates) {
+        if (selectedDates.length === 2) {
+          formElement.submit();
+        }
+      },
       locale: {
         "firstDayOfWeek": 1 // start week on Monday
       },
