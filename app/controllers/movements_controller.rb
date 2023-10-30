@@ -21,8 +21,8 @@ class MovementsController < ApplicationController
   # rubocop:disable Metrics/PerceivedComplexity
   # rubocop:disable Metrics/CyclomaticComplexity
   def filter(params)
-    @movements = Movement.includes(:product_movements).send(params[:kind]) unless request.format.pdf?
-    @movements = Movement.includes([:product_movements]).send(params[:kind]) if request.format.pdf?
+    @movements = Movement.includes(:product_movements).send(params[:kind])
+
     @movements = @movements.by_product_kind(params[:product_kind]) if params[:product_kind].present?
     @movements = @movements.by_product_name(params[:product_ids]) if params[:product_ids].present?
 
@@ -40,12 +40,16 @@ class MovementsController < ApplicationController
                              .where('movements.code ILIKE ?', "%#{params[:name]}%"))
     end
 
-    @movements.reject { |movement| movement.amount == 0.0 } if params[:product_zero].eql?('false')
-
     if params[:range].present?
       range = params[:range].include?('a') ? params[:range].split('a') : [params[:range], params[:range]]
       start_date, end_date = range.map(&:to_date)
       @movements = @movements.between_dates(start_date.beginning_of_day, end_date.end_of_day)
+    end
+
+    if params[:product_zero].eql?('false')
+      Rails.logger.info "🔥 #{params} 🔥 #{@movements.count}"
+      movements = @movements.reject { |movement| movement.amount.zero? }.pluck(:id)
+      @movements = Movement.where(id: movements).order(date: :desc)
     end
 
     @movements
