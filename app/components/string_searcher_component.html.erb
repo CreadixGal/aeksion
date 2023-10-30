@@ -9,9 +9,9 @@
               }  do |form| %>
               
   <%= form.hidden_field :kind, value: kind if kind.present? %>
-  <%= form.hidden_field :range, value: range if range.present?  %>
   <%= form.hidden_field :product_zero, value: zero if zero.present? %>
-  <div class="relative [&>#search-icon]:hidden">
+  <%= form.hidden_field :range, value: range if range.present?  %>
+  <div class="relative">
     <%= form.search_field attribute.to_sym,
                           value: regex,
                           placeholder: placeholder,
@@ -22,7 +22,7 @@
                           class: 'w-full bg-white shadow rounded border-0 p-3',
                           autocomplete: 'off' %>
 
-    <div id= "search-icon" class="absolute top-1/4 right-2" data-debounce-target="icon">
+    <div class="absolute top-1/4 right-8" data-debounce-target="icon">
       <%= inline_svg_tag('icons/search.svg', class: 'w-6 h-6 stroke-gray-600')%>
     </div>
   </div>
