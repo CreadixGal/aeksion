@@ -21,14 +21,10 @@ class MovementsController < ApplicationController
   # rubocop:disable Metrics/PerceivedComplexity
   # rubocop:disable Metrics/CyclomaticComplexity
   def filter(params)
-    @movements = Movement.includes(:product_movements).send(params[:kind])
+    @movements = Movement.includes(:product_movements).send(params[:kind]) unless request.format.pdf?
+    @movements = Movement.includes([:product_movements]).send(params[:kind]) if request.format.pdf?
     @movements = @movements.by_product_kind(params[:product_kind]) if params[:product_kind].present?
     @movements = @movements.by_product_name(params[:product_ids]) if params[:product_ids].present?
-
-    if params[:product_zero].present? && params[:product_zero] == 'false'
-      movements_filter = @movements.reject { |movement| movement.amount == 0.0 }
-      @movements = Movement.where(id: movements_filter.pluck(:id))
-    end
 
     if params[:kind].eql?('delivery') && params[:name].present?
       @movements = @movements.joins(:customer)
@@ -43,6 +39,8 @@ class MovementsController < ApplicationController
                              .or(@movements.joins(rate: :delivery_rider)
                              .where('movements.code ILIKE ?', "%#{params[:name]}%"))
     end
+
+    @movements.reject { |movement| movement.amount == 0.0 } if params[:product_zero].eql?('false')
 
     if params[:range].present?
       range = params[:range].include?('a') ? params[:range].split('a') : [params[:range], params[:range]]
@@ -174,6 +172,7 @@ class MovementsController < ApplicationController
   # rubocop:disable Metrics/CyclomaticComplexity
   # rubocop:disable Metrics/LineLength
   def export_pdf
+    Rails.logger.info params
     pdf = Prawn::Document.new
     table_data = []
     table_data << ['Código', 'Fecha', 'Zona', @kind, "Total \n (#{@filtered_movemets.sum(&:amount)})"]
