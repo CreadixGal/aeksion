@@ -1,0 +1,9 @@
+<dropdown class="flex flex-col justify-center items-center gap-4 border border-white bg-white px-4 [&>div]:hidden [&>div]:hover:block [&>div]:hover:delay-1000 delay-500 relative text-corporation">
+  <span><%= current_items %></span>
+  <div class="absolute top-8 bg-white p-1 flex flex-col justify-center items-center hover:delay-1000 text-black font-semibold">
+    <%= link_to '10', get_path_params_and_merge_new_one(10), class: "px-2 text-center #{'hidden' if current_items.eql?('10') || current_items.blank?}" %>
+    <%= link_to '25', get_path_params_and_merge_new_one(25), class: "px-2 text-center #{'hidden' if current_items.eql?('25')}" %>
+    <%= link_to '50', get_path_params_and_merge_new_one(50), class: "px-2 text-center #{'hidden' if current_items.eql?('50')}" %>
+    <%= link_to '100', get_path_params_and_merge_new_one(100), class: "px-2 text-center #{'hidden' if current_items.eql?('100')}" %>
+  </div>
+</dropdown>

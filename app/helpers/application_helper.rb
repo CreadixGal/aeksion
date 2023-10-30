@@ -16,4 +16,25 @@ module ApplicationHelper
       'Finalizado'
     end
   end
+
+  # helper for list_component
+  def object_to_li(record, attrs)
+    attrs.map do |attr|
+      if block_given? && yield(record, attr)
+        yield(record, attr)
+      else
+        record.send(attr)
+      end
+    end
+  end
+  
+  # helper for list_component
+  def linked_cell_content(record, attr, options)
+    option = options.find { |o| o[:attr] == attr }
+    if option
+      link_to record.send(attr), option[:path], class: option[:style].presence || ""
+    else
+      record.send(attr)
+    end
+  end
 end

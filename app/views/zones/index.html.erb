@@ -1,3 +1,66 @@
+
+<div class="w-full flex flex-col items">
+  <%#= render 'zones/tabs' %>
+</div>
+<div class="w-full flex flex-col justify-center items-center mx-auto">
+  <div class="w-full flex justify-between bg-black text-white py-4">
+    <div class="w-full flex justify-between items-center mx-auto">
+      <div class="w-2/5 flex gap-8 flex-nowrap">
+        <h1 id="count" class="font-bold text-4xl text-left pl-4 flex flex-nowrap">
+          Zonas: <%= @pagy.count %>
+        </h1>
+        <%#= render PaginatorComponent.new(path: zones_path, current_items: 10) %>
+      </div>
+      <div class="w-2/5 flex justify-between items-center pr-4">
+        <%#= render 'zones/shared/search_form' %>
+      </div>
+      <div class="w-1/5 flex gap-8 justify-end items-center mr-5">
+        <%= button_to inline_svg_tag('icons/trash.svg', class: 'icon-button-default'),
+                      { action: :multiple_delete },
+                      method: :delete,
+                      data: { 'turbo-confirm': 'Are you sure?' },
+                      class: 'wrapper-icon-button-default'%>
+          <%= link_to inline_svg_tag('icons/plus-circle.svg', class: 'w-6 h-6 text-black'), new_zone_path, data: { turbo_frame: dom_id(Zone.new) }, class: 'wrapper-icon-button-default' %>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-2">
+    <div class="col-span-11"></div>
+    <div class="col-span-2"></div>
+  </div>
+
+
+  <div class="min-w-full">
+    <%= render ListComponent.new(headers: @headers, cols: 3, resources: @zones) do |list| %>
+      <% @zones.each do |zone|%>
+        <%= list.row(resource: zone, cells: object_to_li(zone, @attrs) { |record, attr| linked_cell_content(record, attr, []) }) do |li| %>
+          <% li.actions do %>
+            <% if action_name != "show" %>
+              <%= link_to inline_svg_tag('icons/pencil-square.svg', class: 'icon-button-default'), edit_zone_path(zone), class: 'wrapper-icon-button-default' %>
+              <%= button_to zone, method: :delete,
+                                      data: { 
+                                        controller: "swal",
+                                        swal_name_value: zone.name,
+                                        action: "click->swal#single"
+                                      },
+                                      class: 'wrapper-icon-button-default' do %>
+                <%= inline_svg_tag('icons/trash.svg', class: 'icon-button-default') %>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+    <%== pagy_nav(@pagy)%>
+  </div>
+</div>
+
+
+
+
+
+
 <div class="w-full px-8">
   <div class="flex justify-between items-center my-8">
     <h1 class="font-bold text-4xl">Zonas</h1>
@@ -42,3 +105,4 @@
     <% end %>
   <% end %>
 </div>
+
