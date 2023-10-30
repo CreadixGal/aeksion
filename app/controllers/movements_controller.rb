@@ -181,7 +181,7 @@ class MovementsController < ApplicationController
     table_data = []
     table_data << ['Código', 'Fecha', 'Zona', @kind, "Total \n (#{@filtered_movemets.sum(&:amount)})"]
     @filtered_movemets.each do |movement|
-      table_data << [movement.code, movement.date.strftime('%d/%m/%Y').to_s, movement.rate&.zone&.name, @kind == 'Cliente' ? movement.rate&.customer&.name : movement.rate&.delivery_rider&.name, movement.amount]
+      table_data << [movement.code, movement.date.strftime('%d/%m/%Y').to_s, movement.rate&.zone&.name, @kind == 'Cliente' ? movement.rate&.customer&.name : movement.rate&.delivery_rider&.name, format('%.4f€', movement.amount)]
     end
 
     pdf.table(table_data) do |table|
