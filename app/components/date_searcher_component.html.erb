@@ -4,7 +4,8 @@
               class: 'w-full relative search-form-component focus:outline-none focus:shadow-outline' do |form| %>
 
   <%= form.hidden_field :kind, value: kind if kind.present? %>
-  <%= form.hidden_field :product_zero, value: zero if zero.present? %>
+  <%= form.hidden_field :name, value: name if name.present? %>
+  
   <div class="relative">
     <%= form.text_field :range,
                         value: range,
@@ -17,6 +18,7 @@
     <div class="absolute top-1/4 right-2" data-debounce-target="icon">
       <%= inline_svg_tag('icons/calendar.svg', class: 'w-6 h-6 stroke-gray-600')%>
     </div>
-    <%= form.hidden_field :name, value: name if name.present? %>
   </div>
+
+  <%= form.hidden_field :product_zero, value: zero if zero.present? %>
 <% end %>
