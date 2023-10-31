@@ -44,10 +44,11 @@
                         ),
                         movements_path(params: {
                           kind: params[:kind],
-                          range: params[:range],
                           name: params[:name],
+                          range: params[:range],
                           product_zero: params[:product_zero],
-                        },format: :pdf),
+                          product_kind: params[:product_kind],
+                        }, format: :pdf),
                         target: "_blank",
                         class: 'wrapper-icon-button-default' %>
             <%= button_to inline_svg_tag(

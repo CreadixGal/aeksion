@@ -42,7 +42,7 @@
   }
 
   .tab-component {
-    @apply w-full md:w-2/6 flex items-center justify-center flex-1 py-2 hover:bg-gray-100 border-t-2 border-x-2 border-gray-300 opacity-60 rounded-tr-lg;
+    @apply w-full md:w-2/6 flex items-center justify-center flex-1 py-2 hover:bg-gray-200 border-t-2 border-x-2 border-gray-300 rounded-tr-lg;
   }
 
   .menu-item-component {

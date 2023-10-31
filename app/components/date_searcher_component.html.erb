@@ -1,7 +1,7 @@
 <%= form_with url: path,
               method: :get,
               local: true,
-              class: 'w-full relative search-form-component focus:outline-none focus:shadow-outline' do |form| %>
+              class: 'w-full relative focus:outline-none focus:shadow-outline' do |form| %>
 
   <%= form.hidden_field :kind, value: kind if kind.present? %>
   <%= form.hidden_field :name, value: name if name.present? %>
@@ -21,4 +21,5 @@
   </div>
 
   <%= form.hidden_field :product_zero, value: zero if zero.present? %>
+  <%= form.hidden_field :product_kind, value: product_kind if product_kind.present? %>
 <% end %>

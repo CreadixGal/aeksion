@@ -1,7 +1,7 @@
 <%= form_with url: path,
               method: :get,
               autocomplete: 'disabled',
-              class: 'w-full relative search-form-component focus:outline-none focus:shadow-outline',
+              class: 'w-full relative focus:outline-none focus:shadow-outline',
               data: {
                 controller: 'debounce',
                 'debounce-target': 'form',
@@ -28,4 +28,5 @@
 
   <%= form.hidden_field :range, value: range if range.present?  %>
   <%= form.hidden_field :product_zero, value: zero if zero.present? %>
+  <%= form.hidden_field :product_kind, value: prodcut_kind if product_kind.present? %>
 <% end %>
