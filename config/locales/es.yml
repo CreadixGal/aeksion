@@ -223,6 +223,7 @@ es:
       movements:
         date: Fecha
         code: Código
+
   
   helpers:
     select:
@@ -339,6 +340,21 @@ es:
       product: Producto
       quantity: Cantidad
       delete: Eliminar
+    show_movement:
+      code: Código
+      date: Fecha
+      customer: Cliente
+      delivery_rider: Repartidor
+      rate: Tarifa
+      zone: Zona
+      product: Producto
+      units: Unidades
+      quantity: Precio
+      edit: Editar
+      delete: Eliminar
+      amount: Precio
+      total: Total
+
   pages:
     dashboard:
       movements: Movimientos

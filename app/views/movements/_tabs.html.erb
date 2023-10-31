@@ -6,7 +6,7 @@
           icon: 'arrow-down-circle.svg',
           text: 'Recogidas',
           notification: { id: 'pickup_count', count: Movement.pickup.count },
-          link_style: "tab-component #{'bg-slate-200' if params[:kind] == 'pickup'}"
+          link_style: "tab-component #{'bg-gray-100' if params[:kind] == 'pickup'}"
         }
       ) %>
   <%= render TabComponent.new(
@@ -16,7 +16,7 @@
           icon: 'arrow-up-circle.svg',
           text: 'Entregas',
           notification: { id: 'delivery_count', count: Movement.delivery.count },
-          link_style: "tab-component #{'bg-slate-200' if params[:kind] == 'delivery'}"
+          link_style: "tab-component #{'bg-gray-100' if params[:kind] == 'delivery'}"
         }
       ) %>
   <%= render TabComponent.new(
@@ -26,90 +26,9 @@
           icon: 'arrow-uturn-down.svg',
           text: 'Devoluciones',
           notification: { id: 'return_count', count: Movement.return.count },
-          link_style: "tab-component #{'bg-slate-200' if params[:kind] == 'return'}"
+          link_style: "tab-component #{'bg-gray-100' if params[:kind] == 'return'}"
         }
       ) %>
 </nav>
 
-<div class="w-full h-48 flex justify-between bg-gray-200 opacity-60 p-6">
-  <div class="w-full md:w-1/3 px-4 my-2 flex flex-col">
-    <h3 class="title font-semibold font-sm md:font-lg text-left">Incluye valores 0</h3><br>
-    <div class="flex">
-      <%= form_with url: movements_path, method: :get, local: true do |form| %>
-        <%= form.hidden_field :kind, value: params[:kind] %>
-
-        <%= form.radio_button :product_zero, true, checked: params[:product_zero] == 'true', class: 'w-4 h-4 text-red-400 bg-white border-red-400 rounded focus:ring-red-500 focus:ring-2 cursor-pointer focus:duration-500' %>
-        <%= form.label :product_zero, "Sí", class: 'font-medium text-gray-600 cursor-pointer' %>
-
-        <%= form.radio_button :product_zero, false, checked: params[:product_zero] == 'false', class: 'w-4 h-4 text-red-400 bg-white border-red-400 rounded focus:ring-red-500 focus:ring-2 cursor-pointer focus:duration-500' %>
-        <%= form.label :product_zero, "No", class: 'font-medium text-gray-600 cursor-pointer' %>
-        <br><br>
-        <%= form.submit "Buscar", class: 'max-w-fit py-1 px-4 font-medium text-red-400 border border-red-400 rounded-xl hover:bg-red-400 hover:duration-500 hover:text-white cursor-pointer'%>
-      <% end %>
-    </div>
-  </div>
-  <div class="w-full md:w-1/3 px-4 my-2 flex flex-col">
-    <h3 class="title font-semibold font-sm md:font-lg text-left">Busca entre fechas</h3>
-    <div class="flex">
-      <%= render DateSearcherComponent.new(
-        path: movements_path,
-        attribute: :range,
-        options: {
-          placeholder: 'Buscar entre fechas...',
-          kind: params[:kind]
-        }
-      )%>
-    </div>
-  </div>
-  <div class="w-full md:w-1/3 px-4 my-2 flex flex-col justify-center items-center">
-    <div class="flex flex-col justify-center items-center gap-4">
-      <h3 class="title font-semibold font-sm md:font-lg text-left">Tipo de Producto</h3>
-      <%= form_with url: movements_path, method: :get, local: true do |form| %>
-      <%= form.hidden_field :kind, value: params[:kind] %>
-        <div class="flex flex-col justify-center items-center gap-6">
-          <div class="w-full flex justify-center items-center gap-4">
-            <div class="flex items-center gap-3">
-              <%= form.radio_button :product_kind, 'box', class: 'w-4 h-4 text-red-400 bg-white border-red-400 rounded focus:ring-red-500 focus:ring-2 cursor-pointer focus:duration-500' %>
-              <%= form.label :product_kind_box, 'Caja', class: 'font-medium text-gray-600 cursor-pointer' %>
-            </div>
-            <div class="flex items-center gap-3">
-              <%= form.radio_button :product_kind, 'pallet', class: 'w-4 h-4 text-red-400 bg-white border-red-400 rounded focus:ring-red-500 focus:ring-2 cursor-pointer focus:duration-500' %>
-              <%= form.label :product_kind_pallet, 'Pallet', class: 'font-medium text-gray-600 cursor-pointer' %>
-            </div>
-          </div>
-          <div class="flex">
-            <%= form.submit 'Cambiar', class: 'max-w-fit py-1 px-4 font-medium text-red-400 border border-red-400 rounded-xl hover:bg-red-400 hover:duration-500 hover:text-white cursor-pointer' %>
-          </div>
-        </div>
-      <% end %>
-    </div> 
-    <div class="w-full md:w-1/3 px-4 my-2 flex flex-col justify-center items-center">
-      <%= link_to 'Seleccionar Productos',
-                  product_searcher_path(
-                    kind: params[:kind],
-                    product_kind: params[:product_kind]
-                  ),
-                  data: {
-                    turbo_frame: 'modal'
-                  },
-                  class: 'font-medium text-gray-800 text-center whitespace-nowrap' %>
-    </div>
-  </div>
-  <div class="w-full md:w-1/3 px-4 my-2 flex flex-col">
-    <h3 class="title font-semibold font-sm md:font-lg text-left">
-      Busca por código o cliente
-    </h3>
-    <div class="flex items-end">
-      <%= render StringSearcherComponent.new(
-        path: movements_path(params: {range: params[:range], products: params[:products]}),
-        attribute: :name,
-        options: {
-          placeholder: 'Busca por código o cliente...',
-          kind: params[:kind],
-          range: params[:range],
-          regex: params[:name]
-        }
-      )%>
-    </div>
-  </div>
-</div>
+<%= render 'movements/filters' %>

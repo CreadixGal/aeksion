@@ -1,7 +1,7 @@
 <%= form_with url: path,
               method: :get,
               autocomplete: 'disabled',
-              class: 'w-full relative search-form-component focus:outline-none focus:shadow-outline',
+              class: 'w-full relative focus:outline-none focus:shadow-outline',
               data: {
                 controller: 'debounce',
                 'debounce-target': 'form',
@@ -9,7 +9,7 @@
               }  do |form| %>
               
   <%= form.hidden_field :kind, value: kind if kind.present? %>
-  <%= form.hidden_field :range, value: range if range.present?  %>
+
   <div class="relative">
     <%= form.search_field attribute.to_sym,
                           value: regex,
@@ -18,11 +18,15 @@
                             debounce_target: 'input',
                             action: 'input->debounce#search'
                           },
-                          class: 'w-full bg-purple-white shadow rounded border-0 p-3',
+                          class: 'w-full bg-white shadow rounded border-0 p-3',
                           autocomplete: 'off' %>
 
-    <div class="absolute top-1/4 right-2" data-debounce-target="icon">
+    <div class="absolute top-1/4 right-8" data-debounce-target="icon">
       <%= inline_svg_tag('icons/search.svg', class: 'w-6 h-6 stroke-gray-600')%>
     </div>
   </div>
+
+  <%= form.hidden_field :range, value: range if range.present?  %>
+  <%= form.hidden_field :product_zero, value: zero if zero.present? %>
+  <%= form.hidden_field :product_kind, value: prodcut_kind if product_kind.present? %>
 <% end %>

@@ -1,0 +1,86 @@
+<% icon = movement.progress? ? 'truck' : 'check-circle'
+    color = movement.progress? ? 'default' : 'success'
+    text = movement.progress? ? 'pendiente' : 'completado' %>
+<section class="w-full flex flex-col items-start justify-start text-black text-center font-semibold px-0 relative z-0 group gap-8">
+  <div class="group flex relative">
+    <div class="wrapper-icon-button-<%= color %> w-14 h-14 absolute top-[-5.4rem]">
+      <%= inline_svg_tag("icons/#{icon}.svg", class: "icon-button-#{color} w-12 h-12")%>
+    </div>
+    <span class="w-fit whitespace-nowrap group-hover:opacity-100 transition-opacity px-1 text-sm text-slate-800 rounded-md absolute top-[-2.5rem]  opacity-0 m-4 mx-auto">Estado: <%= text %></span>
+  </div>
+
+  <header class="w-full grid grid-cols-2 lg:grid-cols-4 gap-8 -">
+    <div class="flex flex-col justify-center items-start gap-4">
+      <label class="text-lg text-black font-semibold"><%= t('.code') %>:</label>
+      <div class="w-full mx-auto block py-2 text-lg text-left text-slate-700 bg-transparent border-gray-300">
+        <%= movement.code %>
+      </div>
+    </div>
+    <div class="flex flex-col justify-center items-start gap-4">
+      <label class="text-lg text-black font-semibold"><%= t('.date') %>:</label>
+      <div class="w-full mx-auto block py-2 text-lg text-left text-slate-700 bg-transparent border-gray-300">
+        <%= movement.date.strftime('%d-%m-%y') %>
+      </div>
+    </div>
+
+    <div class="flex flex-col justify-center items-start gap-4">
+      <label class="text-lg text-black font-semibold"><%= t('.zone') %>:</label>
+      <div class="w-full mx-auto block py-2 text-lg text-left text-slate-700 bg-transparent border-gray-300">
+        <%= movement.rate.zone_name %>
+      </div>
+    </div>
+    <% if movement.rate.delivery? %>
+      <div class="flex flex-col justify-center items-start gap-4">
+        <label class="text-lg text-black font-semibold"><%= t('.customer') %>:</label>
+        <div class="w-full mx-auto block py-2 text-lg text-left text-slate-700 bg-transparent border-gray-300  whitespace-nowrap">
+          <%= movement.rate.customer_name %>
+        </div>
+      </div>
+    <% elsif movement.rate.pickup? %>
+      <div class="flex flex-col justify-center items-start gap-4">
+        <label class="text-lg text-black font-semibold"><%= t('.delivery_rider') %>:</label>
+        <div class="w-full mx-auto block py-2 text-lg text-left text-slate-700 bg-transparent border-gray-300 whitespace-nowrap">
+          <%= movement.rate.delivery_rider_name %>
+        </div>
+      </div>
+    <% end %>
+  </header>
+  
+  <footer class="w-full flex flex-col justify-between items-start gap-8">
+    <h3 class="w-full text-2xl font-semibold">Productos:</h3>
+    <table class="w-full border-collapse">
+      <thead class="border-b">
+        <tr>
+          <th class="p-2 border-gray-300 text-left"><%= t('.code')%></th>
+          <th class="p-2 border-gray-300 text-left"><%= t('.units')%></th>
+          <th class="p-2 border-gray-300 text-right"><%= t('.amount')%></th>
+          <th class="p-2 border-gray-300 text-right"><%= t('.total')%></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% movement.variants.each_with_index do |variant, index| %>
+          <tr class="<%= 'bg-gray-100' if index.even? %>">
+            <td class="p-2 border border-gray-300 text-left">
+              <%= link_to variant.product.name, variant.product, data: { turbo_frame: 'modal' } %>
+            </td>
+            <td class="p-2 border border-gray-300 text-left">
+              <%= movement.product_movements[index]&.quantity || '-' %>
+            </td>
+            <td class="p-2 border border-gray-300 text-right">
+              <% if movement.rate.pickup? %>
+                <%= number_to_currency(variant.quantity, precision: 4) %>
+              <% elsif movement.rate.delivery? %>
+                <%= number_to_currency movement.rate.customer.price_quantity, precision: 4 %>
+              <% else %>
+                -
+              <% end %>
+            </td>
+            <td class="p-2 border border-gray-300 text-right">
+              <%= number_to_currency movement.product_movements[index]&.amount || 0, precision: 4 %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </footer>
+</section>

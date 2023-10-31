@@ -42,7 +42,7 @@
   }
 
   .tab-component {
-    @apply w-full md:w-2/6 flex items-center justify-center flex-1 py-2 hover:bg-gray-100 border-t-2 border-x-2 border-gray-300 opacity-60 rounded-tr-lg;
+    @apply w-full md:w-2/6 flex items-center justify-center flex-1 py-2 hover:bg-gray-200 border-t-2 border-x-2 border-gray-300 rounded-tr-lg;
   }
 
   .menu-item-component {
@@ -86,7 +86,7 @@
   }
 
   .table-actions{
-    @apply w-2/12 flex justify-end items-center border-l px-4 py-2 gap-8;
+    @apply flex justify-end items-center border-l px-4 py-2 gap-8;
   }
 
   .table-cell-text {
