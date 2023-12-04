@@ -3,11 +3,15 @@ class RatesController < ApplicationController
   add_breadcrumb 'Tarifas', ''
 
   def index
+    items = params[:items].presence || 10
+    page = params[:page].presence || 1
+
+    @headers = %w[name customer zone rate]
     # @rates = Rate.all
     @rates = Rate.delivery if params[:kind].eql?('delivery')
     @rates = Rate.pickup if params[:kind].eql?('pickup')
     @rates = Rate.return if params[:kind].eql?('return')
-    @pagy, @rates = pagy(@rates)
+    @pagy, @rates = pagy(@rates, items:)
   end
 
   def show; end
@@ -62,17 +66,14 @@ class RatesController < ApplicationController
 
   def multiple_delete
     if params[:rate_ids].present?
-
       Rate.where(id: params[:rate_ids].compact).destroy_all
-      respond_to do |format|
-        format.html { redirect_to rates_path(kind: params[:kind]), success: t('.success') }
-        format.turbo_stream { flash.now[:success] = t('.success') }
-      end
+      flash.now[:success] = t('.success')
     else
-      respond_to do |format|
-        format.html { redirect_to rates_path(kind: params[:kind]), error: t('.alert') }
-        format.turbo_stream { flash.now[:error] = t('.alert') }
-      end
+      flash.now[:error] = t('.alert')
+    end
+    respond_to do |format|
+      format.html { redirect_to rates_path(kind: params[:kind]) }
+      format.turbo_stream
     end
   end
 

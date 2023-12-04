@@ -1,49 +1,47 @@
-
-
-  <div class="container mx-auto">
-    <%= render TitleCountComponent.new(title: 'zones', count: @pagy.count)%>
-    <%= form_with(model: @zones, url: multiple_delete_zones_path, html: { class: 'w-full flex flex-col', turbo: false }) do |form| %>
-      <div class="w-full flex flex-col justify-center items-center mx-auto mb-5" data-controller="checkbox-select-all">
-        <header class="w-full bg-black border-b-4  border border-blue-800 rounded-t-2xl px-4">
-          <ul class="flex justify-between items-center" >
-            <div class="w-1/12 flex justify-center items-center">
-              <%= render CheckboxComponent.new(
-                  id: 'select-all',
-                  name: 'zone_ids[]',
-                  options: {
-                    display_label: true,
-                    value: '',
-                    action: 'checkAll',
-                    target: 'parent'
-                  }
-                ) %>
-            </div>
-            <div class="w-9/12 grid grid-cols-2">
-              <% @headers.each do |header| %>
-                <%= content_tag(:span, t(".#{header}"), class: "col-span-1 flex items-center #{header.eql?('name') ? 'justify-start' :  'justify-end'} text-white md:text-xl font-semibold px-8") %>
-              <% end %>
-            </div>
-            <div class="w-2/12 flex justify-end items-center gap-5 py-2 px-4">
-              <%= link_to inline_svg_tag('icons/plus-circle.svg', class: 'icon-button-default'), new_zone_path, data: { turbo_frame: 'new_zone' }, class: 'wrapper-icon-button-default' %>
-              <%= button_to inline_svg_tag('icons/trash.svg', class: 'icon-button-default'),
-                            { action: :multiple_delete },
-                            method: :delete,
-                            data: { 'turbo-confirm': 'Are you sure?' },
-                            class: 'wrapper-icon-button-default'%>
-            </div>
-          </ul>
-        </header>
-        <%= turbo_frame_tag 'new_zone', class: 'w-full flex justify-center' %>
-        <%= turbo_frame_tag 'zones', class: 'w-full' do %>
-          <ul id="search_results" class="w-full flex flex-col mb-4 [&>li:last-child]:border-b [&>li:last-child]:border-b-gray-950 [&>li:last-child]:rounded-b-xl shadow-xl shadow-gray-950 rounded-xl">
-            <%= render @zones %>
-          </ul>
-        <% end %>
-      </div>
-      <div id="pagy_nav_container" class="mt-12">
-        <%== pagy_nav(@pagy) %>
-      </div>
-    <% end %>
-  </div>
+<div class="container mx-auto">
+  <%= render TitleCountComponent.new(title: 'zones', count: @pagy.count)%>
+  <%= form_with(model: @zones, url: multiple_delete_zones_path, html: { class: 'w-full flex flex-col', turbo: false }) do |form| %>
+    <div class="w-full flex flex-col justify-center items-center mx-auto mb-5" data-controller="checkbox-select-all">
+      <header class="w-full bg-black border-b-4  border border-blue-800 rounded-t-2xl px-4">
+        <ul class="flex justify-between items-center" >
+          <div class="w-1/12 flex justify-center items-center">
+            <%= render CheckboxComponent.new(
+                id: 'select-all',
+                name: 'zone_ids[]',
+                options: {
+                  display_label: true,
+                  value: '',
+                  action: 'checkAll',
+                  target: 'parent'
+                }
+              ) %>
+          </div>
+          <div class="w-9/12 grid grid-cols-2">
+            <% @headers.each do |header| %>
+              <%= content_tag(:span, t(".#{header}"), class: "col-span-1 flex items-center #{header.eql?('name') ? 'justify-start' :  'justify-end'} text-white md:text-xl font-semibold px-8") %>
+            <% end %>
+          </div>
+          <div class="w-2/12 flex justify-end items-center gap-5 py-2 px-4">
+            <%= link_to inline_svg_tag('icons/plus-circle.svg', class: 'icon-button-default'), new_zone_path, data: { turbo_frame: 'new_zone' }, class: 'wrapper-icon-button-default' %>
+            <%= button_to inline_svg_tag('icons/trash.svg', class: 'icon-button-default'),
+                          { action: :multiple_delete },
+                          method: :delete,
+                          data: { 'turbo-confirm': 'Are you sure?' },
+                          class: 'wrapper-icon-button-default'%>
+          </div>
+        </ul>
+      </header>
+      <%= turbo_frame_tag 'new_zone', class: 'w-full flex justify-center' %>
+      <%= turbo_frame_tag 'zones', class: 'w-full' do %>
+        <div id="search_results" class="w-full flex flex-col mb-4 [&>turbo-frame:last-child]:border-b [&>turbo-frame:last-child]:border-b-gray-950 [&>turbo-frame:last-child]:rounded-b-xl shadow-xl shadow-gray-950 rounded-xl">
+          <%= render @zones %>
+        </div>
+      <% end %>
+    </div>
+    <div id="pagy_nav_container" class="mt-12">
+      <%== pagy_nav(@pagy) %>
+    </div>
+  <% end %>
+</div>
 
 

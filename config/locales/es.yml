@@ -422,6 +422,7 @@ es:
       back: Volver
   rates:
     index:
+      name: Nombre
       rate: Tarifa
       customer: Cliente
       zone: Zona
