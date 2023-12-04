@@ -115,6 +115,10 @@ ENV SECRET_KEY_BASE 1
 ARG BUILD_COMMAND="bin/rails fly:build"
 RUN ${BUILD_COMMAND}
 
+# Run seed task defined in lib/tasks/fly.rake
+ARG SEED_COMMAND="bin/rails fly:seed"
+RUN ${SEED_COMMAND}
+
 # Default server start instructions.  Generally Overridden by fly.toml.
 ENV PORT 3000
 ARG SERVER_COMMAND="bin/rails fly:server"
