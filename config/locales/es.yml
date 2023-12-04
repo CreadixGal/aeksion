@@ -224,7 +224,6 @@ es:
         date: Fecha
         code: Código
 
-  
   helpers:
     select:
       prompt: 'Por favor seleccione '
@@ -236,6 +235,15 @@ es:
       delete: Eliminar %{model}
     labels:
     placeholder:
+
+  counter:
+    zones: Zonas %{count}
+    customers: Clientes %{count}
+    products: Productos %{count}
+    rates: Tarifas %{count}
+    movements: Movimientos %{count}
+    delivery_riders: Repartidores %{count}
+    issue_trackers: Incidencias %{count}
 
   customers:
     index:
@@ -429,3 +437,8 @@ es:
     multiple_delete:
       success: Todos los elementos seleccionados han sido eliminados.
       alert: Marca almenos una tarifa.
+  zones:
+    index:
+      name: Nombre
+      price: Precio
+      select_all: Seleccionar todo

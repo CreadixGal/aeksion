@@ -1,76 +1,13 @@
 
-<div class="w-full flex flex-col items">
-  <%#= render 'zones/tabs' %>
-</div>
-<div class="w-full flex flex-col justify-center items-center mx-auto">
-  <div class="w-full flex justify-between bg-black text-white py-4">
-    <div class="w-full flex justify-between items-center mx-auto">
-      <div class="w-2/5 flex gap-8 flex-nowrap">
-        <h1 id="count" class="font-bold text-4xl text-left pl-4 flex flex-nowrap">
-          Zonas: <%= @pagy.count %>
-        </h1>
-        <%#= render PaginatorComponent.new(path: zones_path, current_items: 10) %>
-      </div>
-      <div class="w-2/5 flex justify-between items-center pr-4">
-        <%#= render 'zones/shared/search_form' %>
-      </div>
-      <div class="w-1/5 flex gap-8 justify-end items-center mr-5">
-        <%= button_to inline_svg_tag('icons/trash.svg', class: 'icon-button-default'),
-                      { action: :multiple_delete },
-                      method: :delete,
-                      data: { 'turbo-confirm': 'Are you sure?' },
-                      class: 'wrapper-icon-button-default'%>
-          <%= link_to inline_svg_tag('icons/plus-circle.svg', class: 'w-6 h-6 text-black'), new_zone_path, data: { turbo_frame: dom_id(Zone.new) }, class: 'wrapper-icon-button-default' %>
-      </div>
-    </div>
-  </div>
+  <%= render TitleCountComponent.new(title: 'zones', count: @pagy.count)%>
 
-  <div class="grid grid-cols-2">
-    <div class="col-span-11"></div>
-    <div class="col-span-2"></div>
-  </div>
-
-
-  <div class="min-w-full">
-    <%= render ListComponent.new(headers: @headers, cols: 3, resources: @zones) do |list| %>
-      <% @zones.each do |zone|%>
-        <%= list.row(resource: zone, cells: object_to_li(zone, @attrs) { |record, attr| linked_cell_content(record, attr, []) }) do |li| %>
-          <% li.actions do %>
-            <% if action_name != "show" %>
-              <%= link_to inline_svg_tag('icons/pencil-square.svg', class: 'icon-button-default'), edit_zone_path(zone), class: 'wrapper-icon-button-default' %>
-              <%= button_to zone, method: :delete,
-                                      data: { 
-                                        controller: "swal",
-                                        swal_name_value: zone.name,
-                                        action: "click->swal#single"
-                                      },
-                                      class: 'wrapper-icon-button-default' do %>
-                <%= inline_svg_tag('icons/trash.svg', class: 'icon-button-default') %>
-              <% end %>
-            <% end %>
-          <% end %>
-        <% end %>
-      <% end %>
-    <% end %>
-    <%== pagy_nav(@pagy)%>
-  </div>
-</div>
-
-
-
-
-
-
-<div class="w-full px-8">
-  <div class="flex justify-between items-center my-8">
-    <h1 class="font-bold text-4xl">Zonas</h1>
-  </div>
-  <%= turbo_frame_tag :zones_index do %>
-    <%= form_with(model: @zones, url: multiple_delete_zones_path, html: { class: 'w-full flex flex-col gap-8 mt-8 px-10', turbo: false }) do |form| %>
-      <div class="min-w-full flex flex-col justify-center items-center mx-auto mb-5 border rounded-lg" data-controller="checkbox-select-all">
-        <div id="" class="table-header">
-          <div class="w-1/12 flex justify-center items-center content-center px-4 border-r">
-            <%= render CheckboxComponent.new(
+  <div class="table-row-li">
+    <%= form_with(model: @zones, url: multiple_delete_zones_path, html: { class: 'w-container flex flex-col', turbo: false }) do |form| %>
+      <div class="w-4/5 flex flex-col justify-center items-center mx-auto mb-5" data-controller="checkbox-select-all">
+        <header class="w-full bg-black border-b-4  border border-blue-800 rounded-t-2xl">
+          <ul class="flex justify-between items-center" >
+            <div class="w-1/12 flex justify-center items-center">
+              <%= render CheckboxComponent.new(
                   id: 'select-all',
                   name: 'zone_ids[]',
                   options: {
@@ -80,29 +17,33 @@
                     target: 'parent'
                   }
                 ) %>
-          </div>
-          <div class="w-5/12 flex justify-center items-center text-white text-center">Name</div>
-          <div class="w-4/12 flex justify-center items-center text-white text-center">Price delivery</div>
-          <div class="table-actions">
-          <%= button_to inline_svg_tag('icons/trash.svg', class: 'icon-button-default'),
-                        { action: :multiple_delete },
-                        method: :delete,
-                        data: { 'turbo-confirm': 'Are you sure?' },
-                        class: 'wrapper-icon-button-default'%>
-            <%= link_to inline_svg_tag('icons/plus-circle.svg', class: 'w-6 h-6 text-black'), new_zone_path, data: { turbo_frame: dom_id(Zone.new) }, class: 'wrapper-icon-button-default' %>
-          </div>
-        </div>
-        <%= turbo_frame_tag Zone.new, class: 'w-full' %>
-        <%= turbo_frame_tag :zones, class:'w-full' do %>
-          <ul class="divide-y divide-slate-200" role="list">
+            </div>
+            <div class="w-9/12 grid grid-cols-2">
+              <% @headers.each do |header| %>
+                <%= content_tag(:span, header, class: "col-span-1 flex items-center #{header.eql?('name') ? 'justify-start' :  'justify-end'} text-white md:text-xl font-semibold px-8") %>
+              <% end %>
+            </div>
+            <div class="w-2/12 flex justify-end items-center gap-5 py-2 px-4">
+              <%= link_to inline_svg_tag('icons/plus-circle.svg', class: 'icon-button-default'), new_zone_path, data: { turbo_frame: 'new_zone' }, class: 'wrapper-icon-button-default' %>
+              <%= button_to inline_svg_tag('icons/trash.svg', class: 'icon-button-default'),
+                            { action: :multiple_delete },
+                            method: :delete,
+                            data: { 'turbo-confirm': 'Are you sure?' },
+                            class: 'wrapper-icon-button-default'%>
+            </div>
+          </ul>
+        </header>
+        <%= turbo_frame_tag 'new_zone', class: 'w-full flex justify-center' %>
+        <%= turbo_frame_tag 'zones', class: 'w-full' do %>
+          <ul id="search_results" class="w-full flex flex-col mb-4 [&>li:last-child]:border-b [&>li:last-child]:border-b-gray-950 [&>li:last-child]:rounded-b-xl shadow-xl shadow-gray-950 rounded-xl">
             <%= render @zones %>
           </ul>
         <% end %>
       </div>
-      <div class="w-full flex gap-8 my-3 px-10">
+      <div id="pagy_nav_container" class="mt-12">
         <%== pagy_nav(@pagy) %>
       </div>
     <% end %>
-  <% end %>
-</div>
+  </div>
+
 

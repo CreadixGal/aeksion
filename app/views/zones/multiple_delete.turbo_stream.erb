@@ -8,3 +8,5 @@
 <% end %>
 
 <%= turbo_stream.prepend "notification", partial: "layouts/shared/notification" %>
+<%= turbo_stream.replace "pagy_nav_container" %>
+<%= turbo_stream.replace "count", render TitleCountComponent.new(title: 'zones', count: @pagy.count) %>
