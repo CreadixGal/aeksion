@@ -1,7 +1,7 @@
 <nav class="w-full sm:w-1/2 flex justify-start mt-3" data-controller="tab">
   <%= render TabComponent.new(
         item: 'Recogidas',
-        path: rates_path(params: { kind: 'pickup' }),
+        path: rates_path(params: { kind: 'pickup', items: params[:items] }),
         options: {
           icon: 'arrow-down-circle.svg',
           text: 'Recogidas',
@@ -10,7 +10,7 @@
       ) %>
   <%= render TabComponent.new(
         item: 'Entregas',
-        path: rates_path(params: { kind: 'delivery' }),
+        path: rates_path(params: { kind: 'delivery', items: params[:items] }),
         options: {
           icon: 'arrow-up-circle.svg',
           text: 'Entregas',
@@ -19,7 +19,7 @@
       ) %>
   <%= render TabComponent.new(
         item: 'Devoluciones',
-        path: rates_path(params: { kind: 'return' }),
+        path: rates_path(params: { kind: 'return', items: params[:items] }),
         options: {
           icon: 'arrow-uturn-down.svg',
           text: 'Devoluciones',

@@ -3,8 +3,6 @@
   <% params[:rate_ids].each do |id| %>
     <%= turbo_stream.remove "rate_#{id}" %>
   <% end %>
-<% else %>
-  <%= turbo_stream.remove "rate_#{@rate.id}" %>
 <% end %>
 
 <%= turbo_stream.prepend "notification", partial: "layouts/shared/notification" %>

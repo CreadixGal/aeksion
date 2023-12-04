@@ -1,21 +1,19 @@
-<div id="<%= dom_id rate %>" class="table-row-li">
-  <%= turbo_frame_tag dom_id(rate), class: 'w-full flex justify-between' do %>
-    <div class="w-2/12 flex flex-col justify-center items-center content-center px-4">
-      <div class="w-full invisible">seleccionar todos</div>
-      <%= render CheckboxComponent.new(id: rate.id, name: 'rate_ids[]', options: { value: rate.id }) %>
-    </div>
-    <div class="w-full justify-between items-center text-center font-semibold border-x border-slate-100 py-2 px-4 grid grid-cols-5 gap-4">
-      <div class="w-full flex justify-start items-center px-2 text-left whitespace-nowrap truncate" >
-        <%= rate.name %>
-      </div>
-      <div class="w-full flex justify-start items-center px-2 text-left whitespace-nowrap truncate">
+<%= turbo_frame_tag rate, class: 'w-full flex list-none border-[0.5px] border-slate-100 odd:bg-white even:bg-slate-50 hover:bg-slate-100 px-4' do %>
+  <div class="w-1/12 flex justify-center items-center content-center px-4 border-r border-r-slate-200">
+    <%= render CheckboxComponent.new(id: rate.id, name: 'rate_ids[]', options: { value: rate.id }) %>
+  </div>
+  <div class="w-9/12 grid grid-cols-4 flex items-center">
+    <span class="px-8 truncate text-left font-semibold">
+      <%= rate.name %>
+    </span>
+    <span class="px-8 truncate text-right font-semibold">
         <%= link_to rate.customer_name, customer_path(rate.customer_id) if rate.delivery? && rate.customer_id.present? %>
         <%= link_to rate.delivery_rider_name, delivery_rider_path(rate.delivery_rider_id) if rate.pickup? && rate.delivery_rider_id.present? %>
-      </div>
-      <div class="hidden w-full lg:flex justify-start items-center px-4 text-left truncate">
-        <%= link_to rate.zone_name, zone_path(rate.zone_id) %>
-      </div>
-      <div class="w-full flex justify-end items-center px-4 text-right whitespace-nowrap truncate">
+    </span>
+    <span class="px-8 truncate text-right font-semibold">
+      <%= link_to rate.zone_name, zone_path(rate.zone_id) %>
+    </span>
+    <span class="px-8 truncate text-right font-semibold">
         <% if rate.delivery? && rate.customer_id.present? %>
           <%= number_to_currency rate&.customer.price_quantity, precision: 4 %>
         <% elsif rate.pickup? %>
@@ -23,18 +21,18 @@
             <%= number_to_currency rate.quantity, precision: 4 %>
           </span>
         <% end %>
-      </div>
-    </div>
-    <div class="w-3/12 table-actions">
-    <%= button_to inline_svg_tag(
-                  "icons/#{rate.enable? ? 'check-circle' : 'lock-cancel'}.svg",
-                  class: "icon-button-#{rate.enable? ? 'success' : 'error'}"
-                ),
-                enable_rate_path(rate),
-                method: :patch,
-                class: "wrapper-icon-button-#{rate.enable? ? 'success' : 'error'}" %>
+    </span>
+  </div>
+  <div class="w-2/12 flex justify-end items-center gap-5 py-2 px-4 border-l border-l-slate-200">
+      <%= button_to inline_svg_tag(
+                      "icons/#{rate.enable? ? 'check-circle' : 'lock-cancel'}.svg",
+                      class: "icon-button-#{rate.enable? ? 'success' : 'error'}"
+                    ),
+                    enable_rate_path(rate),
+                    method: :patch,
+                    class: "wrapper-icon-button-#{rate.enable? ? 'success' : 'error'}" %>
       <% if action_name != "show" %>
-        <%= link_to inline_svg_tag('icons/pencil-square.svg', class: 'icon-button-default'), edit_rate_path(rate), class: 'wrapper-icon-button-default' %>
+        <%= link_to inline_svg_tag('icons/pencil-square.svg', class: 'icon-button-default'), edit_rate_path(rate), data: {turbo_frame: rate }, class: 'wrapper-icon-button-default' %>
 
         <%= button_to rate, method: :delete,
                                 data: { 
@@ -46,6 +44,5 @@
           <%= inline_svg_tag('icons/trash.svg', class: 'icon-button-default') %>
         <% end %>
       <% end %>
-    </div>
-  <% end %>
-</div>
+  </div>
+<% end %>
