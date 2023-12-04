@@ -21,6 +21,8 @@ namespace :fly do
 
   task reset: 'db:migrate:reset'
 
+  task seed: 'db:seed'
+
   # SERVER step:
   #  - changes to the filesystem made here are deployed
   #  - full access to secrets, databases
@@ -42,5 +44,26 @@ namespace :fly do
     sh 'mkswap /swapfile'
     sh 'echo 10 > /proc/sys/vm/swappiness'
     sh 'swapon /swapfile'
+  end
+
+  # optional SSH task:
+  #
+  # - this task is not run as part of the deployment process
+  # - it is provided as a convenience for debugging
+  # - it is not necessary to deploy this task
+  task ssh: :environment do
+    sh 'fly ssh console --pty -C "sudo -iu rails"'
+  end
+
+  # optional CONSOLE task:
+  #
+  # - this task is not run as part of the deployment process
+  #
+  task console: :enivronment do
+    sh 'fly ssh console --pty -C "/rails/bin/rails console"'
+  end
+
+  task dbconsole: :envionment do
+    sh 'fly ssh console --pty -C "/rails/bin/rails dbconsole"'
   end
 end

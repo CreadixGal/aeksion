@@ -4,8 +4,7 @@ class ZonesController < ApplicationController
 
   def index
     @zones = Zone.ordered
-    @headers = %w[nombre precio]
-    @attrs = %i[name quantity]
+    @headers = %w[name price]
     @pagy, @zones = pagy(@zones)
   end
 
@@ -54,21 +53,20 @@ class ZonesController < ApplicationController
   end
 
   def multiple_delete
-    if params[:zone_ids].present?
+    binding.irb
+    @zones = Zone.where(id: params[:zone_ids].compact)
 
-      Zone.includes(%i[variants rates customers])
-          .where(id: params[:zone_ids].compact)
-          .destroy_all
-
-      respond_to do |format|
-        format.html { redirect_to zones_path, success: t('.success') }
-        format.turbo_stream { flash.now[:success] = t('.success') }
+    respond_to do |format|
+      if params[:zone_ids].present?
+        Zone.includes(%i[variants rates customers])
+            .where(id: params[:zone_ids].compact)
+            .destroy_all
+        flash.now[:success] = t('.success')
+      else
+        flash.now[:error] = t('.alert')
       end
-    else
-      respond_to do |format|
-        format.html { redirect_to zones_path, error: t('.alert') }
-        format.turbo_stream { flash.now[:error] = t('.alert') }
-      end
+      format.html { redirect_to zones_path }
+      format.turbo_stream
     end
   end
 
