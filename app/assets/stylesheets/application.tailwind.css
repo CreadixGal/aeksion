@@ -117,7 +117,7 @@
     @apply w-10 h-10 flex justify-center items-center rounded-lg bg-red-200 hover:bg-red-400 inline-block font-medium;
   }
   .checkbox-label {
-    @apply inline-block text-white cursor-pointer text-sm text-center whitespace-nowrap;
+    @apply inline-block text-white cursor-pointer text-sm text-center;
   }
 
   .checkbox-wrap {

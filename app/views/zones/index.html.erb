@@ -1,10 +1,10 @@
 
-  <%= render TitleCountComponent.new(title: 'zones', count: @pagy.count)%>
 
-  <div class="table-row-li">
-    <%= form_with(model: @zones, url: multiple_delete_zones_path, html: { class: 'w-container flex flex-col', turbo: false }) do |form| %>
-      <div class="w-4/5 flex flex-col justify-center items-center mx-auto mb-5" data-controller="checkbox-select-all">
-        <header class="w-full bg-black border-b-4  border border-blue-800 rounded-t-2xl">
+  <div class="container mx-auto">
+    <%= render TitleCountComponent.new(title: 'zones', count: @pagy.count)%>
+    <%= form_with(model: @zones, url: multiple_delete_zones_path, html: { class: 'w-full flex flex-col', turbo: false }) do |form| %>
+      <div class="w-full flex flex-col justify-center items-center mx-auto mb-5" data-controller="checkbox-select-all">
+        <header class="w-full bg-black border-b-4  border border-blue-800 rounded-t-2xl px-4">
           <ul class="flex justify-between items-center" >
             <div class="w-1/12 flex justify-center items-center">
               <%= render CheckboxComponent.new(
@@ -20,7 +20,7 @@
             </div>
             <div class="w-9/12 grid grid-cols-2">
               <% @headers.each do |header| %>
-                <%= content_tag(:span, header, class: "col-span-1 flex items-center #{header.eql?('name') ? 'justify-start' :  'justify-end'} text-white md:text-xl font-semibold px-8") %>
+                <%= content_tag(:span, t(".#{header}"), class: "col-span-1 flex items-center #{header.eql?('name') ? 'justify-start' :  'justify-end'} text-white md:text-xl font-semibold px-8") %>
               <% end %>
             </div>
             <div class="w-2/12 flex justify-end items-center gap-5 py-2 px-4">

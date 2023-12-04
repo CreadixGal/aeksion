@@ -53,7 +53,6 @@ class ZonesController < ApplicationController
   end
 
   def multiple_delete
-    binding.irb
     @zones = Zone.where(id: params[:zone_ids].compact)
 
     respond_to do |format|
