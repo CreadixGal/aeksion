@@ -70,7 +70,7 @@
   }
 
   .table-header {
-    @apply w-full flex justify-between border rounded-t-lg border-black bg-black opacity-100 text-white;
+    @apply w-full flex justify-between bg-black border border-black border-b-4 border-b-blue-800 rounded-t-2xl px-4;
   }
 
   .table-footer {
@@ -106,15 +106,15 @@
   }
 
   .wrapper-icon-button-default {
-    @apply w-10 h-10 flex justify-center items-center rounded-lg bg-slate-100 hover:bg-slate-200 inline-block font-medium;
+    @apply w-10 h-10 flex justify-center items-center rounded-lg bg-slate-100 hover:bg-slate-200 inline-block font-medium shadow;
   }
 
   .wrapper-icon-button-success {
-    @apply w-10 h-10 flex justify-center items-center rounded-lg bg-green-50 hover:bg-green-100 inline-block font-medium;
+    @apply w-10 h-10 flex justify-center items-center rounded-lg bg-green-50 hover:bg-green-100 inline-block font-medium shadow;
   }
   
   .wrapper-icon-button-error {
-    @apply w-10 h-10 flex justify-center items-center rounded-lg bg-red-200 hover:bg-red-400 inline-block font-medium;
+    @apply w-10 h-10 flex justify-center items-center rounded-lg bg-red-200 hover:bg-red-400 inline-block font-medium shadow;
   }
   .checkbox-label {
     @apply inline-block text-white cursor-pointer text-sm text-center;

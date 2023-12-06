@@ -1,73 +1,52 @@
-<div class="w-full px-8">
-  <div class="flex justify-between items-center my-8">
-    <h1 class="w-full text-left font-bold text-4xl"><%= t('.title')%></h1>
-    <%= render 'customers/shared/search_form' %>
-  </div>
-  <div class="w-full flex justify-end items-center">
-    <div class="w-full"></div>
-    <div id="search_results" class="w-full flex justify-end"></div>
-  </div>
-  <%= turbo_frame_tag :customers_index do %>
-    <%= form_with(model: @customers, url: multiple_delete_customers_path, html: { class: 'w-full flex flex-col gap-8 mt-8 px-10', turbo: false }) do |form| %>
-      <div class="min-w-full flex flex-col justify-center items-center mx-auto mb-5 border rounded-lg" data-controller="checkbox-select-all">
-        <div id="" class="table-header">
-          <div class="w-1/12 flex justify-center items-center content-center px-4 border-r">
-            <%= render CheckboxComponent.new(
-                  id: 'select-all',
-                  name: 'customer_ids[]',
-                  options: {
-                    display_label: true,
-                    value: '',
-                    action: 'checkAll',
-                    target: 'parent'
-                  }
-                ) %>
-          </div>
-          <div class="w-5/12 flex justify-center items-center text-white text-center">
-            <div class="flex flex-1 justify-center items center">
-              <%= t('.name')%>
-            </div>
-          </div>
-          <div class="w-4/12 flex justify-center items-center text-white text-center">
-            <div class="flex flex-1 justify-center items center">
-              <%= t('.price')%>
-            </div>
-          </div>
-          <div class="table-actions">
-            <%= button_to inline_svg_tag('icons/trash.svg', class: 'icon-button-default'),
+<div class="container mx-auto">
+  <%= render TitleCountComponent.new(title: 'customers', count: @pagy.count)%>
+  <%= form_with(model: @customers, url: multiple_delete_customers_path, html: { class: 'w-full flex flex-col', turbo: false }) do |form| %>
+    <div class="w-full flex flex-col justify-center items-center mx-auto mb-5" data-controller="checkbox-select-all">
+      <header class="table-header">
+        <div class="w-1/12 flex justify-center items-center">
+          <%= render CheckboxComponent.new(
+              id: 'select-all',
+              name: 'customer_ids[]',
+              options: {
+                display_label: true,
+                value: '',
+                action: 'checkAll',
+                target: 'parent'
+              }
+            ) %>
+        </div>
+        <div class="w-9/12 grid grid-cols-2 border-x border-x-blue-800">
+          <% @headers.each do |header| %>
+            <%= content_tag(:span, t(".#{header}"), class: "col-span-1 flex items-center #{header.eql?('name') ? 'justify-start' :  'justify-end'} text-white md:text-xl font-semibold px-8") %>
+          <% end %>
+        </div>
+        <div class="w-2/12 flex justify-end items-center gap-5 py-2">
+          <%= link_to inline_svg_tag('icons/plus-circle.svg', class: 'icon-button-default'),
+                      new_customer_path, 
+                      data: { turbo_frame: 'new_customer' },
+                      class: 'wrapper-icon-button-default' %>
+
+          <%= button_to inline_svg_tag('icons/trash.svg', class: 'icon-button-default'),
                         { action: :multiple_delete },
                         method: :delete,
-                        data: { 
-                          'turbo-confirm': 'Are you sure?' 
-                        },
-                        class: 'wrapper-icon-button-default' %>
-            <%= link_to inline_svg_tag(
-                          'icons/plus-circle.svg',
-                          class: 'icon-button-default'
-                        ),
-                        new_customer_path,
-                        data: {
-                          turbo_frame: dom_id(Customer.new)
-                        },
-                        class: 'wrapper-icon-button-default' %>
-          </div>
+                        data: { 'turbo-confirm': 'Are you sure?' },
+                        class: 'wrapper-icon-button-default'%>
         </div>
-        <%= turbo_frame_tag Customer.new, class: 'w-full' %>
-        <%= turbo_frame_tag :customers, class: 'w-full' do %>
-          <% if @customers.present? %>
-            <div id="search_results">
-              <ul class="divide-y divide-slate-200" role="list">
-                <%= render @customers %>
-              </ul>
-            </div>
-          <% else %>
-            <div class="w-full p-4 text-lg text-center"><%= t('.no_data')%></div>
-          <% end %>
-        <% end %>
-      </div>
-      <div class="w-full flex gap-8 my-3 px-10">
-        <%== pagy_nav(@pagy) %>
-      </div>
-    <% end %>
+      </header>
+
+      <%= turbo_frame_tag 'new_customer', class: 'w-full flex justify-center px-4' %>
+
+      <%= turbo_frame_tag 'customers', class: 'w-full' do %>
+        <div id="search_results" class="w-full flex flex-col p-0 mb-4 [&>turbo-frame:last-child]:border-b [&>turbo-frame:last-child]:border-b-gray-950 [&>turbo-frame:last-child]:rounded-b-xl shadow-xl shadow-gray-950 rounded-xl">
+          <%= render @customers %>
+        </div>
+      <% end %>
+    </div>
+
+    <div id="pagy_nav_container" class="mt-12">
+      <%== pagy_nav(@pagy) %>
+    </div>
   <% end %>
 </div>
+
+

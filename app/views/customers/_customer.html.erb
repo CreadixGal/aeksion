@@ -1,31 +1,33 @@
-<li id="<%= dom_id customer %>" class="table-row-li">
-  <%= turbo_frame_tag dom_id(customer), class: 'w-full flex justify-between' do %>
-    <div class="w-1/12 flex justify-center items-center content-center px-4">
-      <%= render CheckboxComponent.new(id: customer.id, name: 'customer_ids[]', options: { value: customer.id }) %>
-    </div>
-    <div class="w-5/12 flex justify-center items-center text-black text-center font-semibold border-x border-slate-100 py-2 px-4">
+<%= turbo_frame_tag dom_id(customer), class: 'w-full flex list-none border-[0.5px] border-slate-100 odd:bg-white even:bg-slate-50 hover:bg-slate-100 px-4' do %>
+  <div class="w-1/12 flex justify-center items-center content-center">
+    <%= render CheckboxComponent.new(id: customer.id, name: 'customer_ids[]', options: { value: customer.id }) %>
+  </div>
+  <div class="w-9/12 grid grid-cols-2 border-x border-slate">
+    <span class="col-span-1 flex items-center justify-start text-slate-700 md:text-lg font-semibold px-8">
       <%= link_to customer.name, customer %> 
-    </div>
-    <div class="w-4/12 flex justify-center items-center text-black text-center font-semibold border-x border-slate-100 py-2 px-4">
-      
-      <% if customer.price.present? %>
-        <%= number_to_currency(customer&.price_quantity, precision: 4) %>
+    </span>
+    <span class="col-span-1 flex items-center justify-end text-right text-slate-700 md:text-lg font-semibold px-8">
+      <%= number_to_currency(customer&.price_quantity, precision: 4) if customer.price.present?%>
+    </span>
+  </div>
+  <div class="w-2/12 flex justify-end items-center gap-5 py-2">
+    <% if action_name != "show" %>
+      <%= link_to inline_svg_tag('icons/pencil-square.svg', class: 'icon-button-default'),
+                  edit_customer_path(customer),
+                  class: 'wrapper-icon-button-default' %>
+      <%= button_to customer,
+                    method: :delete,
+                    data: { 
+                      controller: "swal",
+                      swal_name_value: customer.name,
+                      action: "click->swal#single"
+                    },
+                    class: 'wrapper-icon-button-default' do %>
+        <%= inline_svg_tag('icons/trash.svg', class: 'icon-button-default') %>
       <% end %>
-      
-    </div>
-    <div class="table-actions" data-controller="swal">
-      <% if action_name != "show" %>
-        <%= link_to inline_svg_tag('icons/pencil-square.svg', class: 'icon-button-default'), edit_customer_path(customer), class: 'wrapper-icon-button-default' %>
-        <%= button_to customer, method: :delete,
-                                data: { 
-                                  controller: "swal",
-                                  swal_name_value: customer.name,
-                                  action: "click->swal#single"
-                                },
-                                class: 'wrapper-icon-button-default' do %>
-          <%= inline_svg_tag('icons/trash.svg', class: 'icon-button-default') %>
-        <% end %>
-      <% end %>
-    </div>
-  <% end %>
-</li>
+    <% end %>
+  </div>
+<% end %>
+
+
+
