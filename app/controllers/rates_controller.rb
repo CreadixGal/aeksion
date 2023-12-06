@@ -17,7 +17,6 @@ class RatesController < ApplicationController
   def show; end
 
   def new
-    Rails.logger.info "params[:kind]: #{params[:kind]}"
     @rate = Rate.new(kind: params[:kind])
   end
 
@@ -28,6 +27,7 @@ class RatesController < ApplicationController
     @rate.price = Price.new(quantity: rate_params[:price])
     @rate.customer.price = Price.update!(quantity: rate_params[:price]) if params[:kind].eql?('delivery')
     @rate.zone.price = Price.create!(quantity: rate_params[:price]) if params[:kind].eql?('pickup')
+
     respond_to do |format|
       if @rate.save
         format.html { redirect_to rates_path(kind: params[:kind]), success: 'Tarifa creada correctamente' }
@@ -93,7 +93,9 @@ class RatesController < ApplicationController
   private
 
   def rate_params
-    params.require(:rate).permit(:customer_id, :delivery_rider_id, :zone_id, :kind, :name, :enable, :price)
+    params.require(:rate)
+          .permit(:customer_id, :delivery_rider_id, :zone_id, :kind,
+                  :name, :enable, :price)
   end
 
   def set_rate

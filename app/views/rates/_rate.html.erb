@@ -15,11 +15,8 @@
     </span>
     <span class="px-8 truncate text-right font-semibold">
         <% if rate.delivery? && rate.customer_id.present? %>
-          <%= number_to_currency rate&.customer.price_quantity, precision: 4 %>
+          <%= number_to_currency rate&.customer.price_quantity.presence, precision: 4 %>
         <% elsif rate.pickup? %>
-          <span class="hidden">
-            <%= number_to_currency rate.quantity, precision: 4 %>
-          </span>
         <% end %>
     </span>
   </div>
