@@ -1,5 +1,15 @@
 <div class="container mx-auto">
-  <%= render TitleCountComponent.new(title: 'customers', count: @pagy.count)%>
+  <div class="flex justify-between items-center gap-8">
+    <%= render TitleCountComponent.new(title: 'customers', count: @pagy.count)%>
+    <%= render StringSearcherComponent.new(
+      path: search_customers_path(params: { name: params[:name] }),
+      attribute: :name,
+      options: {
+        placeholder: 'Busca cliente',
+        regex: params[:name]
+      }
+    )%>
+  </div>
   <%= form_with(model: @customers, url: multiple_delete_customers_path, html: { class: 'w-full flex flex-col', turbo: false }) do |form| %>
     <div class="w-full flex flex-col justify-center items-center mx-auto mb-5" data-controller="checkbox-select-all">
       <header class="table-header">
@@ -36,11 +46,10 @@
 
       <%= turbo_frame_tag 'new_customer', class: 'w-full flex justify-center px-4' %>
 
-      <%= turbo_frame_tag 'customers', class: 'w-full' do %>
-        <div id="search_results" class="w-full flex flex-col p-0 mb-4 [&>turbo-frame:last-child]:border-b [&>turbo-frame:last-child]:border-b-gray-950 [&>turbo-frame:last-child]:rounded-b-xl shadow-xl shadow-gray-950 rounded-xl">
-          <%= render @customers %>
-        </div>
-      <% end %>
+      <div id="customers" class="w-full flex flex-col p-0 mb-4 [&>turbo-frame:last-child]:border-b [&>turbo-frame:last-child]:border-b-gray-950 [&>turbo-frame:last-child]:rounded-b-xl shadow-xl shadow-gray-950 rounded-xl">
+        <%= render @customers %>
+      </div>
+
     </div>
 
     <div id="pagy_nav_container" class="mt-12">

@@ -15,7 +15,7 @@
       <%= link_to inline_svg_tag('icons/pencil-square.svg', class: 'icon-button-default'),
                   edit_customer_path(customer),
                   class: 'wrapper-icon-button-default' %>
-      <%= button_to customer,
+      <%#= button_to customer,
                     method: :delete,
                     data: { 
                       controller: "swal",
@@ -23,8 +23,8 @@
                       action: "click->swal#single"
                     },
                     class: 'wrapper-icon-button-default' do %>
-        <%= inline_svg_tag('icons/trash.svg', class: 'icon-button-default') %>
-      <% end %>
+        <%#= inline_svg_tag('icons/trash.svg', class: 'icon-button-default') %>
+      <%# end %>
     <% end %>
   </div>
 <% end %>

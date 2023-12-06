@@ -10,8 +10,13 @@ class CustomersController < ApplicationController
     @pagy, @customers = pagy(customers)
   end
 
-  def search(name)
-    @customers = Customer.includes([:price]).where('name ILIKE ?', "%#{name}%")
+  # POST /customers/search
+  def search
+    @headers = %w[name price]
+    customers = Customer.includes([:price]).where('name ILIKE ?', "%#{params[:name]}%")
+    @pagy, @customers = pagy(customers)
+
+    respond_to(&:turbo_stream)
   end
 
   # GET /customers/1 or /customers/1.json
@@ -24,50 +29,41 @@ class CustomersController < ApplicationController
   # GET /customers/new
   def new
     @customer = Customer.new
+    @customer.build_price unless @customer.price
   end
 
   # GET /customers/1/edit
-  def edit; end
+  def edit
+    @customer.build_price unless @customer.price
+  end
 
   # POST /customers or /customers.json
   def create
-    @price = customer_params[:price].to_f
-    @customer = Customer.new(customer_params.except(:price))
+    @customer = Customer.new(customer_params)
+
     respond_to do |format|
-      if @price&.negative?
-        flash.now[:error] = t('.negative')
-        format.html { render :new, status: :unprocessable_entity }
-        format.turbo_stream
-      elsif @customer.save
-        Price.find(@customer.price.id).update!(quantity: @price)
+      if @customer.save
         flash.now[:success] = t('.success')
-        @customer.reload
         format.html { redirect_to customers_path }
         format.turbo_stream
       else
-        format.html { render :new, status: :unprocessable_entity }
+        flash.now[:error] = t('.error')
+        format.html { render :new }
       end
     end
   end
 
   # PATCH/PUT /customers/1 or /customers/1.json
   def update
-    @price = customer_params[:price].to_f
     respond_to do |format|
-      if @price&.negative?
-        flash.now[:error] = t('.negative')
-        format.html { render :edit, status: :unprocessable_entity }
-      elsif @customer.update(customer_params.except(:price)) && @price
-        Price.find(@customer.price.id)
-             .update!(quantity: customer_params[:price])
-        @customer.reload
+      if @customer.update(customer_params)
         flash.now[:success] = t('.success')
         format.html { redirect_to customers_path }
+        format.turbo_stream
       else
         flash.now[:error] = t('.error')
-        format.html { render :edit, status: :unprocessable_entity }
+        format.html { render :edit }
       end
-      format.turbo_stream
     end
   end
 
@@ -105,6 +101,7 @@ class CustomersController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def customer_params
-    params.require(:customer).permit(:name, :price)
+    params.require(:customer)
+          .permit(:name, price_attributes: %i[id quantity])
   end
 end
