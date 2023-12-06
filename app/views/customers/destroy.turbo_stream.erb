@@ -1,2 +1,5 @@
-<%= turbo_stream.remove "customer_#{@customer.id}" %>
+<% if flash[:success] %>
+  <%= turbo_stream.remove "customer_#{@customer.id}" %>
+  <%= turbo_stream.replace "count", render(TitleCountComponent.new(title: 'customers', count: Customer.count)) %>
+<% end %>
 <%= turbo_stream.prepend "notification", partial: "layouts/shared/notification" %>

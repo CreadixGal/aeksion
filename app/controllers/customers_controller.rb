@@ -76,8 +76,8 @@ class CustomersController < ApplicationController
     @customer.destroy!
 
     respond_to do |format|
-      format.html { redirect_to customers_path, alert: 'Customer was successfully destroyed.' }
-      format.turbo_stream { flash.now[:alert] = 'Customer was successfully destroyed.' }
+      format.html { redirect_to customers_path, success: t('.success') }
+      format.turbo_stream { flash.now[:success] = t('.success') }
     end
   end
 
