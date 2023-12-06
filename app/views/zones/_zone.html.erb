@@ -1,27 +1,28 @@
-
-
 <%= turbo_frame_tag zone, class: 'w-full flex list-none border-[0.5px] border-slate-100 odd:bg-white even:bg-slate-50 hover:bg-slate-100 px-4' do %>
-  <div class="w-1/12 flex justify-center items-center content-center px-4 border-r border-r-slate-200">
+  <div class="w-1/12 flex justify-center items-center content-center">
     <%= render CheckboxComponent.new(id: zone.id, name: 'zone_ids[]', options: { value: zone.id }) %>
   </div>
-  <div class="w-9/12 grid grid-cols-2 flex items-center">
-    <span class="px-8 truncate text-left font-semibold">
+  <div class="w-9/12 grid grid-cols-2 border-x border-slate">
+    <span class="col-span-1 flex items-center justify-start text-slate-700 md:text-lg font-semibold px-8">
       <%= zone.name %>
     </span>
-    <span class="px-8 truncate text-right font-semibold">
+    <span class="col-span-1 flex items-center justify-end text-right text-slate-700 md:text-lg font-semibold px-8">
       <%= number_to_currency(zone.quantity, precision:4) if zone.price.present? %>
     </span>
   </div>
-  <div class="w-2/12 flex justify-end items-center gap-5 py-2 px-4 border-l border-l-slate-200">
+  <div class="w-2/12 flex justify-end items-center gap-5 py-2">
     <% if action_name != "show" %>
-      <%= link_to inline_svg_tag('icons/pencil-square.svg', class: 'icon-button-default'), edit_zone_path(zone), class: 'wrapper-icon-button-default' %>
-      <%= button_to zone, method: :delete,
-                              data: { 
-                                controller: "swal",
-                                swal_name_value: zone.name,
-                                action: "click->swal#single"
-                              },
-                              class: 'wrapper-icon-button-default' do %>
+      <%= link_to inline_svg_tag('icons/pencil-square.svg', class: 'icon-button-default'),
+                  edit_zone_path(zone),
+                  class: 'wrapper-icon-button-default' %>
+      <%= button_to zone,
+                    method: :delete,
+                    data: { 
+                      controller: "swal",
+                      swal_name_value: zone.name,
+                      action: "click->swal#single"
+                    },
+                    class: 'wrapper-icon-button-default' do %>
         <%= inline_svg_tag('icons/trash.svg', class: 'icon-button-default') %>
       <% end %>
     <% end %>

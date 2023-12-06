@@ -251,6 +251,14 @@ es:
       breadcrumb: Clientes
       name: Nombre
       price: Precio
+      select_all: Seleccionar todo
+    create:
+      success: Cliente creado correctamente
+      error: No se ha podido crear el cliente
+    update:
+      success: Cliente actualizado correctamente
+      error: No se ha podido actualizar el cliente
+      negative: El precio no puede ser negativo
     show:
       title: Cliente
       breadcrumb: Clientes
@@ -258,9 +266,14 @@ es:
       price: Precio
       delivery: Entregas
       pickup: Recogidas
+    destroy:
+      success: Cliente eliminado correctamente
+      error: No se ha podido eliminar el cliente
+      used: No se puede eliminar el cliente porque tiene movimientos asociados
     multiple_delete:
       success: Todos los elementos seleccionados han sido eliminados.
       alert: Marca almenos un cliente.
+      error: No se ha podido eliminar los clientes seleccionados
   delivery_riders:
     index:
       title: Repartidores
@@ -443,3 +456,18 @@ es:
       name: Nombre
       price: Precio
       select_all: Seleccionar todo
+    create:
+      success: Zona creada correctamente
+      error: No se ha podido crear la zona
+    update:
+      success: Zona actualizada correctamente
+      error: No se ha podido actualizar la zona
+      negative: El precio no puede ser negativo
+    destroy:
+      success: Zona eliminada correctamente
+      error: No se ha podido eliminar la zona
+      used: No se puede eliminar la zona porque tiene (clientes, tarifas o productos) asociados
+    multiple_delete:
+      success: Todos los elementos seleccionados han sido eliminados.
+      alert: Marca almenos una zona.
+      used: No se pueden eliminar las zonas seleccionadas porque tienen (clientes, tarifas o productos) asociados

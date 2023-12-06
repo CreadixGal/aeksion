@@ -1,7 +1,3 @@
-<div class="mx-auto md:w-2/3 w-full">
-  <h1 class="font-bold text-4xl">New zone</h1>
-
-  <%= turbo_frame_tag @zone do %>
-    <%= render 'form', zone: @zone %>
-  <% end %>
-</div>
+<%= turbo_frame_tag @zone do %>
+  <%= render 'form', zone: @zone %>
+<% end %>
