@@ -1,2 +1,5 @@
-<%= turbo_stream.remove "zone_#{@zone.id}" %>
+<% if flash[:success] %>
+  <%= turbo_stream.remove "zone_#{@zone.id}" %>
+  <%= turbo_stream.replace "count", render(TitleCountComponent.new(title: 'zones', count: Zone.ordered.count)) %>
+<% end %>
 <%= turbo_stream.prepend "notification", partial: "layouts/shared/notification" %>

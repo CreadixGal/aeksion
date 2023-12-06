@@ -1,40 +1,34 @@
-<li id="<%= dom_id zone %>" class="table-row-li">
-  <div class="w-full flex justify-between">
-    <div class="w-1/12 flex justify-center items-center content-center px-4">
-      <%= render CheckboxComponent.new(id: zone.id, name: 'zone_ids[]', options: { value: zone.id }) %>
-    </div>
-    <%= form_with(model: zone, class: 'contents') do |form| %>
-      <div class="w-9/12 flex text-black text-center font-semibold border-x border-slate-100 py-2 px-0 relative z-0 group gap-4"> 
-        <%= form.text_field :name,
-                            placeholder: 'Introduce nombre de zona',
-                            required: true,
-                            class:'w-5/12 mx-auto block py-2.5 px-0 w-full text-lg text-black bg-transparent border-0 border-b-2 border-slate-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'%>
-        
-        <% price = Price.find_by(priciable_id: form.object.id)&.quantity %>
-        <%= form.number_field :price,
-                              placeholder: number_to_currency(price.presence || 0, precision: 4),
-                              step: :any,
-                              required: true,
-                              class:'w-4/12 mx-auto block py-2.5 px-0 w-full text-lg text-black bg-transparent border-0 border-b-2 border-slate-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'%>
+<%= form_with(model: zone, class: 'w-full flex justify-between') do |form| %>
+  <div class="w-1/12 flex justify-center items-center content-center px-4"></div>
+  <div class="w-9/12 grid grid-cols-2 border-x border-slate gap-8 px-4"> 
+    <%= form.text_field :name,
+                        placeholder: 'Introduce nombre de zona',
+                        required: true,
+                        class:'flex-1 mx-auto block py-2.5 px-0 w-full text-lg text-black bg-transparent border-0 border-b-2 border-slate-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'%>
+    
+    <% price = Price.find_by(priciable_id: form.object.id)&.quantity %>
+    <%= form.number_field :price,
+                          placeholder: number_to_currency(price.presence || 0, precision: 4),
+                          step: :any,
+                          required: true,
+                          class:'flex-1 mx-auto block py-2.5 px-0 w-full text-lg text-black bg-transparent border-0 border-b-2 border-slate-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'%>
 
-        <% if zone.errors.any? %>
-          <div id="error_explanation" class="bg-red-50 text-red-500 border-b-8 border-b-red-600 px-3 py-2 font-medium rounded-lg mt-3">
-            <h2><%= pluralize(zone.errors.count, 'error') %> prohibited this zone from being saved:</h2>
+    <% if zone.errors.any? %>
+      <div id="error_explanation" class="bg-red-50 text-red-500 border-b-8 border-b-red-600 px-3 py-2 font-medium rounded-lg mt-3">
+        <h2><%= pluralize(zone.errors.count, 'error') %> prohibited this zone from being saved:</h2>
 
-            <ul>
-              <% zone.errors.each do |error| %>
-                <li><%= error.full_message %></li>
-              <% end %>
-            </ul>
-          </div>
-        <% end %>
-      </div>
-      <div class="table-actions">
-        <%= form.submit '✔️', class: 'wrapper-icon-button-default' %>
-        <%= link_to zones_path, class: 'wrapper-icon-button-default' do %>
-          <%= inline_svg_tag('icons/x-circle.svg', class: 'icon-button-default') %>
-        <% end %>
+        <ul>
+          <% zone.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
       </div>
     <% end %>
   </div>
-</li>
+  <div class="w-2/12 flex justify-end items-center gap-5 py-2">
+    <%= form.submit '✔️', class: 'wrapper-icon-button-default' %>
+    <%= link_to :back, class: 'wrapper-icon-button-default' do %>
+      <%= inline_svg_tag('icons/x-circle.svg', class: 'icon-button-default') %>
+    <% end %>
+  </div>
+<% end %>

@@ -1,12 +1,10 @@
 
-<% if params[:zone_ids].present? %>
+<% if params[:zone_ids].present? && flash[:success] %>
   <% params[:zone_ids].each do |id| %>
     <%= turbo_stream.remove "zone_#{id}" %>
   <% end %>
-<% else %>
-  <%= turbo_stream.remove "zone_#{@zone.id}" %>
+  <%= turbo_stream.replace "pagy_nav_container" %>
+  <%= turbo_stream.replace "count", render(TitleCountComponent.new(title: 'zones', count: Zone.ordered.count)) %>
 <% end %>
 
 <%= turbo_stream.prepend "notification", partial: "layouts/shared/notification" %>
-<%= turbo_stream.replace "pagy_nav_container" %>
-<%= turbo_stream.replace "count", render TitleCountComponent.new(title: 'zones', count: @pagy.count) %>

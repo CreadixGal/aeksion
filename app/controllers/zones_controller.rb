@@ -44,17 +44,20 @@ class ZonesController < ApplicationController
   end
 
   def destroy
-    @zone.destroy!
-
     respond_to do |format|
-      format.html { redirect_to zones_path, alert: 'Zone was successfully destroyed.' }
-      format.turbo_stream { flash.now[:alert] = 'Zone was successfully destroyed.' }
+      if @zone.used?
+        flash.now[:error] = t('.used')
+      else
+        @zone.destroy!
+        flash.now[:success] = t('.success')
+      end
+
+      format.html { redirect_to zones_path }
+      format.turbo_stream
     end
   end
 
   def multiple_delete
-    @zones = Zone.where(id: params[:zone_ids].compact)
-
     respond_to do |format|
       if params[:zone_ids].present?
         Zone.includes(%i[variants rates customers])
@@ -64,6 +67,9 @@ class ZonesController < ApplicationController
       else
         flash.now[:error] = t('.alert')
       end
+    rescue ActiveRecord::InvalidForeignKey
+      flash.now[:error] = t('.used')
+    ensure
       format.html { redirect_to zones_path }
       format.turbo_stream
     end

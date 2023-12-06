@@ -12,5 +12,9 @@ class Zone < ApplicationRecord
 
   scope :ordered, -> { includes(:price).where.not(name: 'DEFAULT').order(name: :desc) }
 
+  def used?
+    variants.exists? || rates.exists? || customers.exists?
+  end
+
   VALID_NAMES = %w[A_Coruña Lugo Ourense Pontevedra].freeze
 end
