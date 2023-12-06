@@ -18,16 +18,16 @@ class ZonesController < ApplicationController
 
   def create
     @zone = Zone.new(name: zone_params[:name])
-
     @zone.price = Price.new(quantity: zone_params[:price])
 
     respond_to do |format|
       if @zone.save
-        format.html { redirect_to zones_path, success: 'Zone was successfully created.' }
-        format.turbo_stream { flash.now[:success] = 'Zone was successfully created.' }
+        flash.now[:success] = t('.success')
+        format.html { redirect_to zones_path }
       else
         format.html { render :new, status: :unprocessable_entity }
       end
+      format.turbo_stream
     end
   end
 
@@ -35,11 +35,13 @@ class ZonesController < ApplicationController
     respond_to do |format|
       price = Price.find(@zone.price.id)
       if @zone.update(name: zone_params[:name]) && price.update(quantity: zone_params[:price])
-        format.html { redirect_to zones_path, success: 'Zone was successfully updated.' }
-        format.turbo_stream { flash.now[:success] = 'Zone was successfully updated.' }
+        flash.now[:success] = t('.success')
+        format.html { redirect_to zones_path }
       else
+        flash.now[:error] = t('.error')
         format.html { render :edit, status: :unprocessable_entity }
       end
+      format.turbo_stream
     end
   end
 

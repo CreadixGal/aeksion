@@ -287,8 +287,20 @@ es:
       price: Precio
       delivery: Entregas
       pickup: Recogidas
+    create:
+      success: Repartidor creado correctamente
+      error: No se ha podido crear el repartidor
+    update:
+      success: Repartidor actualizado correctamente
+      error: No se ha podido actualizar el repartidor
+      negative: El precio no puede ser negativo
+    destroy:
+      success: Repartidor eliminado correctamente
+      error: No se ha podido eliminar el repartidor
+      used: No se puede eliminar el repartidor porque tiene movimientos asociados
     multiple_delete:
       success: Todos los elementos seleccionados han sido eliminados.
+      error: No se ha podido eliminar los repartidores seleccionados
       alert: Marca almenos un repartidor.
   issue_trackers:
     index:

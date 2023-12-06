@@ -9,12 +9,14 @@ Rails.application.routes.draw do
 
   resources :customers do
     collection do
+      post :search
       delete :multiple_delete
     end
   end
 
   resources :delivery_riders do
     collection do
+      post :search
       delete :multiple_delete
     end
   end
