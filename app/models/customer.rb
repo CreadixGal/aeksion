@@ -1,26 +1,12 @@
 class Customer < ApplicationRecord
-  validates :name, presence: true
+  validates :name, presence: true, length: { minimum: 3, maximum: 140 }
 
   has_many :rates
   has_many :zones, through: :rates, dependent: :destroy
   has_one :price, as: :priciable, dependent: :destroy
-
-  # TODO: remove code if not needed
-  # before_create :set_product_rate
-  after_create :default_price
+  accepts_nested_attributes_for :price, allow_destroy: true
 
   delegate :quantity, to: :price, prefix: :price
 
   scope :ordered, -> { includes(:price).order(updated_at: :desc) }
-
-  private
-
-  # TODO: remove code if not needed
-  def default_price
-    Price.create! quantity: 0, priciable: self
-  end
-
-  # def set_product_rate
-  #   rates.build(zone: Zone.find_by(name: 'DEFAULT'), kind: 'pickup')
-  # end
 end

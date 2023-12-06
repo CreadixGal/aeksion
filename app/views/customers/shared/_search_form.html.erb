@@ -1,8 +1,0 @@
-<%= render StringSearcherComponent.new(
-  path: customers_path(params: { name: params[:name] }),
-  attribute: :name,
-  options: {
-    placeholder: 'Busca cliente',
-    regex: params[:name]
-  }
-)%>

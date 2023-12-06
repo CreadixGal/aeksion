@@ -1,8 +1,0 @@
-<%= render StringSearcherComponent.new(
-  path: delivery_riders_path(params: { name: params[:name] }),
-  attribute: :name,
-  options: {
-    placeholder: 'Busca repartidor por nombre',
-    regex: params[:name]
-  }
-)%>

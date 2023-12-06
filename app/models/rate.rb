@@ -3,8 +3,10 @@ class Rate < ApplicationRecord
   belongs_to :delivery_rider, optional: true, inverse_of: :rates
   belongs_to :zone, inverse_of: :rates
 
-  has_many :movements, dependent: :destroy
   has_one :price, as: :priciable, dependent: :destroy
+  # accepts_nested_attributes_for :price, allow_destroy: true
+
+  has_many :movements, dependent: :destroy
 
   delegate :name, to: :customer, prefix: :customer
   delegate :name, to: :delivery_rider, prefix: :delivery_rider
@@ -19,7 +21,7 @@ class Rate < ApplicationRecord
   validates :kind, presence: true
 
   scope :delivery, -> { where(kind: 'delivery').order(created_at: :desc) }
-  scope :pickup, -> { includes([:price]).where(kind: 'pickup').order(created_at: :desc) }
+  scope :pickup, -> { where(kind: 'pickup').order(created_at: :desc) }
   scope :return, -> { where(kind: 'return').order(created_at: :desc) }
 
   validate :validate_customer_or_delivery_rider

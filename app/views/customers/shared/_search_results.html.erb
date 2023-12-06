@@ -5,20 +5,15 @@
     </div>
   </div>
 <% elsif customers.size < 1 %>
-  <div class="w-full flex justify-start my-2 p-2  hover:text-blue-500 dark:text-gray-800 dark:hover:text-gray-300 bg-yellow-300 dark:hover:bg-gray-700 hover:bg-indigo-50 rounded-xl ">
+  <div id="customers" class="w-full flex justify-start my-2 p-2  hover:text-blue-500 dark:text-gray-800 dark:hover:text-gray-300 bg-yellow-300 dark:hover:bg-gray-700 hover:bg-indigo-50 rounded-xl ">
     <div class="text-xl ml-3 w-full flex justify-between">
       <%= highlight('0 resultados', '0 resultados', highlighter: '<div class="p-2" >\1</div>') %>
     </div>
   </div>
-<% elsif params[:name].blank? %>
 <% else %>
-  <div class="w-full overflow-y-auto custom-scroll">
+  <div id="customers" class="w-full flex flex-col mb-4 [&>li:last-child]:border-b [&>li:last-child]:border-b-gray-950 [&>li:last-child]:rounded-b-xl shadow-lg shadow-gray-950 rounded-xl">
     <% customers.each do |customer| %>
-      <div class="flex justify-start my-2 p-2  hover:text-blue-500 dark:text-gray-800 dark:hover:text-gray-300 bg-yellow-300 dark:hover:bg-gray-700 hover:bg-indigo-50 rounded-xl hover:cursor-pointer">
-        <div class="text-xl ml-3 w-full">
-          <%= highlight(customer.name, customer.name, highlighter: '<div class="p-2" >\1</div>') %>
-        </div>
-      </div>
+      <%= render 'customers/customer', customer: customer %>
     <% end %>
   </div>
 <% end %>

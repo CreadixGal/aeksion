@@ -2,16 +2,10 @@ class ProductMovement < ApplicationRecord
   belongs_to :movement
   belongs_to :variant
 
-  validates :quantity,
-            presence: {
-              message: "can't be blank"
-            },
-            numericality: {
-              greater_than: 0,
-              message: 'must be greater than 0'
-            }
+  has_one :price, as: :priciable, dependent: :destroy
+  accepts_nested_attributes_for :price, allow_destroy: true
 
-  has_one :price, as: :priciable
+  validates :quantity, presence: true, numericality: { greater_than: 0 }
 
   validate :enough_stock, on: %i[create update]
   after_create :calculate_stock

@@ -31,12 +31,9 @@
           <% end %>
 
           <div class="w-1/4 mx-auto block py-2.5 px-0 text-lg text-slate-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer hidden">
-              <% price = Price.find_by(priciable_id: form.object.id)&.quantity %>
-              <%#= form.number_field :price,
-                                    placeholder: number_to_currency(price.presence || 0, precision: 4),
-                                    step: :any,
-                                    required: true,
-                                    class:'w-2/3 mx-auto block py-2.5 px-0 w-full text-lg text-black bg-transparent border-0 border-b-2 border-slate-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'%>
+            <% price = Price.find_by(priciable_id: form.object.id)&.quantity %>
+            <% set_price = price.present? ? price : 0 %>
+            <%= form.hidden_field :price, value: price %>
           </div>
         </div>
 
