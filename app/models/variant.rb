@@ -1,7 +1,9 @@
 class Variant < ApplicationRecord
   belongs_to :product
   belongs_to :zone, inverse_of: :variants
-  has_one :price, as: :priciable
+
+  has_one :price, as: :priciable, dependent: :destroy
+  accepts_nested_attributes_for :price, allow_destroy: true
 
   delegate :name, to: :zone, prefix: :zone
   delegate :quantity, to: :price

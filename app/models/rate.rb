@@ -3,8 +3,10 @@ class Rate < ApplicationRecord
   belongs_to :delivery_rider, optional: true, inverse_of: :rates
   belongs_to :zone, inverse_of: :rates
 
-  has_many :movements, dependent: :destroy
   has_one :price, as: :priciable, dependent: :destroy
+  accepts_nested_attributes_for :price, allow_destroy: true
+
+  has_many :movements, dependent: :destroy
 
   delegate :name, to: :customer, prefix: :customer
   delegate :name, to: :delivery_rider, prefix: :delivery_rider
