@@ -1,79 +1,77 @@
-<div id="<%= dom_id movement %>" class="table-row-li <%= 'hidden' unless movement.id %>">
-  <%= turbo_frame_tag dom_id(movement), class: 'w-full grid grid-cols-8' do %>
-    <div class="col-span-1 flex justify-center items-center content-center px-4 border-r">
-      <%= render CheckboxComponent.new(id: movement.id, name: 'movement_ids[]', options: { value: movement.id }) %>
-    </div>
-
-    <div class="col-span-5 grid grid-cols-5 text-black text-center px-4">
-      <div class="col-span-1 flex justify-start items-center">
-        <%= movement.code %>
-      </div>
-      <div class="col-span-1 flex justify-start items-center">
-        <%= movement.date.strftime('%d-%m-%y') %>
-      </div>
-      <div class="col-span-1 flex justify-start items-center">
-        <%= t(".#{movement.rate.zone_name}") %>
-      </div>
-      <div class="col-span-1 flex justify-start items-center">
-        <%= movement.rate.customer_name if movement.rate.delivery? %>
-        <%= movement.rate.delivery_rider_name if movement.rate_pickup? %>
-      </div>
-      <div class="col-span-1 flex justify-end items-center">
-        <%= number_to_currency movement.amount, precision: 4 %>
-      </div>
-    </div>
-    <div class="col-span-2 flex justify-end items-center border-l px-4 gap-8">
-      <% if action_name != "show" && movement.id%>
-        <% if movement.progress? %>
-          <%= button_to inline_svg_tag(
-                'icons/truck.svg',
-                class: 'icon-button-default'
-              ),
-              update_status_movement_path(movement, kind: params[:kind]),
-              method: :patch,
-              class: 'wrapper-icon-button-default' %>
-        <% else %>
-          <div class="wrapper-icon-button-success">
-            <%= inline_svg_tag('icons/check-circle.svg', class: 'icon-button-success')%>
-          </div>
-        <% end %>
-        <% unless params[:kind].eql?('return')%>
-          <%= link_to inline_svg_tag(
-                'icons/arrow-uturn-down.svg',
-                class: "icon-button-#{movement.returned? ? 'error' : 'default'}"
-              ),
-              mark_all_return_movement_path(id: movement),
-              data: {
-                turbo_frame: 'modal'
-              },
-              class: "wrapper-icon-button-#{movement.returned? ? 'error' : 'default'}" if movement.rate_delivery? %>
-        <% end %>
-
-        <%= link_to inline_svg_tag(
-              'icons/eye.svg',
+<%= turbo_frame_tag movement, class: 'w-full flex list-none border-[0.5px] border-slate-100 odd:bg-white even:bg-slate-50 hover:bg-slate-100 px-4' do %>
+  <div class="w-1/12 flex justify-center items-center content-center">
+    <%= render CheckboxComponent.new(id: movement.id, name: 'movement_ids[]', options: { value: movement.id }) %>
+  </div>
+  <div class="w-9/12 grid grid-cols-5 border-x border-slate">
+    <span class="col-span-1 flex items-center justify-start text-slate-700 md:text-lg font-semibold px-8">
+      <%= movement.code %>
+    </span>
+    <span class="col-span-1 flex items-center justify-end text-right text-slate-700 md:text-lg font-semibold px-8">
+      <%= movement.date.strftime('%d-%m-%y') %>
+    </span>
+    <span class="col-span-1 flex items-center justify-start text-slate-700 md:text-lg font-semibold px-8">
+      <%= t(".#{movement.rate.zone_name}") %>
+    </span>
+    <span class="col-span-1 flex items-center justify-start text-left text-slate-700 md:text-lg font-semibold px-8">
+      <%= movement.rate.customer_name if movement.rate.delivery? %>
+      <%= movement.rate.delivery_rider_name if movement.rate_pickup? %>
+    </span>
+    <span class="col-span-1 flex items-center justify-end text-right text-slate-700 md:text-lg font-semibold px-8">
+      <%= number_to_currency movement.amount, precision: 4 %>
+    </span>
+  </div>
+  <div class="w-2/12 flex justify-end items-center gap-5 py-2">
+    <% if action_name != "show" && movement.id%>
+      <% if movement.progress? %>
+        <%= button_to inline_svg_tag(
+              'icons/truck.svg',
               class: 'icon-button-default'
             ),
-            movement_path(movement),
+            update_status_movement_path(movement, kind: params[:kind]),
+            method: :patch,
+            class: 'wrapper-icon-button-default' %>
+      <% else %>
+        <div class="wrapper-icon-button-success">
+          <%= inline_svg_tag('icons/check-circle.svg', class: 'icon-button-success')%>
+        </div>
+      <% end %>
+      <% unless params[:kind].eql?('return')%>
+        <%= link_to inline_svg_tag(
+              'icons/arrow-uturn-down.svg',
+              class: "icon-button-#{movement.returned? ? 'error' : 'default'}"
+            ),
+            mark_all_return_movement_path(id: movement),
             data: {
               turbo_frame: 'modal'
             },
-            class: 'wrapper-icon-button-default' %>
-        
-        <%= button_to movement,
-                      method: :delete,
-                      data: { 
-                        controller: "swal",
-                        swal_record_target: "movement_#{movement.id}",
-                        swal_name_value: movement.code,
-                        action: "click->swal#single"
-                      },
-                      class: 'wrapper-icon-button-default' do %>
-          <%= inline_svg_tag(
-                'icons/trash.svg',
-                class: 'icon-button-default'
-              ) %>
-        <% end %>
+            class: "wrapper-icon-button-#{movement.returned? ? 'error' : 'default'}" if movement.rate_delivery? %>
       <% end %>
-    </div>
-  <% end %>
-</div>
+
+      <%= link_to inline_svg_tag(
+            'icons/eye.svg',
+            class: 'icon-button-default'
+          ),
+          movement_path(movement),
+          data: {
+            turbo_frame: 'modal'
+          },
+          class: 'wrapper-icon-button-default' %>
+      
+      <%= button_to movement,
+                    method: :delete,
+                    data: { 
+                      controller: "swal",
+                      swal_record_target: "movement_#{movement.id}",
+                      swal_name_value: movement.code,
+                      action: "click->swal#single"
+                    },
+                    class: 'wrapper-icon-button-default' do %>
+        <%= inline_svg_tag(
+              'icons/trash.svg',
+              class: 'icon-button-default'
+            ) %>
+      <% end %>
+    
+    <% end %>
+  </div>
+<% end %>

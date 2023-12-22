@@ -1,8 +1,9 @@
-<div class="w-full min-h-48 grid grid-cols-6 bg-gray-100 py-6 px-12 gap-x-12 relative">
-  <div class="col-span-2 flex flex-col gap-8">
+<div class="w-full min-h-48 flex bg-gray-100 py-6 px-12 gap-x-12 relative">
+  <%= render TitleCountComponent.new(title: 'movements', count: @pagy.count)%>
+  <div class="w-full flex flex-col gap-8">
     <h3 class="title font-semibold font-sm md:font-lg text-left">Busca por código o cliente</h3>
     <%= render StringSearcherComponent.new(
-      path: movements_path,
+      path: search_movements_path,
       attribute: :name,
       options: {
         placeholder: 'Busca por código o cliente...',
@@ -13,7 +14,7 @@
       }
     )%>
   </div>
-  <div class="col-span-2 flex flex-col gap-8">
+  <div class="w-full flex flex-col gap-8">
     <h3 class="title font-semibold font-sm md:font-lg text-left">Busca entre fechas</h3>
     <%= render DateSearcherComponent.new(
       path: movements_path,
@@ -26,7 +27,10 @@
       }
     )%>
   </div>
-  <div data-controller="dropdown" data-dropdown-open-value="false" data-dropdown-opened-class="bg-slate-300" class="col-span-2 flex flex-col gap-8 relative opacity-100">
+  <div data-controller="dropdown"
+       data-dropdown-open-value="false"
+       data-dropdown-opened-class="bg-slate-300"
+       class="w-full flex flex-col gap-8 relative opacity-100 transition-all duration-500 ease-in-out delay-300">
     <div role="button" data-dropdown-target="openButton" data-action="click->dropdown#openDropdown" class="title font-semibold font-sm md:font-lg text-left">Filtros ⬇️</div>
     <span role="button" data-dropdown-target="closeButton" data-action="click->dropdown#closeDropdown" class="title font-semibold font-sm md:font-lg text-left">Filtros ⬆️</span >
     <div class="w-full flex gap-12">

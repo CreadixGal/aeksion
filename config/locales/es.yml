@@ -332,6 +332,14 @@ es:
       pickup: Recogidas
       return: Devoluciones
       no_data: No se han encontrado movimientos
+      code: Código
+      date: Fecha
+      zone: Zona
+      name: Nombre
+      customer: Cliente
+      rate: Tarifa
+      product: Producto
+      amount: Total
     new:
       pickup: Añadir recogida
       delivery: Añadir entrega
