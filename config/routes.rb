@@ -28,6 +28,7 @@ Rails.application.routes.draw do
       get :mark_all_return
     end
     collection do
+      post :search
       get :fetch_form
       delete :multiple_delete
     end

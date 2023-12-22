@@ -7,14 +7,19 @@ class MovementsController < ApplicationController
     @filtered_movemets = filter(params)
 
     @kind = params[:kind] == 'delivery' ? 'Cliente' : 'Repartidor'
-
+    @headers = %w[code date zone name amount]
     @pagy, @movements = pagy(@filtered_movemets)
 
     respond_to do |format|
-      format.turbo_stream
       format.html
       format.pdf { export_pdf }
     end
+  end
+
+  def search
+    @filtered_movemets = filter(params)
+    @pagy, @movements = pagy(@filtered_movemets)
+    respond_to(&:turbo_stream)
   end
 
   # rubocop:disable Metrics/AbcSize
@@ -160,7 +165,10 @@ class MovementsController < ApplicationController
 
   def fetch_form
     @rates = []
-    @rates = Rate.joins(:zone).where(zones: { name: [Zone.select(:name)] }, kind: 'delivery') if params[:kind].eql?('delivery')
+    if params[:kind].eql?('delivery')
+      @rates = Rate.joins(:zone).where(zones: { name: [Zone.select(:name)] },
+                                       kind: 'delivery')
+    end
     @rates = Rate.where(zone_id: params[:id], kind: 'pickup') if params[:kind].eql?('pickup')
     @products = Variant.where(zone_id: params[:id])
     rates_options = view_context.options_from_collection_for_select(@rates, :id, :name, params[:selected])

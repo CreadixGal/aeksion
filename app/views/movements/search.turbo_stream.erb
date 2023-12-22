@@ -1,0 +1,2 @@
+<%= turbo_stream.replace('count', TitleCountComponent.new(title: 'movements', count: @pagy.count).call)%>
+<%= turbo_stream.replace('movements', partial: 'movements/shared/search_results', locals: { movements: @movements })%>
