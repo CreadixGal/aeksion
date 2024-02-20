@@ -1,0 +1,10 @@
+id,name,surname,phone,role,email,encrypted_password,reset_password_token,reset_password_sent_at,remember_created
+_at,sign_in_count,current_sign_in_at,last_sign_in_at,current_sign_in_ip,last_sign_in_ip,created_at,updated_at
+5307ade9-aab8-4e2d-a669-d7537755890e,"","","",admin,admin@test.com,$2a$12$erLGRApnhJmxltXNXxAjk.59y555N2bE1XnQ/KMEcGpZxUpnZvUw6,"",""
+"",0,"","","","",2023-05-10 05:51:39.761755,2023-05-10 05:51:39.761755
+5080cf8c-f369-4756-b2ab-a36ee4a42334,"","","",superadmin,sadmin@test.com,$2a$12$WGwZiN3RRmo6B.aol7JzYesBtQrSyhhDnDQrwBOjiBkSeWUCxRkU.,"",""
+"",1,2023-05-30 18:04:33.98749,2023-05-30 18:04:33.98749,66.241.125.182,66.241.125.182,2023-05-10 05:51:33.447723,2023-05-30 18:04:33.987896
+0439655c-c5ac-4822-8b9f-b5c2e2aabe1f,"","","",superadmin,creadix@creadix.es,$2a$12$i42qzYmUvr/IQMRKf5Y.POC3r8OVeNkTHcO8uyyejc6aIv5gMJley,"",""
+"",13,2023-08-10 18:42:50.378222,2023-07-23 07:29:49.363947,66.241.125.182,66.241.125.182,2023-05-10 05:51:48.685027,2023-08-10 18:42:50.378635
+e10336d6-a5a2-4707-8555-dd4736bf0130,"","","",admin,admin@orpal.es,$2a$12$PzZXAk09JvA6f3TYrSTIfefwique2NfzMLf/S.P/25QjLtsTtW3Ji,"","",2023-07-17 04:50:57
+.900946,18,2023-08-16 04:44:15.925182,2023-08-14 04:45:19.658481,66.241.125.182,66.241.125.182,2023-05-10 05:51:53.924687,2023-08-16 04:44:15.925567
